@@ -1,5 +1,5 @@
 {
-  "prepared_at": "2025-10-19T23:11:15+08:00",
+  "prepared_at": "2025-10-20T01:05:52+08:00",
   "transform_version": "sn_prepare_v1",
   "raw_directory": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus",
   "derived_directory": "/home/fabian/PBUF/data/supernovae/derived",
@@ -36,7 +36,7 @@
     },
     {
       "path": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/fetched.json",
-      "sha256": "489769ed3013d6732fcab63d082ba7ffdd2a91011a3f9c31067e058a20542a69",
+      "sha256": "239de55af5e9d1e83c71c06161f53adfc770f9374192cd392de2bb4a703cc791",
       "size": 1565,
       "kind": "raw"
     },

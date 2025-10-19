@@ -1,6 +1,6 @@
 {
-  "run_id": "CMB_PLANCK2018_REAL_20251019-232528",
-  "timestamp": "2025-10-19T23:25:28+08:00",
+  "run_id": "CMB_PLANCK2018_REAL_20251020-013026",
+  "timestamp": "2025-10-20T01:30:26+08:00",
   "model": "PBUF",
   "mock": false,
   "parameters": {
@@ -15,7 +15,8 @@
     "ns": 0.9649,
     "recomb_method": "PLANCK18",
     "Tcmb": 2.7255,
-    "Neff": 3.046
+    "Neff": 3.046,
+    "Ok0": 0.0
   },
   "metrics": {
     "chi2": 0.39594260805334636,
@@ -226,10 +227,10 @@
     ]
   },
   "figures": {
-    "chi2_vs_k_sat": "/home/fabian/PBUF/proofs/results/CMB_PBUF_CMB_PLANCK2018_REAL_20251019-232528/chi2_vs_k_sat.png"
+    "chi2_vs_k_sat": "/home/fabian/PBUF/proofs/results/CMB_PBUF_CMB_PLANCK2018_REAL_20251020-013026/chi2_vs_k_sat.png"
   },
   "provenance": {
-    "commit": "n/a",
+    "commit": "c3cbfe0c4d034f144ed8b64cbe86695ed2af563d",
     "constants": "/home/fabian/PBUF/config/constants.py",
     "settings": "/home/fabian/PBUF/config/settings.yml",
     "priors_file": "/home/fabian/PBUF/data/cmb/planck2018_priors.json"

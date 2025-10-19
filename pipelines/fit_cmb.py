@@ -13,6 +13,7 @@ import argparse, datetime as dt, math, subprocess, sys
 from pathlib import Path
 from typing import Dict, List, Mapping, Sequence, Tuple
 import numpy as np
+from scipy.optimize import minimize
 from scipy.stats import chi2 as chi2_dist
 import matplotlib
 
@@ -90,9 +91,62 @@ def _seed_params(model_name: str) -> Dict[str, float]:
     params.setdefault("Tcmb", TCMB)
     params.setdefault("Neff", NEFF)
     params.setdefault("recomb_method", "PLANCK18")
+    params.setdefault("Ok0", 0.0)
+    params.setdefault("ns", 0.9649)
     if model_name == "lcdm":
         params.pop("k_sat", None)
     return params
+
+
+def _fit_lcdm_parameters(
+    base_params: Dict[str, float],
+    priors: Mapping[str, object],
+    model_module,
+    bounds_cfg: Mapping[str, Sequence[float]],
+) -> Tuple[Dict[str, float], Dict[str, float], float, Dict[str, object]]:
+    """Optimise {H0, Om0, Obh2} for ΛCDM distance priors."""
+
+    names = ("H0", "Om0", "Obh2")
+    x0 = np.array([float(base_params[name]) for name in names], dtype=float)
+
+    def _with_vector(vec: np.ndarray) -> Dict[str, float]:
+        trial = dict(base_params)
+        for name, value in zip(names, vec):
+            trial[name] = float(value)
+        return trial
+
+    def objective(vec: np.ndarray) -> float:
+        trial = _with_vector(vec)
+        _, chi2_val = _evaluate_distance_priors(trial, priors, model_module)
+        return chi2_val
+
+    bounds = []
+    for name in names:
+        lower, upper = bounds_cfg.get(name, (None, None))
+        lower = float(lower) if lower is not None else -np.inf
+        upper = float(upper) if upper is not None else np.inf
+        bounds.append((lower, upper))
+
+    result = minimize(
+        objective,
+        x0,
+        method="L-BFGS-B",
+        bounds=bounds,
+        options={"ftol": 1e-9, "gtol": 1e-8, "maxiter": 1000},
+    )
+
+    best_vec = result.x if result.success else x0
+    best_params = _with_vector(best_vec)
+    predictions, chi2_val = _evaluate_distance_priors(best_params, priors, model_module)
+
+    optimisation = {
+        "success": bool(result.success),
+        "status": int(result.status),
+        "message": result.message,
+        "n_iter": getattr(result, "nit", None),
+        "n_function": getattr(result, "nfev", None),
+    }
+    return best_params, predictions, chi2_val, optimisation
 
 
 # ---------------------------------------------------------------------
@@ -210,6 +264,7 @@ def main() -> None:
 
 
     # --- Evaluate fits ---
+    optimisation_meta: Dict[str, object] | None = None
     if args.model == "pbuf":
         log.info("Evaluating %d grid points for k_sat", len(grid))
         grid, chi2_vals, preds = _scan_k_sat(params, grid, priors, model_module)
@@ -218,16 +273,16 @@ def main() -> None:
         pred = preds[best_idx]
         chi2_val = float(chi2_vals[best_idx])
     else:
-        # LCDM: no k_sat scanning
-        log.info("Evaluating ΛCDM background once (no k_sat scan)")
-        pred, chi2_val = _evaluate_distance_priors(params, priors, model_module)
+        params, pred, chi2_val, optimisation_meta = _fit_lcdm_parameters(
+            params, priors, model_module, bounds
+        )
         grid = np.array([])
         chi2_vals = np.array([chi2_val])
         best_idx = 0
 
     # --- Metrics ---
     labels: Sequence[str] = priors["labels"]
-    n_params = 1 if args.model == "pbuf" else 0
+    n_params = 1 if args.model == "pbuf" else 3
     dof = max(len(labels) - n_params, 1)
     metrics = _metrics(chi2_val, dof, n_params, len(labels))
     residuals = _residuals_sigma(pred, priors)
@@ -272,13 +327,22 @@ def main() -> None:
         },
     }
 
+    if optimisation_meta is not None:
+        result["optimisation"] = optimisation_meta
+
     json_path = run_dir / "fit_results.json"
     write_json_atomic(json_path, result)
 
     if args.model == "pbuf":
         log.info("Best-fit χ² = %.3f at k_sat=%.4f", chi2_val, params.get("k_sat", math.nan))
     else:
-        log.info("Best-fit χ² = %.3f for ΛCDM distance priors", chi2_val)
+        log.info(
+            "Best-fit ΛCDM: χ² = %.3f (H0=%.3f, Ωm=%.4f, Ωbh²=%.5f)",
+            chi2_val,
+            params.get("H0"),
+            params.get("Om0"),
+            params.get("Obh2"),
+        )
 
     if args.generate_report:
         from pipelines.generate_report import render_report

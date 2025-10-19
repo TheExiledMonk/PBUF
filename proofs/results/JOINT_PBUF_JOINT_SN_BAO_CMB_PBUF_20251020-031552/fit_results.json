@@ -1,0 +1,256 @@
+{
+  "run_id": "JOINT_SN_BAO_CMB_PBUF_20251020-031552",
+  "timestamp": "2025-10-20T03:15:52+08:00",
+  "model": "PBUF",
+  "mock": false,
+  "parameters": {
+    "H0": 73.15046493425037,
+    "Om0": 0.332396878774365,
+    "Obh2": 0.022265052799882477,
+    "alpha": 0.0005,
+    "Rmax": 1000000000.0,
+    "eps0": 0.7,
+    "n_eps": 0.0,
+    "k_sat": 2.162432319700051,
+    "Tcmb": 2.7255,
+    "Neff": 3.046,
+    "ns": 0.9649
+  },
+  "metrics": {
+    "total": {
+      "chi2": 1806.853343102761,
+      "dof": 1708,
+      "chi2_dof": 1.0578766645800708,
+      "AIC": 1822.853343102761,
+      "BIC": 1866.4353533431442,
+      "p_value": 0.047348205158400464
+    },
+    "sn": {
+      "chi2": 1754.9856691054306,
+      "dof": 1693,
+      "chi2_dof": 1.0366129173688308,
+      "AIC": 1770.9856691054306,
+      "BIC": 1814.4974418445975,
+      "p_value": 0.143679359777655
+    },
+    "bao": {
+      "chi2": 41.17321535441207,
+      "dof": 1,
+      "chi2_dof": 41.17321535441207,
+      "AIC": 57.17321535441207,
+      "BIC": 54.048718653884876,
+      "p_value": 1.3931865056705782e-10
+    },
+    "bao_ani": {
+      "chi2": 8.901469642402802,
+      "dof": 1,
+      "chi2_dof": 8.901469642402802,
+      "AIC": 24.9014696424028,
+      "BIC": 23.23554539622724,
+      "p_value": 0.002849412319878877
+    },
+    "cmb": {
+      "chi2": 1.7929890005153877,
+      "dof": 1,
+      "chi2_dof": 1.7929890005153877,
+      "AIC": 17.792989000515387,
+      "BIC": 12.883343889474512,
+      "p_value": 0.18056240677406699
+    }
+  },
+  "dataset": {
+    "name": "Joint SN+BAO+CMB",
+    "sn": {
+      "name": "Pantheon+ Supernovae",
+      "N": 1701,
+      "source": "pantheon+",
+      "z_prefer": "z_cmb",
+      "z_column_used": "z_cmb",
+      "release_tag": "PantheonPlusDR1",
+      "path": "/home/fabian/PBUF/data/supernovae/derived/supernova_index.csv",
+      "covariance": "/home/fabian/PBUF/data/supernovae/derived/supernova_index.cov.npy",
+      "raw_files": [
+        "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/Pantheon+SH0ES_STATONLY.cov",
+        "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/README_DISTANCES_AND_COVAR",
+        "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/pantheon_plus_mock.csv",
+        "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/Pantheon+SH0ES_STAT+SYS.cov",
+        "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/Pantheon+SH0ES.dat",
+        "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/fetched.json",
+        "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/pantheon_plus_mock_cov_sys.csv",
+        "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/pantheon_plus_mock_cov_stat.csv"
+      ],
+      "hashes": [
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/Pantheon+SH0ES_STATONLY.cov",
+          "sha256": "9f177129a332735d3637affd20054080d5260815f3ca0809120c05b2c902297f",
+          "size": 31827416,
+          "kind": "raw"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/README_DISTANCES_AND_COVAR",
+          "sha256": "e2b0d262757f01c1794a938c78d32600a21e289b2a0320e5c660c4c6fc9aa87e",
+          "size": 4056,
+          "kind": "raw"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/pantheon_plus_mock.csv",
+          "sha256": "ef14878aea4356ca46e6784a0b1c9b118604e59d1eca5781103dc3e89cffd939",
+          "size": 228,
+          "kind": "raw"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/Pantheon+SH0ES_STAT+SYS.cov",
+          "sha256": "abf806d966485e64afdb359c87bffc0ecc00d05eff0a31ced66f247385df0fdc",
+          "size": 33284960,
+          "kind": "raw"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/Pantheon+SH0ES.dat",
+          "sha256": "1cb0fc379ef066afdc2ffd1857681cc478024570d8a3eba284fb645775198cf8",
+          "size": 579283,
+          "kind": "raw"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/fetched.json",
+          "sha256": "239de55af5e9d1e83c71c06161f53adfc770f9374192cd392de2bb4a703cc791",
+          "size": 1565,
+          "kind": "raw"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/pantheon_plus_mock_cov_sys.csv",
+          "sha256": "2fb60e56b29350156f4a9b45ffd8d5c261c439800377c272a8145d8e09428c67",
+          "size": 63,
+          "kind": "raw"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/pantheon_plus_mock_cov_stat.csv",
+          "sha256": "9517ba7a1f496109672c9f2e96dc13e36e5c7dcb75c7687923d6c1f04822ec54",
+          "size": 63,
+          "kind": "raw"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/derived/supernova_index.csv",
+          "sha256": "92cc50ad964cf2a395dd6e5389448f83ce8b57a27c2ea64817bca4a10b115dfc",
+          "size": 236191,
+          "kind": "derived"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/derived/supernova_index.cov.npy",
+          "sha256": "f0c2209a998a559fc38b837228582f725844cdae30e13e5f57713dab9f9a21b3",
+          "size": 23147336,
+          "kind": "derived"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/derived/supernova_index.parquet",
+          "sha256": "36d6c6d5635badf327f78b923d637386c4b0ce608417b58ca54c81c5810fb1e2",
+          "size": 123454,
+          "kind": "derived"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/derived/cov_components/stat.npy",
+          "sha256": "466f556e6e8be448c98ac38a3be468def2ee7587c37a5edc2407aa16093d9afa",
+          "size": 23147336,
+          "kind": "derived"
+        },
+        {
+          "path": "/home/fabian/PBUF/data/supernovae/derived/cov_components/sys.npy",
+          "sha256": "9661b0e1f2c7248083749d2d6d4318bb65a9e482bcd72f4356bfde9aad088314",
+          "size": 23147336,
+          "kind": "derived"
+        }
+      ],
+      "prepared_at": "2025-10-20T01:05:52+08:00",
+      "transform_version": "sn_prepare_v1",
+      "notes": "No manipulation of \u03bc, redshifts, or covariance beyond symmetrization.",
+      "covariance_components_used": [
+        {
+          "label": "stat",
+          "source": "Pantheon+SH0ES_STATONLY.cov"
+        },
+        {
+          "label": "sys",
+          "source": "Pantheon+SH0ES_STAT+SYS.cov - Pantheon+SH0ES_STATONLY.cov"
+        }
+      ],
+      "table_path": "/home/fabian/PBUF/data/supernovae/derived/supernova_index.csv",
+      "covariance_path": "/home/fabian/PBUF/data/supernovae/derived/supernova_index.cov.npy",
+      "meta_path": "/home/fabian/PBUF/data/supernovae/derived/supernova_index.meta.json",
+      "derived_files": [
+        "/home/fabian/PBUF/data/supernovae/derived/supernova_index.csv",
+        "/home/fabian/PBUF/data/supernovae/derived/supernova_index.cov.npy",
+        "/home/fabian/PBUF/data/supernovae/derived/supernova_index.parquet",
+        "/home/fabian/PBUF/data/supernovae/derived/cov_components/stat.npy",
+        "/home/fabian/PBUF/data/supernovae/derived/cov_components/sys.npy"
+      ]
+    },
+    "bao": {
+      "description": "Isotropic BAO distance priors D_V(z)/r_s from low- and mid-z surveys.",
+      "release_tag": "BAO_MIXED_DR12",
+      "source": "6dF + SDSS MGS + BOSS DR12 consensus",
+      "reference": "Beutler+2011, Ross+2015, Alam+2017",
+      "unit": "dimensionless ratio",
+      "type": "isotropic",
+      "resolved_path": "/home/fabian/PBUF/data/bao/bao_mixed.json",
+      "source_tag": "primary"
+    },
+    "bao_ani": {
+      "description": "Anisotropic BAO priors on D_M/r_s and H(z)*r_s.",
+      "release_tag": "BAO_DR12_ANISOTROPIC",
+      "source": "BOSS DR12 anisotropic BAO",
+      "reference": "Alam et al. 2017 (SDSS Collaboration)",
+      "unit": "dimensionless ratio",
+      "type": "anisotropic",
+      "resolved_path": "/home/fabian/PBUF/data/bao/bao_ani.json",
+      "source_tag": "primary"
+    },
+    "cmb": {
+      "source": "Chen, Huang & Wang 2019, arXiv:1808.05724",
+      "release_tag": "Planck2018",
+      "doi": "10.1088/1475-7516/2019/02/028",
+      "reference": "Planck Collaboration VI, A&A 641 (2020) A6",
+      "description": "Compressed distance priors derived from Planck 2018 TT,TE,EE+lowE likelihood. Suitable for background-level cosmological fits (\u039bCDM, PBUF, etc.).",
+      "dataset": "Planck2018_TTTEEE_lowE",
+      "notes": "Values taken from Table I of Chen, Huang & Wang (2019). Covariance can be reconstructed from \u03c3 \u00d7 \u03c1 \u00d7 \u03c3. Use with dataio.load_cmb_priors('planck2018').",
+      "resolved_path": "/home/fabian/PBUF/data/cmb/planck2018_priors.json",
+      "source_tag": "primary"
+    }
+  },
+  "predictions": {
+    "bao": {
+      "Dv_rs_0.106": 3.176242278662257,
+      "Dv_rs_0.15": 4.423686490021405,
+      "Dv_rs_0.38": 10.263311832031581,
+      "Dv_rs_0.51": 13.080361729824734,
+      "Dv_rs_0.61": 15.030685603023668,
+      "r_s": 131.84630128563813,
+      "z_d": 1067.3434653126114
+    },
+    "bao_ani": {
+      "DM_rs_0.38": 10.660353496781916,
+      "Hrs_0.38": 0.03994516650509814,
+      "DM_rs_0.51": 13.786875921044027,
+      "Hrs_0.51": 0.04331543171256878,
+      "DM_rs_0.61": 16.024443896162214,
+      "Hrs_0.61": 0.04612744467115942,
+      "r_s": 131.84630128563813,
+      "z_d": 1067.3434653126114
+    },
+    "cmb": {
+      "100theta_*": 1.041941837880859,
+      "lA": 301.5132456893453,
+      "R": 1.7543357138788103,
+      "Omegabh2": 0.022265052799882477,
+      "ns": 0.9649,
+      "z_star": 1092.2468072112993
+    }
+  },
+  "provenance": {
+    "commit": "c3cbfe0c4d034f144ed8b64cbe86695ed2af563d",
+    "_source_path": "/home/fabian/PBUF/proofs/results/JOINT_PBUF_JOINT_SN_BAO_CMB_PBUF_20251020-031552/fit_results.json",
+    "code_version": "v0.1.0"
+  },
+  "figures": {
+    "sn_residuals_vs_z": "/home/fabian/PBUF/proofs/results/JOINT_PBUF_JOINT_SN_BAO_CMB_PBUF_20251020-031552/PBUF_JOINT_SN_residuals_vs_z.png",
+    "sn_pull_distribution": "/home/fabian/PBUF/proofs/results/JOINT_PBUF_JOINT_SN_BAO_CMB_PBUF_20251020-031552/PBUF_JOINT_SN_pull_distribution.png"
+  }
+}

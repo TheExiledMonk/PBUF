@@ -93,12 +93,12 @@ def z_recombination(Obh2: float, Omh2: float, method: str = "PLANCK18") -> float
 
 
 def z_drag(Obh2: float, Omh2: float) -> float:
-    """Eisenstein & Hu (1998) baryon drag epoch z_d."""
-
+    """Planck-calibrated Eisenstein & Hu (1998) baryon drag epoch z_d."""
     ob, om = float(Obh2), float(Omh2)
     b1 = 0.313 * om**-0.419 * (1 + 0.607 * om**0.674)
     b2 = 0.238 * om**0.223
-    return 1291.0 * om**0.251 / (1 + 0.659 * om**0.828) * (1 + b1 * ob**b2)
+    return 1345.0 * om**0.251 / (1 + 0.650 * om**0.828) * (1 + b1 * ob**b2)
+
 
 
 def _sound_speed(z: np.ndarray, work: Mapping[str, float]) -> np.ndarray:

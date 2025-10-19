@@ -1,24 +1,25 @@
 {
-  "run_id": "CMB_PLANCK2018_REAL_20251019-232939",
-  "timestamp": "2025-10-19T23:29:39+08:00",
+  "run_id": "CMB_PLANCK2018_REAL_20251020-013024",
+  "timestamp": "2025-10-20T01:30:24+08:00",
   "model": "LCDM",
   "mock": false,
   "parameters": {
-    "H0": 67.4,
-    "Om0": 0.315,
-    "Obh2": 0.02237,
+    "H0": 67.48127854492846,
+    "Om0": 0.31634869901324536,
+    "Obh2": 0.022359979329157093,
     "ns": 0.9649,
     "recomb_method": "PLANCK18",
     "Tcmb": 2.7255,
-    "Neff": 3.046
+    "Neff": 3.046,
+    "Ok0": 0.0
   },
   "metrics": {
-    "chi2": 22.799300329979317,
-    "dof": 4,
-    "chi2_dof": 5.699825082494829,
-    "AIC": 22.799300329979317,
-    "BIC": 22.799300329979317,
-    "p_value": 0.0001388686681008154
+    "chi2": 3.509655559317613e-08,
+    "dof": 1,
+    "chi2_dof": 3.509655559317613e-08,
+    "AIC": 6.000000035096556,
+    "BIC": 4.158883118456227,
+    "p_value": 0.9998505237110067
   },
   "dataset": {
     "source": "Chen, Huang & Wang 2019, arXiv:1808.05724",
@@ -73,25 +74,32 @@
     ]
   },
   "predictions": {
-    "100theta_*": 1.040796300835286,
-    "lA": 301.84510178106154,
-    "R": 1.7494218030977025,
-    "Omegabh2": 0.02237,
+    "100theta_*": 1.0420878446204718,
+    "lA": 301.47100072297263,
+    "R": 1.7501999828339119,
+    "Omegabh2": 0.022359979329157093,
     "ns": 0.9649,
-    "z_star": 1089.8532086447042
+    "z_star": 1089.9279973534976
   },
   "residuals_sigma": {
-    "R": -0.16917323962989636,
-    "lA": 4.1566864562393375,
-    "Omegabh2": 0.06666666666666396,
+    "R": -3.7317582840293415e-06,
+    "lA": 8.03302921465527e-06,
+    "Omegabh2": -0.00013780561939254662,
     "ns": 0.0
   },
   "grid_scan": {},
   "figures": {},
   "provenance": {
-    "commit": "n/a",
+    "commit": "c3cbfe0c4d034f144ed8b64cbe86695ed2af563d",
     "constants": "/home/fabian/PBUF/config/constants.py",
     "settings": "/home/fabian/PBUF/config/settings.yml",
     "priors_file": "/home/fabian/PBUF/data/cmb/planck2018_priors.json"
+  },
+  "optimisation": {
+    "success": true,
+    "status": 0,
+    "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+    "n_iter": 11,
+    "n_function": 120
   }
 }

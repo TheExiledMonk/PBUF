@@ -1,6 +1,6 @@
 {
-  "run_id": "SN_REAL_20251019-232938",
-  "timestamp": "2025-10-19T23:29:38+08:00",
+  "run_id": "SN_REAL_20251020-011323",
+  "timestamp": "2025-10-20T01:13:23+08:00",
   "mock": false,
   "dataset": {
     "name": "Pantheon+ Supernovae",
@@ -19,7 +19,7 @@
       "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/pantheon_plus_mock_cov_sys.csv",
       "/home/fabian/PBUF/data/supernovae/raw/pantheon_plus/pantheon_plus_mock_cov_stat.csv"
     ],
-    "prepared_at": "2025-10-19T23:11:15+08:00",
+    "prepared_at": "2025-10-20T01:05:52+08:00",
     "transform_version": "sn_prepare_v1",
     "covariance_components_used": [
       {
@@ -40,27 +40,21 @@
       "/home/fabian/PBUF/data/supernovae/derived/cov_components/sys.npy"
     ]
   },
-  "model": "PBUF",
+  "model": "LCDM",
   "parameters": {
     "H0": 72.83996628284653,
-    "Om0": 0.3612095550959549,
-    "alpha": 0.0005,
-    "Rmax": 1000000000.0,
-    "eps0": 0.7,
-    "n_eps": 0.0
+    "Om0": 0.3612095550959549
   },
-  "evolution_policy": {
-    "coupling_matrix": "identity"
-  },
+  "evolution_policy": {},
   "metrics": {
     "N": 1701,
-    "N_params": 6,
-    "dof": 1695,
+    "N_params": 2,
+    "dof": 1699,
     "chi2": 1752.509096903696,
-    "chi2_dof": 1.0339286707396436,
-    "AIC": 1764.509096903696,
-    "BIC": 1797.142926458071,
-    "p_value": 0.16152977282842693,
+    "chi2_dof": 1.0314944655112983,
+    "AIC": 1756.509096903696,
+    "BIC": 1767.3870400884878,
+    "p_value": 0.17881585063800282,
     "normality": {
       "ks_p": 6.766304880011483e-26,
       "skew": -0.07641092323849505,
@@ -71,23 +65,23 @@
       "param_corrs": []
     },
     "fit_covariance": {
-      "cond_num": 15586.070520753981
+      "cond_num": 15586.070520753787
     }
   },
   "data_vectors": {
-    "z": "/home/fabian/PBUF/proofs/results/PBUF/SN_REAL_20251019-232938/z.npy",
-    "y_obs": "/home/fabian/PBUF/proofs/results/PBUF/SN_REAL_20251019-232938/y_obs.npy",
-    "y_model": "/home/fabian/PBUF/proofs/results/PBUF/SN_REAL_20251019-232938/y_model.npy",
-    "residuals": "/home/fabian/PBUF/proofs/results/PBUF/SN_REAL_20251019-232938/residuals.npy",
-    "pulls": "/home/fabian/PBUF/proofs/results/PBUF/SN_REAL_20251019-232938/pulls.npy"
+    "z": "/home/fabian/PBUF/proofs/results/LCDM/SN_REAL_20251020-011323/z.npy",
+    "y_obs": "/home/fabian/PBUF/proofs/results/LCDM/SN_REAL_20251020-011323/y_obs.npy",
+    "y_model": "/home/fabian/PBUF/proofs/results/LCDM/SN_REAL_20251020-011323/y_model.npy",
+    "residuals": "/home/fabian/PBUF/proofs/results/LCDM/SN_REAL_20251020-011323/residuals.npy",
+    "pulls": "/home/fabian/PBUF/proofs/results/LCDM/SN_REAL_20251020-011323/pulls.npy"
   },
   "figures": {
-    "residuals_vs_z": "/home/fabian/PBUF/proofs/results/PBUF/SN_REAL_20251019-232938/PBUF_residuals_vs_z.png",
-    "pull_distribution": "/home/fabian/PBUF/proofs/results/PBUF/SN_REAL_20251019-232938/PBUF_pull_distribution.png",
-    "correlation_matrix": "/home/fabian/PBUF/proofs/results/PBUF/SN_REAL_20251019-232938/PBUF_correlations.png"
+    "residuals_vs_z": "/home/fabian/PBUF/proofs/results/LCDM/SN_REAL_20251020-011323/LCDM_residuals_vs_z.png",
+    "pull_distribution": "/home/fabian/PBUF/proofs/results/LCDM/SN_REAL_20251020-011323/LCDM_pull_distribution.png",
+    "correlation_matrix": "/home/fabian/PBUF/proofs/results/LCDM/SN_REAL_20251020-011323/LCDM_correlations.png"
   },
   "provenance": {
-    "commit": "n/a",
+    "commit": "c3cbfe0c4d034f144ed8b64cbe86695ed2af563d",
     "code_version": "v0.1.0",
     "constants": "/home/fabian/PBUF/config/constants.py",
     "settings": "/home/fabian/PBUF/config/settings.yml"
