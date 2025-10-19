@@ -1,0 +1,7 @@
+{
+  "name": "Mock Supernova Sample for Internal Testing",
+  "description": "Synthetic distance modulus sample generated for integration tests.",
+  "warning": "⚠️ mock data — not for scientific use",
+  "source": "Generated within project scaffolding",
+  "created": "2025-01-01T00:00:00Z"
+}

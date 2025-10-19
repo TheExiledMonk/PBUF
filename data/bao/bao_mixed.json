@@ -1,0 +1,26 @@
+{
+    "labels": ["Dv_rs_0.106", "Dv_rs_0.15", "Dv_rs_0.38", "Dv_rs_0.51", "Dv_rs_0.61"],
+    "means": {
+      "Dv_rs_0.106": 3.047,
+      "Dv_rs_0.15": 4.480,
+      "Dv_rs_0.38": 9.996,
+      "Dv_rs_0.51": 13.480,
+      "Dv_rs_0.61": 16.620
+    },
+    "cov": [
+      [0.0216, 0.000, 0.000, 0.000, 0.000],
+      [0.000, 0.0430, 0.000, 0.000, 0.000],
+      [0.000, 0.000, 0.0576, 0.0198, 0.000],
+      [0.000, 0.000, 0.0198, 0.0436, 0.0166],
+      [0.000, 0.000, 0.000, 0.0166, 0.0650]
+    ],
+    "meta": {
+      "release_tag": "BAO_MIXED_DR12",
+      "source": "6dF + SDSS MGS + BOSS DR12 consensus",
+      "reference": "Beutler+2011, Ross+2015, Alam+2017",
+      "description": "Isotropic BAO distance priors D_V(z)/r_s from low- and mid-z surveys.",
+      "unit": "dimensionless ratio",
+      "type": "isotropic"
+    }
+  }
+  

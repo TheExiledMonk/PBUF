@@ -1,0 +1,9 @@
+numpy
+scipy
+pandas
+matplotlib
+jinja2>=3.1
+pyyaml
+requests
+pyarrow
+fastparquet

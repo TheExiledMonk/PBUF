@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ run.model }} Fit Report — {{ run.run_id }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #fafafa; color: #222; }
+    h1, h2 { color: #0b3d91; }
+    .warning { border: 2px solid #ff6f00; padding: 1rem; margin-bottom: 1.5rem; background: #fff4e5; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    .figures img { max-width: 100%; margin-bottom: 1rem; }
+    footer { margin-top: 2rem; font-size: 0.85rem; color: #555; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 1rem; }
+    .metrics-grid div { background: #fff; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>{{ run.model }} Fit Report</h1>
+  <p><strong>Run ID:</strong> {{ run.run_id }}<br>
+     <strong>Timestamp:</strong> {{ run.timestamp }}<br>
+     {% if run.dataset.sn is defined %}
+       <strong>Datasets:</strong> SN — {{ run.dataset.sn.name }}; CMB — {{ run.dataset.cmb.name }}
+     {% else %}
+       <strong>Dataset:</strong> {{ run.dataset.name }}
+     {% endif %}
+  </p>
+
+  {% if run.mock %}
+    <div class="warning">
+      <strong>Mock Data Warning:</strong> Results are derived from synthetic inputs and are not suitable for scientific inference.
+    </div>
+  {% endif %}
+
+  <h2>Model Parameters</h2>
+  <table>
+    <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+    <tbody>
+      {% for key, value in run.parameters.items() %}
+        <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if run.metrics.total is defined %}
+    {% set total = run.metrics.total %}
+    <h2>Total Fit Metrics</h2>
+    <div class="metrics-grid">
+      <div><strong>χ²:</strong> {{ total.chi2 }}</div>
+      <div><strong>dof:</strong> {{ total.dof }}</div>
+      <div><strong>χ²/dof:</strong> {{ total.chi2_dof }}</div>
+      <div><strong>AIC:</strong> {{ total.AIC }}</div>
+      <div><strong>BIC:</strong> {{ total.BIC }}</div>
+      <div><strong>p-value:</strong> {{ total.p_value }}</div>
+    </div>
+
+    <h3>Component Metrics</h3>
+    <table>
+      <thead><tr><th>Component</th><th>χ²</th><th>dof</th><th>χ²/dof</th><th>p-value</th></tr></thead>
+      <tbody>
+        {% for key, metrics in run.metrics.items() %}
+          {% if key != "total" %}
+            <tr>
+              <td>{{ key|upper }}</td>
+              <td>{{ metrics.chi2 }}</td>
+              <td>{{ metrics.dof }}</td>
+              <td>{{ metrics.chi2_dof }}</td>
+              <td>{{ metrics.p_value }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <h2>Fit Metrics</h2>
+    <div class="metrics-grid">
+      {% if run.metrics.chi2 is defined %}<div><strong>χ²:</strong> {{ run.metrics.chi2 }}</div>{% endif %}
+      {% if run.metrics.dof is defined %}<div><strong>dof:</strong> {{ run.metrics.dof }}</div>{% endif %}
+      {% if run.metrics.chi2_dof is defined %}<div><strong>χ²/dof:</strong> {{ run.metrics.chi2_dof }}</div>{% endif %}
+      {% if run.metrics.AIC is defined %}<div><strong>AIC:</strong> {{ run.metrics.AIC }}</div>{% endif %}
+      {% if run.metrics.BIC is defined %}<div><strong>BIC:</strong> {{ run.metrics.BIC }}</div>{% endif %}
+      {% if run.metrics.p_value is defined %}<div><strong>p-value:</strong> {{ run.metrics.p_value }}</div>{% endif %}
+    </div>
+  {% endif %}
+
+  {% if run.metrics.normality is defined %}
+    <h2>Normality Diagnostics</h2>
+    <ul>
+      <li>Kolmogorov–Smirnov p: {{ run.metrics.normality.ks_p }}</li>
+      <li>Skew: {{ run.metrics.normality.skew }}</li>
+      <li>Kurtosis: {{ run.metrics.normality.kurtosis }}</li>
+    </ul>
+  {% endif %}
+
+  {% if run.metrics.cov_health is defined %}
+    <h2>Covariance Health</h2>
+    <p>Condition number: {{ run.metrics.cov_health.cond_num }}</p>
+    <ul>
+      {% for pair in run.metrics.cov_health.param_corrs %}
+        <li>{{ pair[0] }} / {{ pair[1] }}: {{ pair[2] }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% set cmb_predictions = None %}
+  {% set cmb_priors = None %}
+  {% set cmb_residuals = None %}
+  {% if run.predictions is defined %}
+    {% if run.predictions.cmb is defined %}
+      {% set cmb_predictions = run.predictions.cmb %}
+      {% if run.priors is defined and run.priors.cmb is defined %}
+        {% set cmb_priors = run.priors.cmb %}
+      {% endif %}
+      {% if run.residuals_sigma is defined and run.residuals_sigma.cmb is defined %}
+        {% set cmb_residuals = run.residuals_sigma.cmb %}
+      {% endif %}
+    {% else %}
+      {% set cmb_predictions = run.predictions %}
+      {% if run.priors is defined %}
+        {% set cmb_priors = run.priors %}
+      {% endif %}
+      {% if run.residuals_sigma is defined %}
+        {% set cmb_residuals = run.residuals_sigma %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+
+  {% if cmb_predictions and cmb_priors %}
+    <h2>CMB Distance Priors</h2>
+    <table>
+      <thead><tr><th>Label</th><th>Prediction</th><th>Prior mean</th><th>Residual (σ)</th></tr></thead>
+      <tbody>
+        {% for label in cmb_priors.labels %}
+          <tr>
+            <td>{{ label }}</td>
+            <td>{{ cmb_predictions[label] }}</td>
+            <td>{{ cmb_priors.means[label] }}</td>
+            <td>
+              {% if cmb_residuals and cmb_residuals[label] is not none %}
+                {{ cmb_residuals[label] }}
+              {% else %}
+                —
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if cmb_predictions.theta_star is defined %}
+      <p>Derived quantities: θ*={{ cmb_predictions.theta_star }}, z*={{ cmb_predictions.z_star }}, r_s={{ cmb_predictions.r_s }}</p>
+    {% endif %}
+  {% endif %}
+
+  <h2>Figures</h2>
+  {% if run.figures %}
+    <div class="figures">
+      {% for label, path in run.figures.items() %}
+        <figure>
+          <figcaption>{{ label.replace('_', ' ').title() }}</figcaption>
+          <img src="{{ path }}" alt="{{ label }}">
+        </figure>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No figures generated for this run.</p>
+  {% endif %}
+
+  <footer>
+    <p>Constants source: {{ run.provenance.constants }}<br>
+       Settings: {{ run.provenance.settings }}<br>
+       Code version: {{ run.provenance.code_version }}<br>
+       Commit: {{ run.provenance.commit }}</p>
+  </footer>
+</body>
+</html>

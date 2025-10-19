@@ -1,0 +1,119 @@
+{
+  "timestamp": "2025-10-19T23:29:44+08:00",
+  "model": "pbuf",
+  "priors": {
+    "means": {
+      "DM_rs_0.38": 10.27,
+      "DM_rs_0.51": 13.36,
+      "DM_rs_0.61": 16.21,
+      "Hrs_0.38": 0.0459,
+      "Hrs_0.51": 0.0434,
+      "Hrs_0.61": 0.0421
+    },
+    "cov": [
+      [
+        0.0389,
+        0.0161,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0161,
+        0.0359,
+        0.0133,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0133,
+        0.0432,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.001,
+        0.0003,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0003,
+        0.0009,
+        0.0003
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0003,
+        0.001
+      ]
+    ],
+    "labels": [
+      "DM_rs_0.38",
+      "DM_rs_0.51",
+      "DM_rs_0.61",
+      "Hrs_0.38",
+      "Hrs_0.51",
+      "Hrs_0.61"
+    ],
+    "meta": {
+      "description": "Anisotropic BAO priors on D_M/r_s and H(z)*r_s.",
+      "release_tag": "BAO_DR12_ANISOTROPIC",
+      "source": "BOSS DR12 anisotropic BAO",
+      "reference": "Alam et al. 2017 (SDSS Collaboration)",
+      "unit": "dimensionless ratio",
+      "type": "anisotropic",
+      "resolved_path": "/home/fabian/PBUF/data/bao/bao_ani.json",
+      "source_tag": "primary"
+    }
+  },
+  "parameters": {
+    "H0": 67.4,
+    "Om0": 0.315,
+    "Obh2": 0.02237,
+    "alpha": 0.0005,
+    "Rmax": 1000000000.0,
+    "eps0": 0.7,
+    "n_eps": 0.0,
+    "k_sat": 0.9761904761904762,
+    "ns": 0.9649,
+    "recomb_method": "PLANCK18",
+    "Tcmb": 2.7255,
+    "Neff": 3.046
+  },
+  "predictions": {
+    "DM_rs_0.38": 10.165573358688166,
+    "Hrs_0.38": 0.04169421549305513,
+    "DM_rs_0.51": 13.164890587544875,
+    "Hrs_0.51": 0.0450941583098317,
+    "DM_rs_0.61": 15.316113432304636,
+    "Hrs_0.61": 0.04793698027863451,
+    "r_s": 150.7669686035626,
+    "z_d": 1020.7239634915811
+  },
+  "metrics": {
+    "chi2": 19.435049424295833,
+    "dof": 5,
+    "chi2_dof": 3.8870098848591668,
+    "AIC": 21.435049424295833,
+    "BIC": 21.226808893523888,
+    "p_value": 0.001594466748717744
+  },
+  "provenance": {
+    "commit": "n/a",
+    "recomb": "PLANCK18",
+    "cmb_calibration": "proofs/results/CMB_PBUF_CMB_PLANCK2018_REAL_20251019-232941/fit_results.json"
+  }
+}

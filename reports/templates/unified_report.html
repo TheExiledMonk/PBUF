@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unified Fit Comparison</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #fdfdfd; color: #222; }
+    h1, h2, h3 { color: #0b3d91; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    .warning { border: 2px solid #ff6f00; background: #fff4e5; padding: 1rem; margin-bottom: 1.5rem; }
+    .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 12px; color: #fff; font-size: 0.85rem; }
+    .badge.inconclusive { background: #6c757d; }
+    .badge.weak { background: #17a2b8; }
+    .badge.moderate { background: #ffc107; color: #111; }
+    .badge.strong { background: #dc3545; }
+    .figure-links ul { columns: 2; -webkit-columns: 2; -moz-columns: 2; }
+    footer { margin-top: 2rem; font-size: 0.85rem; color: #555; }
+  </style>
+</head>
+<body>
+  <h1>{{ header.title }}</h1>
+  <p>{{ header.subtitle }}</p>
+
+  {% if header.mock_warning %}
+    <div class="warning">
+      <strong>Mock Data Warning:</strong> At least one input run is flagged as mock. Interpret comparisons cautiously.
+    </div>
+  {% endif %}
+
+  {% for block in dataset_blocks %}
+    <section>
+      <h2>{{ block.dataset }}{% if block.release_tag %} — {{ block.release_tag }}{% endif %}</h2>
+      <p><strong>Conclusion:</strong> {{ block.conclusion }}
+        {% if block.comparison %}
+          <span class="badge {{ block.comparison.strength|lower }}">{{ block.comparison.strength }}</span>
+        {% endif %}
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Model</th>
+            <th>χ²/dof</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>p-value</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for run in block.runs %}
+            <tr>
+              <td><a href="{{ run.get('result_path', '#') }}">{{ run.run_id }}</a></td>
+              <td>{{ run.model }}</td>
+              <td>{{ run.metrics.chi2_dof|default('—')|round(3) }}</td>
+              <td>{{ run.metrics.AIC|default('—')|round(3) }}</td>
+              <td>{{ run.metrics.BIC|default('—')|round(3) }}</td>
+              <td>{{ run.metrics.p_value_fmt }}</td>
+              <td>
+                {% if run.report_path %}
+                  <a href="{{ run.report_path }}">HTML</a>
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+        
+            {# ---- Add detailed component breakdown (SN, BAO, BAO_ANI, CMB) ---- #}
+            {% if run.metrics._components %}
+              <tr style="background:#fafafa;">
+                <td colspan="7" style="font-size:0.9em; color:#333;">
+                  <em>χ² breakdown:</em>
+                  {% set parts = [] %}
+                  {% for label, comp in run.metrics._components.items() %}
+                    {% if comp.chi2 is defined %}
+                      {% set entry = label|upper ~ " = " ~ ("%0.2f"|format(comp.chi2)) %}
+                      {% set _ = parts.append(entry) %}
+                    {% endif %}
+                  {% endfor %}
+                  {{ parts|join(', ') }}
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+        
+      </table>
+
+      {% if block.comparison %}
+        <ul>
+          <li>Δχ²: {{ block.comparison.delta_chi2 }}</li>
+          <li>ΔAIC: {{ block.comparison.delta_aic }}</li>
+          <li>ΔBIC: {{ block.comparison.delta_bic }}</li>
+        </ul>
+      {% endif %}
+
+      {% if block.cmb_rows %}
+        <h3>CMB Distance Priors</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>100θ*</th>
+              <th>lA</th>
+              <th>R</th>
+              <th>Ω_b h²</th>
+              <th>n_s</th>
+              <th>Residuals (σ)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in block.cmb_rows %}
+              <tr>
+                <td>{{ row.model }}</td>
+                <td>{{ row.theta100 }}</td>
+                <td>{{ row.lA }}</td>
+                <td>{{ row.R }}</td>
+                <td>{{ row.Omegabh2 }}</td>
+                <td>{{ row.ns }}</td>
+                <td>
+                  R: {{ row.residuals['R'] }};
+                  lA: {{ row.residuals['lA'] }};
+                  Ω_b h²: {{ row.residuals['Omegabh2'] }};
+                  n_s: {{ row.residuals['ns'] }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+
+      <div class="figure-links">
+        <h4>Figure Gallery</h4>
+        <ul>
+          {% for figure in block.figures %}
+            <li><a href="{{ figure.path }}">{{ figure.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+  {% endfor %}
+
+  <footer>
+    <p>Generated: {{ footer.generated }}<br>
+       Code version: {{ footer.version }}<br>
+       Commit: {{ footer.commit }}</p>
+  </footer>
+</body>
+</html>

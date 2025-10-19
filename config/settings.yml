@@ -1,0 +1,22 @@
+fitting:
+  tolerance: 1.0e-6
+  max_iter: 5000
+  bootstrap_samples: 200
+
+bounds:
+  H0: [40.0, 100.0]
+  Om0: [0.0, 1.0]
+  alpha: [0.0, 1.0e-2]
+  Rmax: [1.0e6, 1.0e12]
+  eps0: [0.0, 2.0]
+  n_eps: [-5.0, 5.0]
+  k_sat: [0.5, 8.0]
+  Obh2: [0.020, 0.024]
+
+mock: false
+
+report:
+  theme: default
+  disclaimer: "⚠️ Synthetic data for internal testing only"
+  accent_color: "#1f77b4"
+  logo: null

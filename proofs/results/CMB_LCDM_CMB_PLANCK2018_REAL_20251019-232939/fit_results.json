@@ -1,0 +1,97 @@
+{
+  "run_id": "CMB_PLANCK2018_REAL_20251019-232939",
+  "timestamp": "2025-10-19T23:29:39+08:00",
+  "model": "LCDM",
+  "mock": false,
+  "parameters": {
+    "H0": 67.4,
+    "Om0": 0.315,
+    "Obh2": 0.02237,
+    "ns": 0.9649,
+    "recomb_method": "PLANCK18",
+    "Tcmb": 2.7255,
+    "Neff": 3.046
+  },
+  "metrics": {
+    "chi2": 22.799300329979317,
+    "dof": 4,
+    "chi2_dof": 5.699825082494829,
+    "AIC": 22.799300329979317,
+    "BIC": 22.799300329979317,
+    "p_value": 0.0001388686681008154
+  },
+  "dataset": {
+    "source": "Chen, Huang & Wang 2019, arXiv:1808.05724",
+    "release_tag": "Planck2018",
+    "doi": "10.1088/1475-7516/2019/02/028",
+    "reference": "Planck Collaboration VI, A&A 641 (2020) A6",
+    "description": "Compressed distance priors derived from Planck 2018 TT,TE,EE+lowE likelihood. Suitable for background-level cosmological fits (\u039bCDM, PBUF, etc.).",
+    "dataset": "Planck2018_TTTEEE_lowE",
+    "notes": "Values taken from Table I of Chen, Huang & Wang (2019). Covariance can be reconstructed from \u03c3 \u00d7 \u03c1 \u00d7 \u03c3. Use with dataio.load_cmb_priors('planck2018').",
+    "resolved_path": "/home/fabian/PBUF/data/cmb/planck2018_priors.json",
+    "source_tag": "primary",
+    "name": "planck2018"
+  },
+  "priors": {
+    "labels": [
+      "R",
+      "lA",
+      "Omegabh2",
+      "ns"
+    ],
+    "means": {
+      "R": 1.7502,
+      "lA": 301.471,
+      "Omegabh2": 0.02236,
+      "ns": 0.9649
+    },
+    "cov": [
+      [
+        2.116e-05,
+        0.00019044,
+        -4.554e-07,
+        -1.46372e-05
+      ],
+      [
+        0.00019044,
+        0.0081,
+        -4.455e-06,
+        -0.00013544999999999999
+      ],
+      [
+        -4.554e-07,
+        -4.455e-06,
+        2.2499999999999996e-08,
+        2.967e-07
+      ],
+      [
+        -1.46372e-05,
+        -0.00013544999999999999,
+        2.967e-07,
+        1.849e-05
+      ]
+    ]
+  },
+  "predictions": {
+    "100theta_*": 1.040796300835286,
+    "lA": 301.84510178106154,
+    "R": 1.7494218030977025,
+    "Omegabh2": 0.02237,
+    "ns": 0.9649,
+    "z_star": 1089.8532086447042
+  },
+  "residuals_sigma": {
+    "R": -0.16917323962989636,
+    "lA": 4.1566864562393375,
+    "Omegabh2": 0.06666666666666396,
+    "ns": 0.0
+  },
+  "grid_scan": {},
+  "figures": {},
+  "provenance": {
+    "commit": "n/a",
+    "constants": "/home/fabian/PBUF/config/constants.py",
+    "settings": "/home/fabian/PBUF/config/settings.yml",
+    "priors_file": "/home/fabian/PBUF/data/cmb/planck2018_priors.json"
+  }
+}

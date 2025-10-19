@@ -1,0 +1,98 @@
+{
+  "prepared_at": "2025-10-19T23:11:36+08:00",
+  "transform_version": "bao_prepare_v2",
+  "raw_directory": "/home/fabian/PBUF/data/bao/raw",
+  "derived_directory": "/home/fabian/PBUF/data/bao/derived",
+  "records": [
+    {
+      "path": "/home/fabian/PBUF/data/bao/raw/desi_gaussian_bao_ALL_GCcomb_mean.txt",
+      "sha256": "9ac154ab583ce759c0f7eef3c978c7c70a6ead2d18774caceadf1a350a640585",
+      "size": 472,
+      "kind": "raw"
+    },
+    {
+      "path": "/home/fabian/PBUF/data/bao/raw/desi_gaussian_bao_BGS_BRIGHT-21.35_GCcomb_mean.txt",
+      "sha256": "06fc72ca4f4b4a03973c514bf7568c856716ff76a8c05df02e42b93aca769d59",
+      "size": 63,
+      "kind": "raw"
+    },
+    {
+      "path": "/home/fabian/PBUF/data/bao/raw/desi_gaussian_bao_ELG_LOPnotqso_GCcomb_z1.1-1.6_mean.txt",
+      "sha256": "75d2dd246d2f17145f202fccf80da0bd723a67270a76f83b5be204161e204794",
+      "size": 98,
+      "kind": "raw"
+    },
+    {
+      "path": "/home/fabian/PBUF/data/bao/raw/desi_gaussian_bao_LRG+ELG_LOPnotqso_GCcomb_mean.txt",
+      "sha256": "c34585b9afdb683e68c2522e9715950fd24b63435ceb8a94ae52acd5d2626f4a",
+      "size": 98,
+      "kind": "raw"
+    },
+    {
+      "path": "/home/fabian/PBUF/data/bao/raw/desi_gaussian_bao_LRG_GCcomb_z0.4-0.6_mean.txt",
+      "sha256": "86336445497058eee24ecf255e8a7486d8b46d709daa7a919566a58818dbed0c",
+      "size": 98,
+      "kind": "raw"
+    },
+    {
+      "path": "/home/fabian/PBUF/data/bao/raw/desi_gaussian_bao_LRG_GCcomb_z0.6-0.8_mean.txt",
+      "sha256": "6d2f38d0727b2aefcd82fdd5a1c6df5a7d34ad8459437c195d575b5ad0c6ab32",
+      "size": 98,
+      "kind": "raw"
+    },
+    {
+      "path": "/home/fabian/PBUF/data/bao/raw/desi_gaussian_bao_Lya_GCcomb_mean.txt",
+      "sha256": "9b4ab92080d038d0a0a5d76b9abead4e3919d7227e343d1e7feab7103e1f30cb",
+      "size": 99,
+      "kind": "raw"
+    },
+    {
+      "path": "/home/fabian/PBUF/data/bao/raw/desi_gaussian_bao_QSO_GCcomb_mean.txt",
+      "sha256": "9bffdd0bf27615ab5225e5232fcdf53e16318bf9d06b031a2756d6e89368dadd",
+      "size": 98,
+      "kind": "raw"
+    },
+    {
+      "path": "/home/fabian/PBUF/data/bao/derived/bao_index.csv",
+      "sha256": "e45fd81bff4a07dd9417252f7174192ff3c32ded801e627abc35c5be2867a11c",
+      "size": 837,
+      "kind": "derived"
+    },
+    {
+      "path": "/home/fabian/PBUF/data/bao/derived/bao_index.parquet",
+      "sha256": "d0b1b19d0815b2766a3409778f97ae8073fe50a4e257b954e31e6f24580820f2",
+      "size": 5105,
+      "kind": "derived"
+    }
+  ],
+  "release_tag": "main",
+  "dataset_types": [
+    "anisotropic",
+    "anisotropic",
+    "anisotropic",
+    "anisotropic",
+    "anisotropic",
+    "anisotropic",
+    "anisotropic",
+    "anisotropic"
+  ],
+  "row_count": 14,
+  "columns": [
+    "z",
+    "Dv_over_rs",
+    "DM_over_rs",
+    "H_times_rs",
+    "type",
+    "survey",
+    "release_tag",
+    "row_index"
+  ],
+  "covariance_file": {
+    "path": "data/bao/raw/desi_gaussian_bao_QSO_GCcomb_cov.txt",
+    "shape": [
+      2,
+      2
+    ]
+  },
+  "notes": "BAO distances standardized; no numerical alteration beyond normalization."
+}

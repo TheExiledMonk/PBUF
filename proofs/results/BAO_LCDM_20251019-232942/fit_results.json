@@ -1,0 +1,98 @@
+{
+  "timestamp": "2025-10-19T23:29:42+08:00",
+  "model": "lcdm",
+  "priors": {
+    "means": {
+      "Dv_rs_0.106": 3.047,
+      "Dv_rs_0.15": 4.48,
+      "Dv_rs_0.38": 9.996,
+      "Dv_rs_0.51": 13.48,
+      "Dv_rs_0.61": 16.62
+    },
+    "cov": [
+      [
+        0.0216,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.043,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0576,
+        0.0198,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0198,
+        0.0436,
+        0.0166
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0166,
+        0.065
+      ]
+    ],
+    "labels": [
+      "Dv_rs_0.106",
+      "Dv_rs_0.15",
+      "Dv_rs_0.38",
+      "Dv_rs_0.51",
+      "Dv_rs_0.61"
+    ],
+    "meta": {
+      "description": "Isotropic BAO distance priors D_V(z)/r_s from low- and mid-z surveys.",
+      "release_tag": "BAO_MIXED_DR12",
+      "source": "6dF + SDSS MGS + BOSS DR12 consensus",
+      "reference": "Beutler+2011, Ross+2015, Alam+2017",
+      "unit": "dimensionless ratio",
+      "type": "isotropic",
+      "resolved_path": "/home/fabian/PBUF/data/bao/bao_mixed.json",
+      "source_tag": "primary"
+    }
+  },
+  "parameters": {
+    "H0": 67.4,
+    "Om0": 0.315,
+    "Obh2": 0.02237,
+    "ns": 0.9649,
+    "recomb_method": "PLANCK18",
+    "Tcmb": 2.7255,
+    "Neff": 3.046
+  },
+  "predictions": {
+    "Dv_rs_0.106": 3.023911445856462,
+    "Dv_rs_0.15": 4.214679314364682,
+    "Dv_rs_0.38": 9.813891598756825,
+    "Dv_rs_0.51": 12.529835848977488,
+    "Dv_rs_0.61": 14.415705295509925,
+    "r_s": 150.58714394715017,
+    "z_d": 1020.7239634915811
+  },
+  "metrics": {
+    "chi2": 80.22708786104018,
+    "dof": 5,
+    "chi2_dof": 16.045417572208034,
+    "AIC": 80.22708786104018,
+    "BIC": 80.22708786104018,
+    "p_value": 7.522219116156466e-16
+  },
+  "provenance": {
+    "commit": "n/a",
+    "recomb": "PLANCK18",
+    "cmb_calibration": "proofs/results/CMB_LCDM_CMB_PLANCK2018_REAL_20251019-232939/fit_results.json"
+  }
+}

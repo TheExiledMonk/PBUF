@@ -1,0 +1,26 @@
+{
+  "dataset": "Planck2018_TTTEEE_lowE",
+  "release_tag": "Planck2018",
+  "source": "Chen, Huang & Wang 2019, arXiv:1808.05724",
+  "doi": "10.1088/1475-7516/2019/02/028",
+  "reference": "Planck Collaboration VI, A&A 641 (2020) A6",
+  "description": "Compressed distance priors derived from Planck 2018 TT,TE,EE+lowE likelihood. Suitable for background-level cosmological fits (ΛCDM, PBUF, etc.).",
+  "parameters": {
+    "R":  { "mean": 1.7502, "sigma": 0.0046 },
+    "lA": { "mean": 301.471, "sigma": 0.090 },
+    "Omegabh2": { "mean": 0.02236, "sigma": 0.00015 },
+    "ns": { "mean": 0.9649, "sigma": 0.0043 }
+  },
+  "correlation": [
+    [ 1.00,  0.46, -0.66, -0.74 ],
+    [ 0.46,  1.00, -0.33, -0.35 ],
+    [ -0.66, -0.33,  1.00,  0.46 ],
+    [ -0.74, -0.35,  0.46,  1.00 ]
+  ],
+  "inverse_covariance_example": [
+    [ 94392.3971,  -1360.4913, 1664517.2916 ],
+    [ -1360.4913,    161.4349,   3671.6180 ],
+    [ 1664517.2916,  3671.6180, 79719182.5162 ]
+  ],
+  "notes": "Values taken from Table I of Chen, Huang & Wang (2019). Covariance can be reconstructed from σ × ρ × σ. Use with dataio.load_cmb_priors('planck2018')."
+}

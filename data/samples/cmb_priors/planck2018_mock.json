@@ -1,0 +1,25 @@
+{
+  "means": {
+    "100theta_*": 1.04109,
+    "l_A": 301.471,
+    "R": 1.74963,
+    "Obh2": 0.02237
+  },
+  "cov": [
+    [9.0e-08, 3.0e-05, 2.0e-05, 0.0],
+    [3.0e-05, 2.5e-02, 1.1e-02, 0.0],
+    [2.0e-05, 1.1e-02, 2.0e-02, 0.0],
+    [0.0, 0.0, 0.0, 1.0e-06]
+  ],
+  "labels": [
+    "100theta_*",
+    "l_A",
+    "R",
+    "Obh2"
+  ],
+  "meta": {
+    "source": "Mock Planck 2018 distance priors",
+    "release_tag": "planck2018_mock",
+    "notes": "Synthetic covariance calibrated for unit tests"
+  }
+}
