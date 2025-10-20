@@ -1,0 +1,99 @@
+{
+  "timestamp": "2025-10-20T13:28:49+08:00",
+  "model": "lcdm",
+  "priors": {
+    "means": {
+      "Dv_rs_0.106": 3.047,
+      "Dv_rs_0.15": 4.48,
+      "Dv_rs_0.38": 9.996,
+      "Dv_rs_0.51": 13.48,
+      "Dv_rs_0.61": 16.62
+    },
+    "cov": [
+      [
+        0.0216,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.043,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0576,
+        0.0198,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0198,
+        0.0436,
+        0.0166
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0166,
+        0.065
+      ]
+    ],
+    "labels": [
+      "Dv_rs_0.106",
+      "Dv_rs_0.15",
+      "Dv_rs_0.38",
+      "Dv_rs_0.51",
+      "Dv_rs_0.61"
+    ],
+    "meta": {
+      "description": "Isotropic BAO distance priors D_V(z)/r_s from low- and mid-z surveys.",
+      "release_tag": "BAO_MIXED_DR12",
+      "source": "6dF + SDSS MGS + BOSS DR12 consensus",
+      "reference": "Beutler+2011, Ross+2015, Alam+2017",
+      "unit": "dimensionless ratio",
+      "type": "isotropic",
+      "resolved_path": "/home/fabian/PBUF/data/bao/bao_mixed.json",
+      "source_tag": "primary"
+    }
+  },
+  "parameters": {
+    "H0": 67.48127854492846,
+    "Om0": 0.31634869901324536,
+    "Obh2": 0.022359979329157093,
+    "ns": 0.9649,
+    "recomb_method": "PLANCK18",
+    "Tcmb": 2.7255,
+    "Neff": 3.046,
+    "Ok0": 0.0
+  },
+  "predictions": {
+    "Dv_rs_0.106": 3.10962071455114,
+    "Dv_rs_0.15": 4.333888189574321,
+    "Dv_rs_0.38": 10.088621885900736,
+    "Dv_rs_0.51": 12.878803808032755,
+    "Dv_rs_0.61": 14.815773082648862,
+    "r_s": 146.2393951160728,
+    "z_d": 1065.180797985107
+  },
+  "metrics": {
+    "chi2": 51.81903708202339,
+    "dof": 5,
+    "chi2_dof": 10.36380741640468,
+    "AIC": 51.81903708202339,
+    "BIC": 51.81903708202339,
+    "p_value": 5.876029745607284e-10
+  },
+  "provenance": {
+    "commit": "5089bd7dae6111c29f4f3b73d6a7aa757c48f2d5",
+    "recomb": "PLANCK18",
+    "cmb_calibration": "proofs/results/CMB_LCDM_CMB_PLANCK2018_REAL_20251020-132847/fit_results.json"
+  }
+}
