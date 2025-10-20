@@ -1,0 +1,104 @@
+{
+  "timestamp": "2025-10-20T05:43:21+08:00",
+  "model": "pbuf",
+  "priors": {
+    "means": {
+      "Dv_rs_0.106": 3.047,
+      "Dv_rs_0.15": 4.48,
+      "Dv_rs_0.38": 9.996,
+      "Dv_rs_0.51": 13.48,
+      "Dv_rs_0.61": 16.62
+    },
+    "cov": [
+      [
+        0.0216,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.043,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0576,
+        0.0198,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0198,
+        0.0436,
+        0.0166
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0166,
+        0.065
+      ]
+    ],
+    "labels": [
+      "Dv_rs_0.106",
+      "Dv_rs_0.15",
+      "Dv_rs_0.38",
+      "Dv_rs_0.51",
+      "Dv_rs_0.61"
+    ],
+    "meta": {
+      "description": "Isotropic BAO distance priors D_V(z)/r_s from low- and mid-z surveys.",
+      "release_tag": "BAO_MIXED_DR12",
+      "source": "6dF + SDSS MGS + BOSS DR12 consensus",
+      "reference": "Beutler+2011, Ross+2015, Alam+2017",
+      "unit": "dimensionless ratio",
+      "type": "isotropic",
+      "resolved_path": "/home/fabian/PBUF/data/bao/bao_mixed.json",
+      "source_tag": "primary"
+    }
+  },
+  "parameters": {
+    "H0": 67.4,
+    "Om0": 0.315,
+    "Obh2": 0.02237,
+    "alpha": 0.0005,
+    "Rmax": 1000000000.0,
+    "eps0": 0.7,
+    "n_eps": 0.0,
+    "k_sat": 0.9761904761904762,
+    "ns": 0.9649,
+    "recomb_method": "PLANCK18",
+    "Tcmb": 2.7255,
+    "Neff": 3.046,
+    "Ok0": 0.0
+  },
+  "predictions": {
+    "Dv_rs_0.106": 3.10494073512435,
+    "Dv_rs_0.15": 4.327617114944421,
+    "Dv_rs_0.38": 10.076873779140174,
+    "Dv_rs_0.51": 12.865601713009216,
+    "Dv_rs_0.61": 14.80201158268204,
+    "r_s": 146.6574850375636,
+    "z_d": 1065.1122080365822
+  },
+  "metrics": {
+    "chi2": 52.62870669184663,
+    "dof": 4,
+    "chi2_dof": 13.157176672961658,
+    "AIC": 54.62870669184663,
+    "BIC": 54.238144604280734,
+    "p_value": 1.0190898363393584e-10
+  },
+  "provenance": {
+    "commit": "0ec81a359edd19269fdbe185004e226626fb56c9",
+    "recomb": "PLANCK18",
+    "cmb_calibration": "proofs/results/CMB_PBUF_CMB_PLANCK2018_REAL_20251020-013026/fit_results.json"
+  }
+}

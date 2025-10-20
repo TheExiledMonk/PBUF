@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "Planck-Bound Unified Framework (PBUF): Elastic Spacetime as a Unified Cosmological Model"
+authors:
+  - family-names: Olesen
+    given-names: Fabian
+    affiliation: Independent Researcher
+license: CC-BY-4.0
+repository-code: "https://github.com/TheExiledMonk/PBUF"
+version: "v9.0"
+date-released: 2025-10-20
