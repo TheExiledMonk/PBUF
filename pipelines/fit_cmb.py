@@ -25,6 +25,7 @@ from core import cmb_priors, gr_models, pbuf_models
 from dataio.loaders import load_cmb_priors
 from utils import logging as log
 from utils.io import read_yaml, write_json_atomic
+from utils import parameters as param_utils
 
 
 # ---------------------------------------------------------------------
@@ -306,12 +307,22 @@ def main() -> None:
     else:
         grid_payload = {}
 
+    canonical_block = param_utils.canonical_parameters(model_name)
+    for name in list(canonical_block.keys()):
+        if name in params:
+            canonical_block[name] = params[name]
+    parameter_payload = param_utils.build_parameter_payload(
+        model_name,
+        fitted=params,
+        canonical=canonical_block,
+    )
+
     result = {
         "run_id": run_id,
         "timestamp": _timestamp(),
         "model": model_name,
         "mock": settings.get("mock", False),
-        "parameters": params,
+        "parameters": parameter_payload,
         "metrics": metrics,
         "dataset": priors_meta,
         "priors": {"labels": list(labels), "means": priors["means"], "cov": np.asarray(priors["cov"]).tolist()},

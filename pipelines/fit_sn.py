@@ -24,6 +24,7 @@ from dataio.loaders import load_dataset
 from utils import logging as log
 from utils.io import read_yaml, write_json_atomic, write_yaml_atomic
 from utils.plotting import plot_pull_distribution, plot_residuals
+from utils import parameters as param_utils
 
 
 DEFAULT_PARAMS = {
@@ -107,8 +108,8 @@ def main() -> None:
     log.fit(model_name, fit_result["metrics"]["chi2"], fit_result["metrics"]["dof"])
 
     run_tag = "SN_MOCK" if settings.get("mock") else "SN_REAL"
-    run_id = _run_id(run_tag)
-    run_dir = Path(args.out).resolve() / model_name / run_id
+    run_id = _run_id(f"{run_tag}_{model_name}")
+    run_dir = Path(args.out).resolve() / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
 
     vectors = {
@@ -203,13 +204,21 @@ def main() -> None:
 
     data_vectors_payload = {name: path for name, path in vector_paths.items()}
 
+    canonical_block = param_utils.canonical_parameters(model_name)
+    parameter_payload = param_utils.build_parameter_payload(
+        model_name,
+        fitted=fit_result["bestfit"],
+        free_names=fit_result["bestfit"].keys(),
+        canonical=canonical_block,
+    )
+
     result_json = {
         "run_id": run_id,
         "timestamp": timestamp,
         "mock": bool(settings.get("mock", True)),
         "dataset": dataset_info,
         "model": model_name,
-        "parameters": fit_result["bestfit"],
+        "parameters": parameter_payload,
         "evolution_policy": evolution_policy,
         "metrics": fit_result["metrics"],
         "data_vectors": data_vectors_payload,

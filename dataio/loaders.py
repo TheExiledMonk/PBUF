@@ -183,6 +183,154 @@ def load_dataset(name: str, config: Mapping[str, Mapping[str, object]]) -> Dict[
     return loader(entry)
 
 
+def _load_manifest_safe(path: str | None):
+    if not path:
+        return None
+    manifest_path = _resolve_path(str(path))
+    if not manifest_path.exists():
+        log.warn("Manifest path %s not found; proceeding without provenance metadata.", manifest_path)
+        return None
+    try:
+        return load_manifest(manifest_path)
+    except Exception as exc:  # pragma: no cover - defensive branch
+        log.warn("Failed to parse manifest %s (%s); proceeding without it.", manifest_path, exc)
+        return None
+
+
+def load_chronometers_dataset(name: str, config: Mapping[str, Mapping[str, object]]) -> Dict[str, object]:
+    """
+    Load a prepared cosmic-chronometer H(z) dataset.
+    """
+
+    if pd is None:  # pragma: no cover - pandas optional dependency
+        raise RuntimeError("pandas is required to load chronometer datasets.")
+
+    chronometers = config.get("chronometers", {})
+    if name not in chronometers:
+        raise KeyError(f"Chronometer dataset '{name}' not defined in config/datasets.yml")
+    entry = chronometers[name]
+
+    table_path = _resolve_path(str(entry.get("table") or entry.get("data_path")))
+    df = pd.read_csv(table_path)
+    required = {"z", "H"}
+    if not required.issubset(df.columns):
+        missing = required - set(df.columns)
+        raise ValueError(f"Chronometer table {table_path} missing columns: {', '.join(sorted(missing))}")
+
+    sigma_column = "sigma_H" if "sigma_H" in df.columns else "sigma"
+    z = df["z"].to_numpy(dtype=float)
+    hz = df["H"].to_numpy(dtype=float)
+    sigma = df[sigma_column].to_numpy(dtype=float) if sigma_column in df.columns else None
+    if sigma is not None and np.isnan(sigma).all():
+        sigma = None
+
+    cov_path_raw = entry.get("cov") or entry.get("covariance")
+    cov_path = _resolve_path(str(cov_path_raw)) if cov_path_raw else None
+    cov = np.load(cov_path) if cov_path and cov_path.exists() else None
+    if cov is not None:
+        validate_covariance(cov)
+        if cov.shape[0] != z.size:
+            raise ValueError(f"Chronometer covariance {cov.shape} does not match data length {z.size}")
+    elif sigma is not None:
+        cov = np.diag(np.square(sigma))
+
+    validate_vector(z, name="z")
+    validate_vector(hz, name="H")
+    if sigma is not None:
+        validate_vector(sigma, name="sigma_H")
+        validate_lengths(z, hz, sigma)
+    else:
+        validate_lengths(z, hz)
+
+    manifest = _load_manifest_safe(entry.get("meta"))
+    meta = {
+        "name": entry.get("name", "Cosmic Chronometers H(z)"),
+        "release_tag": entry.get("release_tag") or (manifest.get("release_tag") if manifest else None),
+        "table": str(table_path),
+        "covariance": str(cov_path) if cov_path else None,
+        "prepared_at": manifest.prepared_at if isinstance(manifest, DatasetManifest) else None,
+        "transform_version": manifest.transform_version if isinstance(manifest, DatasetManifest) else None,
+        "notes": entry.get("notes"),
+    }
+    if isinstance(manifest, DatasetManifest):
+        meta["data_manifest"] = str(manifest.path)
+
+    dataset = {
+        "z": z,
+        "H": hz,
+        "sigma": sigma,
+        "cov": cov,
+        "meta": {k: v for k, v in meta.items() if v not in (None, "", [])},
+    }
+    return dataset
+
+
+def load_rsd_dataset(name: str, config: Mapping[str, Mapping[str, object]]) -> Dict[str, object]:
+    """
+    Load a prepared growth-rate (RSD) fσ₈ dataset.
+    """
+
+    if pd is None:  # pragma: no cover - pandas optional dependency
+        raise RuntimeError("pandas is required to load RSD datasets.")
+
+    rsd_group = config.get("rsd", {})
+    if name not in rsd_group:
+        raise KeyError(f"RSD dataset '{name}' not defined in config/datasets.yml")
+    entry = rsd_group[name]
+
+    table_path = _resolve_path(str(entry.get("table") or entry.get("data_path")))
+    df = pd.read_csv(table_path)
+    if "z" not in df.columns or "fs8" not in df.columns:
+        raise ValueError(f"RSD table {table_path} must include 'z' and 'fs8' columns.")
+    sigma_column = "sigma_fs8" if "sigma_fs8" in df.columns else "sigma"
+
+    z = df["z"].to_numpy(dtype=float)
+    fs8 = df["fs8"].to_numpy(dtype=float)
+    sigma = df[sigma_column].to_numpy(dtype=float) if sigma_column in df.columns else None
+    if sigma is not None and np.isnan(sigma).all():
+        sigma = None
+
+    cov_path_raw = entry.get("cov") or entry.get("covariance")
+    cov_path = _resolve_path(str(cov_path_raw)) if cov_path_raw else None
+    cov = np.load(cov_path) if cov_path and cov_path.exists() else None
+    if cov is not None:
+        validate_covariance(cov)
+        if cov.shape[0] != z.size:
+            raise ValueError(f"RSD covariance {cov.shape} does not match data length {z.size}")
+    elif sigma is not None:
+        cov = np.diag(np.square(sigma))
+
+    validate_vector(z, name="z")
+    validate_vector(fs8, name="fs8")
+    if sigma is not None:
+        validate_vector(sigma, name=sigma_column)
+        validate_lengths(z, fs8, sigma)
+    else:
+        validate_lengths(z, fs8)
+
+    manifest = _load_manifest_safe(entry.get("meta"))
+    meta = {
+        "name": entry.get("name", "RSD Growth-rate fσ8"),
+        "release_tag": entry.get("release_tag") or (manifest.get("release_tag") if manifest else None),
+        "table": str(table_path),
+        "covariance": str(cov_path) if cov_path else None,
+        "prepared_at": manifest.prepared_at if isinstance(manifest, DatasetManifest) else None,
+        "transform_version": manifest.transform_version if isinstance(manifest, DatasetManifest) else None,
+        "notes": entry.get("notes"),
+    }
+    if isinstance(manifest, DatasetManifest):
+        meta["data_manifest"] = str(manifest.path)
+
+    dataset = {
+        "z": z,
+        "fs8": fs8,
+        "sigma": sigma,
+        "cov": cov,
+        "meta": {k: v for k, v in meta.items() if v not in (None, "", [])},
+    }
+    return dataset
+
+
 def _select_cmb_prior_entry(name: str) -> Mapping[str, object]:
     datasets_cfg = read_yaml("config/datasets.yml")
     _, entry = _find_dataset_entry(name, datasets_cfg)

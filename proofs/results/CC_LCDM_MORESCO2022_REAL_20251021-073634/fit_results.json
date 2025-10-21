@@ -1,0 +1,72 @@
+{
+  "run_id": "CC_LCDM_MORESCO2022_REAL_20251021-073634",
+  "timestamp": "2025-10-21T07:36:34+08:00",
+  "model": "LCDM",
+  "mock": false,
+  "dataset": {
+    "name": "Cosmic Chronometers H(z)",
+    "path": "/home/fabian/PBUF/data/chronometers/derived/chronometers_index.csv",
+    "covariance": "/home/fabian/PBUF/data/chronometers/derived/chronometers_index.cov.npy",
+    "release_tag": "moresco2022",
+    "transform_version": "chronometers_prepare_v1",
+    "prepared_at": "2025-10-21T07:07:40+08:00",
+    "raw_directory": "/home/fabian/PBUF/data/chronometers/raw",
+    "derived_directory": "/home/fabian/PBUF/data/chronometers/derived",
+    "citation": "Moresco et al. (2022), data_CC.dat; covariance per Moresco et al. (2020, JCAP 05 005).",
+    "notes": "Measured H(z) values unchanged; only formatting and covariance standardised.",
+    "covariance_recipe": "C_ij = \u03c3_i\u00b2 \u03b4_ij + (0.030\u00b7H_i)(0.030\u00b7H_j)",
+    "frac_sys": 0.03
+  },
+  "parameters": {
+    "H0": 67.48120205155533,
+    "Om0": 0.31642451486404805,
+    "Or0": 0.0,
+    "Ok0": 0.0,
+    "Obh2": 0.022359979329157093,
+    "ns": 0.9649,
+    "recomb_method": "PLANCK18",
+    "Tcmb": 2.7255,
+    "Neff": 3.046
+  },
+  "metrics": {
+    "N": 32,
+    "N_params": 2,
+    "dof": 30,
+    "chi2": 14.545951076086514,
+    "chi2_dof": 0.48486503586955043,
+    "AIC": 18.545951076086514,
+    "BIC": 21.477422881685968,
+    "p_value": 0.9920644124372052,
+    "cov_health": {
+      "cond_num": 238.46971847115262
+    }
+  },
+  "data_vectors": {
+    "z": "/home/fabian/PBUF/proofs/results/CC_LCDM_MORESCO2022_REAL_20251021-073634/z.npy",
+    "H_obs": "/home/fabian/PBUF/proofs/results/CC_LCDM_MORESCO2022_REAL_20251021-073634/H_obs.npy",
+    "H_model": "/home/fabian/PBUF/proofs/results/CC_LCDM_MORESCO2022_REAL_20251021-073634/H_model.npy",
+    "residuals": "/home/fabian/PBUF/proofs/results/CC_LCDM_MORESCO2022_REAL_20251021-073634/residuals.npy",
+    "sigma_H": "/home/fabian/PBUF/proofs/results/CC_LCDM_MORESCO2022_REAL_20251021-073634/sigma_H.npy",
+    "pulls": "/home/fabian/PBUF/proofs/results/CC_LCDM_MORESCO2022_REAL_20251021-073634/pulls.npy"
+  },
+  "figures": {},
+  "optimisation": {
+    "success": true,
+    "status": 0,
+    "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+    "method": "L-BFGS-B",
+    "n_iter": 1,
+    "n_eval": 9,
+    "free_parameters": [
+      "H0",
+      "Om0"
+    ]
+  },
+  "provenance": {
+    "commit": "60fd334848bd909c2eba27b4576439a7eafd1878",
+    "settings": "/home/fabian/PBUF/config/settings.yml",
+    "constants": "/home/fabian/PBUF/config/constants.py",
+    "data_manifest": "/home/fabian/PBUF/data/chronometers/derived/chronometers_index.meta.json",
+    "cmb_calibration": "proofs/results/CMB_LCDM_CMB_PLANCK2018_REAL_20251020-132847/fit_results.json"
+  }
+}

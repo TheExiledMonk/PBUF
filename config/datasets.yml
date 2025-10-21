@@ -46,3 +46,22 @@ datasets:
       path: data/bao/derived/bao_index.meta.json
       description: Real DESI BAO dataset prepared from CobayaSampler/bao_data v2.6
       note: Uses load_bao_real_data() instead of JSON priors
+
+  chronometers:
+    moresco2022:
+      name: "Cosmic Chronometers H(z)"
+      description: "Moresco et al. (2022) differential age compilation"
+      table: "data/chronometers/derived/chronometers_index.csv"
+      cov: "data/chronometers/derived/chronometers_index.cov.npy"
+      meta: "data/chronometers/derived/chronometers_index.meta.json"
+      release_tag: "Moresco2022"
+      notes: "Prepared via pipelines/data/prepare_chronometers_data.py"
+
+  rsd:
+    nesseris2017:
+      name: "RSD Growth-rate fσ8"
+      description: "Nesseris et al. (2017) growth-rate compilation"
+      table: "data/rsd/derived/rsd_index.csv"
+      cov: "data/rsd/derived/rsd_index.cov.npy"
+      meta: "data/rsd/derived/rsd_index.meta.json"
+      release_tag: "Nesseris2017"

@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-10-21T07:07:40+08:00",
+  "source": "https://cluster.difa.unibo.it/astro/CC_data/data_CC.dat",
+  "used_sample": false,
+  "citation": "Moresco et al. (2022), University of Bologna CC dataset, https://cluster.difa.unibo.it/astro/CC_data/data_CC.dat",
+  "note": "Covariance must be added following Moresco et al. (2020, JCAP 05, 005).",
+  "records": [
+    {
+      "path": "/home/fabian/PBUF/data/chronometers/raw/OHD_Moresco2022.dat",
+      "sha256": "d3cd7c2f621f99958ead896a72dabae90665702dd51846ce52cdeec103390b92",
+      "size": 1246,
+      "kind": "raw"
+    }
+  ]
+}

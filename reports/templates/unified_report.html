@@ -28,6 +28,80 @@
     </div>
   {% endif %}
 
+  {% if summary_table.rows %}
+    <section>
+      <h2>Δ Statistics Summary</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Δχ²</th>
+            <th>ΔAIC</th>
+            <th>ΔBIC</th>
+            <th>Verdict</th>
+            <th>Favoured</th>
+            <th>Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in summary_table.rows %}
+            <tr>
+              <td>{{ row.dataset }}</td>
+              <td>{{ row.delta_chi2|round(3) }}</td>
+              <td>{{ row.delta_aic|round(3) }}</td>
+              <td>{{ row.delta_bic|round(3) }}</td>
+              <td>{{ row.verdict }}</td>
+              <td>{{ row.favoured or "—" }}</td>
+              <td>
+                {% if row.strength %}
+                  <span class="badge {{ row.badge_class }}">{{ row.strength }}</span>
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+          {% if summary_table.joint %}
+            <tr style="background:#eef3ff;">
+              <td>{{ summary_table.joint.dataset }}</td>
+              <td>{{ summary_table.joint.delta_chi2|round(3) }}</td>
+              <td>{{ summary_table.joint.delta_aic|round(3) }}</td>
+              <td>{{ summary_table.joint.delta_bic|round(3) }}</td>
+              <td>{{ summary_table.joint.verdict }}</td>
+              <td>{{ summary_table.joint.favoured or "—" }}</td>
+              <td>
+                {% if summary_table.joint.strength %}
+                  <span class="badge {{ summary_table.joint.badge_class }}">{{ summary_table.joint.strength }}</span>
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+        {% if summary_table.global %}
+          <tfoot>
+            <tr>
+              <th>{{ summary_table.global.dataset }}</th>
+              <th>{{ summary_table.global.delta_chi2|round(3) }}</th>
+              <th>{{ summary_table.global.delta_aic|round(3) }}</th>
+              <th>{{ summary_table.global.delta_bic|round(3) }}</th>
+              <th>{{ summary_table.global.verdict }}</th>
+              <th>{{ summary_table.global.favoured or "—" }}</th>
+              <th>
+                {% if summary_table.global.strength %}
+                  <span class="badge {{ summary_table.global.badge_class }}">{{ summary_table.global.strength }}</span>
+                {% else %}
+                  —
+                {% endif %}
+              </th>
+            </tr>
+          </tfoot>
+        {% endif %}
+      </table>
+    </section>
+  {% endif %}
+
   {% for block in dataset_blocks %}
     <section>
       <h2>{{ block.dataset }}{% if block.release_tag %} — {{ block.release_tag }}{% endif %}</h2>

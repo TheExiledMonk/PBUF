@@ -1,5 +1,5 @@
 {
-  "prepared_at": "2025-10-20T13:12:21+08:00",
+  "prepared_at": "2025-10-21T08:55:45+08:00",
   "transform_version": "bao_prepare_v2",
   "raw_directory": "/home/fabian/PBUF/data/bao/raw",
   "derived_directory": "/home/fabian/PBUF/data/bao/derived",
@@ -94,5 +94,7 @@
       2
     ]
   },
+  "rsd_points": 0,
+  "rsd_extracted_from": null,
   "notes": "BAO distances standardized; no numerical alteration beyond normalization."
 }

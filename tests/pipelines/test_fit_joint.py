@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from utils.parameters import flatten_payload
+
 
 def test_fit_joint_pipeline(joint_result):
     result, json_path = joint_result
@@ -9,8 +11,12 @@ def test_fit_joint_pipeline(joint_result):
     assert set(metrics.keys()) == {"total", "sn", "cmb"}
     assert metrics["total"]["chi2"] >= metrics["sn"]["chi2"]
     params = result["parameters"]
-    assert "k_sat" in params
-    assert "Obh2" in params
+    if isinstance(params, dict) and "global" in params:
+        params_flat = flatten_payload(params)
+    else:
+        params_flat = params
+    assert "k_sat" in params_flat
+    assert "Obh2" in params_flat
     cmb_pred = result["predictions"]["cmb"]
     for key in ["100theta_*", "l_A", "R", "Obh2"]:
         assert key in cmb_pred

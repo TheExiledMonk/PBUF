@@ -17,23 +17,15 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from config.constants import NEFF, TCMB
 from core import cmb_priors, gr_models, pbuf_models
 from dataio.loaders import load_bao_ani_priors
 from utils import logging as log
 from utils.io import write_json_atomic, read_latest_result
+from utils import parameters as param_utils
 
 # ---------------------------------------------------------------------
-#  Defaults
+#  Model registry
 # ---------------------------------------------------------------------
-DEFAULT_PARAMS = {
-    "lcdm": {"H0": 67.4, "Om0": 0.315, "Obh2": 0.02237, "ns": 0.9649},
-    "pbuf": {
-        "H0": 67.4, "Om0": 0.315, "Obh2": 0.02237,
-        "alpha": 5e-4, "Rmax": 1e9, "eps0": 0.7, "n_eps": 0.0, "k_sat": 1.0,
-        "ns": 0.9649
-    },
-}
 MODEL_MAP = {"lcdm": gr_models, "pbuf": pbuf_models}
 
 # ---------------------------------------------------------------------
@@ -107,23 +99,17 @@ def main():
     log.info("Loading BAO anisotropic priors '%s'", args.priors)
     priors = load_bao_ani_priors(args.priors)
     model_module = MODEL_MAP[args.model]
+    model_name = args.model.upper()
 
     # ------------------------------------------------------------
-    #  Load default + auto-calibrated parameters
+    #  Start from the canonical global calibration
     # ------------------------------------------------------------
-    params = dict(DEFAULT_PARAMS[args.model])
+    canonical_block = param_utils.canonical_parameters(model_name)
+    params: Dict[str, float | str] = dict(canonical_block)
+    # Allow experiments with alternative recombination approximations.
     params["recomb_method"] = args.recomb
-    params.setdefault("Tcmb", TCMB)
-    params.setdefault("Neff", NEFF)
-
-    # 🔄 Auto-load CMB calibration
-    cmb_fit = read_latest_result(model=args.model.upper(), kind="CMB")
-    if cmb_fit:
-        calib_params = cmb_fit.get("parameters", {})
-        params.update(calib_params)
-        log.info("Loaded CMB calibration from %s", cmb_fit.get("_source_path"))
-    else:
-        log.warning("No prior CMB calibration found — using default parameters.")
+    cmb_fit_meta = read_latest_result(model=model_name, kind="CMB")
+    cmb_source_path = cmb_fit_meta.get("_source_path") if cmb_fit_meta else None
 
     # ------------------------------------------------------------
     #  Evaluate anisotropic BAO
@@ -142,13 +128,17 @@ def main():
         "timestamp": _timestamp(),
         "model": args.model,
         "priors": _to_jsonable(priors),
-        "parameters": params,
+        "parameters": param_utils.build_parameter_payload(
+            model_name,
+            fitted=params,
+            canonical=canonical_block,
+        ),
         "predictions": _to_jsonable(pred),
         "metrics": metrics,
         "provenance": {
             "commit": _git_commit(),
             "recomb": args.recomb,
-            "cmb_calibration": cmb_fit.get("_source_path") if cmb_fit else None
+            "cmb_calibration": cmb_source_path,
         },
     }
 

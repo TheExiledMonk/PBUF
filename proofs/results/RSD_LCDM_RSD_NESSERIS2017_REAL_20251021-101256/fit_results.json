@@ -1,0 +1,205 @@
+{
+  "run_id": "RSD_NESSERIS2017_REAL_20251021-101256",
+  "timestamp": "2025-10-21T10:12:56+08:00",
+  "mock": false,
+  "dataset": {
+    "name": "RSD Growth-rate f\u03c3\u2088",
+    "dataset_name": "RSD_NESSERIS2017",
+    "dataset_path": "/home/fabian/PBUF/data/rsd/derived/rsd_index.csv",
+    "covariance": "/home/fabian/PBUF/data/rsd/derived/rsd_index.cov.npy",
+    "tag": "NESSERIS2017",
+    "release_tag": "nesseris2017",
+    "transform_version": "rsd_prepare_v1",
+    "prepared_at": "2025-10-21T08:55:45+08:00",
+    "source": "/home/fabian/PBUF/data/rsd/raw",
+    "raw_directory": "/home/fabian/PBUF/data/rsd/raw",
+    "derived_directory": "/home/fabian/PBUF/data/rsd/derived",
+    "citation": "Nesseris et al. (2017); Basilakos & Nesseris (2022) growth-rate compilation.",
+    "notes": "No data modified; only formatting and covariance standardisation performed.",
+    "covariance_recipe": "C_ij = \u03c3_i\u00b2 \u03b4_ij (diagonal)"
+  },
+  "model": "LCDM",
+  "parameters": {
+    "global": [
+      {
+        "name": "H0",
+        "value": 67.48127854492846,
+        "scope": "global"
+      },
+      {
+        "name": "Om0",
+        "value": 0.31634869901324536,
+        "scope": "global"
+      },
+      {
+        "name": "Obh2",
+        "value": 0.022359979329157093,
+        "scope": "global"
+      },
+      {
+        "name": "ns",
+        "value": 0.9649,
+        "scope": "global"
+      },
+      {
+        "name": "recomb_method",
+        "value": "PLANCK18",
+        "scope": "global"
+      },
+      {
+        "name": "Tcmb",
+        "value": 2.7255,
+        "scope": "global"
+      },
+      {
+        "name": "Neff",
+        "value": 3.046,
+        "scope": "global"
+      },
+      {
+        "name": "Ok0",
+        "value": 0.0,
+        "scope": "global"
+      }
+    ],
+    "local": [
+      {
+        "name": "Om0",
+        "value": 0.24374381769550998,
+        "scope": "local"
+      },
+      {
+        "name": "sigma8",
+        "value": 0.8148976380170422,
+        "scope": "local"
+      }
+    ]
+  },
+  "metrics": {
+    "chi2": 11.522289341731085,
+    "dof": 16,
+    "chi2_dof": 0.7201430838581928,
+    "AIC": 15.522289341731085,
+    "BIC": 17.303032857523412,
+    "p_value": 0.7761585666856482,
+    "ndata": 18,
+    "nfree": 2
+  },
+  "observables": {
+    "z": [
+      0.02,
+      0.02,
+      0.02,
+      0.1,
+      0.15,
+      0.17,
+      0.18,
+      0.38,
+      0.25,
+      0.37,
+      0.32,
+      0.59,
+      0.44,
+      0.6,
+      0.73,
+      0.6,
+      0.86,
+      1.4
+    ],
+    "fs8_observed": [
+      0.428,
+      0.398,
+      0.314,
+      0.37,
+      0.49,
+      0.51,
+      0.36,
+      0.44,
+      0.3512,
+      0.4602,
+      0.384,
+      0.488,
+      0.413,
+      0.39,
+      0.437,
+      0.55,
+      0.4,
+      0.482
+    ],
+    "sigma_fs8": [
+      0.0465,
+      0.065,
+      0.048,
+      0.13,
+      0.145,
+      0.06,
+      0.09,
+      0.06,
+      0.0583,
+      0.0378,
+      0.095,
+      0.06,
+      0.08,
+      0.063,
+      0.072,
+      0.12,
+      0.11,
+      0.116
+    ],
+    "fs8_model": [
+      0.37758114879689963,
+      0.37758114879689963,
+      0.37758114879689963,
+      0.39917891463237637,
+      0.41056431014814276,
+      0.41467292177245973,
+      0.41663340503321916,
+      0.44365669437068966,
+      0.4286541159989919,
+      0.44281325764804036,
+      0.4378461656160277,
+      0.45147331991892725,
+      0.4477339941330172,
+      0.4514406414716588,
+      0.4484491746147849,
+      0.4514406414716588,
+      0.44166109802579956,
+      0.3946102447797539
+    ],
+    "residuals": [
+      0.05041885120310036,
+      0.020418851203100385,
+      -0.06358114879689963,
+      -0.029178914632376374,
+      0.07943568985185723,
+      0.09532707822754027,
+      -0.056633405033219175,
+      -0.0036566943706896615,
+      -0.07745411599899188,
+      0.01738674235195964,
+      -0.053846165616027675,
+      0.03652668008107274,
+      -0.0347339941330172,
+      -0.061440641471658786,
+      -0.011449174614784896,
+      0.09855935852834125,
+      -0.04166109802579954,
+      0.08738975522024606
+    ]
+  },
+  "provenance": {
+    "commit": "60fd334848bd909c2eba27b4576439a7eafd1878",
+    "settings": "/home/fabian/PBUF/config/settings.yml",
+    "data_dir": "/home/fabian/PBUF/data/rsd/derived",
+    "params_file": "defaults",
+    "sigma_source": "/home/fabian/PBUF/data/rsd/derived/rsd_index.csv",
+    "covariance_source": "/home/fabian/PBUF/data/rsd/derived/rsd_index.cov.npy"
+  },
+  "optimisation": {
+    "success": true,
+    "status": 0,
+    "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+    "n_iter": 10,
+    "n_eval": 42
+  }
+}
