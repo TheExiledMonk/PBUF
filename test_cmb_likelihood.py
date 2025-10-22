@@ -39,7 +39,6 @@ def test_cmb_likelihood():
     assert "theta_star" in predictions, "Predictions should contain theta_star"
     
     print("✓ CMB likelihood test passed!")
-    return chi2, predictions
 
 if __name__ == "__main__":
     test_cmb_likelihood()

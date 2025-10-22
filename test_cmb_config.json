@@ -1,0 +1,64 @@
+{
+  "parameters": {
+    "H0": 67.4,
+    "Om0": 0.315,
+    "Obh2": 0.02237,
+    "ns": 0.9649,
+    "alpha": 0.0005,
+    "Rmax": 1000000000.0,
+    "eps0": 0.7,
+    "n_eps": 0.0,
+    "k_sat": 0.9762
+  },
+  "optimization": {
+    "optimize_parameters": [
+      "k_sat",
+      "alpha"
+    ],
+    "frozen_parameters": [
+      "Neff",
+      "Tcmb"
+    ],
+    "use_precomputed": true,
+    "save_results": true,
+    "convergence_tolerance": 1e-06,
+    "covariance_scaling": 1.0,
+    "warm_start": false,
+    "dry_run": false
+  },
+  "optimizer": {
+    "method": "minimize",
+    "algorithm": "L-BFGS-B",
+    "options": {
+      "maxiter": 1000,
+      "ftol": 1e-09,
+      "gtol": 1e-09
+    }
+  },
+  "output": {
+    "format": "human",
+    "precision": 6,
+    "save_results": true,
+    "results_file": "results.json",
+    "include_diagnostics": true
+  },
+  "integrity": {
+    "enabled": true,
+    "tolerances": {
+      "h_ratios": 0.0001,
+      "recombination": 0.0001,
+      "sound_horizon": 0.0001,
+      "covariance_eigenvalues": 1e-12
+    },
+    "fail_on_error": false
+  },
+  "datasets": {
+    "default_datasets": [
+      "cmb",
+      "bao",
+      "sn"
+    ],
+    "data_directory": "./data",
+    "custom_covariance": null
+  }
+}

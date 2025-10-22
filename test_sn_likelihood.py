@@ -51,7 +51,6 @@ def test_sn_likelihood():
     assert len(predictions["distance_modulus"]) == len(data["observations"]["redshift"]), "Prediction length should match data"
     
     print("✓ Supernova likelihood test passed!")
-    return chi2, predictions
 
 if __name__ == "__main__":
     test_sn_likelihood()

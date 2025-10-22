@@ -1,0 +1,15 @@
+{
+  "defaults": {
+    "H0": 67.4,
+    "Om0": 0.315,
+    "Obh2": 0.02237,
+    "ns": 0.9649,
+    "Neff": 3.046,
+    "Tcmb": 2.7255,
+    "recomb_method": "PLANCK18"
+  },
+  "optimization_metadata": {
+    "initialized": "2025-10-22T15:44:19.306758+00:00",
+    "source": "hardcoded_defaults"
+  }
+}

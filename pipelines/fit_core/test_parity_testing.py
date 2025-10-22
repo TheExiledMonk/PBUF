@@ -285,11 +285,11 @@ class TestParityTesting(unittest.TestCase):
         # Run unified system
         results = self.tester.run_unified_system("pbuf", ["cmb"])
         
-        # Verify engine was called correctly
+        # Verify engine was called correctly (parity testing adds BAO for sufficient DOF)
         mock_run_fit.assert_called_once_with(
             model="pbuf",
-            datasets_list=["cmb"],
-            mode="individual",
+            datasets_list=["cmb", "bao"],
+            mode="joint",
             overrides=None
         )
         

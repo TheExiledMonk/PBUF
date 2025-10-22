@@ -2,7 +2,116 @@
 
 ## Basic Usage Examples
 
-### 1. Simple Individual Fitting
+### 1. Parameter Optimization Examples
+
+#### CMB Parameter Optimization for ΛCDM
+```python
+from pipelines.fit_core.engine import run_fit
+
+# Optimize core ΛCDM parameters using CMB data
+result = run_fit(
+    model="lcdm",
+    datasets_list=["cmb"],
+    optimization_params=["H0", "Om0", "Obh2", "ns"]
+)
+
+print("ΛCDM CMB Optimization Results:")
+print(f"Optimized H₀: {result['params']['H0']:.2f} km/s/Mpc")
+print(f"Optimized Ωₘ: {result['params']['Om0']:.4f}")
+print(f"χ² improvement: {result['optimization']['chi2_improvement']:.3f}")
+print(f"Convergence: {result['optimization']['convergence_status']}")
+```
+
+#### PBUF Parameter Optimization
+```python
+# Optimize PBUF-specific parameters
+result = run_fit(
+    model="pbuf",
+    datasets_list=["cmb"],
+    optimization_params=["k_sat", "alpha", "H0", "Om0"]
+)
+
+print("PBUF CMB Optimization Results:")
+print(f"Optimized k_sat: {result['params']['k_sat']:.4f}")
+print(f"Optimized α: {result['params']['alpha']:.2e}")
+print(f"χ² improvement: {result['optimization']['chi2_improvement']:.3f}")
+
+# Check if parameters hit bounds
+if result['optimization']['bounds_reached']:
+    print(f"Parameters at bounds: {result['optimization']['bounds_reached']}")
+```
+
+#### Using Optimized Parameters in Subsequent Fits
+```python
+# Step 1: Optimize parameters using CMB
+cmb_result = run_fit(
+    model="pbuf",
+    datasets_list=["cmb"],
+    optimization_params=["k_sat", "alpha"]
+)
+
+# Step 2: BAO fitting automatically uses optimized parameters
+bao_result = run_fit(
+    model="pbuf",
+    datasets_list=["bao"]
+)
+
+# Step 3: Joint fitting benefits from pre-optimized parameters
+joint_result = run_fit(
+    model="pbuf",
+    datasets_list=["cmb", "bao", "sn"]
+)
+
+print(f"CMB χ²: {cmb_result['metrics']['total_chi2']:.3f}")
+print(f"BAO χ² (with optimized params): {bao_result['metrics']['total_chi2']:.3f}")
+print(f"Joint χ²: {joint_result['metrics']['total_chi2']:.3f}")
+```
+
+#### Optimization with Covariance Scaling
+```python
+# Test sensitivity to covariance matrix scaling
+scaling_factors = [0.8, 1.0, 1.2, 1.5]
+results = []
+
+for scale in scaling_factors:
+    result = run_fit(
+        model="lcdm",
+        datasets_list=["cmb"],
+        optimization_params=["H0", "Om0"],
+        covariance_scaling=scale
+    )
+    
+    results.append({
+        "scaling": scale,
+        "H0": result['params']['H0'],
+        "Om0": result['params']['Om0'],
+        "chi2": result['metrics']['total_chi2']
+    })
+
+# Analyze scaling sensitivity
+import pandas as pd
+df = pd.DataFrame(results)
+print("Covariance Scaling Analysis:")
+print(df)
+```
+
+#### Dry Run Mode for Testing
+```python
+# Test optimization without updating stored defaults
+result = run_fit(
+    model="pbuf",
+    datasets_list=["cmb"],
+    optimization_params=["k_sat", "alpha"],
+    dry_run=True
+)
+
+print("Dry Run Results (not saved):")
+print(f"Would optimize k_sat to: {result['params']['k_sat']:.4f}")
+print(f"Would optimize α to: {result['params']['alpha']:.2e}")
+print(f"χ² improvement: {result['optimization']['chi2_improvement']:.3f}")
+```
+
+### 2. Simple Individual Fitting
 
 #### CMB-only ΛCDM Fit
 ```python
@@ -273,9 +382,81 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Command Line Usage Examples
+## Parameter Optimization Command Line Examples
 
-### 7. Wrapper Script Examples
+### 7. Optimization Command Line Usage
+
+#### Basic Parameter Optimization
+```bash
+# Optimize PBUF parameters for CMB
+python pipelines/fit_cmb.py --model pbuf --optimize k_sat,alpha
+
+# Optimize ΛCDM core parameters
+python pipelines/fit_cmb.py --model lcdm --optimize H0,Om0,Obh2,ns
+
+# Optimize with covariance scaling
+python pipelines/fit_cmb.py --model pbuf --optimize k_sat --cov-scale 1.2
+
+# Dry run (don't save results)
+python pipelines/fit_cmb.py --model lcdm --optimize H0,Om0 --dry-run
+
+# Use warm start from recent optimization
+python pipelines/fit_cmb.py --model pbuf --optimize k_sat,alpha --warm-start
+```
+
+#### Optimization Workflow Examples
+```bash
+# Complete optimization workflow
+# Step 1: Optimize CMB parameters
+python pipelines/fit_cmb.py --model pbuf --optimize k_sat,alpha,H0,Om0
+
+# Step 2: BAO automatically uses optimized parameters
+python pipelines/fit_bao.py --model pbuf
+
+# Step 3: SN automatically uses optimized parameters  
+python pipelines/fit_sn.py --model pbuf
+
+# Step 4: Joint fit with all optimized parameters
+python pipelines/fit_joint.py --model pbuf --datasets cmb,bao,sn
+```
+
+#### Configuration File with Optimization
+```bash
+# Create optimization configuration
+cat > optimization_config.json << EOF
+{
+  "optimization": {
+    "optimize_parameters": ["k_sat", "alpha"],
+    "covariance_scaling": 1.0,
+    "warm_start": true,
+    "save_results": true
+  },
+  "parameter_overrides": {
+    "H0": 70.0
+  }
+}
+EOF
+
+# Use configuration file
+python pipelines/fit_cmb.py --model pbuf --config optimization_config.json
+```
+
+#### Cross-Model Optimization Comparison
+```bash
+# Optimize both models for comparison
+python pipelines/fit_cmb.py --model lcdm --optimize H0,Om0,Obh2,ns
+python pipelines/fit_cmb.py --model pbuf --optimize k_sat,alpha,H0,Om0
+
+# Check optimization summary
+python -c "
+from pipelines.fit_core.parameter_store import OptimizedParameterStore
+store = OptimizedParameterStore()
+store.export_optimization_summary('optimization_comparison.json')
+print('Optimization summary exported to optimization_comparison.json')
+"
+```
+
+### 8. Wrapper Script Examples
 
 #### Basic Command Line Usage
 ```bash

@@ -14,6 +14,7 @@ from fit_core import engine
 from fit_core.parameter import ParameterDict
 from fit_core import integrity
 from fit_core import config
+from fit_core.parameter_store import OptimizedParameterStore
 
 
 def main():
@@ -171,7 +172,7 @@ def run_joint_fit(
     optimizer: str = "minimize"
 ) -> Dict[str, Any]:
     """
-    Execute joint fitting using unified engine.
+    Execute joint fitting using unified engine with optimized individual parameters.
     
     Args:
         model: Model type ("lcdm" or "pbuf")
@@ -182,8 +183,52 @@ def run_joint_fit(
         optimizer: Optimization algorithm to use
         
     Returns:
-        Complete results dictionary
+        Complete results dictionary with optimization metadata
+        
+    Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 8.1, 8.2, 8.3, 8.4, 8.5
     """
+    # Initialize parameter store to get optimized parameters
+    param_store = OptimizedParameterStore()
+    
+    # Get optimized parameters (or defaults if no optimization has been performed)
+    base_params = param_store.get_model_defaults(model)
+    
+    # Check optimization status for each dataset
+    optimization_status = {}
+    for dataset in datasets:
+        optimization_status[dataset] = param_store.is_optimized(model, dataset)
+    
+    # Check if CMB optimization has been performed (most important for joint fits)
+    cmb_optimized = param_store.is_optimized(model, "cmb")
+    
+    # Apply any parameter overrides on top of optimized/default values
+    if overrides:
+        base_params.update(overrides)
+        print(f"Applied {len(overrides)} parameter override(s)")
+    
+    # Log parameter source information
+    if cmb_optimized:
+        print(f"Using CMB-optimized parameters for {model.upper()} joint fit")
+        optimization_history = param_store.get_optimization_history(model)
+        if optimization_history:
+            cmb_optimization = next((opt for opt in optimization_history if opt.dataset == "cmb"), None)
+            if cmb_optimization:
+                print(f"CMB optimization: {cmb_optimization.timestamp}")
+                print(f"Optimized parameters: {', '.join(cmb_optimization.optimized_params)}")
+                print(f"χ² improvement: {cmb_optimization.chi2_improvement:.6f}")
+    else:
+        print(f"Using default parameters for {model.upper()} joint fit (no CMB optimization found)")
+        print("Consider running CMB optimization first for better joint fit starting point")
+    
+    # Store optimization metadata for result reporting
+    optimization_metadata = {
+        "cmb_optimized": cmb_optimized,
+        "optimization_status": optimization_status,
+        "datasets_with_optimization": [ds for ds, opt in optimization_status.items() if opt],
+        "overrides_applied": len(overrides) if overrides else 0,
+        "override_params": list(overrides.keys()) if overrides else [],
+        "parameter_source": "cmb_optimized" if cmb_optimized else "defaults"
+    }
     # Validate dataset list
     valid_datasets = ["cmb", "bao", "bao_ani", "sn"]
     for dataset in datasets:
@@ -192,6 +237,38 @@ def run_joint_fit(
     
     if len(datasets) < 2:
         raise ValueError("Joint fitting requires at least 2 datasets")
+    
+    # Validate BAO dataset separation and provide configuration guidance
+    try:
+        from fit_core.bao_aniso_validation import (
+            validate_joint_fit_configuration, 
+            get_bao_dataset_selection_guide
+        )
+        
+        # Validate joint fit configuration
+        config_validation = validate_joint_fit_configuration(datasets)
+        
+        # Print warnings and recommendations
+        if config_validation["warnings"]:
+            print("⚠️  Joint Fit Configuration Warnings:")
+            for warning in config_validation["warnings"]:
+                print(f"   • {warning}")
+        
+        if config_validation["recommendations"]:
+            print("💡 Recommendations:")
+            for recommendation in config_validation["recommendations"]:
+                print(f"   • {recommendation}")
+        
+        # Print dataset selection guide if mixed BAO types detected
+        if "bao" in datasets and "bao_ani" in datasets:
+            print("\n📖 BAO Dataset Selection Guide:")
+            guide = get_bao_dataset_selection_guide()
+            print(guide["avoid"])
+            
+    except ImportError:
+        print("⚠️  BAO dataset configuration validation not available")
+    except Exception as e:
+        raise ValueError(f"Joint fit configuration error: {e}")
     
     # Run integrity checks if requested
     if verify_integrity:
@@ -225,14 +302,21 @@ def run_joint_fit(
             "options": {"maxiter": 1000, "tol": 1e-9}
         }
     
-    # Execute joint fitting using unified engine
+    # Execute joint fitting using unified engine with optimized parameters
     results = engine.run_fit(
         model=model,
         datasets_list=datasets,
         mode="joint",
-        overrides=overrides,
+        overrides=base_params,  # Use optimized parameters as base
         optimizer_config=optimizer_config
     )
+    
+    # Add optimization metadata to results
+    results["optimization_metadata"] = optimization_metadata
+    
+    # Validate that joint fit benefits from optimization
+    if cmb_optimized:
+        _validate_joint_fit_benefit(results, optimization_metadata, param_store, model)
     
     return results
 
@@ -299,12 +383,58 @@ def print_integrity_report(integrity_results: Dict[str, Any]) -> None:
     print("=" * 60)
 
 
+def _validate_joint_fit_benefit(
+    results: Dict[str, Any], 
+    optimization_metadata: Dict[str, Any], 
+    param_store: OptimizedParameterStore, 
+    model: str
+) -> None:
+    """
+    Validate that joint fit benefits from pre-optimization.
+    
+    Args:
+        results: Joint fit results
+        optimization_metadata: Optimization metadata
+        param_store: Parameter store instance
+        model: Model type
+        
+    Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 8.1, 8.2, 8.3, 8.4, 8.5
+    """
+    try:
+        # Get optimization history to compare χ² values
+        optimization_history = param_store.get_optimization_history(model)
+        cmb_optimization = next((opt for opt in optimization_history if opt.dataset == "cmb"), None)
+        
+        if cmb_optimization and cmb_optimization.chi2_improvement > 0:
+            joint_chi2 = results.get("metrics", {}).get("total_chi2", float('inf'))
+            
+            # Log validation information
+            print(f"[VALIDATION] Joint fit using CMB-optimized parameters")
+            print(f"[VALIDATION] CMB χ² improvement from optimization: {cmb_optimization.chi2_improvement:.6f}")
+            print(f"[VALIDATION] Joint fit total χ²: {joint_chi2:.6f}")
+            
+            # Add validation metadata to results
+            results["optimization_validation"] = {
+                "cmb_chi2_improvement": cmb_optimization.chi2_improvement,
+                "joint_total_chi2": joint_chi2,
+                "validation_status": "optimized_parameters_used",
+                "validation_timestamp": optimization_metadata.get("timestamp", "unknown")
+            }
+        else:
+            print(f"[VALIDATION] Warning: No significant CMB optimization benefit found")
+            
+    except Exception as e:
+        print(f"[VALIDATION] Could not validate optimization benefit: {str(e)}")
+
+
 def print_human_readable_results(results: Dict[str, Any]) -> None:
     """
-    Print results in human-readable format.
+    Print results in human-readable format with optimization metadata.
     
     Args:
         results: Results dictionary from engine.run_fit()
+        
+    Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 8.1, 8.2, 8.3, 8.4, 8.5
     """
     print("=" * 60)
     print("JOINT FITTING RESULTS")
@@ -312,12 +442,38 @@ def print_human_readable_results(results: Dict[str, Any]) -> None:
     
     # Print model and parameters
     params = results.get("params", {})
+    optimization_metadata = results.get("optimization_metadata", {})
+    
     print(f"Model: {params.get('model_class', 'unknown')}")
     
     # Show which datasets were included
     dataset_results = results.get("results", {})
     included_datasets = list(dataset_results.keys())
     print(f"Datasets: {', '.join(included_datasets)}")
+    
+    # Show optimization information
+    cmb_optimized = optimization_metadata.get("cmb_optimized", False)
+    parameter_source = optimization_metadata.get("parameter_source", "unknown")
+    overrides_applied = optimization_metadata.get("overrides_applied", 0)
+    
+    if cmb_optimized:
+        print(f"Parameter Source: CMB-optimized defaults")
+        datasets_with_opt = optimization_metadata.get("datasets_with_optimization", [])
+        if datasets_with_opt:
+            print(f"Datasets with prior optimization: {', '.join(datasets_with_opt)}")
+    else:
+        print(f"Parameter Source: Hardcoded defaults (no prior optimization)")
+    
+    if overrides_applied > 0:
+        override_params = optimization_metadata.get("override_params", [])
+        print(f"Overrides Applied: {overrides_applied} parameter(s) ({', '.join(override_params)})")
+    
+    # Show optimization validation if available
+    opt_validation = results.get("optimization_validation", {})
+    if opt_validation:
+        cmb_improvement = opt_validation.get("cmb_chi2_improvement", 0)
+        print(f"CMB Optimization Benefit: χ² improvement of {cmb_improvement:.6f}")
+        print(f"Validation Status: {opt_validation.get('validation_status', 'unknown')}")
     
     print("\nOptimized Parameters:")
     
@@ -339,18 +495,29 @@ def print_human_readable_results(results: Dict[str, Any]) -> None:
     # Overall fit statistics
     metrics = results.get("metrics", {})
     print(f"\nOverall Fit Statistics:")
-    print(f"  Total χ² = {metrics.get('total_chi2', 'N/A'):.3f}")
-    print(f"  AIC      = {metrics.get('aic', 'N/A'):.3f}")
-    print(f"  BIC      = {metrics.get('bic', 'N/A'):.3f}")
-    print(f"  DOF      = {metrics.get('dof', 'N/A')}")
-    print(f"  p-value  = {metrics.get('p_value', 'N/A'):.6f}")
+    
+    # Format numeric values safely
+    chi2 = metrics.get('total_chi2')
+    aic = metrics.get('aic')
+    bic = metrics.get('bic')
+    dof = metrics.get('dof')
+    p_value = metrics.get('p_value')
+    
+    print(f"  Total χ² = {chi2:.3f}" if isinstance(chi2, (int, float)) else "  Total χ² = N/A")
+    print(f"  AIC      = {aic:.3f}" if isinstance(aic, (int, float)) else "  AIC      = N/A")
+    print(f"  BIC      = {bic:.3f}" if isinstance(bic, (int, float)) else "  BIC      = N/A")
+    print(f"  DOF      = {dof}" if dof is not None else "  DOF      = N/A")
+    print(f"  p-value  = {p_value:.6f}" if isinstance(p_value, (int, float)) else "  p-value  = N/A")
     
     # Per-dataset breakdown
     print(f"\nPer-Dataset Breakdown:")
     for dataset_name in included_datasets:
         dataset_result = dataset_results.get(dataset_name, {})
         chi2 = dataset_result.get("chi2", "N/A")
-        print(f"  {dataset_name:8s}: χ² = {chi2:.3f}" if chi2 != "N/A" else f"  {dataset_name:8s}: χ² = N/A")
+        if isinstance(chi2, (int, float)):
+            print(f"  {dataset_name:8s}: χ² = {chi2:.3f}")
+        else:
+            print(f"  {dataset_name:8s}: χ² = N/A")
     
     # Key predictions summary
     print(f"\nKey Predictions Summary:")

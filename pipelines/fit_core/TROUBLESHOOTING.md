@@ -126,7 +126,33 @@ expected_format = {
 }
 ```
 
-### 3. Optimization Issues
+### 3. Parameter Optimization Issues
+
+#### Issue: "Invalid parameter for model" error
+```
+ValueError: Parameter 'k_sat' is not valid for model 'lcdm'
+```
+
+**Solution:**
+```python
+# Check valid parameters for each model
+from pipelines.fit_core.optimizer import ParameterOptimizer
+
+optimizer = ParameterOptimizer()
+
+# ΛCDM valid parameters
+lcdm_params = ["H0", "Om0", "Obh2", "ns"]
+
+# PBUF valid parameters  
+pbuf_params = ["H0", "Om0", "Obh2", "ns", "alpha", "k_sat", "Rmax", "eps0", "n_eps"]
+
+# Validate before optimization
+try:
+    optimizer.validate_optimization_request("lcdm", ["H0", "Om0"])
+    print("✓ Parameters valid for ΛCDM")
+except ValueError as e:
+    print(f"❌ Invalid parameters: {e}")
+```
 
 #### Issue: Optimization fails to converge
 ```
@@ -135,44 +161,286 @@ OptimizationWarning: Optimization terminated unsuccessfully
 
 **Solutions:**
 
-**A. Adjust optimization parameters:**
-```python
-optimizer_config = {
-    "method": "minimize",
-    "options": {
-        "maxiter": 2000,      # Increase iterations
-        "ftol": 1e-8,         # Tighter tolerance
-        "gtol": 1e-8,
-        "method": "L-BFGS-B"  # Try different method
-    }
-}
+**A. Use warm start from previous optimization:**
+```bash
+# Command line
+python fit_cmb.py --model pbuf --optimize k_sat,alpha --warm-start
+
+# Or in Python
+result = run_fit(
+    model="pbuf",
+    datasets_list=["cmb"],
+    optimization_params=["k_sat", "alpha"],
+    warm_start=True
+)
 ```
 
-**B. Use global optimization:**
-```python
-optimizer_config = {
-    "method": "differential_evolution",
-    "options": {
-        "maxiter": 1000,
-        "seed": 42,           # For reproducibility
-        "popsize": 20         # Larger population
-    },
-    "bounds": {               # Provide bounds
-        "H0": [60, 80],
-        "Om0": [0.2, 0.4]
-    }
-}
+**B. Adjust covariance scaling:**
+```bash
+# Try different scaling factors
+python fit_cmb.py --model lcdm --optimize H0,Om0 --cov-scale 0.8
+python fit_cmb.py --model lcdm --optimize H0,Om0 --cov-scale 1.2
 ```
 
-**C. Check initial parameters:**
+**C. Use dry run to test optimization:**
+```bash
+# Test without saving results
+python fit_cmb.py --model pbuf --optimize k_sat --dry-run
+```
+
+**D. Check parameter bounds:**
 ```python
-# Ensure reasonable starting point
+from pipelines.fit_core.optimizer import ParameterOptimizer
+
+optimizer = ParameterOptimizer()
+
+# Check bounds for parameters
+for param in ["k_sat", "alpha", "H0", "Om0"]:
+    bounds = optimizer.get_optimization_bounds("pbuf", param)
+    print(f"{param}: {bounds}")
+
+# Ensure starting values are within bounds
 params = build_params("pbuf")
-print("Initial parameters:", params)
-
-# Adjust if needed
-overrides = {"H0": 67.4, "Om0": 0.315}  # Known good values
+for param in ["k_sat", "alpha"]:
+    value = params[param]
+    bounds = optimizer.get_optimization_bounds("pbuf", param)
+    if not (bounds[0] <= value <= bounds[1]):
+        print(f"Warning: {param}={value} outside bounds {bounds}")
 ```
+
+#### Issue: Parameters hit optimization bounds
+```
+Warning: Parameters reached bounds during optimization: ['k_sat']
+```
+
+**Solutions:**
+
+**A. Review physical bounds:**
+```python
+# Check if bounds are too restrictive
+from pipelines.fit_core.parameter import PARAMETER_BOUNDS
+
+print("Current bounds:")
+for param in ["k_sat", "alpha", "H0", "Om0"]:
+    if param in PARAMETER_BOUNDS:
+        print(f"{param}: {PARAMETER_BOUNDS[param]}")
+
+# Consider if bounds should be expanded based on physics
+```
+
+**B. Check if bound-hitting is acceptable:**
+```python
+# Some parameters naturally optimize to bounds
+result = run_fit(
+    model="pbuf",
+    datasets_list=["cmb"],
+    optimization_params=["k_sat", "alpha"]
+)
+
+bounds_reached = result['optimization']['bounds_reached']
+if 'k_sat' in bounds_reached:
+    k_sat_value = result['params']['k_sat']
+    if abs(k_sat_value - 1.0) < 0.01:
+        print("k_sat near ΛCDM limit (k_sat=1) - this may be expected")
+```
+
+#### Issue: Minimal χ² improvement from optimization
+```
+Warning: χ² improvement of 0.001 is very small
+```
+
+**Solutions:**
+
+**A. Check if parameters were already near optimal:**
+```python
+# Compare starting vs optimized values
+result = run_fit(
+    model="pbuf",
+    datasets_list=["cmb"],
+    optimization_params=["k_sat", "alpha"]
+)
+
+starting = result['optimization']['starting_params']
+optimized = result['optimization']['optimized_params']
+
+for param in ["k_sat", "alpha"]:
+    start_val = starting[param]
+    opt_val = optimized[param]
+    change = abs(opt_val - start_val) / start_val
+    print(f"{param}: {start_val:.6f} → {opt_val:.6f} (change: {change:.2%})")
+```
+
+**B. Verify optimization is working correctly:**
+```python
+# Test with deliberately poor starting values
+poor_overrides = {"k_sat": 0.5, "alpha": 1e-3}  # Far from expected optimum
+
+result = run_fit(
+    model="pbuf",
+    datasets_list=["cmb"],
+    optimization_params=["k_sat", "alpha"],
+    overrides=poor_overrides
+)
+
+print(f"χ² improvement: {result['optimization']['chi2_improvement']:.3f}")
+```
+
+#### Issue: Cross-model consistency warnings
+```
+Warning: H0 divergence between ΛCDM and PBUF: 2.3 km/s/Mpc > 1.0 tolerance
+```
+
+**Solutions:**
+
+**A. Check optimization convergence for both models:**
+```bash
+# Ensure both models are properly optimized
+python fit_cmb.py --model lcdm --optimize H0,Om0,Obh2,ns
+python fit_cmb.py --model pbuf --optimize k_sat,alpha,H0,Om0
+```
+
+**B. Validate cross-model consistency:**
+```python
+from pipelines.fit_core.parameter_store import OptimizedParameterStore
+
+store = OptimizedParameterStore()
+divergence = store.validate_cross_model_consistency()
+
+print("Parameter divergences:")
+for param, div in divergence.items():
+    if div > 1e-3:  # Significant divergence
+        print(f"{param}: {div:.6f}")
+        
+        # Get values from both models
+        lcdm_params = store.get_model_defaults("lcdm")
+        pbuf_params = store.get_model_defaults("pbuf")
+        print(f"  ΛCDM {param}: {lcdm_params[param]:.6f}")
+        print(f"  PBUF {param}: {pbuf_params[param]:.6f}")
+```
+
+#### Issue: Optimization results not being used by other fitters
+```
+# BAO fit not using optimized CMB parameters
+```
+
+**Solutions:**
+
+**A. Verify optimization was saved:**
+```python
+from pipelines.fit_core.parameter_store import OptimizedParameterStore
+
+store = OptimizedParameterStore()
+params = store.get_model_defaults("pbuf")
+
+# Check if optimization metadata exists
+if 'optimization_metadata' in params:
+    metadata = params['optimization_metadata']
+    print(f"Last optimization: {metadata.get('cmb_optimized', 'Never')}")
+    print(f"Optimized params: {metadata.get('optimized_params', [])}")
+else:
+    print("No optimization metadata found - parameters may not be optimized")
+```
+
+**B. Check file permissions and storage:**
+```bash
+# Check optimization results directory
+ls -la optimization_results/
+cat optimization_results/pbuf_optimized.json
+
+# Verify lock files are not stuck
+rm -f optimization_results/*.lock
+```
+
+**C. Force parameter refresh:**
+```python
+# Clear parameter cache and reload
+from pipelines.fit_core.parameter_store import OptimizedParameterStore
+
+store = OptimizedParameterStore()
+# Force reload from disk
+store._cache = {}  # Clear internal cache
+params = store.get_model_defaults("pbuf")
+```
+
+#### Issue: Optimization storage corruption
+```
+JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+```
+
+**Solutions:**
+
+**A. Check and repair storage files:**
+```python
+import json
+from pathlib import Path
+
+storage_files = [
+    "optimization_results/lcdm_optimized.json",
+    "optimization_results/pbuf_optimized.json"
+]
+
+for file_path in storage_files:
+    if Path(file_path).exists():
+        try:
+            with open(file_path) as f:
+                data = json.load(f)
+            print(f"✓ {file_path} is valid")
+        except json.JSONDecodeError:
+            print(f"❌ {file_path} is corrupted")
+            # Backup and remove corrupted file
+            backup_path = f"{file_path}.backup"
+            Path(file_path).rename(backup_path)
+            print(f"Moved corrupted file to {backup_path}")
+```
+
+**B. Rebuild from defaults:**
+```python
+from pipelines.fit_core.parameter_store import OptimizedParameterStore
+
+store = OptimizedParameterStore()
+
+# This will rebuild storage from defaults if files are missing
+lcdm_params = store.get_model_defaults("lcdm")
+pbuf_params = store.get_model_defaults("pbuf")
+
+print("Storage rebuilt from defaults")
+```
+
+### 4. Optimization Workflow Issues
+
+#### Issue: Optimization takes too long
+```
+# CMB optimization running for hours
+```
+
+**Solutions:**
+
+**A. Use faster convergence criteria:**
+```python
+# Relax convergence tolerance
+result = run_fit(
+    model="pbuf",
+    datasets_list=["cmb"],
+    optimization_params=["k_sat", "alpha"],
+    convergence_tolerance=1e-4  # Less strict than default 1e-6
+)
+```
+
+**B. Optimize fewer parameters:**
+```bash
+# Start with key parameters only
+python fit_cmb.py --model pbuf --optimize k_sat
+# Then add more if needed
+python fit_cmb.py --model pbuf --optimize k_sat,alpha --warm-start
+```
+
+**C. Use covariance scaling for faster testing:**
+```bash
+# Scale up covariance for faster (less precise) optimization
+python fit_cmb.py --model pbuf --optimize k_sat,alpha --cov-scale 2.0
+```
+
+### 5. Legacy Optimization Issues
 
 #### Issue: "Degrees of freedom cannot be negative"
 ```

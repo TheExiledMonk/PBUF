@@ -1,0 +1,53 @@
+{
+  "defaults": {
+    "H0": 67.4,
+    "Om0": 0.315,
+    "Obh2": 0.02237,
+    "ns": 0.9649,
+    "Neff": 3.046,
+    "Tcmb": 2.7255,
+    "recomb_method": "PLANCK18",
+    "alpha": 0.0005,
+    "Rmax": 1000000000.0,
+    "eps0": 0.7,
+    "n_eps": 0.0,
+    "k_sat": 0.9762
+  },
+  "optimization_metadata": {
+    "initialized": "2025-10-22T09:38:27.134412+00:00",
+    "source": "hardcoded_defaults",
+    "optimization_timestamp": null,
+    "source_dataset": "cmb",
+    "optimized_params": [
+      "H0",
+      "Om0",
+      "k_sat"
+    ],
+    "chi2_improvement": 0.0,
+    "convergence_status": "success",
+    "optimizer_info": {
+      "method": "L-BFGS-B",
+      "library": "scipy",
+      "version": "unknown",
+      "scipy_version": "unknown",
+      "numpy_version": "2.3.2",
+      "python_version": "3.12.3",
+      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+      "architecture": "64bit",
+      "processor": "x86_64",
+      "config_checksum": "9e59b314",
+      "covariance_scaling": "1.0",
+      "provenance_timestamp": "2025-10-22T18:40:18.958092+00:00"
+    },
+    "covariance_scaling": 1.0,
+    "final_chi2": 10.5,
+    "last_updated": "2025-10-22T18:40:18.958357+00:00",
+    "source_model": "lcdm",
+    "propagated_params": [
+      "H0",
+      "Om0"
+    ],
+    "propagation_timestamp": "2025-10-22T18:40:18Z",
+    "propagation_reason": "cmb_optimization_cross_model_sync"
+  }
+}

@@ -13,6 +13,7 @@ from typing import Dict, Any, Optional
 from fit_core import engine
 from fit_core.parameter import ParameterDict
 from fit_core import integrity
+from fit_core.parameter_store import OptimizedParameterStore
 
 
 def main():
@@ -85,8 +86,8 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--model", 
         choices=["lcdm", "pbuf"], 
-        default="pbuf",
-        help="Cosmological model to fit"
+        required=True,
+        help="Cosmological model to fit (required)"
     )
     
     # Common cosmological parameters
@@ -131,7 +132,7 @@ def run_sn_fit(
     integrity_tolerance: float = 1e-4
 ) -> Dict[str, Any]:
     """
-    Execute supernova fitting using unified engine.
+    Execute supernova fitting using unified engine with automatic optimized parameter usage.
     
     Args:
         model: Model type ("lcdm" or "pbuf")
@@ -140,8 +141,45 @@ def run_sn_fit(
         integrity_tolerance: Tolerance for physics consistency checks
         
     Returns:
-        Complete results dictionary
+        Complete results dictionary with parameter source information
+        
+    Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 8.1, 8.2, 8.3, 8.4, 8.5
     """
+    # Initialize parameter store to get optimized parameters
+    param_store = OptimizedParameterStore()
+    
+    # Get optimized parameters (or defaults if no optimization has been performed)
+    base_params = param_store.get_model_defaults(model)
+    
+    # Check if parameters have been optimized
+    is_cmb_optimized = param_store.is_optimized(model, "cmb")
+    
+    # Apply any parameter overrides on top of optimized/default values
+    if overrides:
+        base_params.update(overrides)
+        print(f"Applied {len(overrides)} parameter override(s)")
+    
+    # Log parameter source information
+    if is_cmb_optimized:
+        print(f"Using CMB-optimized parameters for {model.upper()} model")
+    else:
+        print(f"Using default parameters for {model.upper()} model (no CMB optimization found)")
+    
+    # Validate that optimized parameters are being used if available
+    if is_cmb_optimized:
+        optimization_history = param_store.get_optimization_history(model)
+        if optimization_history:
+            latest_optimization = optimization_history[0]
+            print(f"Latest optimization: {latest_optimization.timestamp} (dataset: {latest_optimization.dataset})")
+            print(f"Optimized parameters: {', '.join(latest_optimization.optimized_params)}")
+    
+    # Store parameter source metadata for result reporting
+    parameter_source_info = {
+        "source": "cmb_optimized" if is_cmb_optimized else "defaults",
+        "cmb_optimized": is_cmb_optimized,
+        "overrides_applied": len(overrides) if overrides else 0,
+        "override_params": list(overrides.keys()) if overrides else []
+    }
     # Run integrity checks if requested
     if verify_integrity:
         print("Running integrity checks...")
@@ -166,13 +204,16 @@ def run_sn_fit(
             print("Warning: Some integrity checks failed")
             return {"error": "Integrity checks failed", "integrity_results": integrity_results}
     
-    # Execute supernova fitting using unified engine
+    # Execute supernova fitting using unified engine with optimized parameters
     results = engine.run_fit(
         model=model,
         datasets_list=["sn"],
         mode="individual",
-        overrides=overrides
+        overrides=base_params  # Use optimized parameters as base
     )
+    
+    # Add parameter source information to results
+    results["parameter_source"] = parameter_source_info
     
     return results
 
@@ -241,10 +282,12 @@ def print_integrity_report(integrity_results: Dict[str, Any]) -> None:
 
 def print_human_readable_results(results: Dict[str, Any]) -> None:
     """
-    Print results in human-readable format.
+    Print results in human-readable format with parameter source information.
     
     Args:
         results: Results dictionary from engine.run_fit()
+        
+    Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 8.1, 8.2, 8.3, 8.4, 8.5
     """
     print("=" * 60)
     print("SUPERNOVA FITTING RESULTS")
@@ -252,8 +295,25 @@ def print_human_readable_results(results: Dict[str, Any]) -> None:
     
     # Print model and parameters
     params = results.get("params", {})
+    parameter_source = results.get("parameter_source", {})
+    
     print(f"Model: {params.get('model_class', 'unknown')}")
-    print("\nOptimized Parameters:")
+    
+    # Show parameter source information
+    source = parameter_source.get("source", "unknown")
+    cmb_optimized = parameter_source.get("cmb_optimized", False)
+    overrides_applied = parameter_source.get("overrides_applied", 0)
+    
+    if cmb_optimized:
+        print(f"Parameter Source: CMB-optimized defaults")
+    else:
+        print(f"Parameter Source: Hardcoded defaults (no CMB optimization)")
+    
+    if overrides_applied > 0:
+        override_params = parameter_source.get("override_params", [])
+        print(f"Overrides Applied: {overrides_applied} parameter(s) ({', '.join(override_params)})")
+    
+    print("\nParameters:")
     
     # Core parameters
     core_params = ["H0", "Om0", "Obh2", "ns"]
@@ -273,11 +333,19 @@ def print_human_readable_results(results: Dict[str, Any]) -> None:
     # Fit statistics
     metrics = results.get("metrics", {})
     print(f"\nFit Statistics:")
-    print(f"  χ²       = {metrics.get('total_chi2', 'N/A'):.3f}")
-    print(f"  AIC      = {metrics.get('aic', 'N/A'):.3f}")
-    print(f"  BIC      = {metrics.get('bic', 'N/A'):.3f}")
-    print(f"  DOF      = {metrics.get('dof', 'N/A')}")
-    print(f"  p-value  = {metrics.get('p_value', 'N/A'):.6f}")
+    
+    # Format numeric values safely
+    chi2 = metrics.get('total_chi2')
+    aic = metrics.get('aic')
+    bic = metrics.get('bic')
+    dof = metrics.get('dof')
+    p_value = metrics.get('p_value')
+    
+    print(f"  χ²       = {chi2:.3f}" if isinstance(chi2, (int, float)) else "  χ²       = N/A")
+    print(f"  AIC      = {aic:.3f}" if isinstance(aic, (int, float)) else "  AIC      = N/A")
+    print(f"  BIC      = {bic:.3f}" if isinstance(bic, (int, float)) else "  BIC      = N/A")
+    print(f"  DOF      = {dof}" if dof is not None else "  DOF      = N/A")
+    print(f"  p-value  = {p_value:.6f}" if isinstance(p_value, (int, float)) else "  p-value  = N/A")
     
     # Supernova-specific results
     sn_results = results.get("results", {}).get("sn", {})

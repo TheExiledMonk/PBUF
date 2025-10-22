@@ -19,7 +19,9 @@ def test_real_integration_lcdm():
     expected_meta = {"model_class"}
     
     expected_all = expected_base | expected_derived | expected_meta
-    assert set(result.keys()) == expected_all
+    # Allow extra metadata keys that start with underscore
+    actual_keys = {k for k in result.keys() if not k.startswith('_')}
+    assert actual_keys == expected_all
     
     # Verify model metadata
     assert result["model_class"] == "lcdm"
@@ -46,7 +48,9 @@ def test_real_integration_pbuf():
     expected_meta = {"model_class"}
     
     expected_all = expected_base | expected_pbuf | expected_derived | expected_meta
-    assert set(result.keys()) == expected_all
+    # Allow extra metadata keys that start with underscore
+    actual_keys = {k for k in result.keys() if not k.startswith('_')}
+    assert actual_keys == expected_all
     
     # Verify model metadata
     assert result["model_class"] == "pbuf"

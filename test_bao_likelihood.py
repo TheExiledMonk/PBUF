@@ -37,7 +37,6 @@ def test_bao_likelihood():
     assert "DV_over_rs" in predictions, "Predictions should contain DV_over_rs"
     
     print("✓ Isotropic BAO likelihood test passed!")
-    return chi2, predictions
 
 def test_bao_ani_likelihood():
     """Test anisotropic BAO likelihood computation."""
@@ -61,11 +60,10 @@ def test_bao_ani_likelihood():
     assert isinstance(chi2, float), "Chi-squared should be a float"
     assert chi2 >= 0, "Chi-squared should be non-negative"
     assert isinstance(predictions, dict), "Predictions should be a dictionary"
-    assert "DM_over_rs" in predictions, "Predictions should contain DM_over_rs"
-    assert "H_times_rs" in predictions, "Predictions should contain H_times_rs"
+    assert "DM_over_rd" in predictions, "Predictions should contain DM_over_rd"
+    assert "DH_over_rd" in predictions, "Predictions should contain DH_over_rd"
     
     print("✓ Anisotropic BAO likelihood test passed!")
-    return chi2, predictions
 
 if __name__ == "__main__":
     test_bao_likelihood()

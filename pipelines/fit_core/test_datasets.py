@@ -97,24 +97,24 @@ class TestDatasetLoading(unittest.TestCase):
         # Check structure
         self.assertEqual(data["dataset_type"], "bao_ani")
         
-        # Check anisotropic BAO observations
+        # Check anisotropic BAO observations (updated format)
         obs = data["observations"]
         self.assertIn("redshift", obs)
-        self.assertIn("DM_over_rs", obs)
-        self.assertIn("H_times_rs", obs)
+        self.assertIn("DM_over_rd", obs)
+        self.assertIn("DH_over_rd", obs)
         
         # Verify arrays have same length
         redshifts = np.asarray(obs["redshift"])
-        dm_ratios = np.asarray(obs["DM_over_rs"])
-        h_ratios = np.asarray(obs["H_times_rs"])
+        dm_ratios = np.asarray(obs["DM_over_rd"])
+        dh_ratios = np.asarray(obs["DH_over_rd"])
         
         self.assertEqual(len(redshifts), len(dm_ratios))
-        self.assertEqual(len(redshifts), len(h_ratios))
+        self.assertEqual(len(redshifts), len(dh_ratios))
         
         # Check reasonable values
         self.assertTrue(np.all(redshifts > 0))
         self.assertTrue(np.all(dm_ratios > 0))
-        self.assertTrue(np.all(h_ratios > 0))
+        self.assertTrue(np.all(dh_ratios > 0))
         
         # Check covariance dimensions (2N x 2N for N redshift bins)
         cov = data["covariance"]
@@ -428,7 +428,7 @@ class TestDatasetMetadata(unittest.TestCase):
         
         self.assertEqual(metadata["dataset_type"], "bao_ani")
         self.assertIn("dm_ratio_range", metadata)
-        self.assertIn("h_ratio_range", metadata)
+        self.assertIn("dh_ratio_range", metadata)
         self.assertIn("observable_types", metadata)
         self.assertEqual(metadata["observable_types"], ["transverse_bao", "radial_bao"])
     

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unified Fit Comparison with Optimization</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #fdfdfd; color: #222; }
+    h1, h2, h3 { color: #0b3d91; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    .warning { border: 2px solid #ff6f00; background: #fff4e5; padding: 1rem; margin-bottom: 1.5rem; }
+    .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 12px; color: #fff; font-size: 0.85rem; }
+    .badge.inconclusive { background: #6c757d; }
+    .badge.weak { background: #17a2b8; }
+    .badge.moderate { background: #ffc107; color: #111; }
+    .badge.strong { background: #dc3545; }
+    .badge.optimized { background: #28a745; }
+    .badge.default { background: #6c757d; }
+    .badge.error { background: #dc3545; }
+    .badge.consistent { background: #28a745; }
+    .badge.divergent { background: #ffc107; color: #111; }
+    .figure-links ul { columns: 2; -webkit-columns: 2; -moz-columns: 2; }
+    .optimization-section { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
+    .optimization-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .optimization-card { background: white; border: 1px solid #dee2e6; border-radius: 6px; padding: 1rem; }
+    .optimization-stats { display: flex; justify-content: space-around; text-align: center; margin: 1rem 0; }
+    .stat-item { flex: 1; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; color: #0b3d91; }
+    .stat-label { font-size: 0.9rem; color: #666; }
+    .param-indicator { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+    .param-indicator.optimized { background: #28a745; }
+    .param-indicator.fixed { background: #6c757d; }
+    footer { margin-top: 2rem; font-size: 0.85rem; color: #555; }
+  </style>
+</head>
+<body>
+  <h1>{{ header.title }}</h1>
+  <p>{{ header.subtitle }}</p>
+
+  {% if header.mock_warning %}
+    <div class="warning">
+      <strong>Mock Data Warning:</strong> At least one input run is flagged as mock. Interpret comparisons cautiously.
+    </div>
+  {% endif %}
+
+  {% if optimization_data and optimization_data.optimization_enabled %}
+    <section class="optimization-section">
+      <h2>Parameter Optimization Summary</h2>
+      
+      {% if optimization_data.error %}
+        <div class="warning">
+          <strong>Optimization Error:</strong> {{ optimization_data.error }}
+        </div>
+      {% else %}
+        
+        <div class="optimization-stats">
+          <div class="stat-item">
+            <div class="stat-value">{{ optimization_data.summary_stats.models_optimized }}/2</div>
+            <div class="stat-label">Models Optimized</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ "%.1f"|format(optimization_data.summary_stats.optimization_coverage) }}%</div>
+            <div class="stat-label">Coverage</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ "%.3f"|format(optimization_data.summary_stats.total_chi2_improvement) }}</div>
+            <div class="stat-label">Total Δχ² Improvement</div>
+          </div>
+          <div class="stat-item">
+            <span class="badge {{ optimization_data.cross_model_status }}">
+              {% if optimization_data.cross_model_status == "consistent" %}
+                Consistent
+              {% elif optimization_data.cross_model_status == "divergent" %}
+                Divergent
+              {% else %}
+                Unknown
+              {% endif %}
+            </span>
+            <div class="stat-label">Cross-Model Status</div>
+          </div>
+        </div>
+
+        <div class="optimization-grid">
+          {% for model_name, model_data in optimization_data.models.items() %}
+            <div class="optimization-card">
+              <h3>{{ model_name.upper() }} Model 
+                <span class="badge {{ model_data.status }}">
+                  {% if model_data.status == "optimized" %}
+                    Optimized
+                  {% elif model_data.status == "default" %}
+                    Default
+                  {% else %}
+                    Error
+                  {% endif %}
+                </span>
+              </h3>
+              
+              {% if model_data.status == "error" %}
+                <p style="color: #dc3545;">{{ model_data.error_message }}</p>
+              {% elif model_data.status == "optimized" %}
+                <p><strong>Last Optimization:</strong> {{ model_data.last_optimization_date[:10] }} ({{ model_data.last_dataset.upper() }})</p>
+                <p><strong>χ² Improvement:</strong> {{ "%.3f"|format(model_data.chi2_improvement) }}</p>
+                <p><strong>Method:</strong> {{ model_data.optimizer_method }}</p>
+                <p><strong>Status:</strong> {{ model_data.convergence_status }}</p>
+                
+                {% if model_data.optimized_params %}
+                  <p><strong>Optimized Parameters:</strong></p>
+                  <div style="margin-left: 1rem;">
+                    {% for param in model_data.optimized_params %}
+                      <span class="param-indicator optimized"></span>{{ param }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                
+                <p><small>Total optimizations: {{ model_data.optimization_count }}</small></p>
+              {% else %}
+                <p>Using default parameter values. No optimization performed.</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if optimization_data.cross_model_status == "divergent" and optimization_data.divergent_params %}
+          <div class="warning">
+            <strong>Parameter Divergence Warning:</strong> 
+            The following shared parameters show divergence between ΛCDM and PBUF models: 
+            {{ optimization_data.divergent_params|join(', ') }}. 
+            Consider re-running optimization to reduce parameter drift.
+          </div>
+        {% endif %}
+
+        {% if optimization_data.recent_activity %}
+          <h3>Recent Optimization Activity</h3>
+          <table style="font-size: 0.9rem;">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Model</th>
+                <th>Dataset</th>
+                <th>Δχ² Improvement</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for activity in optimization_data.recent_activity %}
+                <tr>
+                  <td>{{ activity.date }}</td>
+                  <td>{{ activity.model }}</td>
+                  <td>{{ activity.dataset }}</td>
+                  <td>{{ "%.3f"|format(activity.chi2_improvement) }}</td>
+                  <td>
+                    <span class="badge {% if activity.status == 'success' %}optimized{% else %}error{% endif %}">
+                      {{ activity.status }}
+                    </span>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+      {% endif %}
+    </section>
+  {% endif %}
+
+  {% if summary_table.rows %}
+    <section>
+      <h2>Δ Statistics Summary</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Δχ²</th>
+            <th>ΔAIC</th>
+            <th>ΔBIC</th>
+            <th>Verdict</th>
+            <th>Favoured</th>
+            <th>Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in summary_table.rows %}
+            <tr>
+              <td>{{ row.dataset }}</td>
+              <td>{{ row.delta_chi2|round(3) }}</td>
+              <td>{{ row.delta_aic|round(3) }}</td>
+              <td>{{ row.delta_bic|round(3) }}</td>
+              <td>{{ row.verdict }}</td>
+              <td>{{ row.favoured or "—" }}</td>
+              <td>
+                {% if row.strength %}
+                  <span class="badge {{ row.badge_class }}">{{ row.strength }}</span>
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+          {% if summary_table.joint %}
+            <tr style="background:#eef3ff;">
+              <td>{{ summary_table.joint.dataset }}</td>
+              <td>{{ summary_table.joint.delta_chi2|round(3) }}</td>
+              <td>{{ summary_table.joint.delta_aic|round(3) }}</td>
+              <td>{{ summary_table.joint.delta_bic|round(3) }}</td>
+              <td>{{ summary_table.joint.verdict }}</td>
+              <td>{{ summary_table.joint.favoured or "—" }}</td>
+              <td>
+                {% if summary_table.joint.strength %}
+                  <span class="badge {{ summary_table.joint.badge_class }}">{{ summary_table.joint.strength }}</span>
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+        {% if summary_table.global %}
+          <tfoot>
+            <tr>
+              <th>{{ summary_table.global.dataset }}</th>
+              <th>{{ summary_table.global.delta_chi2|round(3) }}</th>
+              <th>{{ summary_table.global.delta_aic|round(3) }}</th>
+              <th>{{ summary_table.global.delta_bic|round(3) }}</th>
+              <th>{{ summary_table.global.verdict }}</th>
+              <th>{{ summary_table.global.favoured or "—" }}</th>
+              <th>
+                {% if summary_table.global.strength %}
+                  <span class="badge {{ summary_table.global.badge_class }}">{{ summary_table.global.strength }}</span>
+                {% else %}
+                  —
+                {% endif %}
+              </th>
+            </tr>
+          </tfoot>
+        {% endif %}
+      </table>
+    </section>
+  {% endif %}
+
+  {% for block in dataset_blocks %}
+    <section>
+      <h2>{{ block.dataset }}{% if block.release_tag %} — {{ block.release_tag }}{% endif %}</h2>
+      <p><strong>Conclusion:</strong> {{ block.conclusion }}
+        {% if block.comparison %}
+          <span class="badge {{ block.comparison.strength|lower }}">{{ block.comparison.strength }}</span>
+        {% endif %}
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Model</th>
+            <th>χ²/dof</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>p-value</th>
+            <th>Parameters</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for run in block.runs %}
+            <tr>
+              <td><a href="{{ run.get('result_path', '#') }}">{{ run.run_id }}</a></td>
+              <td>{{ run.model }}</td>
+              <td>{{ run.metrics.chi2_dof|default('—')|round(3) }}</td>
+              <td>{{ run.metrics.AIC|default('—')|round(3) }}</td>
+              <td>{{ run.metrics.BIC|default('—')|round(3) }}</td>
+              <td>{{ run.metrics.p_value_fmt }}</td>
+              <td>
+                {% if optimization_data and optimization_data.models.get(run.model.lower()) %}
+                  {% set model_opt = optimization_data.models[run.model.lower()] %}
+                  {% if model_opt.status == "optimized" %}
+                    <span class="param-indicator optimized" title="Optimized parameters"></span>Optimized
+                  {% else %}
+                    <span class="param-indicator fixed" title="Default parameters"></span>Default
+                  {% endif %}
+                {% else %}
+                  <span class="param-indicator fixed" title="Default parameters"></span>Default
+                {% endif %}
+              </td>
+              <td>
+                {% if run.report_path %}
+                  <a href="{{ run.report_path }}">HTML</a>
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+        
+            {# ---- Add detailed component breakdown (SN, BAO, BAO_ANI, CMB) ---- #}
+            {% if run.metrics._components %}
+              <tr style="background:#fafafa;">
+                <td colspan="8" style="font-size:0.9em; color:#333;">
+                  <em>χ² breakdown:</em>
+                  {% set parts = [] %}
+                  {% for label, comp in run.metrics._components.items() %}
+                    {% if comp.chi2 is defined %}
+                      {% set entry = label|upper ~ " = " ~ ("%0.2f"|format(comp.chi2)) %}
+                      {% set _ = parts.append(entry) %}
+                    {% endif %}
+                  {% endfor %}
+                  {{ parts|join(', ') }}
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+        
+      </table>
+
+      {% if block.comparison %}
+        <ul>
+          <li>Δχ²: {{ block.comparison.delta_chi2 }}</li>
+          <li>ΔAIC: {{ block.comparison.delta_aic }}</li>
+          <li>ΔBIC: {{ block.comparison.delta_bic }}</li>
+        </ul>
+      {% endif %}
+
+      {% if block.cmb_rows %}
+        <h3>CMB Distance Priors</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>100θ*</th>
+              <th>lA</th>
+              <th>R</th>
+              <th>Ω_b h²</th>
+              <th>n_s</th>
+              <th>Residuals (σ)</th>
+              <th>Optimization</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in block.cmb_rows %}
+              <tr>
+                <td>{{ row.model }}</td>
+                <td>{{ row.theta100 }}</td>
+                <td>{{ row.lA }}</td>
+                <td>{{ row.R }}</td>
+                <td>{{ row.Omegabh2 }}</td>
+                <td>{{ row.ns }}</td>
+                <td>
+                  R: {{ row.residuals['R'] }};
+                  lA: {{ row.residuals['lA'] }};
+                  Ω_b h²: {{ row.residuals['Omegabh2'] }};
+                  n_s: {{ row.residuals['ns'] }}
+                </td>
+                <td>
+                  {% if optimization_data and optimization_data.models.get(row.model.lower()) %}
+                    {% set model_opt = optimization_data.models[row.model.lower()] %}
+                    {% if model_opt.status == "optimized" %}
+                      <span class="badge optimized">Optimized</span>
+                      <br><small>Δχ²: {{ "%.3f"|format(model_opt.chi2_improvement) }}</small>
+                    {% else %}
+                      <span class="badge default">Default</span>
+                    {% endif %}
+                  {% else %}
+                    <span class="badge default">Default</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+
+      <div class="figure-links">
+        <h4>Figure Gallery</h4>
+        <ul>
+          {% for figure in block.figures %}
+            <li><a href="{{ figure.path }}">{{ figure.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+  {% endfor %}
+
+  <footer>
+    <p>Generated: {{ footer.generated }}<br>
+       Code version: {{ footer.version }}<br>
+       Commit: {{ footer.commit }}
+       {% if optimization_data and optimization_data.optimization_enabled %}
+         <br>Optimization summary: <a href="reports/optimization_summary.json">JSON</a>
+       {% endif %}
+    </p>
+  </footer>
+</body>
+</html>

@@ -24,6 +24,7 @@ from . import statistics
 from . import logging_utils
 from . import integrity
 from . import cmb_priors
+from . import optimizer
 
 __all__ = [
     # Type definitions
@@ -40,5 +41,6 @@ __all__ = [
     "statistics",
     "logging_utils",
     "integrity",
-    "cmb_priors"
+    "cmb_priors",
+    "optimizer"
 ]

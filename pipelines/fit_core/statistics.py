@@ -118,6 +118,7 @@ def compute_metrics(
     
     return {
         "chi2": float(chi2),
+        "total_chi2": float(chi2),  # Alias for backward compatibility
         "chi2_reduced": float(chi2_reduced),
         "aic": float(aic),
         "bic": float(bic),

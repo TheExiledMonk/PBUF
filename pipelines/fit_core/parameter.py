@@ -3,11 +3,53 @@ Centralized parameter management for PBUF cosmology fitting.
 
 This module provides the single source of truth for all cosmological parameters,
 ensuring consistent parameter handling across all fitters and eliminating parameter drift.
+Includes optimization metadata support for selective parameter optimization.
 """
 
-from typing import Dict, Optional, Any
+from typing import Dict, Optional, Any, List, Tuple, Union
+from dataclasses import dataclass
 from . import ParameterDict
 from . import cmb_priors
+
+
+@dataclass
+class OptimizationMetadata:
+    """Metadata for parameter optimization configuration and results."""
+    is_optimizable: bool = False
+    optimization_bounds: Optional[Tuple[float, float]] = None
+    is_currently_optimized: bool = False
+    optimization_source: Optional[str] = None  # e.g., "cmb", "bao", "joint"
+    last_optimized: Optional[str] = None  # ISO timestamp
+    optimization_method: Optional[str] = None  # e.g., "L-BFGS-B"
+
+
+@dataclass
+class ParameterInfo:
+    """Complete parameter information including value and optimization metadata."""
+    value: Union[float, int, str]
+    metadata: OptimizationMetadata
+
+
+# Parameter classification by model - defines which parameters can be optimized
+OPTIMIZABLE_PARAMETERS: Dict[str, List[str]] = {
+    "lcdm": ["H0", "Om0", "Obh2", "ns"],
+    "pbuf": ["H0", "Om0", "Obh2", "ns", "alpha", "Rmax", "eps0", "n_eps", "k_sat"]
+}
+
+# Physical bounds for optimization - used for bounded optimization algorithms
+OPTIMIZATION_BOUNDS: Dict[str, Tuple[float, float]] = {
+    # Common ΛCDM parameters
+    "H0": (20.0, 150.0),      # Hubble constant (km/s/Mpc)
+    "Om0": (0.01, 0.99),      # Matter density fraction
+    "Obh2": (0.005, 0.1),    # Physical baryon density
+    "ns": (0.5, 1.5),        # Scalar spectral index
+    # PBUF-specific parameters
+    "alpha": (1e-6, 1e-2),    # Elasticity amplitude
+    "Rmax": (1e6, 1e12),     # Saturation length scale
+    "eps0": (0.0, 2.0),      # Elasticity bias term
+    "n_eps": (-2.0, 2.0),    # Evolution exponent
+    "k_sat": (0.1, 2.0),     # Saturation coefficient
+}
 
 # Default parameter values for both ΛCDM and PBUF models
 DEFAULTS: Dict[str, ParameterDict] = {
@@ -39,18 +81,23 @@ DEFAULTS: Dict[str, ParameterDict] = {
 }
 
 
-def build_params(model: str, overrides: Optional[ParameterDict] = None) -> ParameterDict:
+def build_params(
+    model: str, 
+    overrides: Optional[ParameterDict] = None,
+    optimize_params: Optional[List[str]] = None
+) -> ParameterDict:
     """
-    Build parameter dictionary for specified model with optional overrides.
+    Build parameter dictionary for specified model with optional overrides and optimization metadata.
     
     Args:
         model: Model type ("lcdm" or "pbuf")
         overrides: Optional parameter overrides to apply
+        optimize_params: Optional list of parameters to mark for optimization
         
     Returns:
-        Complete parameter dictionary with derived quantities
+        Complete parameter dictionary with derived quantities and optimization metadata
         
-    Requirements: 1.1, 1.2, 1.3, 1.4, 1.5
+    Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
     """
     if model not in DEFAULTS:
         raise ValueError(f"Unknown model type: {model}. Must be 'lcdm' or 'pbuf'")
@@ -73,6 +120,14 @@ def build_params(model: str, overrides: Optional[ParameterDict] = None) -> Param
     
     # Add model metadata
     params["model_class"] = model
+    
+    # Add optimization metadata
+    optimization_metadata = create_parameter_metadata(model, optimize_params)
+    params["_optimization_metadata"] = optimization_metadata
+    
+    # Add parameter classification
+    classification = classify_parameters(model, optimize_params)
+    params["_parameter_classification"] = classification
     
     return params
 
@@ -254,3 +309,236 @@ def apply_overrides(base_params: ParameterDict, overrides: ParameterDict) -> Par
         result[key] = value
     
     return result
+
+
+def get_optimizable_parameters(model: str) -> List[str]:
+    """
+    Get list of parameters that can be optimized for the specified model.
+    
+    Args:
+        model: Model type ("lcdm" or "pbuf")
+        
+    Returns:
+        List of parameter names that can be optimized
+        
+    Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
+    """
+    if model not in OPTIMIZABLE_PARAMETERS:
+        raise ValueError(f"Unknown model type: {model}. Must be 'lcdm' or 'pbuf'")
+    
+    return OPTIMIZABLE_PARAMETERS[model].copy()
+
+
+def get_optimization_bounds(model: str, parameter: str) -> Tuple[float, float]:
+    """
+    Get optimization bounds for a specific parameter.
+    
+    Args:
+        model: Model type ("lcdm" or "pbuf")
+        parameter: Parameter name
+        
+    Returns:
+        Tuple of (min_value, max_value) for optimization bounds
+        
+    Raises:
+        ValueError: If parameter is not optimizable for the model
+        
+    Requirements: 1.1, 1.2, 1.3, 1.6
+    """
+    if model not in OPTIMIZABLE_PARAMETERS:
+        raise ValueError(f"Unknown model type: {model}. Must be 'lcdm' or 'pbuf'")
+    
+    if parameter not in OPTIMIZABLE_PARAMETERS[model]:
+        raise ValueError(
+            f"Parameter '{parameter}' is not optimizable for {model} model. "
+            f"Optimizable parameters: {OPTIMIZABLE_PARAMETERS[model]}"
+        )
+    
+    if parameter not in OPTIMIZATION_BOUNDS:
+        raise ValueError(f"No optimization bounds defined for parameter '{parameter}'")
+    
+    return OPTIMIZATION_BOUNDS[parameter]
+
+
+def validate_optimization_request(model: str, optimize_params: List[str]) -> bool:
+    """
+    Validate that requested parameters can be optimized for the specified model.
+    
+    Args:
+        model: Model type ("lcdm" or "pbuf")
+        optimize_params: List of parameter names to optimize
+        
+    Returns:
+        True if all parameters are valid for optimization
+        
+    Raises:
+        ValueError: If any parameter is invalid for optimization
+        
+    Requirements: 1.1, 1.2, 1.3, 1.6
+    """
+    if model not in OPTIMIZABLE_PARAMETERS:
+        raise ValueError(f"Unknown model type: {model}. Must be 'lcdm' or 'pbuf'")
+    
+    optimizable = set(OPTIMIZABLE_PARAMETERS[model])
+    requested = set(optimize_params)
+    
+    # Check for invalid parameters
+    invalid_params = requested - optimizable
+    if invalid_params:
+        raise ValueError(
+            f"Invalid optimization parameters for {model} model: {invalid_params}. "
+            f"Valid parameters: {sorted(optimizable)}"
+        )
+    
+    # Validate bounds exist for all requested parameters
+    missing_bounds = []
+    for param in optimize_params:
+        if param not in OPTIMIZATION_BOUNDS:
+            missing_bounds.append(param)
+    
+    if missing_bounds:
+        raise ValueError(f"No optimization bounds defined for parameters: {missing_bounds}")
+    
+    return True
+
+
+def create_parameter_metadata(
+    model: str, 
+    optimize_params: Optional[List[str]] = None
+) -> Dict[str, OptimizationMetadata]:
+    """
+    Create optimization metadata for all parameters in a model.
+    
+    Args:
+        model: Model type ("lcdm" or "pbuf")
+        optimize_params: List of parameters to mark as optimizable (optional)
+        
+    Returns:
+        Dictionary mapping parameter names to optimization metadata
+        
+    Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
+    """
+    if model not in DEFAULTS:
+        raise ValueError(f"Unknown model type: {model}. Must be 'lcdm' or 'pbuf'")
+    
+    optimize_set = set(optimize_params) if optimize_params else set()
+    
+    # Validate optimization request if parameters specified
+    if optimize_params:
+        validate_optimization_request(model, optimize_params)
+    
+    metadata = {}
+    
+    for param_name in DEFAULTS[model]:
+        # Skip non-numeric parameters
+        if isinstance(DEFAULTS[model][param_name], str):
+            metadata[param_name] = OptimizationMetadata(
+                is_optimizable=False,
+                optimization_bounds=None
+            )
+            continue
+        
+        # Check if parameter is optimizable for this model
+        is_optimizable = param_name in OPTIMIZABLE_PARAMETERS.get(model, [])
+        
+        # Get bounds if parameter is optimizable
+        bounds = None
+        if is_optimizable and param_name in OPTIMIZATION_BOUNDS:
+            bounds = OPTIMIZATION_BOUNDS[param_name]
+        
+        # Check if currently being optimized
+        is_currently_optimized = param_name in optimize_set
+        
+        metadata[param_name] = OptimizationMetadata(
+            is_optimizable=is_optimizable,
+            optimization_bounds=bounds,
+            is_currently_optimized=is_currently_optimized
+        )
+    
+    return metadata
+
+
+def classify_parameters(
+    model: str, 
+    optimize_params: Optional[List[str]] = None
+) -> Dict[str, List[str]]:
+    """
+    Classify parameters into optimizable, fixed, and currently optimized categories.
+    
+    Args:
+        model: Model type ("lcdm" or "pbuf")
+        optimize_params: List of parameters to optimize (optional)
+        
+    Returns:
+        Dictionary with keys: 'optimizable', 'fixed', 'currently_optimized'
+        
+    Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
+    """
+    if model not in DEFAULTS:
+        raise ValueError(f"Unknown model type: {model}. Must be 'lcdm' or 'pbuf'")
+    
+    optimize_set = set(optimize_params) if optimize_params else set()
+    
+    # Validate optimization request if parameters specified
+    if optimize_params:
+        validate_optimization_request(model, optimize_params)
+    
+    all_params = set(DEFAULTS[model].keys())
+    optimizable_params = set(OPTIMIZABLE_PARAMETERS.get(model, []))
+    
+    # Filter out non-numeric parameters from optimizable set
+    numeric_params = {
+        name for name, value in DEFAULTS[model].items() 
+        if isinstance(value, (int, float))
+    }
+    optimizable_params = optimizable_params & numeric_params
+    
+    classification = {
+        'optimizable': sorted(optimizable_params),
+        'fixed': sorted(all_params - optimizable_params),
+        'currently_optimized': sorted(optimize_set)
+    }
+    
+    return classification
+
+
+def get_optimization_bounds_dict(model: str, optimize_params: List[str]) -> Dict[str, Tuple[float, float]]:
+    """
+    Get optimization bounds for multiple parameters as a dictionary.
+    
+    Args:
+        model: Model type ("lcdm" or "pbuf")
+        optimize_params: List of parameter names to get bounds for
+        
+    Returns:
+        Dictionary mapping parameter names to (min, max) bounds tuples
+        
+    Requirements: 1.1, 1.2, 1.3, 1.6
+    """
+    # Validate the optimization request first
+    validate_optimization_request(model, optimize_params)
+    
+    bounds_dict = {}
+    for param in optimize_params:
+        bounds_dict[param] = get_optimization_bounds(model, param)
+    
+    return bounds_dict
+
+
+def is_parameter_optimizable(model: str, parameter: str) -> bool:
+    """
+    Check if a parameter can be optimized for the specified model.
+    
+    Args:
+        model: Model type ("lcdm" or "pbuf")
+        parameter: Parameter name to check
+        
+    Returns:
+        True if parameter can be optimized, False otherwise
+        
+    Requirements: 1.1, 1.2, 1.3
+    """
+    if model not in OPTIMIZABLE_PARAMETERS:
+        return False
+    
+    return parameter in OPTIMIZABLE_PARAMETERS[model]

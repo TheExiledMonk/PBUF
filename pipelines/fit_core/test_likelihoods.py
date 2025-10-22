@@ -203,14 +203,14 @@ class TestBAOLikelihood(unittest.TestCase):
         self.bao_ani_data = {
             "observations": {
                 "redshift": np.array([0.38, 0.51, 0.61]),
-                "DM_over_rs": np.array([10.3, 13.7, 17.0]),
-                "H_times_rs": np.array([81.2, 90.9, 99.0])
+                "DM_over_rd": np.array([10.3, 13.7, 17.0]),
+                "DH_over_rd": np.array([0.198, 0.179, 0.162])  # Proper D_H/r_d range
             },
             "covariance": np.eye(6) * 0.01,  # 2N x 2N for N redshift bins
             "metadata": {
                 "source": "BAO_anisotropic",
                 "n_data_points": 6,
-                "observables": ["DM_over_rs", "H_times_rs"]
+                "observables": ["DM_over_rd", "DH_over_rd"]
             },
             "dataset_type": "bao_ani"
         }
@@ -240,8 +240,8 @@ class TestBAOLikelihood(unittest.TestCase):
         """Test anisotropic BAO likelihood when predictions exactly match observations."""
         with patch('pipelines.fit_core.likelihoods._compute_bao_predictions') as mock_compute:
             mock_compute.return_value = {
-                "DM_over_rs": self.bao_ani_data["observations"]["DM_over_rs"],
-                "H_times_rs": self.bao_ani_data["observations"]["H_times_rs"]
+                "DM_over_rd": self.bao_ani_data["observations"]["DM_over_rd"],
+                "DH_over_rd": self.bao_ani_data["observations"]["DH_over_rd"]
             }
             
             chi2, predictions = likelihood_bao_ani(self.test_params, self.bao_ani_data)
@@ -250,8 +250,8 @@ class TestBAOLikelihood(unittest.TestCase):
             self.assertAlmostEqual(chi2, 0.0, places=10)
             
             # Check predictions structure
-            self.assertIn("DM_over_rs", predictions)
-            self.assertIn("H_times_rs", predictions)
+            self.assertIn("DM_over_rd", predictions)
+            self.assertIn("DH_over_rd", predictions)
     
     def test_bao_predictions_isotropic(self):
         """Test isotropic BAO predictions computation."""
@@ -274,20 +274,20 @@ class TestBAOLikelihood(unittest.TestCase):
         predictions = _compute_bao_predictions(self.test_params, isotropic=False)
         
         # Check structure
-        self.assertIn("DM_over_rs", predictions)
-        self.assertIn("H_times_rs", predictions)
+        self.assertIn("DM_over_rd", predictions)
+        self.assertIn("DH_over_rd", predictions)
         
-        dm_ratios = predictions["DM_over_rs"]
-        h_ratios = predictions["H_times_rs"]
+        dm_ratios = predictions["DM_over_rd"]
+        dh_ratios = predictions["DH_over_rd"]
         
         # Check arrays have same length
-        self.assertEqual(len(dm_ratios), len(h_ratios))
+        self.assertEqual(len(dm_ratios), len(dh_ratios))
         
         # Check reasonable values
         self.assertTrue(np.all(dm_ratios > 0))
-        self.assertTrue(np.all(h_ratios > 0))
+        self.assertTrue(np.all(dh_ratios > 0))
         self.assertTrue(np.all(dm_ratios < 50))
-        self.assertTrue(np.all(h_ratios < 200))
+        self.assertTrue(np.all(dh_ratios < 1.0))  # D_H/r_d should be < 1
     
     def test_bao_likelihood_parameter_sensitivity(self):
         """Test BAO likelihood sensitivity to cosmological parameters."""

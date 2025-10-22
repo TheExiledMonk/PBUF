@@ -43,11 +43,10 @@ def test_imports():
         import fit_core.integrity as integrity
         print("  ✅ Integrity module imported")
         
-        return True
         
     except ImportError as e:
         print(f"  ❌ Import failed: {e}")
-        return False
+        assert False, f"Import failed: {e}"
 
 def test_parameter_defaults():
     """Test that parameter defaults are accessible."""
@@ -74,17 +73,17 @@ def test_parameter_defaults():
                 else:
                     print(f"  ⚠️  Missing LCDM parameters: {missing_params}")
                 
-                return True
+                
             else:
                 print("  ❌ Missing model definitions in DEFAULTS")
-                return False
+                assert False, "Missing model definitions in DEFAULTS"
         else:
             print("  ❌ DEFAULTS dictionary not found")
-            return False
+            assert False, "DEFAULTS dictionary not found"
             
     except Exception as e:
         print(f"  ❌ Parameter test failed: {e}")
-        return False
+        assert False, f"Parameter test failed: {e}"
 
 def test_scientific_dependencies():
     """Test that scientific dependencies are available."""
@@ -92,19 +91,24 @@ def test_scientific_dependencies():
     
     try:
         import numpy as np
-        print(f"  ✅ NumPy {np.__version__} available")
+        np_version = getattr(np, '__version__', 'unknown')
+        print(f"  ✅ NumPy {np_version} available")
         
         import scipy
-        print(f"  ✅ SciPy {scipy.__version__} available")
+        scipy_version = getattr(scipy, '__version__', 'unknown')
+        print(f"  ✅ SciPy {scipy_version} available")
         
-        import matplotlib
-        print(f"  ✅ Matplotlib {matplotlib.__version__} available")
+        try:
+            import matplotlib
+            mpl_version = getattr(matplotlib, '__version__', 'unknown')
+            print(f"  ✅ Matplotlib {mpl_version} available")
+        except ImportError:
+            print(f"  ⚠️  Matplotlib not available (optional for core functionality)")
         
-        return True
         
-    except ImportError as e:
-        print(f"  ❌ Scientific dependency missing: {e}")
-        return False
+    except (ImportError, AttributeError) as e:
+        print(f"  ❌ Scientific dependency issue: {e}")
+        assert False, f"Scientific dependency issue: {e}"
 
 def main():
     """Run all tests."""

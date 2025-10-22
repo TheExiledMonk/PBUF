@@ -133,13 +133,34 @@ class ConfigurationManager:
                 section[key] = self._convert_value(value)
             self.config_data[section_name] = section
     
-    def _convert_value(self, value: str) -> Union[str, int, float, bool]:
+    def _convert_value(self, value: str) -> Union[str, int, float, bool, list]:
         """Convert string value to appropriate type."""
         # Handle boolean values
         if value.lower() in ['true', 'yes', 'on', '1']:
             return True
         elif value.lower() in ['false', 'no', 'off', '0']:
             return False
+        
+        # Handle comma-separated lists (for INI files)
+        if ',' in value:
+            # Split and strip whitespace
+            items = [item.strip() for item in value.split(',')]
+            # Try to convert each item
+            converted_items = []
+            for item in items:
+                if item.lower() in ['true', 'yes', 'on', '1']:
+                    converted_items.append(True)
+                elif item.lower() in ['false', 'no', 'off', '0']:
+                    converted_items.append(False)
+                else:
+                    try:
+                        if '.' in item or 'e' in item.lower():
+                            converted_items.append(float(item))
+                        else:
+                            converted_items.append(int(item))
+                    except ValueError:
+                        converted_items.append(item)
+            return converted_items
         
         # Try numeric conversion
         try:
@@ -249,6 +270,98 @@ class ConfigurationManager:
         """
         return self.config_data.get('datasets', {})
     
+    def get_optimization_config(self) -> Dict[str, Any]:
+        """
+        Get optimization configuration.
+        
+        Returns:
+            Dictionary with optimization settings
+        """
+        optimization_section = self.config_data.get('optimization', {})
+        
+        # Default optimization configuration
+        default_config = {
+            'optimize_parameters': [],
+            'frozen_parameters': [],
+            'use_precomputed': True,
+            'save_results': True,
+            'convergence_tolerance': 1e-6,
+            'covariance_scaling': 1.0,
+            'warm_start': False,
+            'dry_run': False
+        }
+        
+        # Merge with user configuration
+        config = default_config.copy()
+        config.update(optimization_section)
+        
+        # Validate optimization parameters
+        self._validate_optimization_config(config)
+        
+        return config
+    
+    def _validate_optimization_config(self, config: Dict[str, Any]) -> None:
+        """
+        Validate optimization configuration parameters.
+        
+        Args:
+            config: Optimization configuration dictionary
+            
+        Raises:
+            ValueError: If configuration is invalid
+        """
+        # Validate optimize_parameters is a list
+        if not isinstance(config['optimize_parameters'], list):
+            raise ValueError("optimize_parameters must be a list")
+        
+        # Validate frozen_parameters is a list
+        if not isinstance(config['frozen_parameters'], list):
+            raise ValueError("frozen_parameters must be a list")
+        
+        # Validate covariance_scaling is a positive number
+        if not isinstance(config['covariance_scaling'], (int, float)) or config['covariance_scaling'] <= 0:
+            raise ValueError("covariance_scaling must be a positive number")
+        
+        # Validate convergence_tolerance is a positive number
+        if not isinstance(config['convergence_tolerance'], (int, float)) or config['convergence_tolerance'] <= 0:
+            raise ValueError("convergence_tolerance must be a positive number")
+        
+        # Validate boolean flags
+        for flag in ['use_precomputed', 'save_results', 'warm_start', 'dry_run']:
+            if not isinstance(config[flag], bool):
+                raise ValueError(f"{flag} must be a boolean")
+        
+        # Check for conflicts between optimize_parameters and frozen_parameters
+        optimize_set = set(config['optimize_parameters'])
+        frozen_set = set(config['frozen_parameters'])
+        conflicts = optimize_set.intersection(frozen_set)
+        if conflicts:
+            raise ValueError(f"Parameters cannot be both optimized and frozen: {list(conflicts)}")
+        
+        # Validate parameter names (basic check for common parameters)
+        # Import parameter definitions to get actual valid parameters
+        try:
+            from .parameter import DEFAULTS
+            valid_lcdm_params = set(DEFAULTS.get('lcdm', {}).keys())
+            valid_pbuf_params = set(DEFAULTS.get('pbuf', {}).keys())
+            all_valid_params = valid_lcdm_params.union(valid_pbuf_params)
+        except ImportError:
+            # Fallback to hardcoded list if import fails
+            valid_lcdm_params = {'H0', 'Om0', 'Obh2', 'ns', 'Neff', 'Tcmb'}
+            valid_pbuf_params = {'H0', 'Om0', 'Obh2', 'ns', 'Neff', 'Tcmb', 'alpha', 'Rmax', 'eps0', 'n_eps', 'k_sat'}
+            all_valid_params = valid_lcdm_params.union(valid_pbuf_params)
+        
+        for param in config['optimize_parameters']:
+            if param not in all_valid_params:
+                # Issue warning but don't fail - model-specific validation will happen later
+                print(f"Warning: Unknown parameter '{param}' in optimize_parameters. "
+                      f"Valid parameters include: {sorted(all_valid_params)}")
+        
+        for param in config['frozen_parameters']:
+            if param not in all_valid_params:
+                print(f"Warning: Unknown parameter '{param}' in frozen_parameters. "
+                      f"Valid parameters include: {sorted(all_valid_params)}")
+    
     def save_config(self, output_file: str, format: str = 'json') -> None:
         """
         Save current configuration to file.
@@ -305,6 +418,16 @@ class ConfigurationManager:
                 'n_eps': 0.0,
                 'k_sat': 0.9762
             },
+            'optimization': {
+                'optimize_parameters': ['k_sat', 'alpha'],
+                'frozen_parameters': ['Neff', 'Tcmb'],
+                'use_precomputed': True,
+                'save_results': True,
+                'convergence_tolerance': 1e-6,
+                'covariance_scaling': 1.0,
+                'warm_start': False,
+                'dry_run': False
+            },
             'optimizer': {
                 'method': 'minimize',
                 'algorithm': 'L-BFGS-B',
@@ -356,6 +479,96 @@ def load_configuration(config_file: Optional[str] = None) -> ConfigurationManage
         ConfigurationManager instance
     """
     return ConfigurationManager(config_file)
+
+
+def add_optimization_arguments(parser: 'argparse.ArgumentParser') -> None:
+    """
+    Add optimization-related command-line arguments to an argument parser.
+    
+    Args:
+        parser: ArgumentParser instance to add arguments to
+    """
+    # Optimization control
+    parser.add_argument(
+        "--optimize",
+        type=str,
+        help="Comma-separated list of parameters to optimize (e.g., 'k_sat,alpha' or 'H0,Om0')"
+    )
+    
+    parser.add_argument(
+        "--cov-scale",
+        type=float,
+        default=1.0,
+        help="Covariance scaling factor for optimization (default: 1.0)"
+    )
+    
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Perform optimization without saving results to parameter store"
+    )
+    
+    parser.add_argument(
+        "--warm-start",
+        action="store_true",
+        help="Use recent optimization results as starting point if available"
+    )
+
+
+def parse_optimization_parameters(optimize_str: Optional[str]) -> list:
+    """
+    Parse optimization parameter string into list.
+    
+    Args:
+        optimize_str: Comma-separated parameter string or None
+        
+    Returns:
+        List of parameter names to optimize
+    """
+    if not optimize_str:
+        return []
+    
+    # Split by comma and strip whitespace
+    params = [param.strip() for param in optimize_str.split(',')]
+    
+    # Filter out empty strings
+    params = [param for param in params if param]
+    
+    return params
+
+
+def merge_optimization_config(
+    config_optimization: Dict[str, Any],
+    cli_args: 'argparse.Namespace'
+) -> Dict[str, Any]:
+    """
+    Merge optimization configuration from config file and command-line arguments.
+    Command-line arguments take precedence over config file settings.
+    
+    Args:
+        config_optimization: Optimization config from configuration file
+        cli_args: Parsed command-line arguments
+        
+    Returns:
+        Merged optimization configuration
+    """
+    # Start with config file settings
+    merged_config = config_optimization.copy()
+    
+    # Override with command-line arguments if provided
+    if hasattr(cli_args, 'optimize') and cli_args.optimize:
+        merged_config['optimize_parameters'] = parse_optimization_parameters(cli_args.optimize)
+    
+    if hasattr(cli_args, 'cov_scale') and cli_args.cov_scale != 1.0:
+        merged_config['covariance_scaling'] = cli_args.cov_scale
+    
+    if hasattr(cli_args, 'dry_run') and cli_args.dry_run:
+        merged_config['dry_run'] = True
+    
+    if hasattr(cli_args, 'warm_start') and cli_args.warm_start:
+        merged_config['warm_start'] = True
+    
+    return merged_config
 
 
 def find_config_file() -> Optional[str]:
@@ -411,6 +624,16 @@ EXAMPLE_JSON_CONFIG = """
     "n_eps": 0.0,
     "k_sat": 0.9762
   },
+  "optimization": {
+    "optimize_parameters": ["k_sat", "alpha"],
+    "frozen_parameters": ["Neff", "Tcmb"],
+    "use_precomputed": true,
+    "save_results": true,
+    "convergence_tolerance": 1e-6,
+    "covariance_scaling": 1.0,
+    "warm_start": false,
+    "dry_run": false
+  },
   "optimizer": {
     "method": "minimize",
     "algorithm": "L-BFGS-B",
@@ -457,6 +680,20 @@ parameters:
   n_eps: 0.0
   k_sat: 0.9762
 
+optimization:
+  optimize_parameters:
+    - k_sat
+    - alpha
+  frozen_parameters:
+    - Neff
+    - Tcmb
+  use_precomputed: true
+  save_results: true
+  convergence_tolerance: 1.0e-6
+  covariance_scaling: 1.0
+  warm_start: false
+  dry_run: false
+
 optimizer:
   method: minimize
   algorithm: L-BFGS-B
@@ -501,6 +738,16 @@ Rmax = 1e9
 eps0 = 0.7
 n_eps = 0.0
 k_sat = 0.9762
+
+[optimization]
+optimize_parameters = k_sat,alpha
+frozen_parameters = Neff,Tcmb
+use_precomputed = true
+save_results = true
+convergence_tolerance = 1e-6
+covariance_scaling = 1.0
+warm_start = false
+dry_run = false
 
 [optimizer]
 method = minimize

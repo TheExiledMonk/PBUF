@@ -273,11 +273,19 @@ def print_human_readable_results(results: Dict[str, Any]) -> None:
     # Fit statistics
     metrics = results.get("metrics", {})
     print(f"\nFit Statistics:")
-    print(f"  χ²       = {metrics.get('total_chi2', 'N/A'):.3f}")
-    print(f"  AIC      = {metrics.get('aic', 'N/A'):.3f}")
-    print(f"  BIC      = {metrics.get('bic', 'N/A'):.3f}")
-    print(f"  DOF      = {metrics.get('dof', 'N/A')}")
-    print(f"  p-value  = {metrics.get('p_value', 'N/A'):.6f}")
+    
+    # Format numeric values safely
+    chi2 = metrics.get('total_chi2')
+    aic = metrics.get('aic')
+    bic = metrics.get('bic')
+    dof = metrics.get('dof')
+    p_value = metrics.get('p_value')
+    
+    print(f"  χ²       = {chi2:.3f}" if isinstance(chi2, (int, float)) else "  χ²       = N/A")
+    print(f"  AIC      = {aic:.3f}" if isinstance(aic, (int, float)) else "  AIC      = N/A")
+    print(f"  BIC      = {bic:.3f}" if isinstance(bic, (int, float)) else "  BIC      = N/A")
+    print(f"  DOF      = {dof}" if dof is not None else "  DOF      = N/A")
+    print(f"  p-value  = {p_value:.6f}" if isinstance(p_value, (int, float)) else "  p-value  = N/A")
     
     # Anisotropic BAO-specific results
     bao_ani_results = results.get("results", {}).get("bao_ani", {})

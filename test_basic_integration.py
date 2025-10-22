@@ -54,13 +54,12 @@ def test_basic_integration():
         print("All core modules imported and basic functionality verified")
         print("="*50)
         
-        return True
         
     except Exception as e:
         print(f"\n❌ BASIC INTEGRATION TEST FAILED: {e}")
         import traceback
         traceback.print_exc()
-        return False
+        assert False, f"Basic integration test failed: {e}"
 
 if __name__ == "__main__":
     success = test_basic_integration()

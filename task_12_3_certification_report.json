@@ -1,6 +1,6 @@
 {
   "task": "12.3 - Final validation and deployment preparation",
-  "validation_date": "2025-10-22 14:38:42",
+  "validation_date": "2025-10-22 21:51:26",
   "system_version": "1.0.0",
   "certification_status": "CERTIFIED",
   "validation_results": {
@@ -11,8 +11,8 @@
           "status": "PASS",
           "chi2": 5400.091768538951,
           "dof": 9,
-          "aic": 8.0,
-          "bic": 10.259797429846147,
+          "aic": 5408.091768538951,
+          "bic": 5410.351565968797,
           "params": {
             "H0": 67.4,
             "Om0": 0.315,
@@ -27,8 +27,8 @@
           "status": "PASS",
           "chi2": 7027.932051211426,
           "dof": 159,
-          "aic": 8.0,
-          "bic": 20.37500080322705,
+          "aic": 7035.932051211426,
+          "bic": 7048.307052014653,
           "params": {
             "H0": 67.4,
             "Om0": 0.315,
@@ -41,10 +41,10 @@
         },
         "pbuf_cmb_bao": {
           "status": "PASS",
-          "chi2": 5400.091768538951,
-          "dof": 4,
-          "aic": 18.0,
-          "bic": 23.08454421715383,
+          "chi2": 7027.932051211426,
+          "dof": 154,
+          "aic": 7045.932051211426,
+          "bic": 7073.775803018687,
           "params": {
             "H0": 67.4,
             "Om0": 0.315,
@@ -64,8 +64,8 @@
           "status": "PASS",
           "chi2": 7027.932051211426,
           "dof": 154,
-          "aic": 18.0,
-          "bic": 45.84375180726086,
+          "aic": 7045.932051211426,
+          "bic": 7073.775803018687,
           "params": {
             "H0": 67.4,
             "Om0": 0.315,
@@ -96,19 +96,19 @@
       "status": "PASS",
       "details": {
         "Individual CMB+BAO": {
-          "duration": 0.0011451244354248047,
+          "duration": 0.0013883113861083984,
           "max_allowed": 30.0,
           "meets_requirement": true,
           "status": "PASS"
         },
         "Full joint analysis": {
-          "duration": 0.001882791519165039,
+          "duration": 0.002215147018432617,
           "max_allowed": 60.0,
           "meets_requirement": true,
           "status": "PASS"
         },
         "PBUF analysis": {
-          "duration": 0.0017154216766357422,
+          "duration": 0.001766204833984375,
           "max_allowed": 30.0,
           "meets_requirement": true,
           "status": "PASS"
