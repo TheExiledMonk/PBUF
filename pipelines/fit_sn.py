@@ -1,251 +1,306 @@
+#!/usr/bin/env python3
 """
-Supernova-only fitting pipeline.
+Supernova fitting wrapper script for PBUF cosmology pipeline.
 
-This script orchestrates data loading, model selection, optimisation, and
-artefact generation for a single run. It intentionally contains no physics;
-all model evaluations are delegated to modules inside `core/`.
+This script provides a thin wrapper around the unified optimization engine
+for supernova-only fitting.
 """
-
-from __future__ import annotations
 
 import argparse
-import datetime as dt
-import subprocess
-from pathlib import Path
-from typing import Dict
-
-import numpy as np
-
-from core import gr_models, pbuf_models
-from core.diagnostics import save_correlation_heatmap
-from core.pbuf_fitting import FitSettings, fit_model
-from core.pbuf_state import ModelParameters, RunState, with_defaults
-from dataio.loaders import load_dataset
-from utils import logging as log
-from utils.io import read_yaml, write_json_atomic, write_yaml_atomic
-from utils.plotting import plot_pull_distribution, plot_residuals
-from utils import parameters as param_utils
+import sys
+import json
+from typing import Dict, Any, Optional
+from fit_core import engine
+from fit_core.parameter import ParameterDict
+from fit_core import integrity
 
 
-DEFAULT_PARAMS = {
-    "lcdm": {"H0": 70.0, "Om0": 0.3},
-    "pbuf": {"H0": 70.0, "Om0": 0.3, "alpha": 5.0e-4, "Rmax": 1.0e9, "eps0": 0.7, "n_eps": 0.0},
-}
-
-
-def load_dataset_config_snapshot(name: str, datasets_cfg: dict) -> dict:
-    dataset_entries = datasets_cfg.get("datasets", {})
-    if name in dataset_entries:
-        return dataset_entries[name]
-    for entry in dataset_entries.values():
-        if isinstance(entry, dict) and name in entry:
-            return entry[name]
-    raise KeyError(f"Dataset '{name}' not found in configuration snapshot")
-
-
-def _timestamp() -> str:
-    return dt.datetime.now(dt.timezone.utc).astimezone().isoformat(timespec="seconds")
-
-
-def _run_id(tag: str) -> str:
-    return f"{tag}_{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}"
-
-
-def _git_commit() -> str:
+def main():
+    """
+    Main entry point for supernova fitting.
+    
+    Requirements: 7.1, 7.2, 7.3, 7.4, 7.5
+    """
     try:
-        output = subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL)
-        return output.decode().strip()
-    except Exception:
-        return "n/a"
-
-
-def _select_model(name: str):
-    if name == "lcdm":
-        return gr_models, DEFAULT_PARAMS["lcdm"]
-    if name == "pbuf":
-        return pbuf_models, DEFAULT_PARAMS["pbuf"]
-    raise ValueError(f"Unknown model '{name}'")
-
-
-def _save_vectors(run_dir: Path, vectors: Dict[str, np.ndarray]) -> Dict[str, str]:
-    paths: Dict[str, str] = {}
-    for key, array in vectors.items():
-        path = run_dir / f"{key}.npy"
-        np.save(path, array)
-        paths[key] = str(path.resolve())
-    return paths
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Run SN-only fits for PBUF or ΛCDM.")
-    parser.add_argument("--model", choices=["lcdm", "pbuf"], default="lcdm")
-    parser.add_argument("--dataset", default="mock_supernovae")
-    parser.add_argument("--out", default="proofs/results")
-    parser.add_argument("--chi2-surface", dest="chi2_surface", default=None, help="paramX,paramY for surface plot")
-    parser.add_argument("--grid", type=int, default=25, help="Grid resolution per axis for χ² surface")
-    parser.add_argument("--generate-report", action="store_true", help="Generate single-fit HTML report")
-    args = parser.parse_args()
-
-    log.info(f"Loading configuration and dataset '{args.dataset}'")
-    settings = read_yaml("config/settings.yml")
-    datasets_cfg = read_yaml("config/datasets.yml")
-    report_cfg = read_yaml("config/report.yml")
-
-    dataset = load_dataset(args.dataset, datasets_cfg)
-    model_module, default_params = _select_model(args.model)
-    model_name = args.model.upper()
-
-    bounds = settings.get("bounds", {})
-    fit_settings = FitSettings(
-        tolerance=settings.get("fitting", {}).get("tolerance", 1.0e-6),
-        max_iter=settings.get("fitting", {}).get("max_iter", 5000),
-        bounds=bounds,
-    )
-
-    params = with_defaults(default_params, {})
-    log.info(f"Running fit for model {model_name}")
-    fit_result = fit_model(model_module, dataset, params, fit_settings)
-    log.fit(model_name, fit_result["metrics"]["chi2"], fit_result["metrics"]["dof"])
-
-    run_tag = "SN_MOCK" if settings.get("mock") else "SN_REAL"
-    run_id = _run_id(f"{run_tag}_{model_name}")
-    run_dir = Path(args.out).resolve() / run_id
-    run_dir.mkdir(parents=True, exist_ok=True)
-
-    vectors = {
-        "z": dataset["z"],
-        "y_obs": dataset["y"],
-        "y_model": fit_result["model_y"],
-        "residuals": fit_result["residuals"],
-        "pulls": fit_result["pulls"],
-    }
-    vector_paths = _save_vectors(run_dir, vectors)
-
-    figures = {}
-    figures["residuals_vs_z"] = plot_residuals(dataset["z"], fit_result["residuals"], model_name, run_dir)
-    figures["pull_distribution"] = plot_pull_distribution(fit_result["pulls"], model_name, run_dir)
-    cov_matrix = dataset.get("cov")
-    if cov_matrix is not None and cov_matrix.size > 0:
-        figures["correlation_matrix"] = save_correlation_heatmap(cov_matrix, run_dir, model_name)
-
-    chi2_surface_meta = None
-    if args.chi2_surface:
-        from utils.chi2_surface import chi2_surface_scan
-
-        param_x, param_y = [token.strip() for token in args.chi2_surface.split(",")]
-        lower_x, upper_x = bounds.get(param_x, (params[param_x] * 0.5, params[param_x] * 1.5))
-        lower_y, upper_y = bounds.get(param_y, (params[param_y] * 0.5, params[param_y] * 1.5))
-        grid_x = np.linspace(lower_x, upper_x, args.grid)
-        grid_y = np.linspace(lower_y, upper_y, args.grid)
-        cov = dataset["cov"]
-        if cov is None and dataset.get("sigma") is not None:
-            sigma = dataset["sigma"]
-            cov = np.diag(sigma ** 2)
-        png, npy = chi2_surface_scan(
-            model_module.mu,
-            dataset["z"],
-            dataset["y"],
-            cov,
-            param_x,
-            param_y,
-            grid_x,
-            grid_y,
-            fit_result["bestfit"],
-            run_dir,
-            model_name,
+        args = parse_arguments()
+        
+        # Build parameter overrides from command line
+        overrides = {}
+        if args.H0 is not None:
+            overrides["H0"] = args.H0
+        if args.Om0 is not None:
+            overrides["Om0"] = args.Om0
+        if args.Obh2 is not None:
+            overrides["Obh2"] = args.Obh2
+        if args.ns is not None:
+            overrides["ns"] = args.ns
+        
+        # Add PBUF-specific parameters if model is pbuf
+        if args.model == "pbuf":
+            if args.alpha is not None:
+                overrides["alpha"] = args.alpha
+            if args.Rmax is not None:
+                overrides["Rmax"] = args.Rmax
+            if args.eps0 is not None:
+                overrides["eps0"] = args.eps0
+            if args.n_eps is not None:
+                overrides["n_eps"] = args.n_eps
+            if args.k_sat is not None:
+                overrides["k_sat"] = args.k_sat
+        
+        # Run supernova fitting
+        results = run_sn_fit(
+            model=args.model,
+            overrides=overrides if overrides else None,
+            verify_integrity=args.verify_integrity,
+            integrity_tolerance=args.integrity_tolerance
         )
-        figures[f"chi2_surface_{param_x}_{param_y}"] = png
-        chi2_surface_meta = npy
-        vector_paths[f"chi2_surface_{param_x}_{param_y}"] = chi2_surface_meta
+        
+        # Output results
+        if args.output_format == "json":
+            print(json.dumps(results, indent=2, default=str))
+        else:
+            print_human_readable_results(results)
+        
+        return 0
+        
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return 1
 
-    timestamp = _timestamp()
-    meta = dataset.get("meta", {})
-    dataset_info = {
-        "name": meta.get("name", args.dataset),
-        "path": meta.get("path"),
-        "covariance": meta.get("covariance"),
-        "notes": meta.get("notes"),
-        "source": meta.get("source"),
-        "release_tag": meta.get("release_tag"),
-        "raw_files": meta.get("raw_files"),
-        "prepared_at": meta.get("prepared_at"),
-        "transform_version": meta.get("transform_version"),
-        "covariance_components_used": meta.get("covariance_components_used"),
-        "z_prefer": meta.get("z_prefer"),
-        "derived_files": meta.get("derived_files"),
-    }
-    dataset_info = {key: value for key, value in dataset_info.items() if value is not None}
 
-    if model_name == "PBUF":
-        evolution_policy = {"coupling_matrix": "identity"}
-    else:
-        evolution_policy = {}
-
-    model_parameters = ModelParameters(values=fit_result["bestfit"], evolution_policy=evolution_policy)
-    run_state = RunState(
-        run_id=run_id,
-        model=model_name,
-        dataset=dataset_info,
-        parameters=model_parameters,
-        extras={"timestamp": timestamp},
+def parse_arguments() -> argparse.Namespace:
+    """
+    Parse command-line arguments for supernova fitting.
+    
+    Returns:
+        Parsed arguments namespace
+    """
+    parser = argparse.ArgumentParser(
+        description="Supernova fitting using unified PBUF cosmology pipeline",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-
-    provenance = {
-        "commit": _git_commit(),
-        "code_version": run_state.version,
-        "constants": str(Path("config/constants.py").resolve()),
-        "settings": str(Path("config/settings.yml").resolve()),
-    }
-
-    figures_payload = dict(figures)
-    if chi2_surface_meta:
-        label = [key for key in figures if key.startswith("chi2_surface_")][0]
-        figures_payload[label] = figures[label]
-
-    data_vectors_payload = {name: path for name, path in vector_paths.items()}
-
-    canonical_block = param_utils.canonical_parameters(model_name)
-    parameter_payload = param_utils.build_parameter_payload(
-        model_name,
-        fitted=fit_result["bestfit"],
-        free_names=fit_result["bestfit"].keys(),
-        canonical=canonical_block,
+    
+    # Model selection
+    parser.add_argument(
+        "--model", 
+        choices=["lcdm", "pbuf"], 
+        default="pbuf",
+        help="Cosmological model to fit"
     )
+    
+    # Common cosmological parameters
+    parser.add_argument("--H0", type=float, help="Hubble constant (km/s/Mpc)")
+    parser.add_argument("--Om0", type=float, help="Matter density fraction")
+    parser.add_argument("--Obh2", type=float, help="Physical baryon density")
+    parser.add_argument("--ns", type=float, help="Scalar spectral index")
+    
+    # PBUF-specific parameters
+    parser.add_argument("--alpha", type=float, help="Elasticity amplitude")
+    parser.add_argument("--Rmax", type=float, help="Saturation length scale")
+    parser.add_argument("--eps0", type=float, help="Elasticity bias term")
+    parser.add_argument("--n_eps", type=float, help="Evolution exponent")
+    parser.add_argument("--k_sat", type=float, help="Saturation coefficient")
+    
+    # Options
+    parser.add_argument(
+        "--verify-integrity", 
+        action="store_true",
+        help="Run integrity checks before fitting"
+    )
+    parser.add_argument(
+        "--integrity-tolerance",
+        type=float,
+        default=1e-4,
+        help="Tolerance for physics consistency checks (default: 1e-4)"
+    )
+    parser.add_argument(
+        "--output-format",
+        choices=["human", "json"],
+        default="human",
+        help="Output format for results"
+    )
+    
+    return parser.parse_args()
 
-    result_json = {
-        "run_id": run_id,
-        "timestamp": timestamp,
-        "mock": bool(settings.get("mock", True)),
-        "dataset": dataset_info,
-        "model": model_name,
-        "parameters": parameter_payload,
-        "evolution_policy": evolution_policy,
-        "metrics": fit_result["metrics"],
-        "data_vectors": data_vectors_payload,
-        "figures": figures_payload,
-        "provenance": provenance,
-    }
 
-    json_path = run_dir / "fit_results.json"
-    write_json_atomic(json_path, result_json)
+def run_sn_fit(
+    model: str,
+    overrides: Optional[ParameterDict] = None,
+    verify_integrity: bool = False,
+    integrity_tolerance: float = 1e-4
+) -> Dict[str, Any]:
+    """
+    Execute supernova fitting using unified engine.
+    
+    Args:
+        model: Model type ("lcdm" or "pbuf")
+        overrides: Optional parameter overrides
+        verify_integrity: Whether to run integrity checks
+        integrity_tolerance: Tolerance for physics consistency checks
+        
+    Returns:
+        Complete results dictionary
+    """
+    # Run integrity checks if requested
+    if verify_integrity:
+        print("Running integrity checks...")
+        
+        # Configure tolerances
+        tolerances = {
+            "h_ratios": integrity_tolerance,
+            "recombination": integrity_tolerance,
+            "sound_horizon": integrity_tolerance
+        }
+        
+        integrity_results = integrity.run_integrity_suite(
+            params=None,  # Will use defaults
+            datasets=["sn"],
+            tolerances=tolerances
+        )
+        
+        # Print comprehensive integrity report
+        print_integrity_report(integrity_results)
+        
+        if integrity_results["overall_status"] != "PASS":
+            print("Warning: Some integrity checks failed")
+            return {"error": "Integrity checks failed", "integrity_results": integrity_results}
+    
+    # Execute supernova fitting using unified engine
+    results = engine.run_fit(
+        model=model,
+        datasets_list=["sn"],
+        mode="individual",
+        overrides=overrides
+    )
+    
+    return results
 
-    config_snapshot = {
-        "settings": settings,
-        "dataset": load_dataset_config_snapshot(args.dataset, datasets_cfg),
-        "report": report_cfg,
-        "model": model_name,
-    }
-    write_yaml_atomic(run_dir / "config_used.yml", config_snapshot)
 
-    if args.generate_report:
-        log.info("Generating single-fit HTML report")
-        from pipelines.generate_report import render_report
+def print_integrity_report(integrity_results: Dict[str, Any]) -> None:
+    """
+    Print comprehensive integrity validation report.
+    
+    Args:
+        integrity_results: Results from integrity.run_integrity_suite()
+    """
+    print("\n" + "=" * 60)
+    print("INTEGRITY VALIDATION REPORT")
+    print("=" * 60)
+    
+    # Overall status
+    status = integrity_results["overall_status"]
+    status_symbol = "✓" if status == "PASS" else "✗"
+    print(f"Overall Status: {status_symbol} {status}")
+    
+    # Summary statistics
+    summary = integrity_results.get("summary", {})
+    print(f"Tests Run: {summary.get('total_tests', 0)}")
+    print(f"Passed: {summary.get('passed', 0)}")
+    print(f"Failed: {summary.get('failed', 0)}")
+    print(f"Warnings: {summary.get('warnings', 0)}")
+    
+    # Tolerances used
+    tolerances = integrity_results.get("tolerances_used", {})
+    if tolerances:
+        print(f"\nTolerances Used:")
+        for test_name, tolerance in tolerances.items():
+            print(f"  {test_name:20s}: {tolerance:.2e}")
+    
+    # Detailed test results
+    print(f"\nDetailed Results:")
+    for test_name in integrity_results.get("tests_run", []):
+        test_result = integrity_results.get(test_name, {})
+        status = test_result.get("status", "UNKNOWN")
+        description = test_result.get("description", "No description")
+        symbol = "✓" if status == "PASS" else "✗"
+        
+        print(f"  {symbol} {test_name:20s}: {status}")
+        print(f"    {description}")
+        
+        # Show specific values for some tests
+        if test_name == "recombination":
+            computed = test_result.get("computed_z_recomb")
+            reference = test_result.get("reference_z_recomb")
+            if computed and reference:
+                print(f"    Computed z*: {computed:.2f}, Reference: {reference:.2f}")
+        
+        elif test_name == "sound_horizon":
+            computed = test_result.get("computed_r_s_drag")
+            reference = test_result.get("reference_r_s_drag")
+            if computed and reference:
+                print(f"    Computed r_s: {computed:.2f} Mpc, Reference: {reference:.2f} Mpc")
+    
+    # Failed tests details
+    failures = integrity_results.get("failures", [])
+    if failures:
+        print(f"\nFailed Tests: {', '.join(failures)}")
+    
+    print("=" * 60)
 
-        report_path = render_report(result_json, run_dir)
-        log.info(f"Report written to {report_path}")
 
-    log.info(f"Results stored in {json_path}")
+def print_human_readable_results(results: Dict[str, Any]) -> None:
+    """
+    Print results in human-readable format.
+    
+    Args:
+        results: Results dictionary from engine.run_fit()
+    """
+    print("=" * 60)
+    print("SUPERNOVA FITTING RESULTS")
+    print("=" * 60)
+    
+    # Print model and parameters
+    params = results.get("params", {})
+    print(f"Model: {params.get('model_class', 'unknown')}")
+    print("\nOptimized Parameters:")
+    
+    # Core parameters
+    core_params = ["H0", "Om0", "Obh2", "ns"]
+    for param in core_params:
+        if param in params:
+            print(f"  {param:8s} = {params[param]:.6f}")
+    
+    # PBUF parameters if present
+    pbuf_params = ["alpha", "Rmax", "eps0", "n_eps", "k_sat"]
+    pbuf_present = any(param in params for param in pbuf_params)
+    if pbuf_present:
+        print("\nPBUF Parameters:")
+        for param in pbuf_params:
+            if param in params:
+                print(f"  {param:8s} = {params[param]:.6f}")
+    
+    # Fit statistics
+    metrics = results.get("metrics", {})
+    print(f"\nFit Statistics:")
+    print(f"  χ²       = {metrics.get('total_chi2', 'N/A'):.3f}")
+    print(f"  AIC      = {metrics.get('aic', 'N/A'):.3f}")
+    print(f"  BIC      = {metrics.get('bic', 'N/A'):.3f}")
+    print(f"  DOF      = {metrics.get('dof', 'N/A')}")
+    print(f"  p-value  = {metrics.get('p_value', 'N/A'):.6f}")
+    
+    # Supernova-specific results
+    sn_results = results.get("results", {}).get("sn", {})
+    if sn_results:
+        predictions = sn_results.get("predictions", {})
+        print(f"\nSupernova Predictions:")
+        if "distance_modulus" in predictions:
+            mu_values = predictions["distance_modulus"]
+            if isinstance(mu_values, dict):
+                print(f"  Distance moduli (sample):")
+                # Show first few values as example
+                for i, (z, mu) in enumerate(list(mu_values.items())[:5]):
+                    print(f"    z={z:.3f}: μ={mu:.3f}")
+                if len(mu_values) > 5:
+                    print(f"    ... and {len(mu_values)-5} more")
+            else:
+                print(f"    μ values: {mu_values}")
+        
+        if "magnitude_offset" in predictions:
+            print(f"  Magnitude offset: {predictions['magnitude_offset']:.6f}")
+    
+    print("=" * 60)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

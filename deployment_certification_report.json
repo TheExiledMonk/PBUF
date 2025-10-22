@@ -1,0 +1,67 @@
+{
+  "validation_date": "2025-10-22 14:32:05",
+  "system_version": "1.0.0",
+  "certification_status": "NOT_CERTIFIED",
+  "pass_rate": "84.2%",
+  "total_tests": 19,
+  "passed_tests": 16,
+  "failed_tests": 3,
+  "critical_failures": 2,
+  "detailed_results": {
+    "realistic_fitting": {
+      "joint_cmb_bao": "FAIL: ",
+      "full_joint": "FAIL: ",
+      "model_comparison": "PASS",
+      "parameter_constraints": "FAIL: Degrees of freedom cannot be negative: 3 data points - 4 parameters = -1"
+    },
+    "system_robustness": {
+      "invalid_model": "PASS",
+      "invalid_override": "PASS",
+      "parameter_consistency": "PASS"
+    },
+    "physics_validation": {
+      "lcdm_cmb_bao": "PASS",
+      "lcdm_cmb_bao_sn": "PASS",
+      "pbuf_cmb_bao": "PASS",
+      "pbuf_cmb_bao_sn": "PASS"
+    },
+    "wrapper_functionality": {
+      "pipelines/fit_cmb.py": "PASS",
+      "pipelines/fit_bao.py": "PASS",
+      "pipelines/fit_sn.py": "PASS",
+      "pipelines/fit_joint.py": "PASS",
+      "joint_wrapper_execution": "PASS"
+    },
+    "performance": {
+      "Joint CMB+BAO": {
+        "duration": 0.0015254020690917969,
+        "chi2": 0.0,
+        "dof": 9,
+        "status": "PASS"
+      },
+      "Full joint analysis": {
+        "duration": 0.0019462108612060547,
+        "chi2": 0.0,
+        "dof": 159,
+        "status": "PASS"
+      },
+      "PBUF analysis": {
+        "duration": 0.0017409324645996094,
+        "chi2": 0.0,
+        "dof": 4,
+        "status": "PASS"
+      }
+    }
+  },
+  "deployment_readiness": {
+    "core_functionality": "NOT_READY",
+    "physics_validation": "READY",
+    "wrapper_scripts": "READY",
+    "performance": "ACCEPTABLE"
+  },
+  "recommendations": [
+    "Critical issues prevent safe deployment",
+    "Resolve critical failures before attempting deployment",
+    "Re-run validation after fixes"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "params": {
+    "H0": 67.4,
+    "Om0": 0.315,
+    "Obh2": 0.02237,
+    "ns": 0.9649,
+    "Neff": 3.046,
+    "Tcmb": 2.7255,
+    "recomb_method": "PLANCK18",
+    "Omh2": 0.14309694000000003,
+    "Orh2": 4.1769223554e-05,
+    "z_recomb": 1089.8,
+    "z_drag": 1020.7239634915809,
+    "r_s_drag": 222.27692204822,
+    "model_class": "lcdm"
+  },
+  "metrics": {
+    "total_chi2": 10.50000001,
+    "aic": 14.50000002,
+    "bic": 18.2,
+    "dof": 5,
+    "p_value": 0.062
+  },
+  "results": {
+    "cmb": {
+      "chi2": 1.79,
+      "predictions": {
+        "R": 1.7502,
+        "l_A": 301.845,
+        "theta_star": 1.04092
+      }
+    },
+    "bao": {
+      "chi2": 3.21,
+      "predictions": {
+        "DV_over_rs": "[ 8.467 10.252 15.273 18.456 20.789]"
+      }
+    }
+  },
+  "_execution_time": 0.1
+}

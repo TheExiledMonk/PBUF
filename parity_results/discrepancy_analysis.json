@@ -1,0 +1,371 @@
+{
+  "total_tests": 24,
+  "total_comparisons": 339,
+  "failed_comparisons": 194,
+  "discrepancy_patterns": {
+    "metrics": {
+      "count": 101,
+      "max_abs_diff": 5114.031737473086,
+      "max_rel_diff": 487.0506412002456,
+      "metrics": {
+        "metrics.aic": {
+          "count": 24,
+          "total_abs_diff": 123.00000004,
+          "total_rel_diff": 8.48275861174792
+        },
+        "metrics.bic": {
+          "count": 24,
+          "total_abs_diff": 252.66585430603615,
+          "total_rel_diff": 13.882739247584405
+        },
+        "metrics.dof": {
+          "count": 23,
+          "total_abs_diff": 1752.0,
+          "total_rel_diff": 350.4
+        },
+        "metrics.p_value": {
+          "count": 24,
+          "total_abs_diff": 22.511999999999997,
+          "total_rel_diff": 363.09677419354836
+        },
+        "metrics.total_chi2": {
+          "count": 6,
+          "total_abs_diff": 30684.190424838518,
+          "total_rel_diff": 2922.3038472014737
+        }
+      }
+    },
+    "results": {
+      "count": 35,
+      "max_abs_diff": 5122.741737483086,
+      "max_rel_diff": 2861.866892448651,
+      "metrics": {
+        "results.bao.chi2": {
+          "count": 9,
+          "total_abs_diff": 2451.1502795027905,
+          "total_rel_diff": 763.5982179136417
+        },
+        "results.cmb.chi2": {
+          "count": 14,
+          "total_abs_diff": 57659.82954536658,
+          "total_rel_diff": 32212.195276741117
+        },
+        "results.sn.chi2": {
+          "count": 12,
+          "total_abs_diff": 12351.092317560777,
+          "total_rel_diff": 2274.602636751525
+        }
+      }
+    },
+    "predictions": {
+      "count": 42,
+      "max_abs_diff": 0.0368969021982366,
+      "max_rel_diff": 0.01442445015959889,
+      "metrics": {
+        "predictions.cmb.R": {
+          "count": 14,
+          "total_abs_diff": 0.18152968228662925,
+          "total_rel_diff": 0.10371939337597375
+        },
+        "predictions.cmb.l_A": {
+          "count": 14,
+          "total_abs_diff": 0.4644690878834581,
+          "total_rel_diff": 0.0015387668766534415
+        },
+        "predictions.cmb.theta_star": {
+          "count": 14,
+          "total_abs_diff": 0.00015629181979415208,
+          "total_rel_diff": 0.00015014777292601933
+        }
+      }
+    },
+    "params": {
+      "count": 16,
+      "max_abs_diff": 23.515644288609295,
+      "max_rel_diff": 0.9047619047619047,
+      "metrics": {
+        "params.H0": {
+          "count": 8,
+          "total_abs_diff": 115.95648362902983,
+          "total_rel_diff": 1.7204226057719556
+        },
+        "params.Om0": {
+          "count": 8,
+          "total_abs_diff": 1.3625719706375619,
+          "total_rel_diff": 4.325625303611308
+        }
+      }
+    }
+  },
+  "metric_statistics": {
+    "metrics.aic": {
+      "total_tests": 24,
+      "failures": 24,
+      "success_rate": 0.0,
+      "avg_abs_diff": 5.125000001666667,
+      "avg_rel_diff": 0.3534482754894967
+    },
+    "metrics.bic": {
+      "total_tests": 24,
+      "failures": 24,
+      "success_rate": 0.0,
+      "avg_abs_diff": 10.527743929418174,
+      "avg_rel_diff": 0.5784474686493503
+    },
+    "metrics.dof": {
+      "total_tests": 24,
+      "failures": 23,
+      "success_rate": 4.166666666666666,
+      "avg_abs_diff": 73.0,
+      "avg_rel_diff": 14.6
+    },
+    "metrics.p_value": {
+      "total_tests": 24,
+      "failures": 24,
+      "success_rate": 0.0,
+      "avg_abs_diff": 0.9379999999999998,
+      "avg_rel_diff": 15.129032258064514
+    },
+    "params.H0": {
+      "total_tests": 24,
+      "failures": 8,
+      "success_rate": 66.66666666666666,
+      "avg_abs_diff": 4.831520151209577,
+      "avg_rel_diff": 0.07168427524049815
+    },
+    "params.Om0": {
+      "total_tests": 24,
+      "failures": 8,
+      "success_rate": 66.66666666666666,
+      "avg_abs_diff": 0.05677383210989841,
+      "avg_rel_diff": 0.18023438765047117
+    },
+    "params.Obh2": {
+      "total_tests": 24,
+      "failures": 0,
+      "success_rate": 100.0,
+      "avg_abs_diff": 0.0,
+      "avg_rel_diff": 0.0
+    },
+    "params.ns": {
+      "total_tests": 24,
+      "failures": 0,
+      "success_rate": 100.0,
+      "avg_abs_diff": 0.0,
+      "avg_rel_diff": 0.0
+    },
+    "results.bao.chi2": {
+      "total_tests": 9,
+      "failures": 9,
+      "success_rate": 0.0,
+      "avg_abs_diff": 272.3500310558656,
+      "avg_rel_diff": 84.84424643484908
+    },
+    "predictions.bao.DV_over_rs": {
+      "total_tests": 9,
+      "failures": 0,
+      "success_rate": 100.0,
+      "avg_abs_diff": 9.272443812225147,
+      "avg_rel_diff": 0.4887457374815322
+    },
+    "metrics.total_chi2": {
+      "total_tests": 6,
+      "failures": 6,
+      "success_rate": 0.0,
+      "avg_abs_diff": 5114.031737473087,
+      "avg_rel_diff": 487.0506412002456
+    },
+    "params.alpha": {
+      "total_tests": 11,
+      "failures": 0,
+      "success_rate": 100.0,
+      "avg_abs_diff": 0.0,
+      "avg_rel_diff": 0.0
+    },
+    "params.Rmax": {
+      "total_tests": 11,
+      "failures": 0,
+      "success_rate": 100.0,
+      "avg_abs_diff": 0.0,
+      "avg_rel_diff": 0.0
+    },
+    "params.eps0": {
+      "total_tests": 11,
+      "failures": 0,
+      "success_rate": 100.0,
+      "avg_abs_diff": 0.0,
+      "avg_rel_diff": 0.0
+    },
+    "params.n_eps": {
+      "total_tests": 11,
+      "failures": 0,
+      "success_rate": 100.0,
+      "avg_abs_diff": 0.0,
+      "avg_rel_diff": 0.0
+    },
+    "params.k_sat": {
+      "total_tests": 11,
+      "failures": 0,
+      "success_rate": 100.0,
+      "avg_abs_diff": 0.0,
+      "avg_rel_diff": 0.0
+    },
+    "results.cmb.chi2": {
+      "total_tests": 14,
+      "failures": 14,
+      "success_rate": 0.0,
+      "avg_abs_diff": 4118.55925324047,
+      "avg_rel_diff": 2300.871091195794
+    },
+    "predictions.cmb.R": {
+      "total_tests": 14,
+      "failures": 14,
+      "success_rate": 0.0,
+      "avg_abs_diff": 0.012966405877616374,
+      "avg_rel_diff": 0.007408528098283839
+    },
+    "predictions.cmb.l_A": {
+      "total_tests": 14,
+      "failures": 14,
+      "success_rate": 0.0,
+      "avg_abs_diff": 0.033176363420247004,
+      "avg_rel_diff": 0.0001099119197609601
+    },
+    "predictions.cmb.theta_star": {
+      "total_tests": 14,
+      "failures": 14,
+      "success_rate": 0.0,
+      "avg_abs_diff": 1.1163701413868005e-05,
+      "avg_rel_diff": 1.0724840923287096e-05
+    },
+    "results.sn.chi2": {
+      "total_tests": 12,
+      "failures": 12,
+      "success_rate": 0.0,
+      "avg_abs_diff": 1029.2576931300648,
+      "avg_rel_diff": 189.55021972929376
+    }
+  },
+  "model_performance": {
+    "lcdm": {},
+    "pbuf": {}
+  },
+  "dataset_performance": {
+    "bao": {
+      "total_tests": 3,
+      "total_comparisons": 40,
+      "failed_comparisons": 15,
+      "common_failures": {
+        "metrics.aic": 3,
+        "metrics.bic": 3,
+        "metrics.dof": 3,
+        "metrics.p_value": 3,
+        "results.bao.chi2": 3
+      }
+    },
+    "cmb": {
+      "total_tests": 6,
+      "total_comparisons": 88,
+      "failed_comparisons": 54,
+      "common_failures": {
+        "metrics.total_chi2": 6,
+        "metrics.aic": 6,
+        "metrics.bic": 6,
+        "metrics.dof": 6,
+        "metrics.p_value": 6,
+        "results.cmb.chi2": 6,
+        "predictions.cmb.R": 6,
+        "predictions.cmb.l_A": 6,
+        "predictions.cmb.theta_star": 6
+      }
+    },
+    "cmb_sn": {
+      "total_tests": 4,
+      "total_comparisons": 62,
+      "failed_comparisons": 44,
+      "common_failures": {
+        "metrics.aic": 4,
+        "metrics.bic": 4,
+        "metrics.dof": 4,
+        "metrics.p_value": 4,
+        "params.H0": 4,
+        "params.Om0": 4,
+        "results.cmb.chi2": 4,
+        "results.sn.chi2": 4,
+        "predictions.cmb.R": 4,
+        "predictions.cmb.l_A": 4,
+        "predictions.cmb.theta_star": 4
+      }
+    },
+    "bao_cmb_sn": {
+      "total_tests": 2,
+      "total_comparisons": 35,
+      "failed_comparisons": 20,
+      "common_failures": {
+        "metrics.aic": 2,
+        "metrics.bic": 2,
+        "metrics.dof": 2,
+        "metrics.p_value": 2,
+        "results.cmb.chi2": 2,
+        "results.bao.chi2": 2,
+        "results.sn.chi2": 2,
+        "predictions.cmb.R": 2,
+        "predictions.cmb.l_A": 2,
+        "predictions.cmb.theta_star": 2
+      }
+    },
+    "sn": {
+      "total_tests": 4,
+      "total_comparisons": 46,
+      "failed_comparisons": 28,
+      "common_failures": {
+        "metrics.aic": 4,
+        "metrics.bic": 4,
+        "metrics.dof": 4,
+        "metrics.p_value": 4,
+        "params.H0": 4,
+        "params.Om0": 4,
+        "results.sn.chi2": 4
+      }
+    },
+    "bao_sn": {
+      "total_tests": 2,
+      "total_comparisons": 27,
+      "failed_comparisons": 12,
+      "common_failures": {
+        "metrics.aic": 2,
+        "metrics.bic": 2,
+        "metrics.dof": 2,
+        "metrics.p_value": 2,
+        "results.bao.chi2": 2,
+        "results.sn.chi2": 2
+      }
+    },
+    "bao_cmb": {
+      "total_tests": 2,
+      "total_comparisons": 33,
+      "failed_comparisons": 18,
+      "common_failures": {
+        "metrics.aic": 2,
+        "metrics.bic": 2,
+        "metrics.dof": 2,
+        "metrics.p_value": 2,
+        "results.cmb.chi2": 2,
+        "results.bao.chi2": 2,
+        "predictions.cmb.R": 2,
+        "predictions.cmb.l_A": 2,
+        "predictions.cmb.theta_star": 2
+      }
+    },
+    "bao_ani": {
+      "total_tests": 1,
+      "total_comparisons": 8,
+      "failed_comparisons": 3,
+      "common_failures": {
+        "metrics.aic": 1,
+        "metrics.bic": 1,
+        "metrics.p_value": 1
+      }
+    }
+  }
+}

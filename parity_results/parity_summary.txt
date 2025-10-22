@@ -1,0 +1,97 @@
+================================================================================
+COMPREHENSIVE PARITY TEST SUMMARY
+================================================================================
+Total Tests: 14
+Passed:      0
+Failed:      14
+Success Rate: 0.0%
+
+FAILED TESTS:
+----------------------------------------
+  lcdm_cmb
+    - metrics.total_chi2: diff=5.11e+03
+    - metrics.aic: diff=6.50e+00
+    - metrics.bic: diff=7.94e+00
+    - ... and 6 more
+  lcdm_bao
+    - metrics.aic: diff=6.50e+00
+    - metrics.bic: diff=8.99e+00
+    - metrics.dof: diff=1.00e+00
+    - ... and 3 more
+  lcdm_sn
+    - metrics.aic: diff=6.50e+00
+    - metrics.bic: diff=1.84e+00
+    - metrics.dof: diff=1.41e+02
+    - ... and 4 more
+  lcdm_cmb_bao
+    - metrics.aic: diff=6.50e+00
+    - metrics.bic: diff=7.94e+00
+    - metrics.dof: diff=4.00e+00
+    - ... and 7 more
+  lcdm_cmb_sn
+    - metrics.aic: diff=6.50e+00
+    - metrics.bic: diff=1.92e+00
+    - metrics.dof: diff=1.44e+02
+    - ... and 8 more
+  lcdm_bao_sn
+    - metrics.aic: diff=6.50e+00
+    - metrics.bic: diff=2.10e+00
+    - metrics.dof: diff=1.51e+02
+    - ... and 4 more
+  lcdm_cmb_bao_sn
+    - metrics.aic: diff=6.50e+00
+    - metrics.bic: diff=2.18e+00
+    - metrics.dof: diff=1.54e+02
+    - ... and 8 more
+  pbuf_cmb
+    - metrics.total_chi2: diff=5.11e+03
+    - metrics.aic: diff=3.50e+00
+    - metrics.bic: diff=4.88e+00
+    - ... and 6 more
+  pbuf_bao
+    - metrics.aic: diff=3.50e+00
+    - metrics.bic: diff=2.52e+00
+    - metrics.dof: diff=4.00e+00
+    - ... and 3 more
+  pbuf_sn
+    - metrics.aic: diff=3.50e+00
+    - metrics.bic: diff=2.69e+01
+    - metrics.dof: diff=1.36e+02
+    - ... and 4 more
+  pbuf_cmb_bao
+    - metrics.aic: diff=3.50e+00
+    - metrics.bic: diff=4.88e+00
+    - metrics.dof: diff=1.00e+00
+    - ... and 7 more
+  pbuf_cmb_sn
+    - metrics.aic: diff=3.50e+00
+    - metrics.bic: diff=2.71e+01
+    - metrics.dof: diff=1.39e+02
+    - ... and 8 more
+  pbuf_bao_sn
+    - metrics.aic: diff=3.50e+00
+    - metrics.bic: diff=2.75e+01
+    - metrics.dof: diff=1.46e+02
+    - ... and 4 more
+  pbuf_cmb_bao_sn
+    - metrics.aic: diff=3.50e+00
+    - metrics.bic: diff=2.76e+01
+    - metrics.dof: diff=1.49e+02
+    - ... and 8 more
+
+DETAILED RESULTS:
+----------------------------------------
+  lcdm_cmb                  FAIL (4/13 comparisons passed)
+  lcdm_bao                  FAIL (4/10 comparisons passed)
+  lcdm_sn                   FAIL (2/9 comparisons passed)
+  lcdm_cmb_bao              FAIL (4/14 comparisons passed)
+  lcdm_cmb_sn               FAIL (2/13 comparisons passed)
+  lcdm_bao_sn               FAIL (4/11 comparisons passed)
+  lcdm_cmb_bao_sn           FAIL (4/15 comparisons passed)
+  pbuf_cmb                  FAIL (9/18 comparisons passed)
+  pbuf_bao                  FAIL (9/15 comparisons passed)
+  pbuf_sn                   FAIL (7/14 comparisons passed)
+  pbuf_cmb_bao              FAIL (9/19 comparisons passed)
+  pbuf_cmb_sn               FAIL (7/18 comparisons passed)
+  pbuf_bao_sn               FAIL (9/16 comparisons passed)
+  pbuf_cmb_bao_sn           FAIL (9/20 comparisons passed)

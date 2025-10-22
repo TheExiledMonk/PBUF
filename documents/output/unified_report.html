@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unified Fit Comparison</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #fdfdfd; color: #222; }
+    h1, h2, h3 { color: #0b3d91; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    .warning { border: 2px solid #ff6f00; background: #fff4e5; padding: 1rem; margin-bottom: 1.5rem; }
+    .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 12px; color: #fff; font-size: 0.85rem; }
+    .badge.inconclusive { background: #6c757d; }
+    .badge.weak { background: #17a2b8; }
+    .badge.moderate { background: #ffc107; color: #111; }
+    .badge.strong { background: #dc3545; }
+    .figure-links ul { columns: 2; -webkit-columns: 2; -moz-columns: 2; }
+    footer { margin-top: 2rem; font-size: 0.85rem; color: #555; }
+  </style>
+</head>
+<body>
+  <h1>PBUF Cosmology: Unified Fit Comparison</h1>
+  <p>Mock validation runs</p>
+
+  
+
+  
+    <section>
+      <h2>Δ Statistics Summary</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Δχ²</th>
+            <th>ΔAIC</th>
+            <th>ΔBIC</th>
+            <th>Verdict</th>
+            <th>Favoured</th>
+            <th>Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td>Pantheon+ Supernovae</td>
+              <td>0.0</td>
+              <td>8.0</td>
+              <td>29.756</td>
+              <td>Disfavored (PBUF)</td>
+              <td>ΛCDM</td>
+              <td>
+                
+                  <span class="badge moderate">Moderate</span>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>Planck 2018 CMB</td>
+              <td>0.396</td>
+              <td>-3.604</td>
+              <td>-2.377</td>
+              <td>Favors PBUF</td>
+              <td>PBUF</td>
+              <td>
+                
+                  <span class="badge weak">Weak</span>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>BAO Mixed</td>
+              <td>0.14</td>
+              <td>2.14</td>
+              <td>1.931</td>
+              <td>Disfavored (PBUF)</td>
+              <td>ΛCDM</td>
+              <td>
+                
+                  <span class="badge weak">Weak</span>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>Cosmic Chronometers H(z)</td>
+              <td>-0.006</td>
+              <td>-0.006</td>
+              <td>-0.006</td>
+              <td>Comparable</td>
+              <td>—</td>
+              <td>
+                
+                  <span class="badge inconclusive">Inconclusive</span>
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>RSD NESSERIS2017</td>
+              <td>0.0</td>
+              <td>2.0</td>
+              <td>2.89</td>
+              <td>Disfavored (PBUF)</td>
+              <td>ΛCDM</td>
+              <td>
+                
+                  <span class="badge weak">Weak</span>
+                
+              </td>
+            </tr>
+          
+          
+            <tr style="background:#eef3ff;">
+              <td>Joint SN+BAO+CMB+CC+RSD</td>
+              <td>18.284</td>
+              <td>26.284</td>
+              <td>48.19</td>
+              <td>Disfavored (PBUF)</td>
+              <td>ΛCDM</td>
+              <td>
+                
+                  <span class="badge strong">Strong</span>
+                
+              </td>
+            </tr>
+          
+        </tbody>
+        
+          <tfoot>
+            <tr>
+              <th>Global Total</th>
+              <th>18.284</th>
+              <th>26.284</th>
+              <th>48.19</th>
+              <th>Disfavored (PBUF)</th>
+              <th>ΛCDM</th>
+              <th>
+                
+                  <span class="badge strong">Strong</span>
+                
+              </th>
+            </tr>
+          </tfoot>
+        
+      </table>
+    </section>
+  
+
+  
+    <section>
+      <h2>Pantheon+ Supernovae — PantheonPlusDR1</h2>
+      <p><strong>Conclusion:</strong> On Pantheon+ Supernovae, ΛCDM outperforms PBUF with ΔAIC=8.00 (moderate evidence).
+        
+          <span class="badge moderate">Moderate</span>
+        
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Model</th>
+            <th>χ²/dof</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>p-value</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/SN_REAL_LCDM_20251021-191813/fit_results.json">SN_REAL_LCDM_20251021-191813</a></td>
+              <td>LCDM</td>
+              <td>1.031</td>
+              <td>1756.509</td>
+              <td>1767.387</td>
+              <td>0.179</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/SN_REAL_PBUF_20251021-192436/fit_results.json">SN_REAL_PBUF_20251021-192436</a></td>
+              <td>PBUF</td>
+              <td>1.034</td>
+              <td>1764.509</td>
+              <td>1797.143</td>
+              <td>0.162</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+        </tbody>
+        
+      </table>
+
+      
+        <ul>
+          <li>Δχ²: 0.0</li>
+          <li>ΔAIC: 8.0</li>
+          <li>ΔBIC: 29.755886369583322</li>
+        </ul>
+      
+
+      
+
+      <div class="figure-links">
+        <h4>Figure Gallery</h4>
+        <ul>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/SN_REAL_LCDM_20251021-191813/LCDM_residuals_vs_z.png">LCDM — Residuals Vs Z</a></li>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/SN_REAL_LCDM_20251021-191813/LCDM_pull_distribution.png">LCDM — Pull Distribution</a></li>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/SN_REAL_LCDM_20251021-191813/LCDM_correlations.png">LCDM — Correlation Matrix</a></li>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/SN_REAL_PBUF_20251021-192436/PBUF_residuals_vs_z.png">PBUF — Residuals Vs Z</a></li>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/SN_REAL_PBUF_20251021-192436/PBUF_pull_distribution.png">PBUF — Pull Distribution</a></li>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/SN_REAL_PBUF_20251021-192436/PBUF_correlations.png">PBUF — Correlation Matrix</a></li>
+          
+        </ul>
+      </div>
+    </section>
+  
+    <section>
+      <h2>Planck 2018 CMB — Planck2018</h2>
+      <p><strong>Conclusion:</strong> On Planck 2018 CMB, PBUF outperforms ΛCDM with ΔAIC=-3.60 (weak evidence).
+        
+          <span class="badge weak">Weak</span>
+        
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Model</th>
+            <th>χ²/dof</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>p-value</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/CMB_LCDM_CMB_PLANCK2018_REAL_20251021-190101/fit_results.json">CMB_PLANCK2018_REAL_20251021-190101</a></td>
+              <td>PBUF</td>
+              <td>0.132</td>
+              <td>2.396</td>
+              <td>1.782</td>
+              <td>0.941</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/CMB_LCDM_CMB_PLANCK2018_REAL_20251021-190101/fit_results.json">CMB_PLANCK2018_REAL_20251021-190101</a></td>
+              <td>LCDM</td>
+              <td>0.0</td>
+              <td>6.0</td>
+              <td>4.159</td>
+              <td>1</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/CMB_LCDM_CMB_PLANCK2018_REAL_20251021-214703/fit_results.json">CMB_PLANCK2018_REAL_20251021-214703</a></td>
+              <td>LCDM</td>
+              <td>0.0</td>
+              <td>6.0</td>
+              <td>4.159</td>
+              <td>1</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/CMB_PBUF_CMB_PLANCK2018_REAL_20251021-214704/fit_results.json">CMB_PLANCK2018_REAL_20251021-214704</a></td>
+              <td>PBUF</td>
+              <td>0.132</td>
+              <td>2.396</td>
+              <td>1.782</td>
+              <td>0.941</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+        </tbody>
+        
+      </table>
+
+      
+        <ul>
+          <li>Δχ²: 0.39594257295679075</li>
+          <li>ΔAIC: -3.6040574270432097</li>
+          <li>ΔBIC: -2.3766461492829905</li>
+        </ul>
+      
+
+      
+        <h3>CMB Distance Priors</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>100θ*</th>
+              <th>lA</th>
+              <th>R</th>
+              <th>Ω_b h²</th>
+              <th>n_s</th>
+              <th>Residuals (σ)</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>PBUF</td>
+                <td>1.0419423367433445</td>
+                <td>301.5131013304475</td>
+                <td>1.7495712463687447</td>
+                <td>0.02237</td>
+                <td>0.9649</td>
+                <td>
+                  R: -0.13668557201201134;
+                  lA: 0.4677925605278688;
+                  Ω_b h²: 0.06666666666666396;
+                  n_s: 0.0
+                </td>
+              </tr>
+            
+              <tr>
+                <td>LCDM</td>
+                <td>1.0420878446204718</td>
+                <td>301.47100072297263</td>
+                <td>1.7501999828339119</td>
+                <td>0.022359979329157093</td>
+                <td>0.9649</td>
+                <td>
+                  R: -3.7317582840293415e-06;
+                  lA: 8.03302921465527e-06;
+                  Ω_b h²: -0.00013780561939254662;
+                  n_s: 0.0
+                </td>
+              </tr>
+            
+              <tr>
+                <td>LCDM</td>
+                <td>1.0420878446204718</td>
+                <td>301.47100072297263</td>
+                <td>1.7501999828339119</td>
+                <td>0.022359979329157093</td>
+                <td>0.9649</td>
+                <td>
+                  R: -3.7317582840293415e-06;
+                  lA: 8.03302921465527e-06;
+                  Ω_b h²: -0.00013780561939254662;
+                  n_s: 0.0
+                </td>
+              </tr>
+            
+              <tr>
+                <td>PBUF</td>
+                <td>1.0419423367433445</td>
+                <td>301.5131013304475</td>
+                <td>1.7495712463687447</td>
+                <td>0.02237</td>
+                <td>0.9649</td>
+                <td>
+                  R: -0.13668557201201134;
+                  lA: 0.4677925605278688;
+                  Ω_b h²: 0.06666666666666396;
+                  n_s: 0.0
+                </td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+
+      <div class="figure-links">
+        <h4>Figure Gallery</h4>
+        <ul>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/CMB_PBUF_CMB_PLANCK2018_REAL_20251021-190101/chi2_vs_k_sat.png">PBUF — Chi2 Vs K Sat</a></li>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/CMB_PBUF_CMB_PLANCK2018_REAL_20251021-214704/chi2_vs_k_sat.png">PBUF — Chi2 Vs K Sat</a></li>
+          
+        </ul>
+      </div>
+    </section>
+  
+    <section>
+      <h2>BAO Mixed</h2>
+      <p><strong>Conclusion:</strong> On BAO Mixed, ΛCDM outperforms PBUF with ΔAIC=2.14 (weak evidence).
+        
+          <span class="badge weak">Weak</span>
+        
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Model</th>
+            <th>χ²/dof</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>p-value</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/BAO_PBUF_20251021-192437/fit_results.json">BAO_PBUF_20251021-192437</a></td>
+              <td>pbuf</td>
+              <td>13.157</td>
+              <td>54.629</td>
+              <td>54.238</td>
+              <td>1.02e-10</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/BAO_LCDM_20251021-192437/fit_results.json">BAO_LCDM_20251021-192437</a></td>
+              <td>lcdm</td>
+              <td>10.364</td>
+              <td>51.819</td>
+              <td>51.819</td>
+              <td>5.88e-10</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/BAO_ANI_LCDM_20251021-192438/fit_results.json">BAO_ANI_LCDM_20251021-192438</a></td>
+              <td>lcdm</td>
+              <td>1.346</td>
+              <td>8.079</td>
+              <td>8.079</td>
+              <td>0.232</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/BAO_ANI_PBUF_20251021-192438/fit_results.json">BAO_ANI_PBUF_20251021-192438</a></td>
+              <td>pbuf</td>
+              <td>1.644</td>
+              <td>10.218</td>
+              <td>10.01</td>
+              <td>0.145</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+        </tbody>
+        
+      </table>
+
+      
+        <ul>
+          <li>Δχ²: 0.13963248352692226</li>
+          <li>ΔAIC: 2.1396324835269223</li>
+          <li>ΔBIC: 1.9313919527549768</li>
+        </ul>
+      
+
+      
+
+      <div class="figure-links">
+        <h4>Figure Gallery</h4>
+        <ul>
+          
+        </ul>
+      </div>
+    </section>
+  
+    <section>
+      <h2>Cosmic Chronometers H(z) — moresco2022</h2>
+      <p><strong>Conclusion:</strong> On Cosmic Chronometers H(z), PBUF and ΛCDM are statistically comparable (ΔAIC=-0.01, inconclusive).
+        
+          <span class="badge inconclusive">Inconclusive</span>
+        
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Model</th>
+            <th>χ²/dof</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>p-value</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/CC_LCDM_MORESCO2022_REAL_20251021-192439/fit_results.json">CC_LCDM_MORESCO2022_REAL_20251021-192439</a></td>
+              <td>LCDM</td>
+              <td>0.485</td>
+              <td>18.546</td>
+              <td>21.477</td>
+              <td>0.992</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/CC_PBUF_MORESCO2022_REAL_20251021-192439/fit_results.json">CC_PBUF_MORESCO2022_REAL_20251021-192439</a></td>
+              <td>PBUF</td>
+              <td>0.485</td>
+              <td>18.54</td>
+              <td>21.471</td>
+              <td>0.992</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+        </tbody>
+        
+      </table>
+
+      
+        <ul>
+          <li>Δχ²: -0.0063335343665471555</li>
+          <li>ΔAIC: -0.0063335343665471555</li>
+          <li>ΔBIC: -0.0063335343665471555</li>
+        </ul>
+      
+
+      
+
+      <div class="figure-links">
+        <h4>Figure Gallery</h4>
+        <ul>
+          
+        </ul>
+      </div>
+    </section>
+  
+    <section>
+      <h2>Joint SN+BAO+CMB+CC+RSD</h2>
+      <p><strong>Conclusion:</strong> On Joint SN+BAO+CMB+CC+RSD, ΛCDM outperforms PBUF with ΔAIC=26.28 (strong evidence).
+        
+          <span class="badge strong">Strong</span>
+        
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Model</th>
+            <th>χ²/dof</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>p-value</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/JOINT_LCDM_JOINT_CMB_SN_BAO_BAO_ANI_CC_RSD_20251021-200434/fit_results.json">JOINT_CMB_SN_BAO_BAO_ANI_CC_RSD_20251021-200434</a></td>
+              <td>LCDM</td>
+              <td>1.259</td>
+              <td>2226.008</td>
+              <td>2247.914</td>
+              <td>5.6e-13</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+              <tr style="background:#fafafa;">
+                <td colspan="7" style="font-size:0.9em; color:#333;">
+                  <em>χ² breakdown:</em>
+                  
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                  SN = 1837.86, BAO = 121.67, BAO_ANI = 52.77, CMB = 176.80, CC = 17.36, RSD = 11.54
+                </td>
+              </tr>
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/JOINT_PBUF_JOINT_CMB_SN_BAO_BAO_ANI_CC_RSD_20251021-211430/fit_results.json">JOINT_CMB_SN_BAO_BAO_ANI_CC_RSD_20251021-211430</a></td>
+              <td>PBUF</td>
+              <td>1.272</td>
+              <td>2252.292</td>
+              <td>2296.104</td>
+              <td>4.9e-14</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+              <tr style="background:#fafafa;">
+                <td colspan="7" style="font-size:0.9em; color:#333;">
+                  <em>χ² breakdown:</em>
+                  
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                    
+                      
+                      
+                    
+                  
+                  SN = 1841.37, BAO = 124.58, BAO_ANI = 55.27, CMB = 186.15, CC = 17.38, RSD = 11.54
+                </td>
+              </tr>
+            
+          
+        </tbody>
+        
+      </table>
+
+      
+        <ul>
+          <li>Δχ²: 18.284329340492604</li>
+          <li>ΔAIC: 26.284329340492604</li>
+          <li>ΔBIC: 48.190218865147926</li>
+        </ul>
+      
+
+      
+        <h3>CMB Distance Priors</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>100θ*</th>
+              <th>lA</th>
+              <th>R</th>
+              <th>Ω_b h²</th>
+              <th>n_s</th>
+              <th>Residuals (σ)</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>LCDM</td>
+                <td>1.0438010256587633</td>
+                <td>300.9761991378646</td>
+                <td>1.7115358407018622</td>
+                <td>0.023718998752172493</td>
+                <td>0.9649</td>
+                <td>
+                  R: None;
+                  lA: None;
+                  Ω_b h²: None;
+                  n_s: None
+                </td>
+              </tr>
+            
+              <tr>
+                <td>PBUF</td>
+                <td>1.0438457579570326</td>
+                <td>300.9633012963884</td>
+                <td>1.7105173135649645</td>
+                <td>0.02375375429970508</td>
+                <td>0.9649</td>
+                <td>
+                  R: None;
+                  lA: None;
+                  Ω_b h²: None;
+                  n_s: None
+                </td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+
+      <div class="figure-links">
+        <h4>Figure Gallery</h4>
+        <ul>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/JOINT_LCDM_JOINT_CMB_SN_BAO_BAO_ANI_CC_RSD_20251021-200434/LCDM_JOINT_SN_residuals_vs_z.png">LCDM — Sn Residuals Vs Z</a></li>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/JOINT_LCDM_JOINT_CMB_SN_BAO_BAO_ANI_CC_RSD_20251021-200434/LCDM_JOINT_SN_pull_distribution.png">LCDM — Sn Pull Distribution</a></li>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/JOINT_PBUF_JOINT_CMB_SN_BAO_BAO_ANI_CC_RSD_20251021-211430/PBUF_JOINT_SN_residuals_vs_z.png">PBUF — Sn Residuals Vs Z</a></li>
+          
+            <li><a href="/home/fabian/PBUF/proofs/results/JOINT_PBUF_JOINT_CMB_SN_BAO_BAO_ANI_CC_RSD_20251021-211430/PBUF_JOINT_SN_pull_distribution.png">PBUF — Sn Pull Distribution</a></li>
+          
+        </ul>
+      </div>
+    </section>
+  
+    <section>
+      <h2>RSD_NESSERIS2017 — nesseris2017</h2>
+      <p><strong>Conclusion:</strong> On RSD_NESSERIS2017, ΛCDM outperforms PBUF with ΔAIC=2.00 (weak evidence).
+        
+          <span class="badge weak">Weak</span>
+        
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Model</th>
+            <th>χ²/dof</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>p-value</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/RSD_LCDM_RSD_NESSERIS2017_REAL_20251021-192439/fit_results.json">RSD_NESSERIS2017_REAL_20251021-192439</a></td>
+              <td>PBUF</td>
+              <td>0.768</td>
+              <td>17.522</td>
+              <td>20.193</td>
+              <td>0.715</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+            <tr>
+              <td><a href="/home/fabian/PBUF/proofs/results/RSD_LCDM_RSD_NESSERIS2017_REAL_20251021-192439/fit_results.json">RSD_NESSERIS2017_REAL_20251021-192439</a></td>
+              <td>LCDM</td>
+              <td>0.72</td>
+              <td>15.522</td>
+              <td>17.303</td>
+              <td>0.776</td>
+              <td>
+                
+                  —
+                
+              </td>
+            </tr>
+        
+            
+            
+          
+        </tbody>
+        
+      </table>
+
+      
+        <ul>
+          <li>Δχ²: 2.3434587603787804e-10</li>
+          <li>ΔAIC: 2.0000000002343477</li>
+          <li>ΔBIC: 2.890371758130513</li>
+        </ul>
+      
+
+      
+
+      <div class="figure-links">
+        <h4>Figure Gallery</h4>
+        <ul>
+          
+        </ul>
+      </div>
+    </section>
+  
+
+  <footer>
+    <p>Generated: 2025-10-21T21:47:11+08:00<br>
+       Code version: v0.1.0<br>
+       Commit: c0323f52a61aff61de2f8d041abbdcb93754fb82</p>
+  </footer>
+</body>
+</html>

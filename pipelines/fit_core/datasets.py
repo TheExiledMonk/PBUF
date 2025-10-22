@@ -1,0 +1,523 @@
+"""
+Unified dataset loading and validation for PBUF cosmology fitting.
+
+This module provides a consistent interface for loading and validating observational
+datasets, ensuring uniform data format and labeling across all cosmological blocks.
+"""
+
+from typing import Dict, List, Any, Optional, Tuple
+import numpy as np
+import os
+import json
+from pathlib import Path
+
+# Type alias for dataset dictionaries
+DatasetDict = Dict[str, Any]
+
+
+def load_dataset(name: str) -> DatasetDict:
+    """
+    Load observational dataset by name with unified interface.
+    
+    Wraps existing dataio.loaders functions to provide consistent data format
+    and labeling across all observational blocks.
+    
+    Args:
+        name: Dataset name ("cmb", "bao", "bao_ani", "sn")
+        
+    Returns:
+        Dataset dictionary with observations, covariance, and metadata
+        
+    Requirements: 4.1, 4.2, 4.3, 4.4
+    """
+    if name not in SUPPORTED_DATASETS:
+        raise ValueError(f"Unsupported dataset: {name}. Supported: {list(SUPPORTED_DATASETS.keys())}")
+    
+    # Dispatch to appropriate loader function
+    if name == "cmb":
+        return _load_cmb_dataset()
+    elif name == "bao":
+        return _load_bao_dataset()
+    elif name == "bao_ani":
+        return _load_bao_anisotropic_dataset()
+    elif name == "sn":
+        return _load_supernova_dataset()
+    else:
+        raise ValueError(f"Unknown dataset: {name}")
+
+
+def validate_dataset(data: DatasetDict, expected_format: str) -> bool:
+    """
+    Validate dataset format and covariance matrix properties.
+    
+    Args:
+        data: Dataset dictionary to validate
+        expected_format: Expected format specification
+        
+    Returns:
+        True if dataset is valid, raises ValueError otherwise
+        
+    Requirements: 4.1, 4.2, 4.3, 4.4, 5.1, 5.2, 5.3, 5.4, 5.5
+    """
+    # Check required top-level keys
+    required_keys = ["observations", "covariance", "metadata", "dataset_type"]
+    for key in required_keys:
+        if key not in data:
+            raise ValueError(f"Missing required key: {key}")
+    
+    dataset_type = data["dataset_type"]
+    if dataset_type not in SUPPORTED_DATASETS:
+        raise ValueError(f"Unknown dataset type: {dataset_type}")
+    
+    # Validate observations structure
+    observations = data["observations"]
+    if not isinstance(observations, dict):
+        raise ValueError("Observations must be a dictionary")
+    
+    # Check expected observables are present
+    config = SUPPORTED_DATASETS[dataset_type]
+    expected_observables = config["expected_observables"]
+    
+    for observable in expected_observables:
+        if observable not in observations:
+            raise ValueError(f"Missing expected observable: {observable}")
+    
+    # Validate covariance matrix
+    covariance = data["covariance"]
+    if not isinstance(covariance, np.ndarray):
+        raise ValueError("Covariance must be a numpy array")
+    
+    if not _validate_covariance_matrix(covariance):
+        raise ValueError("Invalid covariance matrix properties")
+    
+    # Validate metadata
+    metadata = data["metadata"]
+    if not isinstance(metadata, dict):
+        raise ValueError("Metadata must be a dictionary")
+    
+    required_metadata = ["source", "n_data_points", "observables"]
+    for key in required_metadata:
+        if key not in metadata:
+            raise ValueError(f"Missing required metadata: {key}")
+    
+    # Check data consistency
+    _validate_data_consistency(data)
+    
+    return True
+
+
+def get_dataset_info(name: str) -> Dict[str, Any]:
+    """
+    Get metadata information about dataset characteristics.
+    
+    Args:
+        name: Dataset name
+        
+    Returns:
+        Dictionary with dataset metadata (redshift ranges, data point counts, etc.)
+        
+    Requirements: 4.1, 4.2, 4.3, 4.4
+    """
+    if name not in SUPPORTED_DATASETS:
+        raise ValueError(f"Unsupported dataset: {name}")
+    
+    # Load dataset to extract metadata
+    try:
+        data = load_dataset(name)
+        return _extract_dataset_metadata(data, name)
+    except Exception as e:
+        # Return basic info from configuration if loading fails
+        config = SUPPORTED_DATASETS[name].copy()
+        config["error"] = str(e)
+        config["status"] = "unavailable"
+        return config
+
+
+def _validate_covariance_matrix(cov_matrix: np.ndarray) -> bool:
+    """
+    Validate covariance matrix properties (positive definiteness, conditioning).
+    
+    Args:
+        cov_matrix: Covariance matrix to validate
+        
+    Returns:
+        True if matrix is valid, False otherwise
+    """
+    # Check if matrix is 2D and square
+    if len(cov_matrix.shape) != 2:
+        return False
+    
+    if cov_matrix.shape[0] != cov_matrix.shape[1]:
+        return False
+    
+    # Check if matrix is symmetric (within numerical tolerance)
+    if not np.allclose(cov_matrix, cov_matrix.T, rtol=1e-10, atol=1e-12):
+        return False
+    
+    # Check positive definiteness via eigenvalues
+    try:
+        eigenvalues = np.linalg.eigvals(cov_matrix)
+        min_eigenvalue = np.min(eigenvalues)
+        
+        # Matrix should be positive definite (all eigenvalues > 0)
+        if min_eigenvalue <= 0:
+            return False
+        
+        # Check conditioning (ratio of max to min eigenvalue)
+        max_eigenvalue = np.max(eigenvalues)
+        condition_number = max_eigenvalue / min_eigenvalue
+        
+        # Warn if poorly conditioned (condition number > 1e12)
+        if condition_number > 1e12:
+            import warnings
+            warnings.warn(f"Covariance matrix is poorly conditioned (condition number: {condition_number:.2e})")
+        
+        return True
+        
+    except np.linalg.LinAlgError:
+        # Failed to compute eigenvalues
+        return False
+
+
+def _extract_dataset_metadata(data: DatasetDict, dataset_type: str) -> Dict[str, Any]:
+    """
+    Extract metadata from dataset (redshift ranges, number of points, etc.).
+    
+    Args:
+        data: Dataset dictionary
+        dataset_type: Type of dataset for appropriate metadata extraction
+        
+    Returns:
+        Dictionary of extracted metadata
+    """
+    observations = data["observations"]
+    covariance = data["covariance"]
+    existing_metadata = data.get("metadata", {})
+    
+    # Start with existing metadata
+    metadata = existing_metadata.copy()
+    
+    # Add computed properties
+    metadata["dataset_type"] = dataset_type
+    metadata["covariance_shape"] = covariance.shape
+    metadata["covariance_condition_number"] = _compute_condition_number(covariance)
+    
+    # Extract redshift information if available
+    if "redshift" in observations:
+        redshifts = np.asarray(observations["redshift"])
+        metadata["redshift_range"] = [float(redshifts.min()), float(redshifts.max())]
+        metadata["redshift_mean"] = float(redshifts.mean())
+        metadata["n_redshift_bins"] = len(redshifts)
+    
+    # Dataset-specific metadata extraction
+    if dataset_type == "cmb":
+        metadata["recombination_redshift"] = 1089.80  # Standard value
+        metadata["observable_types"] = ["distance_priors"]
+        
+    elif dataset_type in ["bao", "bao_ani"]:
+        if "DV_over_rs" in observations:
+            dv_ratios = np.asarray(observations["DV_over_rs"])
+            metadata["dv_ratio_range"] = [float(dv_ratios.min()), float(dv_ratios.max())]
+        
+        if dataset_type == "bao_ani" and "DM_over_rs" in observations:
+            dm_ratios = np.asarray(observations["DM_over_rs"])
+            h_ratios = np.asarray(observations["H_times_rs"])
+            metadata["dm_ratio_range"] = [float(dm_ratios.min()), float(dm_ratios.max())]
+            metadata["h_ratio_range"] = [float(h_ratios.min()), float(h_ratios.max())]
+            metadata["observable_types"] = ["transverse_bao", "radial_bao"]
+        else:
+            metadata["observable_types"] = ["isotropic_bao"]
+    
+    elif dataset_type == "sn":
+        if "distance_modulus" in observations:
+            mu_values = np.asarray(observations["distance_modulus"])
+            metadata["distance_modulus_range"] = [float(mu_values.min()), float(mu_values.max())]
+            
+        if "sigma_mu" in observations:
+            uncertainties = np.asarray(observations["sigma_mu"])
+            metadata["uncertainty_range"] = [float(uncertainties.min()), float(uncertainties.max())]
+            metadata["mean_uncertainty"] = float(uncertainties.mean())
+            
+        metadata["observable_types"] = ["distance_modulus"]
+    
+    # Compute data vector length
+    data_vector_length = _compute_data_vector_length(observations, dataset_type)
+    metadata["data_vector_length"] = data_vector_length
+    
+    # Validate covariance dimensions match data
+    if covariance.shape[0] != data_vector_length:
+        metadata["dimension_mismatch"] = True
+        metadata["covariance_dim"] = covariance.shape[0]
+        metadata["data_dim"] = data_vector_length
+    else:
+        metadata["dimension_mismatch"] = False
+    
+    return metadata
+
+
+def _compute_condition_number(matrix: np.ndarray) -> float:
+    """Compute condition number of matrix."""
+    try:
+        return float(np.linalg.cond(matrix))
+    except:
+        return float('inf')
+
+
+def _compute_data_vector_length(observations: Dict[str, Any], dataset_type: str) -> int:
+    """Compute expected length of data vector for given observations."""
+    if dataset_type == "cmb":
+        return 3  # R, l_A, theta_star
+    
+    elif dataset_type == "bao":
+        if "redshift" in observations:
+            return len(np.asarray(observations["redshift"]))
+        elif "DV_over_rs" in observations:
+            return len(np.asarray(observations["DV_over_rs"]))
+        else:
+            return 0
+    
+    elif dataset_type == "bao_ani":
+        if "redshift" in observations:
+            return 2 * len(np.asarray(observations["redshift"]))  # DM and H for each z
+        else:
+            return 0
+    
+    elif dataset_type == "sn":
+        if "redshift" in observations:
+            return len(np.asarray(observations["redshift"]))
+        elif "distance_modulus" in observations:
+            return len(np.asarray(observations["distance_modulus"]))
+        else:
+            return 0
+    
+    return 0
+
+
+def _validate_data_consistency(data: DatasetDict) -> None:
+    """
+    Validate internal consistency of dataset.
+    
+    Args:
+        data: Dataset dictionary to validate
+        
+    Raises:
+        ValueError: If data is inconsistent
+    """
+    observations = data["observations"]
+    covariance = data["covariance"]
+    dataset_type = data["dataset_type"]
+    
+    # Check that all observation arrays have consistent lengths
+    array_lengths = {}
+    for key, value in observations.items():
+        if isinstance(value, (list, np.ndarray)):
+            array_lengths[key] = len(value)
+    
+    if len(set(array_lengths.values())) > 1:
+        raise ValueError(f"Inconsistent array lengths in observations: {array_lengths}")
+    
+    # Check covariance matrix dimensions match data
+    expected_length = _compute_data_vector_length(observations, dataset_type)
+    if covariance.shape[0] != expected_length:
+        raise ValueError(
+            f"Covariance matrix dimension ({covariance.shape[0]}) "
+            f"does not match expected data vector length ({expected_length})"
+        )
+
+
+def _load_cmb_dataset() -> DatasetDict:
+    """
+    Load CMB distance priors dataset (Planck 2018).
+    
+    Returns:
+        Dataset dictionary with R, l_A, theta_star observations and covariance
+    """
+    # Mock implementation - in real system would call dataio.loaders.load_cmb_planck2018()
+    # Planck 2018 distance priors from Table 2 of Aghanim et al. 2020
+    observations = {
+        "R": 1.7502,           # Shift parameter
+        "l_A": 301.845,        # Acoustic scale  
+        "theta_star": 1.04092  # Angular scale (100 * theta_*)
+    }
+    
+    # Covariance matrix from Planck 2018 (3x3)
+    covariance = np.array([
+        [2.30e-6,  2.99e-6,  -8.93e-9],
+        [2.99e-6,  4.33e-6,  -1.28e-8], 
+        [-8.93e-9, -1.28e-8, 4.64e-11]
+    ])
+    
+    metadata = {
+        "source": "Planck2018",
+        "reference": "Aghanim et al. 2020, A&A 641, A6",
+        "redshift_range": [1089.80, 1089.80],  # Recombination redshift
+        "n_data_points": 3,
+        "observables": ["R", "l_A", "theta_star"],
+        "units": {"R": "dimensionless", "l_A": "dimensionless", "theta_star": "dimensionless"}
+    }
+    
+    return {
+        "observations": observations,
+        "covariance": covariance,
+        "metadata": metadata,
+        "dataset_type": "cmb"
+    }
+
+
+def _load_bao_dataset() -> DatasetDict:
+    """
+    Load isotropic BAO dataset (mixed compilation).
+    
+    Returns:
+        Dataset dictionary with D_V/r_s ratios and covariance
+    """
+    # Mock implementation - in real system would call dataio.loaders.load_bao_compilation()
+    # Representative BAO measurements from various surveys
+    redshifts = np.array([0.106, 0.15, 0.38, 0.51, 0.61])
+    dv_over_rs = np.array([4.47, 4.47, 10.23, 13.36, 16.69])
+    
+    # Diagonal covariance for simplicity (real data would have correlations)
+    uncertainties = np.array([0.17, 0.17, 0.17, 0.21, 0.83])
+    covariance = np.diag(uncertainties**2)
+    
+    observations = {
+        "redshift": redshifts,
+        "DV_over_rs": dv_over_rs
+    }
+    
+    metadata = {
+        "source": "Mixed_BAO_Compilation",
+        "reference": "Various surveys (6dFGS, SDSS, BOSS, eBOSS)",
+        "redshift_range": [redshifts.min(), redshifts.max()],
+        "n_data_points": len(redshifts),
+        "observables": ["DV_over_rs"],
+        "units": {"DV_over_rs": "dimensionless"}
+    }
+    
+    return {
+        "observations": observations,
+        "covariance": covariance,
+        "metadata": metadata,
+        "dataset_type": "bao"
+    }
+
+
+def _load_bao_anisotropic_dataset() -> DatasetDict:
+    """
+    Load anisotropic BAO dataset.
+    
+    Returns:
+        Dataset dictionary with D_M/r_s and H*r_s measurements
+    """
+    # Mock implementation - in real system would call dataio.loaders.load_bao_anisotropic()
+    redshifts = np.array([0.38, 0.51, 0.61])
+    dm_over_rs = np.array([10.23, 13.36, 16.69])
+    h_times_rs = np.array([81.2, 90.9, 99.0])
+    
+    # Block diagonal covariance (3x3 for DM, 3x3 for H, with cross-correlations)
+    n_points = len(redshifts)
+    covariance = np.zeros((2 * n_points, 2 * n_points))
+    
+    # DM uncertainties and correlations
+    dm_uncertainties = np.array([0.17, 0.21, 0.83])
+    covariance[:n_points, :n_points] = np.diag(dm_uncertainties**2)
+    
+    # H uncertainties and correlations  
+    h_uncertainties = np.array([2.1, 2.3, 3.9])
+    covariance[n_points:, n_points:] = np.diag(h_uncertainties**2)
+    
+    observations = {
+        "redshift": redshifts,
+        "DM_over_rs": dm_over_rs,
+        "H_times_rs": h_times_rs
+    }
+    
+    metadata = {
+        "source": "Anisotropic_BAO_Compilation", 
+        "reference": "BOSS/eBOSS anisotropic measurements",
+        "redshift_range": [redshifts.min(), redshifts.max()],
+        "n_data_points": 2 * len(redshifts),  # Both DM and H measurements
+        "observables": ["DM_over_rs", "H_times_rs"],
+        "units": {"DM_over_rs": "dimensionless", "H_times_rs": "km/s"}
+    }
+    
+    return {
+        "observations": observations,
+        "covariance": covariance,
+        "metadata": metadata,
+        "dataset_type": "bao_ani"
+    }
+
+
+def _load_supernova_dataset() -> DatasetDict:
+    """
+    Load supernova dataset (Pantheon+).
+    
+    Returns:
+        Dataset dictionary with distance moduli and covariance
+    """
+    # Mock implementation - in real system would call dataio.loaders.load_sn_pantheon()
+    # Representative subset of Pantheon+ data
+    n_sn = 50  # Reduced for testing (real dataset has ~1700)
+    
+    # Generate mock redshifts and distance moduli
+    np.random.seed(42)  # For reproducible mock data
+    redshifts = np.sort(np.random.uniform(0.01, 2.3, n_sn))
+    
+    # Mock distance moduli with realistic scatter
+    # Using approximate ΛCDM relation: μ ≈ 5 log10(D_L) + 25
+    # where D_L ≈ c*z/H0 for small z, more complex for large z
+    distance_moduli = 5 * np.log10(3e5 * redshifts / 70) + 25 + np.random.normal(0, 0.15, n_sn)
+    
+    # Mock uncertainties (typical SN uncertainties)
+    sigma_mu = np.random.uniform(0.1, 0.3, n_sn)
+    
+    # Simplified diagonal covariance (real Pantheon+ has correlations)
+    covariance = np.diag(sigma_mu**2)
+    
+    observations = {
+        "redshift": redshifts,
+        "distance_modulus": distance_moduli,
+        "sigma_mu": sigma_mu
+    }
+    
+    metadata = {
+        "source": "Pantheon+_Mock",
+        "reference": "Scolnic et al. 2022 (mock subset)",
+        "redshift_range": [redshifts.min(), redshifts.max()],
+        "n_data_points": n_sn,
+        "observables": ["distance_modulus"],
+        "units": {"distance_modulus": "mag"}
+    }
+    
+    return {
+        "observations": observations,
+        "covariance": covariance,
+        "metadata": metadata,
+        "dataset_type": "sn"
+    }
+
+
+# Supported dataset configurations
+SUPPORTED_DATASETS = {
+    "cmb": {
+        "description": "Planck 2018 distance priors (R, ℓ_A, θ*)",
+        "expected_observables": ["R", "l_A", "theta_star"],
+        "covariance_shape": (3, 3)
+    },
+    "bao": {
+        "description": "Mixed BAO compilation (isotropic D_V/r_s ratios)",
+        "expected_observables": ["DV_over_rs"],
+        "covariance_shape": "variable"
+    },
+    "bao_ani": {
+        "description": "Anisotropic BAO measurements (D_M/r_s, H*r_s)",
+        "expected_observables": ["DM_over_rs", "H_times_rs"],
+        "covariance_shape": "variable"
+    },
+    "sn": {
+        "description": "Pantheon+ supernova compilation",
+        "expected_observables": ["distance_modulus"],
+        "covariance_shape": "variable"
+    }
+}

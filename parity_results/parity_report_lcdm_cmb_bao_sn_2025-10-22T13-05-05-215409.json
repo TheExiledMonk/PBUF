@@ -1,0 +1,174 @@
+{
+  "test_name": "lcdm_cmb_bao_sn",
+  "model": "lcdm",
+  "datasets": [
+    "cmb",
+    "bao",
+    "sn"
+  ],
+  "parameters": {},
+  "comparisons": [
+    {
+      "metric_name": "metrics.aic",
+      "legacy_value": 14.50000002,
+      "unified_value": 8.0,
+      "absolute_diff": 6.50000002,
+      "relative_diff": 0.44827586282996434,
+      "passes_tolerance": false,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "metrics.bic",
+      "legacy_value": 18.2,
+      "unified_value": 20.37500080322705,
+      "absolute_diff": 2.17500080322705,
+      "relative_diff": 0.11950553863884891,
+      "passes_tolerance": false,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "metrics.dof",
+      "legacy_value": 5,
+      "unified_value": 159,
+      "absolute_diff": 154.0,
+      "relative_diff": 30.8,
+      "passes_tolerance": false,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "metrics.p_value",
+      "legacy_value": 0.062,
+      "unified_value": 1.0,
+      "absolute_diff": 0.938,
+      "relative_diff": 15.129032258064516,
+      "passes_tolerance": false,
+      "tolerance_used": 6.2e-08,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "params.H0",
+      "legacy_value": 67.4,
+      "unified_value": 67.4,
+      "absolute_diff": 0.0,
+      "relative_diff": 0.0,
+      "passes_tolerance": true,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "params.Om0",
+      "legacy_value": 0.315,
+      "unified_value": 0.315,
+      "absolute_diff": 0.0,
+      "relative_diff": 0.0,
+      "passes_tolerance": true,
+      "tolerance_used": 3.15e-07,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "params.Obh2",
+      "legacy_value": 0.02237,
+      "unified_value": 0.02237,
+      "absolute_diff": 0.0,
+      "relative_diff": 0.0,
+      "passes_tolerance": true,
+      "tolerance_used": 2.237e-08,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "params.ns",
+      "legacy_value": 0.9649,
+      "unified_value": 0.9649,
+      "absolute_diff": 0.0,
+      "relative_diff": 0.0,
+      "passes_tolerance": true,
+      "tolerance_used": 9.648999999999999e-07,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "results.cmb.chi2",
+      "legacy_value": 1.79,
+      "unified_value": 5124.531737483086,
+      "absolute_diff": 5122.741737483086,
+      "relative_diff": 2861.866892448651,
+      "passes_tolerance": false,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "results.bao.chi2",
+      "legacy_value": 3.21,
+      "unified_value": 275.5600310558655,
+      "absolute_diff": 272.35003105586554,
+      "relative_diff": 84.84424643484908,
+      "passes_tolerance": false,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "results.sn.chi2",
+      "legacy_value": 5.43,
+      "unified_value": 1627.8402826724755,
+      "absolute_diff": 1622.4102826724754,
+      "relative_diff": 298.78642406491264,
+      "passes_tolerance": false,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "predictions.cmb.R",
+      "legacy_value": 1.7502,
+      "unified_value": 1.758254699160931,
+      "absolute_diff": 0.008054699160930934,
+      "relative_diff": 0.004602159273757818,
+      "passes_tolerance": false,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "predictions.cmb.l_A",
+      "legacy_value": 301.845,
+      "unified_value": 301.813311852091,
+      "absolute_diff": 0.03168814790905117,
+      "relative_diff": 0.00010498152332836776,
+      "passes_tolerance": false,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "predictions.cmb.theta_star",
+      "legacy_value": 1.04092,
+      "unified_value": 1.04090592767803,
+      "absolute_diff": 1.4072321970148849e-05,
+      "relative_diff": 1.35191195962695e-05,
+      "passes_tolerance": false,
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    },
+    {
+      "metric_name": "predictions.bao.DV_over_rs",
+      "legacy_value": "[ 8.467 10.252 15.273 18.456 20.789]",
+      "unified_value": "[ 4.32878984  5.37406254  9.17971594 10.62541421 11.51655619]",
+      "absolute_diff": 9.272443812225147,
+      "relative_diff": 0.4887457374815322,
+      "passes_tolerance": "False",
+      "tolerance_used": 1e-06,
+      "notes": "abs_tol=1e-06, rel_tol=1e-06"
+    }
+  ],
+  "overall_pass": false,
+  "execution_time_legacy": 0.1,
+  "execution_time_unified": 0.0022590160369873047,
+  "timestamp": "2025-10-22T13:05:05.215409",
+  "config": {
+    "tolerance": 1e-06,
+    "relative_tolerance": 1e-06,
+    "legacy_scripts_path": null,
+    "output_dir": "parity_results",
+    "verbose": true,
+    "save_intermediate": true
+  }
+}

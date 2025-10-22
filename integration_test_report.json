@@ -1,0 +1,27 @@
+{
+  "core_modules": {
+    "parameter_module": "PASS",
+    "datasets_module": "PASS",
+    "statistics_module": "PASS",
+    "likelihoods_module": "PASS",
+    "engine_module": "PASS",
+    "integrity_module": "PASS"
+  },
+  "wrapper_scripts": {
+    "pipelines/fit_cmb.py": "PASS",
+    "pipelines/fit_bao.py": "PASS",
+    "pipelines/fit_sn.py": "PASS",
+    "pipelines/fit_joint.py": "PASS"
+  },
+  "extensibility": {
+    "extensibility": "PASS"
+  },
+  "error_handling": {
+    "invalid_model": "PASS",
+    "invalid_override": "PASS"
+  },
+  "physics_consistency": {
+    "lcdm_h_ratios": "PASS",
+    "recombination": "PASS"
+  }
+}

@@ -1,495 +1,387 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Joint SN + BAO + CMB fitting pipeline for ΛCDM and PBUF models.
+Joint fitting wrapper script for PBUF cosmology pipeline.
 
-Combines supernova distance moduli (Pantheon+),
-BAO isotropic and anisotropic distance ratios,
-and Planck 2018 compressed CMB distance priors.
-
-This yields a single calibration of H0, Ωm0, and related background params.
+This script provides a thin wrapper around the unified optimization engine
+for multi-dataset joint fitting.
 """
 
-from __future__ import annotations
-import argparse, datetime as dt, math, subprocess, sys
-from pathlib import Path
-from typing import Dict, Iterable, Mapping, Sequence, Tuple
-
-import numpy as np
-import matplotlib
-matplotlib.use("Agg")
-from scipy.optimize import minimize
-from scipy.stats import chi2 as chi2_dist
-
-from config.constants import NEFF, TCMB
-from core import cmb_priors, gr_models, pbuf_models
-from core.bao_background import bao_distance_ratios, bao_anisotropic_ratios
-from dataio.loaders import (
-    load_dataset,
-    load_bao_priors,
-    load_bao_ani_priors,
-    load_cmb_priors,
-    load_chronometers_dataset,
-    load_rsd_dataset,
-)
-from pipelines.fitters import fit_rsd as rsd_utils
-from utils import logging as log
-from utils.io import read_yaml, write_json_atomic
-from utils import parameters as param_utils
-from utils.plotting import plot_residuals, plot_pull_distribution
-
-# ----------------------------------------------------------------------
-# Parameter configuration
-# ----------------------------------------------------------------------
-PARAM_ORDER_LCDM: Sequence[str] = ("H0", "Om0", "Obh2")
-PARAM_ORDER_PBUF: Sequence[str] = ("H0", "Om0", "Obh2", "alpha", "Rmax", "eps0", "n_eps", "k_sat")
-DEFAULT_SIGMA8 = 0.811
-
-DEFAULT_PARAMS_LCDM = {
-    "H0": 67.4,
-    "Om0": 0.315,
-    "Obh2": 0.02237,
-    "ns": 0.9649,
-    "recomb_method": "PLANCK18",
-    "sigma8": DEFAULT_SIGMA8,
-}
-DEFAULT_PARAMS_PBUF = {
-    "H0": 67.4, "Om0": 0.315, "Obh2": 0.02237,
-    "alpha": 5.0e-4, "Rmax": 1.0e9, "eps0": 0.7, "n_eps": 0.0, "k_sat": 1.0,
-    "ns": 0.9649, "recomb_method": "PLANCK18",
-    "sigma8": DEFAULT_SIGMA8,
-}
-MODEL_MAP = {"lcdm": gr_models, "pbuf": pbuf_models}
-
-# ----------------------------------------------------------------------
-# Utility helpers
-# ----------------------------------------------------------------------
-def _timestamp():
-    return dt.datetime.now(dt.timezone.utc).astimezone().isoformat(timespec="seconds")
-
-def _run_id(tag: str):
-    return f"{tag}_{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}"
-
-def _git_commit():
-    try:
-        return subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL).decode().strip()
-    except Exception:
-        return "n/a"
-
-def _vector_to_params(names: Sequence[str], values: Iterable[float]) -> Dict[str, float]:
-    return {n: float(v) for n, v in zip(names, values)}
-
-def _chi2_from_residuals(residuals: np.ndarray, sigma=None, cov=None) -> float:
-    if cov is not None and np.size(cov) > 0:
-        inv = np.linalg.pinv(cov)
-        return float(residuals.T @ inv @ residuals)
-    if sigma is not None and np.size(sigma) > 0:
-        scaled = residuals / sigma
-        return float(np.dot(scaled, scaled))
-    return float(np.dot(residuals, residuals))
-
-def _ensure_constants(params):
-    params.setdefault("Tcmb", TCMB)
-    params.setdefault("Neff", NEFF)
-    params.setdefault("ns", 0.9649)
-    return params
-
-# ----------------------------------------------------------------------
-# Individual χ² components
-# ----------------------------------------------------------------------
-
-def _sn_components(params, dataset, model_module):
-    """Compute χ² for supernova distance moduli."""
-    z = np.asarray(dataset["z"], dtype=float)
-    mu_obs = np.asarray(dataset["y"], dtype=float)
-    mu_model = model_module.mu(z, params)
-    residuals = mu_obs - mu_model
-    cov = np.asarray(dataset.get("cov")) if dataset.get("cov") is not None else None
-    sigma = np.asarray(dataset.get("sigma")) if dataset.get("sigma") is not None else None
-    chi2 = _chi2_from_residuals(residuals, sigma, cov)
-    return chi2, mu_model, residuals
+import argparse
+import sys
+import json
+from typing import Dict, Any, Optional, List
+from fit_core import engine
+from fit_core.parameter import ParameterDict
+from fit_core import integrity
+from fit_core import config
 
 
-def _cmb_components(params, priors, model_module):
-    """Compute χ² for CMB compressed distance priors."""
-    preds = cmb_priors.distance_priors(params, model=model_module)
-    chi2 = cmb_priors.chi2_cmb(preds, priors)
-    return chi2, preds
-
-
-def _chronometer_components(params, dataset, model_module):
-    """Compute χ² for cosmic chronometer H(z) measurements."""
-    z = np.asarray(dataset["z"], dtype=float)
-    h_obs = np.asarray(dataset["H"], dtype=float)
-    h_model = model_module.H(z, params)
-    residuals = h_obs - h_model
-    cov = np.asarray(dataset.get("cov")) if dataset.get("cov") is not None else None
-    sigma = np.asarray(dataset.get("sigma")) if dataset.get("sigma") is not None else None
-    chi2 = _chi2_from_residuals(residuals, sigma, cov)
-    return float(chi2), h_model, residuals
-
-
-def _rsd_components(params, dataset, model_module):
-    """Compute χ² for growth-rate fσ8 measurements."""
-    if "sigma8" not in params:
-        raise KeyError("sigma8 parameter required when including RSD dataset.")
-    z = np.asarray(dataset["z"], dtype=float)
-    fs8_obs = np.asarray(dataset["fs8"], dtype=float)
-    cov = np.asarray(dataset.get("cov")) if dataset.get("cov") is not None else None
-    sigma = np.asarray(dataset.get("sigma")) if dataset.get("sigma") is not None else None
-    prediction = np.asarray(rsd_utils._fsigma8_prediction(z, params, model_module), dtype=float)
-    residuals = fs8_obs - prediction
-    if cov is not None and cov.size:
-        chi2 = float(rsd_utils._chi2(residuals, cov))
-    else:
-        chi2 = _chi2_from_residuals(residuals, sigma, None)
-    return float(chi2), prediction, residuals
-
-
-def _bao_chi2(preds: Mapping[str, float], priors: Mapping[str, object]) -> float:
-    labels = priors["labels"]
-    y = np.array([priors["means"][k] for k in labels], dtype=float)
-    y_model = np.array([preds.get(k, np.nan) for k in labels], dtype=float)
-    cov = np.asarray(priors["cov"], dtype=float)
-    diff = y_model - y
-    inv_cov = np.linalg.pinv(cov)
-    return float(diff.T @ inv_cov @ diff)
-
-
-# --- NEW FUNCTION (dedicated for anisotropic BAO) ---
-def _bao_aniso_chi2(preds: Mapping[str, float], priors: Mapping[str, object]) -> float:
-    """
-    Compute anisotropic BAO χ² using DM_rs_z and Hrs_z labels.
-    These correspond to transverse and radial distances in units of r_s.
-    """
-    labels = priors["labels"]
-    y = np.array([priors["means"][k] for k in labels], dtype=float)
-    y_model = np.array([preds.get(k, np.nan) for k in labels], dtype=float)
-    cov = np.asarray(priors["cov"], dtype=float)
-    diff = y_model - y
-    inv_cov = np.linalg.pinv(cov)
-    return float(diff.T @ inv_cov @ diff)
-
-
-def _bao_components(params: Mapping[str, float], priors: Mapping[str, object], model_module):
-    preds = bao_distance_ratios(params, model=model_module, priors=priors)
-    chi2_val = _bao_chi2(preds, priors)
-    return float(chi2_val), {k: float(v) for k, v in preds.items()}
-
-
-def _bao_aniso_components(params: Mapping[str, float], priors: Mapping[str, object], model_module):
-    preds = bao_anisotropic_ratios(params, model=model_module, priors=priors)
-    chi2_val = _bao_aniso_chi2(preds, priors)
-    if not np.isfinite(chi2_val):
-        import math
-        log.warn("[debug] BAO_ANI χ² is NaN! preds=%s", preds)
-        chi2_val = 0.0
-    else:
-        log.info("[debug] BAO_ANI χ²=%.6f  DM_rs_0.38=%.3f  Hrs_0.38=%.5f",
-                 chi2_val, preds.get("DM_rs_0.38"), preds.get("Hrs_0.38"))
-    return float(chi2_val), {k: float(v) for k, v in preds.items()}
-
-
-# ----------------------------------------------------------------------
-# Metrics and statistics
-# ----------------------------------------------------------------------
-def _metrics_block(chi2_value, dof, n_params, n_points):
-    chi2_dof = chi2_value / dof if dof > 0 else math.nan
-    aic = chi2_value + 2.0 * n_params
-    bic = chi2_value + n_params * math.log(max(n_points, 1))
-    p_value = float(chi2_dist.sf(chi2_value, dof)) if dof > 0 else None
-    return dict(chi2=chi2_value, dof=dof, chi2_dof=chi2_dof, AIC=aic, BIC=bic, p_value=p_value)
-
-# ----------------------------------------------------------------------
-# Small verifiers (so you know we use the actual data)
-# ----------------------------------------------------------------------
-def _verify_labels(name: str, priors: Mapping[str, object], preds: Mapping[str, float]) -> None:
-    labels = list(priors.get("labels", []))
-    missing = [k for k in labels if k not in preds or not np.isfinite(preds[k])]
-    log.info("[verify] %s: %d labels", name, len(labels))
-    if missing:
-        log.warn("[verify] %s: missing/non-finite %d/%d keys: %s", name, len(missing), len(labels), ", ".join(missing))
-
-# ----------------------------------------------------------------------
-# Main execution
-# ----------------------------------------------------------------------
 def main():
-    parser = argparse.ArgumentParser(description="Joint SN+BAO+CMB calibration pipeline.")
-    parser.add_argument("--model", choices=["lcdm", "pbuf"], default="pbuf")
-    parser.add_argument("--datasets", default="cmb,sn,bao,bao_ani,cc,rsd", help="Comma-separated list of components to include")
-    parser.add_argument("--sn-dataset", default="pantheon_plus")
-    parser.add_argument("--bao-priors", default="bao_mixed")
-    parser.add_argument("--bao-ani-priors", default="bao_ani")
-    parser.add_argument("--cmb-priors", default="planck2018")
-    parser.add_argument("--chronometer-dataset", default="moresco2022")
-    parser.add_argument("--rsd-dataset", default="nesseris2017")
-    parser.add_argument("--out", default="proofs/results")
-    args = parser.parse_args()
+    """
+    Main entry point for joint fitting.
+    
+    Requirements: 7.1, 7.2, 7.3, 7.4, 7.5
+    """
+    try:
+        args = parse_arguments()
+        
+        # Build parameter overrides from command line
+        overrides = {}
+        if args.H0 is not None:
+            overrides["H0"] = args.H0
+        if args.Om0 is not None:
+            overrides["Om0"] = args.Om0
+        if args.Obh2 is not None:
+            overrides["Obh2"] = args.Obh2
+        if args.ns is not None:
+            overrides["ns"] = args.ns
+        
+        # Add PBUF-specific parameters if model is pbuf
+        if args.model == "pbuf":
+            if args.alpha is not None:
+                overrides["alpha"] = args.alpha
+            if args.Rmax is not None:
+                overrides["Rmax"] = args.Rmax
+            if args.eps0 is not None:
+                overrides["eps0"] = args.eps0
+            if args.n_eps is not None:
+                overrides["n_eps"] = args.n_eps
+            if args.k_sat is not None:
+                overrides["k_sat"] = args.k_sat
+        
+        # Run joint fitting
+        results = run_joint_fit(
+            model=args.model,
+            datasets=args.datasets,
+            overrides=overrides if overrides else None,
+            verify_integrity=args.verify_integrity,
+            integrity_tolerance=args.integrity_tolerance,
+            optimizer=args.optimizer
+        )
+        
+        # Output results
+        if args.output_format == "json":
+            print(json.dumps(results, indent=2, default=str))
+        else:
+            print_human_readable_results(results)
+        
+        return 0
+        
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return 1
 
-    components_raw = [x.strip().lower() for x in args.datasets.split(",") if x.strip()]
-    components = tuple(dict.fromkeys(components_raw))
-    component_set = set(components)
-    log.info("Preparing joint fit with components: %s", ", ".join(components))
 
-    # ------------------------------------------------------------------
-    # Load configuration and datasets
-    # ------------------------------------------------------------------
-    settings = read_yaml("config/settings.yml")
-    datasets_cfg = read_yaml("config/datasets.yml")
-    model_module = MODEL_MAP[args.model]
-
-    sn_dataset = load_dataset(args.sn_dataset, datasets_cfg) if "sn" in component_set else None
-    bao_prior = load_bao_priors(args.bao_priors) if "bao" in component_set else None
-    bao_ani_prior = load_bao_ani_priors(args.bao_ani_priors) if "bao_ani" in component_set else None
-    if "bao_ani" in component_set and bao_ani_prior is None:
-        log.warn("[warn] BAO anisotropic requested but not loaded — BAO_ANI χ² will be 0!")
-    cmb_prior = load_cmb_priors(args.cmb_priors) if "cmb" in component_set else None
-    if "cmb" in component_set and cmb_prior is None:
-        log.warn("[warn] CMB requested but not loaded — CMB χ² will be 0!")
-    chronometer_dataset = (
-        load_chronometers_dataset(args.chronometer_dataset, datasets_cfg) if "cc" in component_set else None
+def parse_arguments() -> argparse.Namespace:
+    """
+    Parse command-line arguments for joint fitting.
+    
+    Returns:
+        Parsed arguments namespace
+    """
+    parser = argparse.ArgumentParser(
+        description="Joint multi-dataset fitting using unified PBUF cosmology pipeline",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    rsd_dataset = (
-        load_rsd_dataset(args.rsd_dataset, datasets_cfg) if "rsd" in component_set else None
+    
+    # Model selection
+    parser.add_argument(
+        "--model", 
+        choices=["lcdm", "pbuf"], 
+        default="pbuf",
+        help="Cosmological model to fit"
     )
+    
+    # Dataset selection
+    parser.add_argument(
+        "--datasets",
+        nargs="+",
+        choices=["cmb", "bao", "bao_ani", "sn"],
+        default=["cmb", "bao", "sn"],
+        help="Datasets to include in joint fit"
+    )
+    
+    # Common cosmological parameters
+    parser.add_argument("--H0", type=float, help="Hubble constant (km/s/Mpc)")
+    parser.add_argument("--Om0", type=float, help="Matter density fraction")
+    parser.add_argument("--Obh2", type=float, help="Physical baryon density")
+    parser.add_argument("--ns", type=float, help="Scalar spectral index")
+    
+    # PBUF-specific parameters
+    parser.add_argument("--alpha", type=float, help="Elasticity amplitude")
+    parser.add_argument("--Rmax", type=float, help="Saturation length scale")
+    parser.add_argument("--eps0", type=float, help="Elasticity bias term")
+    parser.add_argument("--n_eps", type=float, help="Evolution exponent")
+    parser.add_argument("--k_sat", type=float, help="Saturation coefficient")
+    
+    # Configuration file
+    parser.add_argument(
+        "--config",
+        type=str,
+        help="Configuration file (JSON, YAML, or INI format)"
+    )
+    parser.add_argument(
+        "--create-config",
+        type=str,
+        help="Create example configuration file and exit"
+    )
+    parser.add_argument(
+        "--config-format",
+        choices=["json", "yaml", "ini"],
+        default="json",
+        help="Format for created configuration file"
+    )
+    
+    # Options
+    parser.add_argument(
+        "--verify-integrity", 
+        action="store_true",
+        help="Run integrity checks before fitting"
+    )
+    parser.add_argument(
+        "--integrity-tolerance",
+        type=float,
+        help="Tolerance for physics consistency checks (default: 1e-4)"
+    )
+    parser.add_argument(
+        "--output-format",
+        choices=["human", "json", "csv"],
+        help="Output format for results"
+    )
+    parser.add_argument(
+        "--optimizer",
+        choices=["minimize", "differential_evolution"],
+        help="Optimization algorithm to use"
+    )
+    parser.add_argument(
+        "--save-results",
+        type=str,
+        help="Save results to file"
+    )
+    
+    return parser.parse_args()
 
 
-    # Basic input verifiers (canonical order: CMB → SN → BAO → BAO_ANI → CC → RSD)
-    if cmb_prior:
-        log.info("[verify] CMB labels: %s", cmb_prior.get("labels"))
-    if sn_dataset:
-        log.info("[verify] SN points: N=%d (z: %s)", len(sn_dataset["z"]), sn_dataset.get("meta", {}).get("release_tag"))
-    if bao_prior:
-        log.info("[verify] BAO iso labels: %s", bao_prior.get("labels"))
-    if bao_ani_prior:
-        log.info("[verify] BAO aniso labels: %s", bao_ani_prior.get("labels"))
-    if chronometer_dataset:
-        log.info("[verify] Chronometer points: N=%d (release: %s)",
-                 len(chronometer_dataset["z"]),
-                 chronometer_dataset.get("meta", {}).get("release_tag"))
-    if rsd_dataset:
-        log.info("[verify] RSD points: N=%d (release: %s)",
-                 len(rsd_dataset["z"]),
-                 rsd_dataset.get("meta", {}).get("release_tag"))
-
-    param_order = list(PARAM_ORDER_PBUF if args.model == "pbuf" else PARAM_ORDER_LCDM)
-    defaults = dict(DEFAULT_PARAMS_PBUF if args.model == "pbuf" else DEFAULT_PARAMS_LCDM)
-    if "rsd" in component_set and "sigma8" not in param_order:
-        param_order.append("sigma8")
-    x0 = np.array([defaults[n] for n in param_order], dtype=float)
-
-    bounds_cfg = settings.get("bounds", {})
-    bounds = [(float(bounds_cfg.get(n, (None, None))[0] or -np.inf),
-               float(bounds_cfg.get(n, (None, None))[1] or np.inf)) for n in param_order]
-
-    # ------------------------------------------------------------------
-    # Objective: total χ²
-    # ------------------------------------------------------------------
-    def objective(theta):
-        params = _ensure_constants(_vector_to_params(param_order, theta))
-        total = 0.0
-        if cmb_prior is not None:
-            chi2_cmb, _ = _cmb_components(params, cmb_prior, model_module)
-            total += chi2_cmb
-        if sn_dataset is not None:
-            chi2_sn, _, _ = _sn_components(params, sn_dataset, model_module)
-            total += chi2_sn
-        if bao_prior is not None:
-            chi2_bao, _ = _bao_components(params, bao_prior, model_module)
-            total += chi2_bao
-        if bao_ani_prior is not None:
-            chi2_bao_ani, _ = _bao_aniso_components(params, bao_ani_prior, model_module)
-            total += chi2_bao_ani
-        if chronometer_dataset is not None:
-            chi2_cc, _, _ = _chronometer_components(params, chronometer_dataset, model_module)
-            total += chi2_cc
-        if rsd_dataset is not None:
-            try:
-                chi2_rsd, _, _ = _rsd_components(params, rsd_dataset, model_module)
-            except KeyError:
-                return float(1e9)
-            total += chi2_rsd
-        return float(total if np.isfinite(total) else 1e9)
-
-    # ------------------------------------------------------------------
-    # Minimize joint χ²
-    # ------------------------------------------------------------------
-    log.info("Running minimization for model %s ...", args.model.upper())
-    optimisation = minimize(objective, x0, method="L-BFGS-B", bounds=bounds)
-    if not optimisation.success:
-        log.warn("Optimization terminated: %s", optimisation.message)
-
-    best_params = _ensure_constants(_vector_to_params(param_order, optimisation.x))
-
-    # Evaluate each component separately + verify (CMB first)
-    sn_chi2 = bao_chi2 = bao_ani_chi2 = cmb_chi2 = chronometer_chi2 = rsd_chi2 = 0.0
-    bao_preds = bao_ani_preds = cmb_preds = {}
-    chronometer_payload = {}
-    rsd_payload = {}
-
-    if cmb_prior:
-        cmb_chi2, cmb_preds = _cmb_components(best_params, cmb_prior, model_module)
-        from core import cmb_priors as cmb_utils
-        try:
-            cmb_resid = cmb_utils.residuals_sigma(cmb_preds, cmb_prior)
-        except Exception:
-            cmb_resid = {}
-    else:
-        cmb_resid = {}
-
-    if sn_dataset:
-        sn_chi2, sn_model_mu, sn_residuals = _sn_components(best_params, sn_dataset, model_module)
-    if bao_prior:
-        bao_chi2, bao_preds = _bao_components(best_params, bao_prior, model_module)
-        _verify_labels("BAO isotropic", bao_prior, bao_preds)
-    if bao_ani_prior:
-        bao_ani_chi2, bao_ani_preds = _bao_aniso_components(best_params, bao_ani_prior, model_module)
-        _verify_labels("BAO anisotropic", bao_ani_prior, bao_ani_preds)
-        log.info("[debug] bao_ani χ²=%.6f  keys(preds)=%d  labels=%d",
-                 bao_ani_chi2, len(bao_ani_preds), len(bao_ani_prior.get('labels', [])))
-        log.info("[debug] bao_ani_prior keys: %s", list(bao_ani_prior.keys()))
-
-    if chronometer_dataset:
-        chronometer_chi2, hz_model, hz_residuals = _chronometer_components(best_params, chronometer_dataset, model_module)
-        chronometer_payload = {
-            "z": np.asarray(chronometer_dataset["z"], dtype=float).tolist(),
-            "H_model": np.asarray(hz_model, dtype=float).tolist(),
-            "residuals": np.asarray(hz_residuals, dtype=float).tolist(),
+def run_joint_fit(
+    model: str,
+    datasets: List[str],
+    overrides: Optional[ParameterDict] = None,
+    verify_integrity: bool = False,
+    integrity_tolerance: float = 1e-4,
+    optimizer: str = "minimize"
+) -> Dict[str, Any]:
+    """
+    Execute joint fitting using unified engine.
+    
+    Args:
+        model: Model type ("lcdm" or "pbuf")
+        datasets: List of datasets to include in joint fit
+        overrides: Optional parameter overrides
+        verify_integrity: Whether to run integrity checks
+        integrity_tolerance: Tolerance for physics consistency checks
+        optimizer: Optimization algorithm to use
+        
+    Returns:
+        Complete results dictionary
+    """
+    # Validate dataset list
+    valid_datasets = ["cmb", "bao", "bao_ani", "sn"]
+    for dataset in datasets:
+        if dataset not in valid_datasets:
+            raise ValueError(f"Invalid dataset: {dataset}. Must be one of {valid_datasets}")
+    
+    if len(datasets) < 2:
+        raise ValueError("Joint fitting requires at least 2 datasets")
+    
+    # Run integrity checks if requested
+    if verify_integrity:
+        print("Running integrity checks...")
+        
+        # Configure tolerances
+        tolerances = {
+            "h_ratios": integrity_tolerance,
+            "recombination": integrity_tolerance,
+            "sound_horizon": integrity_tolerance
         }
-
-    if rsd_dataset:
-        rsd_chi2, fs8_model, fs8_residuals = _rsd_components(best_params, rsd_dataset, model_module)
-        rsd_payload = {
-            "z": np.asarray(rsd_dataset["z"], dtype=float).tolist(),
-            "fs8_model": np.asarray(fs8_model, dtype=float).tolist(),
-            "residuals": np.asarray(fs8_residuals, dtype=float).tolist(),
+        
+        integrity_results = integrity.run_integrity_suite(
+            params=None,  # Will use defaults
+            datasets=datasets,
+            tolerances=tolerances
+        )
+        
+        # Print comprehensive integrity report
+        print_integrity_report(integrity_results)
+        
+        if integrity_results["overall_status"] != "PASS":
+            print("Warning: Some integrity checks failed")
+            return {"error": "Integrity checks failed", "integrity_results": integrity_results}
+    
+    # Configure optimizer
+    optimizer_config = None
+    if optimizer == "differential_evolution":
+        optimizer_config = {
+            "method": "differential_evolution",
+            "options": {"maxiter": 1000, "tol": 1e-9}
         }
-
-    total_chi2 = cmb_chi2 + sn_chi2 + bao_chi2 + bao_ani_chi2 + chronometer_chi2 + rsd_chi2
-
-    parts = [
-        f"CMB={cmb_chi2:.3f}",
-        f"SN={sn_chi2:.3f}",
-        f"BAO={bao_chi2:.3f}",
-        f"BAO_ANI={bao_ani_chi2:.3f}",
-    ]
-    if chronometer_dataset:
-        parts.append(f"CC={chronometer_chi2:.3f}")
-    if rsd_dataset:
-        parts.append(f"RSD={rsd_chi2:.3f}")
-    parts.append(f"TOTAL={total_chi2:.3f}")
-    log.info("χ² totals: %s", "  ".join(parts))
-
-    # ------------------------------------------------------------------
-    # Proper DoF for metrics (points - params)
-    # ------------------------------------------------------------------
-    n_sn = len(sn_dataset["z"]) if sn_dataset else 0
-    n_bao = len(bao_prior["labels"]) if bao_prior else 0
-    n_bao_ani = len(bao_ani_prior["labels"]) if bao_ani_prior else 0
-    n_cmb = len(cmb_prior["labels"]) if cmb_prior else 0
-    n_cc = len(chronometer_dataset["z"]) if chronometer_dataset else 0
-    n_rsd = len(rsd_dataset["z"]) if rsd_dataset else 0
-    n_params = len(param_order)
-
-    n_total = n_sn + n_bao + n_bao_ani + n_cmb + n_cc + n_rsd
-
-    def _m(chi2, npts):  # safe per-block metrics
-        dof = max(npts - n_params, 1)
-        return _metrics_block(chi2, dof, n_params, npts)
-
-    metrics_payload = {
-        "total": _metrics_block(total_chi2, max(n_total - n_params, 1), n_params, n_total),
-        "cmb": _m(cmb_chi2, n_cmb),
-        "sn": _m(sn_chi2, n_sn),
-        "bao": _m(bao_chi2, n_bao),
-        "bao_ani": _m(bao_ani_chi2, n_bao_ani),
-    }
-    if chronometer_dataset:
-        metrics_payload["cc"] = _m(chronometer_chi2, n_cc)
-    if rsd_dataset:
-        metrics_payload["rsd"] = _m(rsd_chi2, n_rsd)
-
-    # ------------------------------------------------------------------
-    # Save results
-    # ------------------------------------------------------------------
-    component_tokens = [token.upper() for token in components]
-    run_id = _run_id(f"JOINT_{'_'.join(component_tokens)}")
-    run_dir = Path(args.out).resolve() / f"JOINT_{args.model.upper()}_{run_id}"
-    run_dir.mkdir(parents=True, exist_ok=True)
-    json_path = run_dir / "fit_results.json"
-
-    canonical_block = param_utils.canonical_parameters(args.model.upper())
-    parameter_payload = param_utils.build_parameter_payload(
-        args.model.upper(),
-        fitted=best_params,
-        free_names=param_order,
-        canonical=canonical_block,
+    
+    # Execute joint fitting using unified engine
+    results = engine.run_fit(
+        model=model,
+        datasets_list=datasets,
+        mode="joint",
+        overrides=overrides,
+        optimizer_config=optimizer_config
     )
+    
+    return results
 
-    component_labels = []
-    if cmb_prior:
-        component_labels.append("CMB")
-    if sn_dataset:
-        component_labels.append("SN")
-    if bao_prior:
-        component_labels.append("BAO")
-    if bao_ani_prior:
-        component_labels.append("BAO_ANI")
-    if chronometer_dataset:
-        component_labels.append("CC")
-    if rsd_dataset:
-        component_labels.append("RSD")
 
-    dataset_name = "Joint " + "+".join(component_labels) if component_labels else "Joint Dataset"
+def print_integrity_report(integrity_results: Dict[str, Any]) -> None:
+    """
+    Print comprehensive integrity validation report.
+    
+    Args:
+        integrity_results: Results from integrity.run_integrity_suite()
+    """
+    print("\n" + "=" * 60)
+    print("INTEGRITY VALIDATION REPORT")
+    print("=" * 60)
+    
+    # Overall status
+    status = integrity_results["overall_status"]
+    status_symbol = "✓" if status == "PASS" else "✗"
+    print(f"Overall Status: {status_symbol} {status}")
+    
+    # Summary statistics
+    summary = integrity_results.get("summary", {})
+    print(f"Tests Run: {summary.get('total_tests', 0)}")
+    print(f"Passed: {summary.get('passed', 0)}")
+    print(f"Failed: {summary.get('failed', 0)}")
+    print(f"Warnings: {summary.get('warnings', 0)}")
+    
+    # Tolerances used
+    tolerances = integrity_results.get("tolerances_used", {})
+    if tolerances:
+        print(f"\nTolerances Used:")
+        for test_name, tolerance in tolerances.items():
+            print(f"  {test_name:20s}: {tolerance:.2e}")
+    
+    # Detailed test results
+    print(f"\nDetailed Results:")
+    for test_name in integrity_results.get("tests_run", []):
+        test_result = integrity_results.get(test_name, {})
+        status = test_result.get("status", "UNKNOWN")
+        description = test_result.get("description", "No description")
+        symbol = "✓" if status == "PASS" else "✗"
+        
+        print(f"  {symbol} {test_name:20s}: {status}")
+        print(f"    {description}")
+        
+        # Show specific values for some tests
+        if test_name == "recombination":
+            computed = test_result.get("computed_z_recomb")
+            reference = test_result.get("reference_z_recomb")
+            if computed and reference:
+                print(f"    Computed z*: {computed:.2f}, Reference: {reference:.2f}")
+        
+        elif test_name == "sound_horizon":
+            computed = test_result.get("computed_r_s_drag")
+            reference = test_result.get("reference_r_s_drag")
+            if computed and reference:
+                print(f"    Computed r_s: {computed:.2f} Mpc, Reference: {reference:.2f} Mpc")
+    
+    # Failed tests details
+    failures = integrity_results.get("failures", [])
+    if failures:
+        print(f"\nFailed Tests: {', '.join(failures)}")
+    
+    print("=" * 60)
 
-    result = {
-        "run_id": run_id,
-        "timestamp": _timestamp(),
-        "model": args.model.upper(),
-        "mock": settings.get("mock", False),
-        "parameters": parameter_payload,
-        "metrics": metrics_payload,
-        "dataset": {
-            "name": dataset_name,
-            "sn": sn_dataset.get("meta", {}) if sn_dataset else None,
-            "bao": bao_prior.get("meta", {}) if bao_prior else None,
-            "bao_ani": bao_ani_prior.get("meta", {}) if bao_ani_prior else None,
-            "cmb": cmb_prior.get("meta", {}) if cmb_prior else None,
-            "chronometers": chronometer_dataset.get("meta", {}) if chronometer_dataset else None,
-            "rsd": rsd_dataset.get("meta", {}) if rsd_dataset else None,
-        },
-        "predictions": {
-            "bao": bao_preds,
-            "bao_ani": bao_ani_preds,
-            "cmb": cmb_preds,
-            "chronometers": chronometer_payload,
-            "rsd": rsd_payload,
-        },
-        "provenance": {
-            "commit": _git_commit(),
-            "_source_path": str(json_path.resolve()),
-            "code_version": "v0.1.0",
-        },
-    }
 
-    # Minimal SN figure outputs if we had SN
-    if sn_dataset:
-        z = np.asarray(sn_dataset["z"], dtype=float)
-        mu_obs = np.asarray(sn_dataset["y"], dtype=float)
-        mu_model = model_module.mu(z, best_params)
-        residuals = mu_obs - mu_model
-        figures = {}
-        figures["sn_residuals_vs_z"] = plot_residuals(z, residuals, f"{args.model.upper()}_JOINT_SN", run_dir)
-        sigma = np.asarray(sn_dataset.get("sigma")) if sn_dataset.get("sigma") is not None else None
-        if sigma is not None and sigma.size == residuals.size:
-            with np.errstate(divide="ignore", invalid="ignore"):
-                pulls = np.divide(residuals, sigma, out=np.zeros_like(residuals), where=sigma != 0)
-            figures["sn_pull_distribution"] = plot_pull_distribution(pulls, f"{args.model.upper()}_JOINT_SN", run_dir)
-        result["figures"] = figures
-
-    write_json_atomic(json_path, result)
-    log.info("✅ Joint fit JSON saved: %s", json_path)
+def print_human_readable_results(results: Dict[str, Any]) -> None:
+    """
+    Print results in human-readable format.
+    
+    Args:
+        results: Results dictionary from engine.run_fit()
+    """
+    print("=" * 60)
+    print("JOINT FITTING RESULTS")
+    print("=" * 60)
+    
+    # Print model and parameters
+    params = results.get("params", {})
+    print(f"Model: {params.get('model_class', 'unknown')}")
+    
+    # Show which datasets were included
+    dataset_results = results.get("results", {})
+    included_datasets = list(dataset_results.keys())
+    print(f"Datasets: {', '.join(included_datasets)}")
+    
+    print("\nOptimized Parameters:")
+    
+    # Core parameters
+    core_params = ["H0", "Om0", "Obh2", "ns"]
+    for param in core_params:
+        if param in params:
+            print(f"  {param:8s} = {params[param]:.6f}")
+    
+    # PBUF parameters if present
+    pbuf_params = ["alpha", "Rmax", "eps0", "n_eps", "k_sat"]
+    pbuf_present = any(param in params for param in pbuf_params)
+    if pbuf_present:
+        print("\nPBUF Parameters:")
+        for param in pbuf_params:
+            if param in params:
+                print(f"  {param:8s} = {params[param]:.6f}")
+    
+    # Overall fit statistics
+    metrics = results.get("metrics", {})
+    print(f"\nOverall Fit Statistics:")
+    print(f"  Total χ² = {metrics.get('total_chi2', 'N/A'):.3f}")
+    print(f"  AIC      = {metrics.get('aic', 'N/A'):.3f}")
+    print(f"  BIC      = {metrics.get('bic', 'N/A'):.3f}")
+    print(f"  DOF      = {metrics.get('dof', 'N/A')}")
+    print(f"  p-value  = {metrics.get('p_value', 'N/A'):.6f}")
+    
+    # Per-dataset breakdown
+    print(f"\nPer-Dataset Breakdown:")
+    for dataset_name in included_datasets:
+        dataset_result = dataset_results.get(dataset_name, {})
+        chi2 = dataset_result.get("chi2", "N/A")
+        print(f"  {dataset_name:8s}: χ² = {chi2:.3f}" if chi2 != "N/A" else f"  {dataset_name:8s}: χ² = N/A")
+    
+    # Key predictions summary
+    print(f"\nKey Predictions Summary:")
+    
+    # CMB predictions
+    if "cmb" in dataset_results:
+        cmb_pred = dataset_results["cmb"].get("predictions", {})
+        if "R" in cmb_pred:
+            print(f"  CMB R        = {cmb_pred['R']:.3f}")
+        if "l_A" in cmb_pred:
+            print(f"  CMB ℓ_A      = {cmb_pred['l_A']:.3f}")
+    
+    # BAO predictions
+    if "bao" in dataset_results:
+        bao_pred = dataset_results["bao"].get("predictions", {})
+        if "D_V_over_rs" in bao_pred:
+            print(f"  BAO D_V/r_s  = (multiple redshifts)")
+    
+    if "bao_ani" in dataset_results:
+        bao_ani_pred = dataset_results["bao_ani"].get("predictions", {})
+        if "D_M_over_rs" in bao_ani_pred:
+            print(f"  BAO D_M/r_s  = (multiple redshifts)")
+    
+    # SN predictions
+    if "sn" in dataset_results:
+        sn_pred = dataset_results["sn"].get("predictions", {})
+        if "distance_modulus" in sn_pred:
+            print(f"  SN μ         = (multiple redshifts)")
+    
+    print("=" * 60)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
