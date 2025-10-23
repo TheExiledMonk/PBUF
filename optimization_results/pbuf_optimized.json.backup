@@ -36,17 +36,17 @@
       "processor": "x86_64",
       "config_checksum": "b4ff32e1",
       "covariance_scaling": "1.0",
-      "provenance_timestamp": "2025-10-22T18:40:18.877608+00:00"
+      "provenance_timestamp": "2025-10-23T02:43:50.482153+00:00"
     },
     "covariance_scaling": 1.0,
     "final_chi2": 15.7,
-    "last_updated": "2025-10-22T18:40:18.937514+00:00",
+    "last_updated": "2025-10-23T02:43:50.542874+00:00",
     "source_model": "lcdm",
     "propagated_params": [
       "H0",
       "Om0"
     ],
-    "propagation_timestamp": "2025-10-22T18:40:18Z",
+    "propagation_timestamp": "2025-10-23T02:43:50Z",
     "propagation_reason": "cmb_optimization_cross_model_sync"
   }
 }

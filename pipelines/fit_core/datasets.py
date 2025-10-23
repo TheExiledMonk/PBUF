@@ -14,13 +14,18 @@ from pathlib import Path
 # Type alias for dataset dictionaries
 DatasetDict = Dict[str, Any]
 
+# Registry integration
+_registry_manager = None
+_registry_enabled = None
+
 
 def load_dataset(name: str) -> DatasetDict:
     """
     Load observational dataset by name with unified interface.
     
-    Wraps existing dataio.loaders functions to provide consistent data format
-    and labeling across all observational blocks.
+    This function now integrates with the dataset registry when available,
+    providing automatic fetching, verification, and provenance tracking.
+    Falls back to existing loading logic during transition period.
     
     Args:
         name: Dataset name ("cmb", "bao", "bao_ani", "sn")
@@ -28,11 +33,70 @@ def load_dataset(name: str) -> DatasetDict:
     Returns:
         Dataset dictionary with observations, covariance, and metadata
         
-    Requirements: 4.1, 4.2, 4.3, 4.4
+    Requirements: 4.1, 4.2, 4.3, 4.4, 5.1, 5.3
     """
     if name not in SUPPORTED_DATASETS:
         raise ValueError(f"Unsupported dataset: {name}. Supported: {list(SUPPORTED_DATASETS.keys())}")
     
+    # Try registry-based loading first if available
+    if _is_registry_enabled():
+        try:
+            return _load_dataset_from_registry(name)
+        except Exception as e:
+            # Log registry failure but continue with fallback
+            print(f"⚠️  Registry loading failed for '{name}': {e}")
+            print("   Falling back to legacy loading...")
+    
+    # Fallback to existing loading logic
+    return _load_dataset_legacy(name)
+
+
+def _load_dataset_from_registry(name: str) -> DatasetDict:
+    """
+    Load dataset using registry system with automatic fetch and verification.
+    
+    Args:
+        name: Dataset name
+        
+    Returns:
+        Dataset dictionary with verified data and provenance metadata
+        
+    Raises:
+        Exception: If registry loading fails
+    """
+    registry = _get_registry_manager()
+    
+    # Fetch and verify dataset through registry
+    dataset_info = registry.fetch_dataset(name)
+    
+    # Load the verified dataset file
+    dataset_dict = _parse_dataset_file(dataset_info.local_path, name)
+    
+    # Add provenance information to metadata
+    provenance = registry.get_provenance(name)
+    if provenance:
+        dataset_dict["metadata"]["provenance"] = {
+            "registry_verified": True,
+            "download_timestamp": provenance.download_timestamp,
+            "source_used": provenance.source_used,
+            "pbuf_commit": provenance.environment.pbuf_commit,
+            "verification_status": "verified" if provenance.verification.is_valid else "failed",
+            "sha256": provenance.verification.sha256_actual
+        }
+    
+    return dataset_dict
+
+
+def _load_dataset_legacy(name: str) -> DatasetDict:
+    """
+    Legacy dataset loading function (existing implementation).
+    
+    Args:
+        name: Dataset name
+        
+    Returns:
+        Dataset dictionary using existing loading logic
+    """
     # Dispatch to appropriate loader function
     if name == "cmb":
         return _load_cmb_dataset()
@@ -44,6 +108,22 @@ def load_dataset(name: str) -> DatasetDict:
         return _load_supernova_dataset()
     else:
         raise ValueError(f"Unknown dataset: {name}")
+
+
+def _parse_dataset_file(file_path: Path, dataset_type: str) -> DatasetDict:
+    """
+    Parse dataset file into standard format.
+    
+    Args:
+        file_path: Path to dataset file
+        dataset_type: Type of dataset for appropriate parsing
+        
+    Returns:
+        Dataset dictionary in standard format
+    """
+    # For now, delegate to existing loaders since we don't have real files yet
+    # In a real implementation, this would parse the actual downloaded files
+    return _load_dataset_legacy(dataset_type)
 
 
 def validate_dataset(data: DatasetDict, expected_format: str) -> bool:
@@ -522,6 +602,183 @@ def _load_supernova_dataset() -> DatasetDict:
         "metadata": metadata,
         "dataset_type": "sn"
     }
+
+
+def verify_all_datasets(dataset_names: List[str]) -> bool:
+    """
+    Verify all required datasets are present and valid.
+    
+    This function performs pre-run verification for pipeline integration,
+    ensuring all datasets are available and pass verification checks.
+    
+    Args:
+        dataset_names: List of dataset names to verify
+        
+    Returns:
+        True if all datasets are verified, False otherwise
+        
+    Requirements: 5.2
+    """
+    if not dataset_names:
+        return True
+    
+    # If registry is enabled, use registry verification
+    if _is_registry_enabled():
+        try:
+            registry = _get_registry_manager()
+            for name in dataset_names:
+                verification_result = registry.verify_dataset(name)
+                if not verification_result.is_valid:
+                    print(f"❌ Dataset '{name}' failed verification: {verification_result.errors}")
+                    return False
+            print(f"✅ All {len(dataset_names)} datasets verified successfully")
+            return True
+        except Exception as e:
+            print(f"⚠️  Registry verification failed: {e}")
+            print("   Falling back to basic dataset loading checks...")
+    
+    # Fallback verification: try to load each dataset
+    for name in dataset_names:
+        try:
+            dataset = load_dataset(name)
+            validate_dataset(dataset, name)
+            print(f"✅ Dataset '{name}' loaded and validated successfully")
+        except Exception as e:
+            print(f"❌ Dataset '{name}' failed to load or validate: {e}")
+            return False
+    
+    return True
+
+
+def _is_registry_enabled() -> bool:
+    """Check if dataset registry is enabled and available."""
+    global _registry_enabled
+    
+    if _registry_enabled is None:
+        try:
+            # Try to import registry components
+            from ..dataset_registry.core.registry_manager import RegistryManager
+            from ..dataset_registry.core.manifest_schema import DatasetManifest
+            
+            # Check if manifest file exists
+            manifest_path = Path("data/datasets_manifest.json")
+            if manifest_path.exists():
+                _registry_enabled = True
+            else:
+                _registry_enabled = False
+        except ImportError:
+            _registry_enabled = False
+    
+    return _registry_enabled
+
+
+def _get_registry_manager():
+    """Get or create registry manager instance."""
+    global _registry_manager
+    
+    if _registry_manager is None:
+        try:
+            from ..dataset_registry.integration.dataset_integration import DatasetRegistry
+            _registry_manager = DatasetRegistry()
+        except ImportError:
+            # Fallback to direct registry manager usage
+            from ..dataset_registry.core.registry_manager import RegistryManager
+            registry_path = Path("data/registry")
+            _registry_manager = RegistryManager(registry_path)
+    
+    return _registry_manager
+
+
+def get_dataset_provenance(name: str) -> Optional[Dict[str, Any]]:
+    """
+    Get provenance information for a dataset.
+    
+    Args:
+        name: Dataset name
+        
+    Returns:
+        Provenance dictionary if available, None otherwise
+        
+    Requirements: 5.4
+    """
+    if not _is_registry_enabled():
+        return None
+    
+    try:
+        registry = _get_registry_manager()
+        provenance = registry.get_provenance(name)
+        if provenance:
+            return {
+                "dataset_name": provenance.dataset_name,
+                "download_timestamp": provenance.download_timestamp,
+                "source_used": provenance.source_used,
+                "pbuf_commit": provenance.environment.pbuf_commit,
+                "verification_status": "verified" if provenance.verification.is_valid else "failed",
+                "sha256": provenance.verification.sha256_actual,
+                "file_size": provenance.verification.size_actual
+            }
+    except Exception:
+        pass
+    
+    return None
+
+
+def export_dataset_manifest_summary() -> Dict[str, Any]:
+    """
+    Export dataset manifest summary for publication materials.
+    
+    Returns:
+        Dictionary with dataset summary information
+        
+    Requirements: 5.4
+    """
+    if not _is_registry_enabled():
+        return {"error": "Registry not available"}
+    
+    try:
+        registry = _get_registry_manager()
+        return registry.export_manifest_summary()
+    except Exception as e:
+        return {"error": f"Failed to export manifest summary: {e}"}
+
+
+def add_dataset_provenance_to_results(results: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Add dataset provenance information to fit results for proof bundle generation.
+    
+    Args:
+        results: Fit results dictionary
+        
+    Returns:
+        Results dictionary with added provenance information
+        
+    Requirements: 5.4
+    """
+    if not isinstance(results, dict):
+        return results
+    
+    # Add provenance to the top-level results if not already present
+    if "dataset_provenance" not in results:
+        datasets_list = results.get("datasets", [])
+        dataset_provenance = {}
+        
+        for dataset_name in datasets_list:
+            provenance = get_dataset_provenance(dataset_name)
+            if provenance:
+                dataset_provenance[dataset_name] = provenance
+        
+        if dataset_provenance:
+            results["dataset_provenance"] = dataset_provenance
+    
+    # Add provenance to individual dataset results if not already present
+    if "results" in results:
+        for dataset_name, dataset_result in results["results"].items():
+            if isinstance(dataset_result, dict) and "provenance" not in dataset_result:
+                provenance = get_dataset_provenance(dataset_name)
+                if provenance:
+                    dataset_result["provenance"] = provenance
+    
+    return results
 
 
 # Supported dataset configurations

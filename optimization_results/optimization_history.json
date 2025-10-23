@@ -1,238 +1,5 @@
 [
   {
-    "timestamp": "2025-10-22T15:44:20.579177+00:00",
-    "model": "lcdm",
-    "dataset": "cmb",
-    "optimized_params": [
-      "H0",
-      "Om0"
-    ],
-    "final_values": {
-      "H0": 67.4,
-      "Om0": 0.315
-    },
-    "chi2_improvement": 0.0,
-    "convergence_status": "success",
-    "optimizer_info": {
-      "method": "L-BFGS-B",
-      "library": "scipy",
-      "version": "unknown",
-      "scipy_version": "unknown",
-      "numpy_version": "2.3.2",
-      "python_version": "3.12.3",
-      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
-      "architecture": "64bit",
-      "processor": "x86_64",
-      "config_checksum": "9e59b314",
-      "covariance_scaling": "1.0",
-      "provenance_timestamp": "2025-10-22T15:44:20.578354+00:00"
-    },
-    "covariance_scaling": 1.0
-  },
-  {
-    "timestamp": "2025-10-22T15:44:20.581315+00:00",
-    "model": "pbuf",
-    "dataset": "cmb",
-    "optimized_params": [
-      "H0",
-      "Om0"
-    ],
-    "final_values": {
-      "H0": 67.4,
-      "Om0": 0.315
-    },
-    "chi2_improvement": 0.0,
-    "convergence_status": "unknown",
-    "optimizer_info": {},
-    "covariance_scaling": 1.0
-  },
-  {
-    "timestamp": "2025-10-22T15:44:20.591321+00:00",
-    "model": "lcdm",
-    "dataset": "cmb",
-    "optimized_params": [
-      "H0",
-      "Om0"
-    ],
-    "final_values": {
-      "H0": 67.4,
-      "Om0": 0.315
-    },
-    "chi2_improvement": 0.0,
-    "convergence_status": "success",
-    "optimizer_info": {
-      "method": "L-BFGS-B",
-      "library": "scipy",
-      "version": "unknown",
-      "scipy_version": "unknown",
-      "numpy_version": "2.3.2",
-      "python_version": "3.12.3",
-      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
-      "architecture": "64bit",
-      "processor": "x86_64",
-      "config_checksum": "9e59b314",
-      "covariance_scaling": "1.0",
-      "provenance_timestamp": "2025-10-22T15:44:20.590590+00:00"
-    },
-    "covariance_scaling": 1.0
-  },
-  {
-    "timestamp": "2025-10-22T15:44:20.600913+00:00",
-    "model": "pbuf",
-    "dataset": "cmb",
-    "optimized_params": [
-      "H0",
-      "Om0",
-      "k_sat"
-    ],
-    "final_values": {
-      "H0": 67.4,
-      "Om0": 0.315,
-      "k_sat": 0.9762
-    },
-    "chi2_improvement": 0.0,
-    "convergence_status": "success",
-    "optimizer_info": {
-      "method": "L-BFGS-B",
-      "library": "scipy",
-      "version": "unknown",
-      "scipy_version": "unknown",
-      "numpy_version": "2.3.2",
-      "python_version": "3.12.3",
-      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
-      "architecture": "64bit",
-      "processor": "x86_64",
-      "config_checksum": "9e59b314",
-      "covariance_scaling": "1.0",
-      "provenance_timestamp": "2025-10-22T15:44:20.600398+00:00"
-    },
-    "covariance_scaling": 1.0
-  },
-  {
-    "timestamp": "2025-10-22T15:45:48.866136+00:00",
-    "model": "lcdm",
-    "dataset": "cmb",
-    "optimized_params": [
-      "H0",
-      "Om0"
-    ],
-    "final_values": {
-      "H0": 67.4,
-      "Om0": 0.315
-    },
-    "chi2_improvement": 0.0,
-    "convergence_status": "success",
-    "optimizer_info": {
-      "method": "L-BFGS-B",
-      "library": "scipy",
-      "version": "unknown",
-      "scipy_version": "unknown",
-      "numpy_version": "2.3.2",
-      "python_version": "3.12.3",
-      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
-      "architecture": "64bit",
-      "processor": "x86_64",
-      "config_checksum": "9e59b314",
-      "covariance_scaling": "1.0",
-      "provenance_timestamp": "2025-10-22T15:45:48.865481+00:00"
-    },
-    "covariance_scaling": 1.0
-  },
-  {
-    "timestamp": "2025-10-22T15:45:48.876991+00:00",
-    "model": "pbuf",
-    "dataset": "cmb,bao",
-    "optimized_params": [
-      "H0",
-      "Om0",
-      "k_sat",
-      "alpha"
-    ],
-    "final_values": {
-      "H0": 67.4,
-      "Om0": 0.315,
-      "k_sat": 0.9762,
-      "alpha": 0.0005
-    },
-    "chi2_improvement": 0.0,
-    "convergence_status": "success",
-    "optimizer_info": {
-      "method": "L-BFGS-B",
-      "library": "scipy",
-      "version": "unknown",
-      "scipy_version": "unknown",
-      "numpy_version": "2.3.2",
-      "python_version": "3.12.3",
-      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
-      "architecture": "64bit",
-      "processor": "x86_64",
-      "config_checksum": "b4ff32e1",
-      "covariance_scaling": "1.0",
-      "provenance_timestamp": "2025-10-22T15:45:48.876563+00:00"
-    },
-    "covariance_scaling": 1.0
-  },
-  {
-    "timestamp": "2025-10-22T15:45:48.887307+00:00",
-    "model": "lcdm",
-    "dataset": "cmb",
-    "optimized_params": [
-      "H0",
-      "Om0"
-    ],
-    "final_values": {
-      "H0": 67.4,
-      "Om0": 0.315
-    },
-    "chi2_improvement": 0.0,
-    "convergence_status": "success",
-    "optimizer_info": {
-      "method": "L-BFGS-B",
-      "library": "scipy",
-      "version": "unknown",
-      "scipy_version": "unknown",
-      "numpy_version": "2.3.2",
-      "python_version": "3.12.3",
-      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
-      "architecture": "64bit",
-      "processor": "x86_64",
-      "config_checksum": "9e59b314",
-      "covariance_scaling": "1.0",
-      "provenance_timestamp": "2025-10-22T15:45:48.886843+00:00"
-    },
-    "covariance_scaling": 1.0
-  },
-  {
-    "timestamp": "2025-10-22T15:45:48.911290+00:00",
-    "model": "lcdm",
-    "dataset": "cmb",
-    "optimized_params": [
-      "H0",
-      "Om0"
-    ],
-    "final_values": {
-      "H0": 67.4,
-      "Om0": 0.315
-    },
-    "chi2_improvement": 0.0,
-    "convergence_status": "success",
-    "optimizer_info": {
-      "method": "L-BFGS-B",
-      "library": "scipy",
-      "version": "unknown",
-      "scipy_version": "unknown",
-      "numpy_version": "2.3.2",
-      "python_version": "3.12.3",
-      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
-      "architecture": "64bit",
-      "processor": "x86_64",
-      "config_checksum": "9e59b314",
-      "covariance_scaling": "1.0",
-      "provenance_timestamp": "2025-10-22T15:45:48.910609+00:00"
-    },
-    "covariance_scaling": 1.0
-  },
-  {
     "timestamp": "2025-10-22T15:45:48.931038+00:00",
     "model": "lcdm",
     "dataset": "cmb",
@@ -2901,6 +2668,239 @@
       "config_checksum": "9e59b314",
       "covariance_scaling": "1.0",
       "provenance_timestamp": "2025-10-22T18:40:18.958092+00:00"
+    },
+    "covariance_scaling": 1.0
+  },
+  {
+    "timestamp": "2025-10-23T02:43:50.470648+00:00",
+    "model": "lcdm",
+    "dataset": "cmb",
+    "optimized_params": [
+      "H0",
+      "Om0"
+    ],
+    "final_values": {
+      "H0": 67.4,
+      "Om0": 0.315
+    },
+    "chi2_improvement": 0.0,
+    "convergence_status": "success",
+    "optimizer_info": {
+      "method": "L-BFGS-B",
+      "library": "scipy",
+      "version": "unknown",
+      "scipy_version": "unknown",
+      "numpy_version": "2.3.2",
+      "python_version": "3.12.3",
+      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+      "architecture": "64bit",
+      "processor": "x86_64",
+      "config_checksum": "9e59b314",
+      "covariance_scaling": "1.0",
+      "provenance_timestamp": "2025-10-23T02:43:50.470117+00:00"
+    },
+    "covariance_scaling": 1.0
+  },
+  {
+    "timestamp": "2025-10-23T02:43:50.482524+00:00",
+    "model": "pbuf",
+    "dataset": "cmb,bao",
+    "optimized_params": [
+      "H0",
+      "Om0",
+      "k_sat",
+      "alpha"
+    ],
+    "final_values": {
+      "H0": 67.4,
+      "Om0": 0.315,
+      "k_sat": 0.9762,
+      "alpha": 0.0005
+    },
+    "chi2_improvement": 0.0,
+    "convergence_status": "success",
+    "optimizer_info": {
+      "method": "L-BFGS-B",
+      "library": "scipy",
+      "version": "unknown",
+      "scipy_version": "unknown",
+      "numpy_version": "2.3.2",
+      "python_version": "3.12.3",
+      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+      "architecture": "64bit",
+      "processor": "x86_64",
+      "config_checksum": "b4ff32e1",
+      "covariance_scaling": "1.0",
+      "provenance_timestamp": "2025-10-23T02:43:50.482153+00:00"
+    },
+    "covariance_scaling": 1.0
+  },
+  {
+    "timestamp": "2025-10-23T02:43:50.494246+00:00",
+    "model": "lcdm",
+    "dataset": "cmb",
+    "optimized_params": [
+      "H0",
+      "Om0"
+    ],
+    "final_values": {
+      "H0": 67.4,
+      "Om0": 0.315
+    },
+    "chi2_improvement": 0.0,
+    "convergence_status": "success",
+    "optimizer_info": {
+      "method": "L-BFGS-B",
+      "library": "scipy",
+      "version": "unknown",
+      "scipy_version": "unknown",
+      "numpy_version": "2.3.2",
+      "python_version": "3.12.3",
+      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+      "architecture": "64bit",
+      "processor": "x86_64",
+      "config_checksum": "9e59b314",
+      "covariance_scaling": "1.0",
+      "provenance_timestamp": "2025-10-23T02:43:50.493741+00:00"
+    },
+    "covariance_scaling": 1.0
+  },
+  {
+    "timestamp": "2025-10-23T02:43:50.519727+00:00",
+    "model": "lcdm",
+    "dataset": "cmb",
+    "optimized_params": [
+      "H0",
+      "Om0"
+    ],
+    "final_values": {
+      "H0": 67.4,
+      "Om0": 0.315
+    },
+    "chi2_improvement": 0.0,
+    "convergence_status": "success",
+    "optimizer_info": {
+      "method": "L-BFGS-B",
+      "library": "scipy",
+      "version": "unknown",
+      "scipy_version": "unknown",
+      "numpy_version": "2.3.2",
+      "python_version": "3.12.3",
+      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+      "architecture": "64bit",
+      "processor": "x86_64",
+      "config_checksum": "9e59b314",
+      "covariance_scaling": "1.0",
+      "provenance_timestamp": "2025-10-23T02:43:50.518957+00:00"
+    },
+    "covariance_scaling": 1.0
+  },
+  {
+    "timestamp": "2025-10-23T02:43:50.540815+00:00",
+    "model": "lcdm",
+    "dataset": "cmb",
+    "optimized_params": [
+      "H0",
+      "Om0"
+    ],
+    "final_values": {
+      "H0": 67.4,
+      "Om0": 0.315
+    },
+    "chi2_improvement": 0.0,
+    "convergence_status": "success",
+    "optimizer_info": {
+      "method": "L-BFGS-B",
+      "library": "scipy",
+      "version": "unknown",
+      "scipy_version": "unknown",
+      "numpy_version": "2.3.2",
+      "python_version": "3.12.3",
+      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+      "architecture": "64bit",
+      "processor": "x86_64",
+      "config_checksum": "9e59b314",
+      "covariance_scaling": "1.0",
+      "provenance_timestamp": "2025-10-23T02:43:50.540266+00:00"
+    },
+    "covariance_scaling": 1.0
+  },
+  {
+    "timestamp": "2025-10-23T02:43:50.543107+00:00",
+    "model": "pbuf",
+    "dataset": "cmb",
+    "optimized_params": [
+      "H0",
+      "Om0"
+    ],
+    "final_values": {
+      "H0": 67.4,
+      "Om0": 0.315
+    },
+    "chi2_improvement": 0.0,
+    "convergence_status": "unknown",
+    "optimizer_info": {},
+    "covariance_scaling": 1.0
+  },
+  {
+    "timestamp": "2025-10-23T02:43:50.554012+00:00",
+    "model": "lcdm",
+    "dataset": "cmb",
+    "optimized_params": [
+      "H0",
+      "Om0"
+    ],
+    "final_values": {
+      "H0": 67.4,
+      "Om0": 0.315
+    },
+    "chi2_improvement": 0.0,
+    "convergence_status": "success",
+    "optimizer_info": {
+      "method": "L-BFGS-B",
+      "library": "scipy",
+      "version": "unknown",
+      "scipy_version": "unknown",
+      "numpy_version": "2.3.2",
+      "python_version": "3.12.3",
+      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+      "architecture": "64bit",
+      "processor": "x86_64",
+      "config_checksum": "9e59b314",
+      "covariance_scaling": "1.0",
+      "provenance_timestamp": "2025-10-23T02:43:50.553527+00:00"
+    },
+    "covariance_scaling": 1.0
+  },
+  {
+    "timestamp": "2025-10-23T02:43:50.564516+00:00",
+    "model": "pbuf",
+    "dataset": "cmb",
+    "optimized_params": [
+      "H0",
+      "Om0",
+      "k_sat"
+    ],
+    "final_values": {
+      "H0": 67.4,
+      "Om0": 0.315,
+      "k_sat": 0.9762
+    },
+    "chi2_improvement": 0.0,
+    "convergence_status": "success",
+    "optimizer_info": {
+      "method": "L-BFGS-B",
+      "library": "scipy",
+      "version": "unknown",
+      "scipy_version": "unknown",
+      "numpy_version": "2.3.2",
+      "python_version": "3.12.3",
+      "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+      "architecture": "64bit",
+      "processor": "x86_64",
+      "config_checksum": "9e59b314",
+      "covariance_scaling": "1.0",
+      "provenance_timestamp": "2025-10-23T02:43:50.563743+00:00"
     },
     "covariance_scaling": 1.0
   }

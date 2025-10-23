@@ -1,0 +1,9 @@
+#!/bin/bash
+# Dataset Registry CLI Wrapper Script
+# Convenient wrapper for the dataset registry CLI tool.
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Execute the CLI with all arguments
+python3 "${SCRIPT_DIR}/pipelines/dataset_registry/cli.py" "$@"

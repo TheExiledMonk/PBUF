@@ -47,7 +47,7 @@ def run_fit(
     Returns:
         Complete results dictionary with parameters, χ² breakdown, and metrics
         
-    Requirements: 4.1, 4.2, 4.3, 4.4, 4.5
+    Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.2
     """
     # Validate inputs
     if model not in ["lcdm", "pbuf"]:
@@ -55,6 +55,12 @@ def run_fit(
     
     if not datasets_list:
         raise ValueError("At least one dataset must be specified")
+    
+    # Pre-run dataset verification
+    print("🔍 Verifying datasets before fitting...")
+    if not datasets.verify_all_datasets(datasets_list):
+        raise RuntimeError("Dataset verification failed. Cannot proceed with fitting.")
+    print("✅ All datasets verified successfully")
     
     # Validate BAO dataset separation to prevent joint use of bao and bao_ani
     try:
@@ -377,11 +383,15 @@ def _compile_results(
         likelihood_func = likelihood_dispatch[dataset_name]
         chi2, predictions = likelihood_func(full_params, data)
         
+        # Get provenance information for this dataset
+        provenance = datasets.get_dataset_provenance(dataset_name)
+        
         detailed_results[dataset_name] = {
             "chi2": chi2,
             "predictions": predictions,
             "observations": data.get("observations", {}),
-            "covariance": data.get("covariance", None)
+            "covariance": data.get("covariance", None),
+            "provenance": provenance
         }
         
         # Update χ² breakdown (always compute for final results)
@@ -397,6 +407,13 @@ def _compile_results(
     params_with_model = optimized_params.copy()
     params_with_model["model_class"] = model
     
+    # Collect dataset provenance information
+    dataset_provenance = {}
+    for dataset_name in datasets_list:
+        provenance = datasets.get_dataset_provenance(dataset_name)
+        if provenance:
+            dataset_provenance[dataset_name] = provenance
+    
     # Create structured results dictionary
     results = {
         "params": params_with_model,
@@ -409,7 +426,8 @@ def _compile_results(
             "total_datasets": len(datasets_list),
             "total_data_points": sum(len(data_cache[ds].get("observations", [])) if isinstance(data_cache[ds].get("observations"), list) else 1 for ds in datasets_list),
             "convergence_status": "completed"
-        }
+        },
+        "dataset_provenance": dataset_provenance if dataset_provenance else None
     }
     
     # Log standardized results (basic logging for now)
