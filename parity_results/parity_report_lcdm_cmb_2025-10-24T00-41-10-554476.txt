@@ -1,0 +1,121 @@
+================================================================================
+PARITY TEST REPORT: lcdm_cmb
+================================================================================
+Timestamp: 2025-10-24T00:41:10.554476
+Model: lcdm
+Datasets: cmb
+Overall Result: FAIL
+
+Execution Times:
+  Legacy System:  0.100s
+  Unified System: 1.691s
+  Speed Ratio:    0.06x
+
+Test Configuration:
+  Absolute Tolerance: 1e-06
+  Relative Tolerance: 1e-06
+
+Detailed Comparisons:
+--------------------------------------------------------------------------------
+
+METRICS:
+  metrics.total_chi2             FAIL Legacy=1.050000e+01 Unified=1.642948e+03 Diff=1.63e+03
+  metrics.aic                    FAIL Legacy=1.450000e+01 Unified=1.889603e+03 Diff=1.88e+03
+  metrics.bic                    FAIL Legacy=1.820000e+01 Unified=1.891863e+03 Diff=1.87e+03
+  metrics.dof                    FAIL Legacy=5.000000e+00 Unified=9.000000e+00 Diff=4.00e+00
+  metrics.p_value                FAIL Legacy=6.200000e-02 Unified=0.000000e+00 Diff=6.20e-02
+
+PARAMS:
+  params.H0                      FAIL Legacy=6.740000e+01 Unified=7.349870e+01 Diff=6.10e+00
+  params.Om0                     FAIL Legacy=3.150000e-01 Unified=2.538806e-01 Diff=6.11e-02
+  params.Obh2                    PASS Legacy=2.237000e-02 Unified=2.237000e-02 Diff=0.00e+00
+  params.ns                      PASS Legacy=9.649000e-01 Unified=9.649000e-01 Diff=0.00e+00
+
+RESULTS:
+  results.cmb.chi2               FAIL Legacy=1.790000e+00 Unified=1.642948e+03 Diff=1.64e+03
+
+PREDICTIONS:
+  predictions.cmb.R              FAIL Legacy=1.750200e+00 Unified=1.721262e+00 Diff=2.89e-02
+  predictions.cmb.l_A            FAIL Legacy=3.018450e+02 Unified=3.018036e+02 Diff=4.14e-02
+  predictions.cmb.theta_star     FAIL Legacy=1.040920e+00 Unified=1.040939e+00 Diff=1.94e-05
+
+FAILED COMPARISONS:
+----------------------------------------
+  metrics.total_chi2
+    Legacy:     10.50000001
+    Unified:    1642.948494643622
+    Abs Diff:   1632.4484946336222
+    Rel Diff:   155.47128505513422
+    Tolerance:  1e-06
+
+  metrics.aic
+    Legacy:     14.50000002
+    Unified:    1889.6031142661172
+    Abs Diff:   1875.1031142461172
+    Rel Diff:   129.31745597653574
+    Tolerance:  1e-06
+
+  metrics.bic
+    Legacy:     18.2
+    Unified:    1891.8629116959635
+    Abs Diff:   1873.6629116959634
+    Rel Diff:   102.94851163164634
+    Tolerance:  1e-06
+
+  metrics.dof
+    Legacy:     5
+    Unified:    9
+    Abs Diff:   4.0
+    Rel Diff:   0.8
+    Tolerance:  1e-06
+
+  metrics.p_value
+    Legacy:     0.062
+    Unified:    0.0
+    Abs Diff:   0.062
+    Rel Diff:   1.0
+    Tolerance:  6.2e-08
+
+  params.H0
+    Legacy:     67.4
+    Unified:    73.49869611592031
+    Abs Diff:   6.098696115920305
+    Rel Diff:   0.09048510557745258
+    Tolerance:  1e-06
+
+  params.Om0
+    Legacy:     0.315
+    Unified:    0.25388059698307325
+    Abs Diff:   0.061119403016926754
+    Rel Diff:   0.19402985084738653
+    Tolerance:  3.15e-07
+
+  results.cmb.chi2
+    Legacy:     1.79
+    Unified:    1642.948494643622
+    Abs Diff:   1641.1584946436221
+    Rel Diff:   916.8483210299565
+    Tolerance:  1e-06
+
+  predictions.cmb.R
+    Legacy:     1.7502
+    Unified:    1.7212622725248352
+    Abs Diff:   0.028937727475164765
+    Rel Diff:   0.016533954676702527
+    Tolerance:  1e-06
+
+  predictions.cmb.l_A
+    Legacy:     301.845
+    Unified:    301.8036148841378
+    Abs Diff:   0.041385115862226485
+    Rel Diff:   0.00013710717706845064
+    Tolerance:  1e-06
+
+  predictions.cmb.theta_star
+    Legacy:     1.04092
+    Unified:    1.0409393720469016
+    Abs Diff:   1.9372046901500184e-05
+    Rel Diff:   1.8610505035449587e-05
+    Tolerance:  1e-06
+
+================================================================================

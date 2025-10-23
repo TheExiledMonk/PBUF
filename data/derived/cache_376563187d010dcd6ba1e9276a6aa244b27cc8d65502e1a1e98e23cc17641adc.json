@@ -1,0 +1,38 @@
+{
+  "input_hash": "376563187d010dcd6ba1e9276a6aa244b27cc8d65502e1a1e98e23cc17641adc",
+  "dataset_name": "sn_compatibility",
+  "processing_timestamp": "2025-10-23T16:35:29.779400+00:00",
+  "environment_hash": "ccd9a81e466565a33f5fc4109a4d74ce1f5aeff8f44626474e9f7eb0bc21f12f",
+  "dataset": {
+    "z": [
+      0.0404
+    ],
+    "observable": [
+      53.78
+    ],
+    "uncertainty": [
+      0.11
+    ],
+    "covariance": null,
+    "metadata": {
+      "dataset_type": "sn",
+      "source": "sn_compatibility_test",
+      "citation": "",
+      "version": "1.0",
+      "processing_date": "2025-10-24T00:35:29.778770",
+      "n_points": 1,
+      "redshift_range": [
+        0.0404,
+        0.0404
+      ],
+      "calibration_system": "unknown",
+      "transformations_applied": [
+        "duplicate_removal",
+        "calibration_homogenization",
+        "magnitude_to_distance_modulus",
+        "systematic_covariance_application"
+      ],
+      "calibration_homogenization": true
+    }
+  }
+}

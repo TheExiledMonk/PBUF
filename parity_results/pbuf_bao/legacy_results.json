@@ -17,7 +17,40 @@
     "z_recomb": 1089.8,
     "z_drag": 1020.7239634915809,
     "r_s_drag": 222.27692204822,
-    "model_class": "pbuf"
+    "model_class": "pbuf",
+    "_optimization_metadata": {
+      "H0": "OptimizationMetadata(is_optimizable=True, optimization_bounds=(20.0, 150.0), is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "Om0": "OptimizationMetadata(is_optimizable=True, optimization_bounds=(0.01, 0.99), is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "Obh2": "OptimizationMetadata(is_optimizable=True, optimization_bounds=(0.005, 0.1), is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "ns": "OptimizationMetadata(is_optimizable=True, optimization_bounds=(0.5, 1.5), is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "Neff": "OptimizationMetadata(is_optimizable=False, optimization_bounds=None, is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "Tcmb": "OptimizationMetadata(is_optimizable=False, optimization_bounds=None, is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "recomb_method": "OptimizationMetadata(is_optimizable=False, optimization_bounds=None, is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "alpha": "OptimizationMetadata(is_optimizable=True, optimization_bounds=(1e-06, 0.01), is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "Rmax": "OptimizationMetadata(is_optimizable=True, optimization_bounds=(1000000.0, 1000000000000.0), is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "eps0": "OptimizationMetadata(is_optimizable=True, optimization_bounds=(0.0, 2.0), is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "n_eps": "OptimizationMetadata(is_optimizable=True, optimization_bounds=(-2.0, 2.0), is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)",
+      "k_sat": "OptimizationMetadata(is_optimizable=True, optimization_bounds=(0.1, 2.0), is_currently_optimized=False, optimization_source=None, last_optimized=None, optimization_method=None)"
+    },
+    "_parameter_classification": {
+      "optimizable": [
+        "H0",
+        "Obh2",
+        "Om0",
+        "Rmax",
+        "alpha",
+        "eps0",
+        "k_sat",
+        "n_eps",
+        "ns"
+      ],
+      "fixed": [
+        "Neff",
+        "Tcmb",
+        "recomb_method"
+      ],
+      "currently_optimized": []
+    }
   },
   "metrics": {
     "total_chi2": 10.50000001,

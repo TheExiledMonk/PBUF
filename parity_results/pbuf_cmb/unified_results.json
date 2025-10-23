@@ -1,7 +1,7 @@
 {
   "params": {
-    "H0": 67.4,
-    "Om0": 0.315,
+    "H0": 74.55245673402335,
+    "Om0": 0.24500014744147414,
     "Obh2": 0.02237,
     "ns": 0.9649,
     "alpha": 0.0005,
@@ -11,43 +11,53 @@
     "k_sat": 0.9762,
     "Neff": 3.046,
     "Tcmb": 2.7255,
-    "recomb_method": "PLANCK18"
+    "recomb_method": "PLANCK18",
+    "model_class": "pbuf"
   },
   "results": {
     "cmb": {
-      "chi2": 5124.531737483086,
+      "chi2": 1726.7843891690354,
       "predictions": {
-        "R": 1.758254699160931,
-        "l_A": 301.813311852091,
-        "theta_star": 1.04090592767803
+        "R": 1.7150877531038606,
+        "l_A": 301.79566074824584,
+        "theta_star": 1.040966807077611
       },
       "observations": {
         "R": 1.7502,
         "l_A": 301.845,
         "theta_star": 1.04092
       },
-      "covariance": "[[ 2.30e-06  2.99e-06 -8.93e-09]\n [ 2.99e-06  4.33e-06 -1.28e-08]\n [-8.93e-09 -1.28e-08  4.64e-11]]"
+      "covariance": "[[ 2.30e-06  2.99e-06 -8.93e-09]\n [ 2.99e-06  4.33e-06 -1.28e-08]\n [-8.93e-09 -1.28e-08  4.64e-11]]",
+      "provenance": null
     }
   },
   "metrics": {
-    "chi2": 0.0,
-    "chi2_reduced": 0.0,
-    "aic": 18.0,
-    "bic": 23.08454421715383,
-    "dof": 4,
+    "chi2": 3253.8601104995764,
+    "total_chi2": 1726.7843891690354,
+    "chi2_reduced": 21.128961756490757,
+    "aic": 3271.8601104995764,
+    "bic": 3299.7038623068374,
+    "dof": 154,
     "n_params": 9,
-    "n_data": 13,
-    "p_value": 1.0,
-    "total_chi2": 5124.531737483086
+    "n_data": 163,
+    "p_value": 0.0
   },
   "chi2_breakdown": {
-    "cmb": 5124.531737483086,
-    "bao": 275.5600310558655
+    "bao": 233.52182608238033,
+    "cmb": 1726.7843891690354,
+    "sn": 1293.5538952481606
   },
   "datasets": [
+    "bao",
     "cmb",
-    "bao"
+    "sn"
   ],
   "model": "pbuf",
-  "_execution_time": 0.002172231674194336
+  "diagnostics": {
+    "total_datasets": 3,
+    "total_data_points": 3,
+    "convergence_status": "completed"
+  },
+  "dataset_provenance": null,
+  "_execution_time": 4.046939849853516
 }

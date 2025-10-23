@@ -1,0 +1,126 @@
+================================================================================
+PARITY TEST REPORT: pbuf_cmb
+================================================================================
+Timestamp: 2025-10-24T00:41:17.138416
+Model: pbuf
+Datasets: cmb
+Overall Result: FAIL
+
+Execution Times:
+  Legacy System:  0.100s
+  Unified System: 4.047s
+  Speed Ratio:    0.02x
+
+Test Configuration:
+  Absolute Tolerance: 1e-06
+  Relative Tolerance: 1e-06
+
+Detailed Comparisons:
+--------------------------------------------------------------------------------
+
+METRICS:
+  metrics.total_chi2             FAIL Legacy=1.050000e+01 Unified=1.726784e+03 Diff=1.72e+03
+  metrics.aic                    FAIL Legacy=1.450000e+01 Unified=3.271860e+03 Diff=3.26e+03
+  metrics.bic                    FAIL Legacy=1.820000e+01 Unified=3.299704e+03 Diff=3.28e+03
+  metrics.dof                    FAIL Legacy=5.000000e+00 Unified=1.540000e+02 Diff=1.49e+02
+  metrics.p_value                FAIL Legacy=6.200000e-02 Unified=0.000000e+00 Diff=6.20e-02
+
+PARAMS:
+  params.H0                      FAIL Legacy=6.740000e+01 Unified=7.455246e+01 Diff=7.15e+00
+  params.Om0                     FAIL Legacy=3.150000e-01 Unified=2.450001e-01 Diff=7.00e-02
+  params.Obh2                    PASS Legacy=2.237000e-02 Unified=2.237000e-02 Diff=0.00e+00
+  params.ns                      PASS Legacy=9.649000e-01 Unified=9.649000e-01 Diff=0.00e+00
+  params.alpha                   PASS Legacy=5.000000e-04 Unified=5.000000e-04 Diff=0.00e+00
+  params.Rmax                    PASS Legacy=1.000000e+09 Unified=1.000000e+09 Diff=0.00e+00
+  params.eps0                    PASS Legacy=7.000000e-01 Unified=7.000000e-01 Diff=0.00e+00
+  params.n_eps                   PASS Legacy=0.000000e+00 Unified=0.000000e+00 Diff=0.00e+00
+  params.k_sat                   PASS Legacy=9.762000e-01 Unified=9.762000e-01 Diff=0.00e+00
+
+RESULTS:
+  results.cmb.chi2               FAIL Legacy=1.790000e+00 Unified=1.726784e+03 Diff=1.72e+03
+
+PREDICTIONS:
+  predictions.cmb.R              FAIL Legacy=1.750200e+00 Unified=1.715088e+00 Diff=3.51e-02
+  predictions.cmb.l_A            FAIL Legacy=3.018450e+02 Unified=3.017957e+02 Diff=4.93e-02
+  predictions.cmb.theta_star     FAIL Legacy=1.040920e+00 Unified=1.040967e+00 Diff=4.68e-05
+
+FAILED COMPARISONS:
+----------------------------------------
+  metrics.total_chi2
+    Legacy:     10.50000001
+    Unified:    1726.7843891690354
+    Abs Diff:   1716.2843891590355
+    Rel Diff:   163.45565595471226
+    Tolerance:  1e-06
+
+  metrics.aic
+    Legacy:     14.50000002
+    Unified:    3271.8601104995764
+    Abs Diff:   3257.3601104795766
+    Rel Diff:   224.64552455080457
+    Tolerance:  1e-06
+
+  metrics.bic
+    Legacy:     18.2
+    Unified:    3299.7038623068374
+    Abs Diff:   3281.5038623068376
+    Rel Diff:   180.30241001685923
+    Tolerance:  1e-06
+
+  metrics.dof
+    Legacy:     5
+    Unified:    154
+    Abs Diff:   149.0
+    Rel Diff:   29.8
+    Tolerance:  1e-06
+
+  metrics.p_value
+    Legacy:     0.062
+    Unified:    0.0
+    Abs Diff:   0.062
+    Rel Diff:   1.0
+    Tolerance:  6.2e-08
+
+  params.H0
+    Legacy:     67.4
+    Unified:    74.55245673402335
+    Abs Diff:   7.152456734023346
+    Rel Diff:   0.10611953611310601
+    Tolerance:  1e-06
+
+  params.Om0
+    Legacy:     0.315
+    Unified:    0.24500014744147414
+    Abs Diff:   0.06999985255852587
+    Rel Diff:   0.22222175415405038
+    Tolerance:  3.15e-07
+
+  results.cmb.chi2
+    Legacy:     1.79
+    Unified:    1726.7843891690354
+    Abs Diff:   1724.9943891690355
+    Rel Diff:   963.6840162955505
+    Tolerance:  1e-06
+
+  predictions.cmb.R
+    Legacy:     1.7502
+    Unified:    1.7150877531038606
+    Abs Diff:   0.03511224689613934
+    Rel Diff:   0.02006184830084524
+    Tolerance:  1e-06
+
+  predictions.cmb.l_A
+    Legacy:     301.845
+    Unified:    301.79566074824584
+    Abs Diff:   0.04933925175419063
+    Rel Diff:   0.00016345890027726358
+    Tolerance:  1e-06
+
+  predictions.cmb.theta_star
+    Legacy:     1.04092
+    Unified:    1.040966807077611
+    Abs Diff:   4.680707761095526e-05
+    Rel Diff:   4.496702687137845e-05
+    Tolerance:  1e-06
+
+================================================================================

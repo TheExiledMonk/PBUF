@@ -1,0 +1,54 @@
+================================================================================
+DATASET ISOLATION AUDIT REPORT
+================================================================================
+✅ All fit modules confirmed isolated
+
+Summary: 5/5 modules passed
+
+✅ fit_bao
+   Allowed: bao
+   Actively Requests: bao
+   References: bao, cmb
+   Warnings:
+     • warning: unauthorized dataset 'cmb' referenced in string literal (line 155)
+
+✅ fit_bao_aniso
+   Allowed: bao_ani
+   Actively Requests: bao_ani
+   References: bao, bao_ani, cmb, sn
+   Warnings:
+     • warning: unauthorized dataset 'sn' referenced in string literal (line 271)
+     • warning: unauthorized dataset 'bao' referenced in string literal (line 271)
+     • warning: unauthorized dataset 'cmb' referenced in string literal (line 271)
+     • warning: unauthorized dataset 'cmb' referenced in string literal (line 302)
+     • warning: unauthorized dataset 'cmb' referenced in string literal (line 347)
+
+✅ fit_cmb
+   Allowed: cmb
+   Actively Requests: cmb
+   References: bao, cmb
+   Warnings:
+     • warning: unauthorized dataset 'bao' referenced in string literal (line 396)
+     • Line 383: Possible automatic dataset addition for DOF: # Check degrees of freedom and add BAO if needed
+     • Line 395: Possible automatic dataset addition for DOF: # CMB alone has insufficient DOF, add BAO for more data points
+     • Line 397: Possible automatic dataset addition for DOF: print("Note: Adding BAO data to CMB for sufficient degrees of freedom")
+
+✅ fit_joint
+   Allowed: bao, bao_ani, cmb, sn
+   References: bao, bao_ani, cmb, sn
+
+✅ fit_sn
+   Allowed: sn
+   Actively Requests: sn
+   References: cmb, sn
+   Warnings:
+     • warning: unauthorized dataset 'cmb' referenced in string literal (line 155)
+
+Dataset Access Summary:
+----------------------------------------
+  bao: fit_bao, fit_cmb, fit_joint, fit_bao_aniso
+  bao_ani: fit_joint, fit_bao_aniso
+  cmb: fit_sn, fit_bao, fit_cmb, fit_joint, fit_bao_aniso
+  sn: fit_sn, fit_joint, fit_bao_aniso
+
+================================================================================

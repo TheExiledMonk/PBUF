@@ -1,48 +1,56 @@
 {
   "params": {
-    "H0": 67.4,
-    "Om0": 0.315,
+    "H0": 73.49869611592031,
+    "Om0": 0.25388059698307325,
     "Obh2": 0.02237,
     "ns": 0.9649,
     "Neff": 3.046,
     "Tcmb": 2.7255,
-    "recomb_method": "PLANCK18"
+    "recomb_method": "PLANCK18",
+    "model_class": "lcdm"
   },
   "results": {
     "cmb": {
-      "chi2": 5124.531737483086,
+      "chi2": 1642.948494643622,
       "predictions": {
-        "R": 1.758254699160931,
-        "l_A": 301.813311852091,
-        "theta_star": 1.04090592767803
+        "R": 1.7212622725248352,
+        "l_A": 301.8036148841378,
+        "theta_star": 1.0409393720469016
       },
       "observations": {
         "R": 1.7502,
         "l_A": 301.845,
         "theta_star": 1.04092
       },
-      "covariance": "[[ 2.30e-06  2.99e-06 -8.93e-09]\n [ 2.99e-06  4.33e-06 -1.28e-08]\n [-8.93e-09 -1.28e-08  4.64e-11]]"
+      "covariance": "[[ 2.30e-06  2.99e-06 -8.93e-09]\n [ 2.99e-06  4.33e-06 -1.28e-08]\n [-8.93e-09 -1.28e-08  4.64e-11]]",
+      "provenance": null
     }
   },
   "metrics": {
-    "chi2": 0.0,
-    "chi2_reduced": 0.0,
-    "aic": 8.0,
-    "bic": 10.259797429846147,
+    "chi2": 1881.6031142661172,
+    "total_chi2": 1642.948494643622,
+    "chi2_reduced": 209.06701269623525,
+    "aic": 1889.6031142661172,
+    "bic": 1891.8629116959635,
     "dof": 9,
     "n_params": 4,
     "n_data": 13,
-    "p_value": 1.0,
-    "total_chi2": 5124.531737483086
+    "p_value": 0.0
   },
   "chi2_breakdown": {
-    "cmb": 5124.531737483086,
-    "bao": 275.5600310558655
+    "cmb": 1642.948494643622,
+    "bao": 238.65461962249515
   },
   "datasets": [
     "cmb",
     "bao"
   ],
   "model": "lcdm",
-  "_execution_time": 0.0033190250396728516
+  "diagnostics": {
+    "total_datasets": 2,
+    "total_data_points": 2,
+    "convergence_status": "completed"
+  },
+  "dataset_provenance": null,
+  "_execution_time": 1.6913964748382568
 }

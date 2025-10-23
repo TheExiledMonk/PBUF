@@ -1,0 +1,155 @@
+{
+  "dataset_name": "test_data",
+  "dataset_type": null,
+  "processing_start": "2025-10-23T16:33:22.517405+00:00",
+  "processing_end": "2025-10-23T16:33:22.519763+00:00",
+  "total_duration": 0.002358,
+  "transformation_steps": [
+    {
+      "step_name": "test_derivation",
+      "formula": null,
+      "description": "Complete TEST dataset derivation",
+      "input_description": "Raw TEST data file",
+      "output_description": "Standardized dataset format",
+      "input_shape": null,
+      "output_shape": {
+        "z": [
+          4
+        ],
+        "observable": [
+          4
+        ],
+        "uncertainty": [
+          4
+        ],
+        "covariance": null
+      },
+      "parameters": {
+        "input_file_size": {
+          "value": 63,
+          "description": "Size of input data file in bytes"
+        },
+        "input_file_format": {
+          "value": ".txt",
+          "description": "Input file format/extension"
+        },
+        "metadata_keys": {
+          "value": [
+            "source",
+            "version",
+            "description"
+          ],
+          "description": "Available metadata fields"
+        },
+        "summary_transformation_steps": {
+          "value": [
+            "Read CSV-like input file",
+            "Parse z, observable, uncertainty columns",
+            "Create StandardDataset"
+          ],
+          "description": "Transformation summary: transformation_steps"
+        },
+        "summary_formulas_used": {
+          "value": [
+            "No mathematical transformations applied"
+          ],
+          "description": "Transformation summary: formulas_used"
+        },
+        "summary_assumptions": {
+          "value": [
+            "Input data is already in correct units"
+          ],
+          "description": "Transformation summary: assumptions"
+        },
+        "summary_references": {
+          "value": [
+            "Test derivation module - no external references"
+          ],
+          "description": "Transformation summary: references"
+        }
+      },
+      "references": null,
+      "assumptions": null,
+      "timestamp": "2025-10-23T16:33:22.518939+00:00",
+      "duration": 0.00013065338134765625
+    }
+  ],
+  "validation_results": {
+    "dataset_name": "test_data",
+    "validation_passed": true,
+    "rules_checked": [
+      {
+        "rule_name": "Schema Compliance",
+        "passed": true
+      },
+      {
+        "rule_name": "Numerical Integrity",
+        "passed": true
+      },
+      {
+        "rule_name": "Covariance Matrix Validation",
+        "passed": true
+      },
+      {
+        "rule_name": "Redshift Range (0.0 \u2264 z \u2264 10.0)",
+        "passed": true
+      },
+      {
+        "rule_name": "Monotonicity and Physical Sanity (observable)",
+        "passed": true
+      }
+    ],
+    "warnings": [],
+    "summary": {
+      "dataset_name": "test_data",
+      "n_points": 4,
+      "redshift_range": [
+        0.1,
+        0.4
+      ],
+      "observable_range": [
+        1.0,
+        4.0
+      ],
+      "has_covariance": false,
+      "metadata_keys": [
+        "source",
+        "version",
+        "description",
+        "processing_info",
+        "n_points"
+      ]
+    }
+  },
+  "input_metadata": {
+    "source": "integration_test",
+    "version": "1.0",
+    "description": "Test dataset for integration testing"
+  },
+  "output_metadata": {
+    "output_file_path": "data/derived/test_data_derived_20251023_163322.json",
+    "derived_dataset_hash": "3c7225008e701ce0"
+  },
+  "environment_info": {
+    "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]",
+    "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+    "numpy_version": "2.3.4",
+    "timestamp": "2025-10-23T16:33:22.515609+00:00",
+    "total_memory": 33224306688,
+    "available_memory": 12552372224,
+    "git_commit": "05f32ab98153f2b04a1569af9032a6a48e59d3de"
+  },
+  "performance_metrics": {
+    "total_steps": 1,
+    "total_transformation_time": 0.00013065338134765625,
+    "average_step_time": 0.00013065338134765625,
+    "longest_step": 0.00013065338134765625,
+    "shortest_step": 0.00013065338134765625,
+    "step_breakdown": {
+      "test_derivation": 0.00013065338134765625
+    },
+    "total_processing_time": 0.002358,
+    "transformation_overhead": 0.0022273466186523436,
+    "transformation_efficiency": 5.540855867160994
+  }
+}

@@ -1,0 +1,110 @@
+================================================================================
+PARITY TEST REPORT: pbuf_bao
+================================================================================
+Timestamp: 2025-10-24T00:41:18.772432
+Model: pbuf
+Datasets: bao
+Overall Result: FAIL
+
+Execution Times:
+  Legacy System:  0.100s
+  Unified System: 1.632s
+  Speed Ratio:    0.06x
+
+Test Configuration:
+  Absolute Tolerance: 1e-06
+  Relative Tolerance: 1e-06
+
+Detailed Comparisons:
+--------------------------------------------------------------------------------
+
+METRICS:
+  metrics.total_chi2             FAIL Legacy=1.050000e+01 Unified=4.936186e+02 Diff=4.83e+02
+  metrics.aic                    FAIL Legacy=1.450000e+01 Unified=5.116186e+02 Diff=4.97e+02
+  metrics.bic                    FAIL Legacy=1.820000e+01 Unified=5.392951e+02 Diff=5.21e+02
+  metrics.dof                    FAIL Legacy=5.000000e+00 Unified=1.510000e+02 Diff=1.46e+02
+  metrics.p_value                FAIL Legacy=6.200000e-02 Unified=0.000000e+00 Diff=6.20e-02
+
+PARAMS:
+  params.H0                      FAIL Legacy=6.740000e+01 Unified=8.661195e+01 Diff=1.92e+01
+  params.Om0                     FAIL Legacy=3.150000e-01 Unified=6.000000e-01 Diff=2.85e-01
+  params.Obh2                    PASS Legacy=2.237000e-02 Unified=2.237000e-02 Diff=0.00e+00
+  params.ns                      PASS Legacy=9.649000e-01 Unified=9.649000e-01 Diff=0.00e+00
+  params.alpha                   PASS Legacy=5.000000e-04 Unified=5.000000e-04 Diff=0.00e+00
+  params.Rmax                    PASS Legacy=1.000000e+09 Unified=1.000000e+09 Diff=0.00e+00
+  params.eps0                    PASS Legacy=7.000000e-01 Unified=7.000000e-01 Diff=0.00e+00
+  params.n_eps                   PASS Legacy=0.000000e+00 Unified=0.000000e+00 Diff=0.00e+00
+  params.k_sat                   PASS Legacy=9.762000e-01 Unified=9.762000e-01 Diff=0.00e+00
+
+RESULTS:
+  results.bao.chi2               FAIL Legacy=3.210000e+00 Unified=3.642138e+02 Diff=3.61e+02
+
+PREDICTIONS:
+  predictions.bao.DV_over_rs     FAIL Legacy=array((5,)) Unified=array((5,)) Diff=6.89e+00
+
+FAILED COMPARISONS:
+----------------------------------------
+  metrics.total_chi2
+    Legacy:     10.50000001
+    Unified:    493.6185793079468
+    Abs Diff:   483.1185792979468
+    Rel Diff:   46.01129322265084
+    Tolerance:  1e-06
+
+  metrics.aic
+    Legacy:     14.50000002
+    Unified:    511.6185793079468
+    Abs Diff:   497.1185792879468
+    Rel Diff:   34.28403990360455
+    Tolerance:  1e-06
+
+  metrics.bic
+    Legacy:     18.2
+    Unified:    539.2951436450512
+    Abs Diff:   521.0951436450512
+    Rel Diff:   28.631601299178637
+    Tolerance:  1e-06
+
+  metrics.dof
+    Legacy:     5
+    Unified:    151
+    Abs Diff:   146.0
+    Rel Diff:   29.2
+    Tolerance:  1e-06
+
+  metrics.p_value
+    Legacy:     0.062
+    Unified:    0.0
+    Abs Diff:   0.062
+    Rel Diff:   1.0
+    Tolerance:  6.2e-08
+
+  params.H0
+    Legacy:     67.4
+    Unified:    86.61195229687807
+    Abs Diff:   19.211952296878067
+    Rel Diff:   0.2850438026243036
+    Tolerance:  1e-06
+
+  params.Om0
+    Legacy:     0.315
+    Unified:    0.6
+    Abs Diff:   0.285
+    Rel Diff:   0.9047619047619047
+    Tolerance:  3.15e-07
+
+  results.bao.chi2
+    Legacy:     3.21
+    Unified:    364.2138103487399
+    Abs Diff:   361.00381034873993
+    Rel Diff:   112.46224621456072
+    Tolerance:  1e-06
+
+  predictions.bao.DV_over_rs
+    Legacy:     [ 8.467 10.252 15.273 18.456 20.789]
+    Unified:    [ 5.76807074  7.08112303 11.50175592 13.01469019 13.89669566]
+    Abs Diff:   6.892304339228275
+    Rel Diff:   0.33153611714023157
+    Tolerance:  1e-06
+
+================================================================================

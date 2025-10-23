@@ -1,0 +1,100 @@
+================================================================================
+PARITY TEST REPORT: pbuf_sn
+================================================================================
+Timestamp: 2025-10-24T00:41:19.748736
+Model: pbuf
+Datasets: sn
+Overall Result: FAIL
+
+Execution Times:
+  Legacy System:  0.100s
+  Unified System: 0.974s
+  Speed Ratio:    0.10x
+
+Test Configuration:
+  Absolute Tolerance: 1e-06
+  Relative Tolerance: 1e-06
+
+Detailed Comparisons:
+--------------------------------------------------------------------------------
+
+METRICS:
+  metrics.total_chi2             FAIL Legacy=1.050000e+01 Unified=1.106420e+02 Diff=1.00e+02
+  metrics.aic                    FAIL Legacy=1.450000e+01 Unified=1.286420e+02 Diff=1.14e+02
+  metrics.bic                    FAIL Legacy=1.820000e+01 Unified=1.557377e+02 Diff=1.38e+02
+  metrics.dof                    FAIL Legacy=5.000000e+00 Unified=1.410000e+02 Diff=1.36e+02
+  metrics.p_value                FAIL Legacy=6.200000e-02 Unified=9.723350e-01 Diff=9.10e-01
+
+PARAMS:
+  params.H0                      FAIL Legacy=6.740000e+01 Unified=9.091564e+01 Diff=2.35e+01
+  params.Om0                     FAIL Legacy=3.150000e-01 Unified=6.000000e-01 Diff=2.85e-01
+  params.Obh2                    PASS Legacy=2.237000e-02 Unified=2.237000e-02 Diff=0.00e+00
+  params.ns                      PASS Legacy=9.649000e-01 Unified=9.649000e-01 Diff=0.00e+00
+  params.alpha                   PASS Legacy=5.000000e-04 Unified=5.000000e-04 Diff=0.00e+00
+  params.Rmax                    PASS Legacy=1.000000e+09 Unified=1.000000e+09 Diff=0.00e+00
+  params.eps0                    PASS Legacy=7.000000e-01 Unified=7.000000e-01 Diff=0.00e+00
+  params.n_eps                   PASS Legacy=0.000000e+00 Unified=0.000000e+00 Diff=0.00e+00
+  params.k_sat                   PASS Legacy=9.762000e-01 Unified=9.762000e-01 Diff=0.00e+00
+
+RESULTS:
+  results.sn.chi2                FAIL Legacy=5.430000e+00 Unified=1.106420e+02 Diff=1.05e+02
+
+FAILED COMPARISONS:
+----------------------------------------
+  metrics.total_chi2
+    Legacy:     10.50000001
+    Unified:    110.6419979201619
+    Abs Diff:   100.1419979101619
+    Rel Diff:   9.537333125217959
+    Tolerance:  1e-06
+
+  metrics.aic
+    Legacy:     14.50000002
+    Unified:    128.64199792016188
+    Abs Diff:   114.14199790016188
+    Rel Diff:   7.8718619132913545
+    Tolerance:  1e-06
+
+  metrics.bic
+    Legacy:     18.2
+    Unified:    155.7377155670282
+    Abs Diff:   137.53771556702821
+    Rel Diff:   7.557017338847705
+    Tolerance:  1e-06
+
+  metrics.dof
+    Legacy:     5
+    Unified:    141
+    Abs Diff:   136.0
+    Rel Diff:   27.2
+    Tolerance:  1e-06
+
+  metrics.p_value
+    Legacy:     0.062
+    Unified:    0.9723349627896183
+    Abs Diff:   0.9103349627896182
+    Rel Diff:   14.682821980477714
+    Tolerance:  6.2e-08
+
+  params.H0
+    Legacy:     67.4
+    Unified:    90.9156442886093
+    Abs Diff:   23.515644288609295
+    Rel Diff:   0.3488967995342625
+    Tolerance:  1e-06
+
+  params.Om0
+    Legacy:     0.315
+    Unified:    0.6
+    Abs Diff:   0.285
+    Rel Diff:   0.9047619047619047
+    Tolerance:  3.15e-07
+
+  results.sn.chi2
+    Legacy:     5.43
+    Unified:    110.6419979201619
+    Abs Diff:   105.2119979201619
+    Rel Diff:   19.376058548832763
+    Tolerance:  1e-06
+
+================================================================================

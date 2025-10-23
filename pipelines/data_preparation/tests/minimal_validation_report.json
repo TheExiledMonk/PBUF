@@ -1,21 +1,30 @@
 {
-  "timestamp": "2025-10-23T16:49:22.153336",
-  "overall_success": false,
+  "timestamp": "2025-10-24T00:43:02.179488",
+  "overall_success": true,
   "summary": {
-    "total_tests": 3,
-    "passed": 0,
+    "total_tests": 8,
+    "passed": 8,
     "failed": 0,
-    "errors": 3,
+    "errors": 0,
     "skipped": 0,
-    "duration_seconds": 0.6820266246795654,
-    "pass_rate": 0.0
+    "duration_seconds": 0.7102053165435791,
+    "pass_rate": 100.0
   },
-  "test_results": [],
+  "test_results": [
+    "pipelines/data_preparation/tests/test_validation_performance_minimal.py::TestRoundTripDeterministic::test_deterministic_processing_sn PASSED [ 12%]",
+    "pipelines/data_preparation/tests/test_validation_performance_minimal.py::TestRoundTripDeterministic::test_deterministic_processing_bao PASSED [ 25%]",
+    "pipelines/data_preparation/tests/test_validation_performance_minimal.py::TestRoundTripDeterministic::test_environment_consistency PASSED [ 37%]",
+    "pipelines/data_preparation/tests/test_validation_performance_minimal.py::TestCrossValidationConcepts::test_format_compatibility PASSED [ 50%]",
+    "pipelines/data_preparation/tests/test_validation_performance_minimal.py::TestCrossValidationConcepts::test_processing_consistency PASSED [ 62%]",
+    "pipelines/data_preparation/tests/test_validation_performance_minimal.py::TestPerformanceBenchmarks::test_individual_dataset_performance PASSED [ 75%]",
+    "pipelines/data_preparation/tests/test_validation_performance_minimal.py::TestPerformanceBenchmarks::test_phase_a_simulation_performance PASSED [ 87%]",
+    "pipelines/data_preparation/tests/test_validation_performance_minimal.py::TestPerformanceBenchmarks::test_memory_efficiency PASSED [100%]"
+  ],
   "performance_metrics": {},
   "requirements_compliance": {
-    "round_trip_deterministic_behavior": false,
-    "cross_validation_concepts": false,
-    "performance_benchmarks": false,
-    "phase_a_simulation_\u2264_30s": false
+    "round_trip_deterministic_behavior": true,
+    "cross_validation_concepts": true,
+    "performance_benchmarks": true,
+    "phase_a_simulation_\u2264_30s": true
   }
 }
