@@ -253,19 +253,19 @@
   - Write pipeline integration tests with existing PBUF workflows
   - _Requirements: 5.1-5.5, Performance requirements_
 
-- [ ] 12. Create configuration and deployment support
+- [x] 12. Create configuration and deployment support
   - Add configuration file support for registry settings
   - Create deployment documentation and setup instructions
   - Implement configuration migration from existing dataset settings
   - _Requirements: Portability, Integration_
 
-- [ ] 12.1 Implement configuration management
+- [x] 12.1 Implement configuration management
   - Add registry configuration section to existing PBUF config system
   - Create configuration validation and default value handling
   - Implement environment-specific configuration overrides
   - _Requirements: Portability_
 
-- [ ] 12.2 Create deployment and migration tools
+- [x] 12.2 Create deployment and migration tools
   - Write deployment documentation with setup instructions
   - Create migration scripts for existing dataset configurations
   - Add backward compatibility validation during deployment

@@ -1,5 +1,21 @@
 # PBUF Cosmology Pipeline
 
+Planck-Bound Unified Framework (PBUF)
+
+---
+**Author:** Fabian Olesen  
+**ORCID:** [0009-0009-7125-8547](https://orcid.org/0009-0009-7125-8547)  
+**DOI:** [10.5281/zenodo.17394412](https://doi.org/10.5281/zenodo.17394412)
+---
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17394412.svg)](https://doi.>
+
+
+This repository and all associated analysis were created and maintained by Fabi>
+
+License: MIT for code | CC-BY 4.0 for documentation and papers
+
+
 A unified cosmological parameter fitting infrastructure for PBUF and ΛCDM models.
 
 ## Quick Setup

@@ -268,7 +268,79 @@ class ConfigurationManager:
         Returns:
             Dictionary with dataset settings
         """
-        return self.config_data.get('datasets', {})
+        datasets_config = self.config_data.get('datasets', {})
+        
+        # Add default dataset registry configuration if not present
+        if 'registry' not in datasets_config:
+            datasets_config['registry'] = {
+                'enabled': True,
+                'manifest_path': 'data/datasets_manifest.json',
+                'registry_path': 'data/registry/',
+                'cache_path': 'data/cache/',
+                'auto_fetch': True,
+                'verify_on_load': True,
+                'fallback_to_legacy': False
+            }
+        
+        return datasets_config
+    
+    def get_dataset_registry_config(self) -> Dict[str, Any]:
+        """
+        Get dataset registry configuration.
+        
+        Returns:
+            Dictionary with dataset registry settings
+        """
+        datasets_config = self.get_datasets_config()
+        registry_config = datasets_config.get('registry', {})
+        
+        # Default registry configuration
+        default_config = {
+            'enabled': True,
+            'manifest_path': 'data/datasets_manifest.json',
+            'registry_path': 'data/registry/',
+            'cache_path': 'data/cache/',
+            'auto_fetch': True,
+            'verify_on_load': True,
+            'fallback_to_legacy': False,
+            'download': {
+                'timeout': 300,
+                'max_retries': 3,
+                'retry_delay': 1.0,
+                'max_retry_delay': 60.0,
+                'retry_backoff_factor': 2.0,
+                'chunk_size': 8192,
+                'concurrent_downloads': 3
+            },
+            'verification': {
+                'verify_checksums': True,
+                'verify_file_sizes': True,
+                'verify_schemas': True,
+                'checksum_algorithm': 'sha256'
+            },
+            'logging': {
+                'structured_logging': True,
+                'log_level': 'INFO',
+                'log_file': None,
+                'audit_trail_enabled': True
+            },
+            'cache': {
+                'enabled': True,
+                'max_size_gb': 10.0
+            }
+        }
+        
+        # Merge with user configuration
+        config = default_config.copy()
+        
+        # Handle nested configuration merging
+        for key, value in registry_config.items():
+            if key in ['download', 'verification', 'logging', 'cache'] and isinstance(value, dict):
+                config[key].update(value)
+            else:
+                config[key] = value
+        
+        return config
     
     def get_optimization_config(self) -> Dict[str, Any]:
         """
@@ -663,7 +735,41 @@ EXAMPLE_JSON_CONFIG = """
   "datasets": {
     "default_datasets": ["cmb", "bao", "sn"],
     "data_directory": "./data",
-    "custom_covariance": null
+    "custom_covariance": null,
+    "registry": {
+      "enabled": true,
+      "manifest_path": "data/datasets_manifest.json",
+      "registry_path": "data/registry/",
+      "cache_path": "data/cache/",
+      "auto_fetch": true,
+      "verify_on_load": true,
+      "fallback_to_legacy": false,
+      "download": {
+        "timeout": 300,
+        "max_retries": 3,
+        "retry_delay": 1.0,
+        "max_retry_delay": 60.0,
+        "retry_backoff_factor": 2.0,
+        "chunk_size": 8192,
+        "concurrent_downloads": 3
+      },
+      "verification": {
+        "verify_checksums": true,
+        "verify_file_sizes": true,
+        "verify_schemas": true,
+        "checksum_algorithm": "sha256"
+      },
+      "logging": {
+        "structured_logging": true,
+        "log_level": "INFO",
+        "log_file": null,
+        "audit_trail_enabled": true
+      },
+      "cache": {
+        "enabled": true,
+        "max_size_gb": 10.0
+      }
+    }
   }
 }
 """
@@ -725,6 +831,35 @@ datasets:
     - sn
   data_directory: ./data
   custom_covariance: null
+  registry:
+    enabled: true
+    manifest_path: data/datasets_manifest.json
+    registry_path: data/registry/
+    cache_path: data/cache/
+    auto_fetch: true
+    verify_on_load: true
+    fallback_to_legacy: false
+    download:
+      timeout: 300
+      max_retries: 3
+      retry_delay: 1.0
+      max_retry_delay: 60.0
+      retry_backoff_factor: 2.0
+      chunk_size: 8192
+      concurrent_downloads: 3
+    verification:
+      verify_checksums: true
+      verify_file_sizes: true
+      verify_schemas: true
+      checksum_algorithm: sha256
+    logging:
+      structured_logging: true
+      log_level: INFO
+      log_file: null
+      audit_trail_enabled: true
+    cache:
+      enabled: true
+      max_size_gb: 10.0
 """
 
 EXAMPLE_INI_CONFIG = """
@@ -774,4 +909,29 @@ fail_on_error = false
 [datasets]
 default_datasets = cmb,bao,sn
 data_directory = ./data
+
+[datasets.registry]
+enabled = true
+manifest_path = data/datasets_manifest.json
+registry_path = data/registry/
+cache_path = data/cache/
+auto_fetch = true
+verify_on_load = true
+fallback_to_legacy = false
+download_timeout = 300
+max_retries = 3
+retry_delay = 1.0
+max_retry_delay = 60.0
+retry_backoff_factor = 2.0
+chunk_size = 8192
+concurrent_downloads = 3
+verify_checksums = true
+verify_file_sizes = true
+verify_schemas = true
+checksum_algorithm = sha256
+structured_logging = true
+log_level = INFO
+audit_trail_enabled = true
+cache_enabled = true
+cache_max_size_gb = 10.0
 """
