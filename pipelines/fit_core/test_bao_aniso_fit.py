@@ -226,7 +226,7 @@ class TestValidationAgainstExistingImplementation(unittest.TestCase):
             "ns": 0.9649,
             "Neff": 3.046,
             "Tcmb": 2.7255,
-            "recomb_method": "RECFAST",
+            "recomb_method": "PLANCK18",
             "model_class": "lcdm"
         }
         
@@ -237,12 +237,12 @@ class TestValidationAgainstExistingImplementation(unittest.TestCase):
             "ns": 0.9649,
             "Neff": 3.046,
             "Tcmb": 2.7255,
-            "recomb_method": "RECFAST",
-            "alpha": 0.1,
-            "Rmax": 100.0,
-            "eps0": 0.01,
-            "n_eps": 2.0,
-            "k_sat": 0.1,
+            "recomb_method": "PLANCK18",
+            "alpha": 0.005,  # Within valid range [1e-6, 1e-2]
+            "Rmax": 5e7,    # Within valid range [1e6, 1e12]
+            "eps0": 0.3,    # Within valid range [0.0, 2.0]
+            "n_eps": 1.0,   # Within valid range [-2.0, 2.0]
+            "k_sat": 0.2,   # Within valid range [0.1, 2.0]
             "model_class": "pbuf"
         }
     
@@ -287,12 +287,12 @@ class TestValidationAgainstExistingImplementation(unittest.TestCase):
             
             result = run_bao_aniso_fit("lcdm")
             
-            # Verify engine was called with correct parameters (no overrides when using defaults)
+            # Verify engine was called with correct parameters (full params passed as overrides)
             mock_run_fit.assert_called_once_with(
                 model="lcdm",
                 datasets_list=["bao_ani"],
                 mode="individual",
-                overrides=None
+                overrides=self.test_params_lcdm
             )
             
             # Verify results structure
@@ -333,8 +333,8 @@ class TestValidationAgainstExistingImplementation(unittest.TestCase):
             result = run_bao_aniso_fit("pbuf")
             
             # Verify PBUF-specific parameters were included
-            self.assertEqual(result["params"]["alpha"], 0.1)
-            self.assertEqual(result["params"]["Rmax"], 100.0)
+            self.assertEqual(result["params"]["alpha"], 0.005)
+            self.assertEqual(result["params"]["Rmax"], 5e7)
     
     def test_parameter_override_consistency(self):
         """Test that parameter overrides work consistently with original implementation."""
@@ -426,12 +426,12 @@ class TestFitCoreIntegration(unittest.TestCase):
                 
                 result = run_bao_aniso_fit("lcdm")
                 
-                # Verify engine was called with correct parameters (no overrides when using defaults)
+                # Verify engine was called with correct parameters (full params passed as overrides)
                 mock_run_fit.assert_called_once_with(
                     model="lcdm",
                     datasets_list=["bao_ani"],
                     mode="individual",
-                    overrides=None
+                    overrides={"H0": 67.4, "Om0": 0.315}
                 )
     
     def test_dataset_specification_bao_ani(self):

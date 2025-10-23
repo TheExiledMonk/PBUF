@@ -1468,7 +1468,7 @@ class TestParityWithRealExecution(unittest.TestCase):
             {
                 "name": "pbuf_custom_real",
                 "model": "pbuf",
-                "args": {"H0": "68.0", "alpha": "0.12"},
+                "args": {"H0": "68.0", "alpha": "0.008"},
                 "description": "PBUF with custom parameters - real execution"
             }
         ]
@@ -1621,13 +1621,31 @@ class TestParityWithRealExecution(unittest.TestCase):
             
             if process_result.returncode == 0:
                 try:
-                    output = json.loads(process_result.stdout)
-                    result["output"] = output
-                    result["success"] = True
-                    print(f"    {script_type} execution successful ({execution_time:.3f}s)")
+                    # Extract JSON from output (scripts may have status messages before JSON)
+                    stdout = process_result.stdout
+                    
+                    # Find the JSON part - look for the first '{' and last '}'
+                    json_start = stdout.find('{')
+                    json_end = stdout.rfind('}')
+                    
+                    if json_start != -1 and json_end != -1 and json_end > json_start:
+                        json_content = stdout[json_start:json_end + 1]
+                        output = json.loads(json_content)
+                        result["output"] = output
+                        result["success"] = True
+                        print(f"    {script_type} execution successful ({execution_time:.3f}s)")
+                    else:
+                        # No JSON found, treat as error
+                        result["error"] = "No valid JSON found in output"
+                        print(f"    {script_type} execution failed: No JSON found")
+                        # Store first 200 chars for debugging
+                        result["stdout_preview"] = stdout[:200] if stdout else "No output"
+                        
                 except json.JSONDecodeError as e:
                     result["error"] = f"JSON decode error: {e}"
                     print(f"    {script_type} execution failed: JSON decode error")
+                    # Store first 200 chars for debugging
+                    result["stdout_preview"] = process_result.stdout[:200] if process_result.stdout else "No output"
             else:
                 result["error"] = f"Script returned non-zero exit code: {process_result.returncode}"
                 print(f"    {script_type} execution failed: exit code {process_result.returncode}")

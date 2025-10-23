@@ -10,6 +10,30 @@ import numpy as np
 from . import ParameterDict, DatasetDict, PredictionsDict
 
 
+def compute_chi_squared(data: np.ndarray, theory: np.ndarray, covariance: np.ndarray) -> float:
+    """
+    Compute chi-squared statistic for data-theory comparison.
+    
+    Args:
+        data: Observed data vector
+        theory: Theoretical prediction vector
+        covariance: Covariance matrix
+        
+    Returns:
+        Chi-squared value
+    """
+    residual = data - theory
+    try:
+        inv_cov = np.linalg.inv(covariance)
+        chi2 = np.dot(residual, np.dot(inv_cov, residual))
+        return float(chi2)
+    except np.linalg.LinAlgError:
+        # Fallback to diagonal approximation if inversion fails
+        diagonal = np.diag(covariance)
+        chi2 = np.sum((residual**2) / diagonal)
+        return float(chi2)
+
+
 def likelihood_cmb(params: ParameterDict, data: DatasetDict) -> Tuple[float, PredictionsDict]:
     """
     Compute CMB likelihood using distance priors.

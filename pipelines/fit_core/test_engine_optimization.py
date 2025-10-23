@@ -19,6 +19,49 @@ from .parameter_store import OptimizedParameterStore
 from .optimizer import OptimizationResult
 
 
+def create_mock_dataset(dataset_type: str, **kwargs):
+    """Helper function to create properly formatted mock datasets for testing."""
+    
+    if dataset_type == "cmb":
+        return {
+            "observations": {"R": 1.7502, "l_A": 301.845, "theta_star": 1.04092e-2},
+            "covariance": kwargs.get("covariance", np.array([[1e-6, 0, 0], [0, 1e-2, 0], [0, 0, 1e-8]])),
+            "metadata": {
+                "source": "Planck2018",
+                "n_data_points": 3,
+                "observables": ["R", "l_A", "theta_star"],
+                "redshift_range": [1089.8, 1089.8]
+            },
+            "dataset_type": "cmb"
+        }
+    elif dataset_type == "bao":
+        return {
+            "observations": {"DV_over_rs": kwargs.get("DV_over_rs", np.array([8.467, 13.015, 16.726]))},
+            "covariance": kwargs.get("covariance", np.diag([0.168, 0.326, 0.440])),
+            "metadata": {
+                "source": "BAO_compilation",
+                "n_data_points": kwargs.get("n_points", 3),
+                "observables": ["DV_over_rs"],
+                "redshift_range": kwargs.get("redshift_range", [0.38, 0.61])
+            },
+            "dataset_type": "bao"
+        }
+    elif dataset_type == "sn":
+        return {
+            "observations": {"distance_modulus": kwargs.get("distance_modulus", np.array([32.5, 35.2, 37.1, 38.9]))},
+            "covariance": kwargs.get("covariance", np.diag([0.01, 0.02, 0.03, 0.04])),
+            "metadata": {
+                "source": "Pantheon+",
+                "n_data_points": kwargs.get("n_points", 4),
+                "observables": ["distance_modulus"],
+                "redshift_range": kwargs.get("redshift_range", [0.1, 0.8])
+            },
+            "dataset_type": "sn"
+        }
+    else:
+        raise ValueError(f"Unknown dataset type: {dataset_type}")
+
+
 class TestEngineOptimization:
     """Test suite for engine optimization integration."""
     
@@ -28,11 +71,7 @@ class TestEngineOptimization:
         self.param_store = OptimizedParameterStore(storage_dir=self.temp_dir)
         
         # Mock dataset loading to avoid file dependencies
-        self.mock_cmb_data = {
-            "observations": np.array([1.0, 2.0, 3.0]),
-            "covariance": np.eye(3) * 0.1,
-            "theory_predictions": np.array([1.1, 2.1, 3.1])
-        }
+        self.mock_cmb_data = create_mock_dataset("cmb")
         
         # Mock likelihood functions to return predictable results
         self.mock_likelihood_results = {

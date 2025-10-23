@@ -1,0 +1,82 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: test_invalid_data
+Timestamp: 2025-10-23T15:00:09.959652+00:00
+Stage: output_validation
+Severity: ERROR
+Error Type: numerical_error
+
+ERROR DETAILS:
+----------------------------------------
+NaN values found in observable (1 total, indices: [1])
+
+CONTEXT INFORMATION:
+----------------------------------------
+  dataset_shape: {'z_length': 3, 'observable_length': 3, 'uncertainty_length': 3, 'has_covariance': False, 'covariance_shape': None}
+  error_details: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: numerical_error
+Error: NaN values found in observable (1 total, indices: [1])
+Context: {'issue_type': 'nan_values', 'data_statistics': {'n_points': 3, 'z_range': [0.1, 0.3], 'observable_range': [nan, nan], 'uncertainty_range': [0.1, 0.3]}}
+Suggested Actions:
+  1. Check input data for missing values or invalid entries
+  2. Review data loading process for proper NaN handling
+  3. Verify mathematical operations don't produce NaN (e.g., 0/0, inf-inf)
+  4. Consider data cleaning or interpolation for missing values
+
+  dataset_info: {'metadata_keys': ['source']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 11847000064
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check derived dataset structure and completeness
+  2. Verify transformation produced valid output
+  3. Review validation rules for appropriateness
+  4. Check for data type consistency
+  5. Verify array shapes and dimensions
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 96, in validate
+    return dataset.validate_numerical()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/schema.py", line 211, in validate_numerical
+    raise ValueError(f"NaN values found in {field_name} ({nan_count} total, indices: {nan_indices.tolist()})")
+ValueError: NaN values found in observable (1 total, indices: [1])
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 410, in prepare_dataset
+    validation_results = self.validation_engine.validate_dataset(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 658, in validate_dataset
+    raise e
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 648, in validate_dataset
+    rule_passed = rule.validate(dataset)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 169, in validate
+    raise ProcessingError(
+pipelines.data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: numerical_error
+Error: NaN values found in observable (1 total, indices: [1])
+Context: {'issue_type': 'nan_values', 'data_statistics': {'n_points': 3, 'z_range': [0.1, 0.3], 'observable_range': [nan, nan], 'uncertainty_range': [0.1, 0.3]}}
+Suggested Actions:
+  1. Check input data for missing values or invalid entries
+  2. Review data loading process for proper NaN handling
+  3. Verify mathematical operations don't produce NaN (e.g., 0/0, inf-inf)
+  4. Consider data cleaning or interpolation for missing values
+
+
+================================================================================

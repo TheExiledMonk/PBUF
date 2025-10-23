@@ -1,0 +1,96 @@
+{
+  "health_summary": {
+    "monitoring_period": {
+      "start": "2025-10-23T15:16:26.931086+00:00",
+      "end": "2025-10-23T15:16:26.931866+00:00",
+      "snapshots": 3
+    },
+    "memory_usage": {
+      "average": 64.6,
+      "peak": 64.6,
+      "minimum": 64.6
+    },
+    "cpu_usage": {
+      "average": 9.066666666666666,
+      "peak": 9.1,
+      "minimum": 9.0
+    },
+    "disk_usage": {
+      "average": 44.07282230754088,
+      "peak": 44.07282251595687,
+      "minimum": 44.07282189070889
+    },
+    "threshold_violations": {
+      "total_count": 0,
+      "unique_violations": []
+    }
+  },
+  "detailed_data": [
+    {
+      "timestamp": "2025-10-23T15:16:26.931086+00:00",
+      "memory": {
+        "total": 33224306688,
+        "available": 11747688448,
+        "used": 19294736384,
+        "percent": 64.6
+      },
+      "disk": {
+        "total": 1965300219904,
+        "used": 866163265536,
+        "free": 999229681664,
+        "percent": 44.07282189070889
+      },
+      "cpu": {
+        "percent": 9.0,
+        "count": 32
+      },
+      "threshold_violations": []
+    },
+    {
+      "timestamp": "2025-10-23T15:16:26.931616+00:00",
+      "memory": {
+        "total": 33224306688,
+        "available": 11747688448,
+        "used": 19294736384,
+        "percent": 64.6
+      },
+      "disk": {
+        "total": 1965300219904,
+        "used": 866163277824,
+        "free": 999229669376,
+        "percent": 44.07282251595687
+      },
+      "cpu": {
+        "percent": 9.1,
+        "count": 32
+      },
+      "threshold_violations": []
+    },
+    {
+      "timestamp": "2025-10-23T15:16:26.931866+00:00",
+      "memory": {
+        "total": 33224306688,
+        "available": 11747688448,
+        "used": 19294736384,
+        "percent": 64.6
+      },
+      "disk": {
+        "total": 1965300219904,
+        "used": 866163277824,
+        "free": 999229669376,
+        "percent": 44.07282251595687
+      },
+      "cpu": {
+        "percent": 9.1,
+        "count": 32
+      },
+      "threshold_violations": []
+    }
+  ],
+  "thresholds": {
+    "memory_usage_percent": 90.0,
+    "disk_usage_percent": 95.0,
+    "cpu_usage_percent": 95.0,
+    "processing_time_seconds": 300.0
+  }
+}

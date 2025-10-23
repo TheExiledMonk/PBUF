@@ -448,6 +448,10 @@ def _compute_data_vector_length(observations: Dict[str, Any], dataset_type: str)
     elif dataset_type == "bao_ani":
         if "redshift" in observations:
             return 2 * len(np.asarray(observations["redshift"]))  # DM and H for each z
+        elif "DM_over_rd" in observations and "DH_over_rd" in observations:
+            dm_len = len(np.asarray(observations["DM_over_rd"]))
+            dh_len = len(np.asarray(observations["DH_over_rd"]))
+            return dm_len + dh_len
         else:
             return 0
     

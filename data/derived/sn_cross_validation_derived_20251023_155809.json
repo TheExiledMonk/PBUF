@@ -1,0 +1,79 @@
+{
+  "data": {
+    "covariance": null,
+    "metadata": {
+      "calibration_homogenization": true,
+      "calibration_system": "unknown",
+      "citation": "",
+      "dataset_type": "sn",
+      "n_points": 4,
+      "processing_date": "2025-10-23T23:58:09.374726",
+      "redshift_range": [
+        0.0404,
+        0.093
+      ],
+      "source": "cross_validation_test",
+      "transformations_applied": [
+        "duplicate_removal",
+        "calibration_homogenization",
+        "magnitude_to_distance_modulus",
+        "systematic_covariance_application"
+      ],
+      "version": "1.0"
+    },
+    "observable": [
+      53.78,
+      54.879999999999995,
+      55.61,
+      56.33
+    ],
+    "uncertainty": [
+      0.11,
+      0.13,
+      0.14,
+      0.15
+    ],
+    "z": [
+      0.0404,
+      0.0593,
+      0.0743,
+      0.093
+    ]
+  },
+  "dataset_name": "sn_cross_validation",
+  "environment_hash": "555b5c3c2a23b01d1e5a83626fbaeae8d3a0f684e3abaa87ee8d73194b40cc5d",
+  "processing_timestamp": "2025-10-23T15:58:09.375227+00:00",
+  "transformation_summary": {
+    "assumptions": [
+      "Fiducial absolute magnitude M = -19.3 mag",
+      "SALT2 parameters: \u03b1 = 0.14, \u03b2 = 3.1",
+      "Coordinate matching threshold: 1 arcsecond",
+      "Redshift matching threshold: \u0394z = 0.001"
+    ],
+    "data_statistics": {
+      "calibration_system": "unknown",
+      "n_input_points": 4,
+      "redshift_range": [
+        0.0404,
+        0.093
+      ]
+    },
+    "formulas_used": [
+      "\u03bc = mb - M + \u03b1x1 - \u03b2c (SALT2 distance modulus)",
+      "\u03c3\u00b2\u03bc = \u03c3\u00b2mb + \u03b1\u00b2\u03c3\u00b2x1 + \u03b2\u00b2\u03c3\u00b2c (uncertainty propagation)",
+      "Cov_total = Cov_stat + Cov_sys (covariance combination)"
+    ],
+    "references": [
+      "Betoule et al. 2014 (JLA compilation)",
+      "Guy et al. 2007 (SALT2 light curve fitter)",
+      "Conley et al. 2011 (supernova systematics)"
+    ],
+    "transformation_steps": [
+      "Loaded raw supernova data with standardized column mapping",
+      "Removed duplicate entries using coordinate or redshift matching",
+      "Applied calibration system homogenization to SALT2 reference",
+      "Converted apparent magnitudes to distance modulus using SALT2 formula",
+      "Applied systematic covariance matrix if available"
+    ]
+  }
+}

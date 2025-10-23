@@ -1,0 +1,59 @@
+{
+  "timestamp": "2025-10-23T23:39:00.278460",
+  "test_summary": {
+    "total_tests": 4,
+    "successful_executions": 4
+  },
+  "performance_metrics": {
+    "lcdm_default_real": {
+      "original_time": 0.3756692409515381,
+      "enhanced_time": 0.4083874225616455,
+      "speedup": 0.919884453333847,
+      "performance_category": "comparable"
+    },
+    "lcdm_custom_real": {
+      "original_time": 0.3991844654083252,
+      "enhanced_time": 0.3988070487976074,
+      "speedup": 1.0009463639418001,
+      "performance_category": "comparable"
+    },
+    "pbuf_default_real": {
+      "original_time": 0.3980069160461426,
+      "enhanced_time": 0.3835315704345703,
+      "speedup": 1.0377422531218763,
+      "performance_category": "comparable"
+    },
+    "pbuf_custom_real": {
+      "original_time": 0.40460848808288574,
+      "enhanced_time": 0.4326648712158203,
+      "speedup": 0.9351544694301295,
+      "performance_category": "comparable"
+    }
+  },
+  "execution_results": {
+    "lcdm_default_real": {
+      "original_success": true,
+      "enhanced_success": true,
+      "original_time": 0.3756692409515381,
+      "enhanced_time": 0.4083874225616455
+    },
+    "lcdm_custom_real": {
+      "original_success": true,
+      "enhanced_success": true,
+      "original_time": 0.3991844654083252,
+      "enhanced_time": 0.3988070487976074
+    },
+    "pbuf_default_real": {
+      "original_success": true,
+      "enhanced_success": true,
+      "original_time": 0.3980069160461426,
+      "enhanced_time": 0.3835315704345703
+    },
+    "pbuf_custom_real": {
+      "original_success": true,
+      "enhanced_success": true,
+      "original_time": 0.40460848808288574,
+      "enhanced_time": 0.4326648712158203
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-10-23T23:28:58.261191",
+  "test_summary": {
+    "total_tests": 4,
+    "successful_executions": 0
+  },
+  "performance_metrics": {},
+  "execution_results": {
+    "lcdm_default_real": {
+      "original_success": false,
+      "enhanced_success": false,
+      "original_time": 0.4397749900817871,
+      "enhanced_time": 0.4544713497161865
+    },
+    "lcdm_custom_real": {
+      "original_success": false,
+      "enhanced_success": false,
+      "original_time": 0.4133460521697998,
+      "enhanced_time": 0.42047858238220215
+    },
+    "pbuf_default_real": {
+      "original_success": false,
+      "enhanced_success": false,
+      "original_time": 0.40589189529418945,
+      "enhanced_time": 0.3934791088104248
+    },
+    "pbuf_custom_real": {
+      "original_success": false,
+      "enhanced_success": false,
+      "original_time": 0.4122748374938965,
+      "enhanced_time": 0.41057300567626953
+    }
+  }
+}

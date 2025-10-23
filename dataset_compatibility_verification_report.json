@@ -1,0 +1,416 @@
+{
+  "timestamp": "2025-10-23T22:52:46.136227",
+  "schema_compatibility": {
+    "status": "passed",
+    "datasets_checked": 4,
+    "schema_compliant": 4,
+    "schema_violations": [
+      {
+        "dataset": "cmb",
+        "error": "Schema validation failed: Redshift values above maximum 10.0 found (max: 1090.0)"
+      }
+    ],
+    "format_compatibility": {
+      "sn": {
+        "status": "passed",
+        "observations_type": "dict",
+        "covariance_shape": null
+      },
+      "bao": {
+        "status": "passed",
+        "observations_type": "dict",
+        "covariance_shape": null
+      },
+      "cc": {
+        "status": "passed",
+        "observations_type": "dict",
+        "covariance_shape": null
+      },
+      "rsd": {
+        "status": "passed",
+        "observations_type": "dict",
+        "covariance_shape": null
+      }
+    },
+    "details": {}
+  },
+  "loader_integration": {
+    "status": "passed",
+    "datasets_tested": 4,
+    "successful_loads": 4,
+    "load_failures": [],
+    "interface_compatibility": {
+      "cmb": {
+        "status": "passed",
+        "dataset_type": "cmb",
+        "observations_keys": [
+          "R",
+          "l_A",
+          "theta_star"
+        ],
+        "covariance_shape": [
+          3,
+          3
+        ],
+        "metadata_keys": [
+          "source",
+          "reference",
+          "redshift_range",
+          "n_data_points",
+          "observables",
+          "units"
+        ]
+      },
+      "bao": {
+        "status": "passed",
+        "dataset_type": "bao",
+        "observations_keys": [
+          "redshift",
+          "DV_over_rs"
+        ],
+        "covariance_shape": [
+          5,
+          5
+        ],
+        "metadata_keys": [
+          "source",
+          "reference",
+          "redshift_range",
+          "n_data_points",
+          "observables",
+          "units"
+        ]
+      },
+      "bao_ani": {
+        "status": "passed",
+        "dataset_type": "bao_ani",
+        "observations_keys": [
+          "redshift",
+          "DM_over_rd",
+          "DH_over_rd"
+        ],
+        "covariance_shape": [
+          6,
+          6
+        ],
+        "metadata_keys": [
+          "source",
+          "reference",
+          "redshift_range",
+          "n_data_points",
+          "observables",
+          "units",
+          "format_notes",
+          "validation_applied"
+        ]
+      },
+      "sn": {
+        "status": "passed",
+        "dataset_type": "sn",
+        "observations_keys": [
+          "redshift",
+          "distance_modulus",
+          "sigma_mu"
+        ],
+        "covariance_shape": [
+          50,
+          50
+        ],
+        "metadata_keys": [
+          "source",
+          "reference",
+          "redshift_range",
+          "n_data_points",
+          "observables",
+          "units"
+        ]
+      }
+    },
+    "details": {}
+  },
+  "provenance_continuity": {
+    "status": "passed",
+    "provenance_entries": 10,
+    "valid_provenance": 10,
+    "provenance_issues": [],
+    "registry_integration": {
+      "available": true,
+      "provenance_access": {
+        "sn": {
+          "available": false,
+          "fields": []
+        },
+        "cmb": {
+          "available": false,
+          "fields": []
+        },
+        "bao": {
+          "available": false,
+          "fields": []
+        }
+      }
+    },
+    "details": {}
+  },
+  "numerical_validation": {
+    "status": "passed",
+    "datasets_checked": 15,
+    "numerical_valid": 15,
+    "numerical_issues": [],
+    "covariance_validation": {
+      "rsd_compatibility": {
+        "status": "not_present"
+      },
+      "cc_compatibility": {
+        "status": "not_present"
+      },
+      "cmb_compatibility": {
+        "status": "not_present"
+      },
+      "bao_compatibility": {
+        "status": "not_present"
+      },
+      "sn_compatibility": {
+        "status": "not_present"
+      },
+      "cmb_cross_validation": {
+        "status": "not_present"
+      },
+      "bao_cross_validation": {
+        "status": "not_present"
+      },
+      "sn_cross_validation": {
+        "status": "not_present"
+      },
+      "sn_pantheon": {
+        "status": "not_present"
+      },
+      "test_data": {
+        "status": "not_present"
+      }
+    },
+    "redshift_validation": {
+      "rsd_compatibility": {
+        "status": "passed",
+        "range": [
+          0.25,
+          0.25
+        ],
+        "expected_range": [
+          0,
+          10
+        ],
+        "n_points": 1
+      },
+      "cc_compatibility": {
+        "status": "passed",
+        "range": [
+          0.27,
+          0.27
+        ],
+        "expected_range": [
+          0,
+          10
+        ],
+        "n_points": 1
+      },
+      "cmb_compatibility": {
+        "status": "passed",
+        "range": [
+          1090.0,
+          1090.0
+        ],
+        "expected_range": [
+          1000,
+          1200
+        ],
+        "n_points": 3
+      },
+      "bao_compatibility": {
+        "status": "passed",
+        "range": [
+          0.32,
+          0.32
+        ],
+        "expected_range": [
+          0,
+          10
+        ],
+        "n_points": 1
+      },
+      "sn_compatibility": {
+        "status": "passed",
+        "range": [
+          0.0404,
+          0.0404
+        ],
+        "expected_range": [
+          0,
+          10
+        ],
+        "n_points": 1
+      },
+      "cmb_cross_validation": {
+        "status": "passed",
+        "range": [
+          1090.0,
+          1090.0
+        ],
+        "expected_range": [
+          1000,
+          1200
+        ],
+        "n_points": 3
+      },
+      "bao_cross_validation": {
+        "status": "passed",
+        "range": [
+          0.32,
+          0.57
+        ],
+        "expected_range": [
+          0,
+          10
+        ],
+        "n_points": 2
+      },
+      "sn_cross_validation": {
+        "status": "passed",
+        "range": [
+          0.0404,
+          0.093
+        ],
+        "expected_range": [
+          0,
+          10
+        ],
+        "n_points": 4
+      },
+      "sn_pantheon": {
+        "status": "passed",
+        "range": [
+          0.1,
+          0.3
+        ],
+        "expected_range": [
+          0,
+          10
+        ],
+        "n_points": 3
+      },
+      "test_data": {
+        "status": "passed",
+        "range": [
+          0.1,
+          0.4
+        ],
+        "expected_range": [
+          0,
+          10
+        ],
+        "n_points": 4
+      }
+    },
+    "details": {}
+  },
+  "fit_simulation": {
+    "status": "passed",
+    "fit_attempts": 3,
+    "successful_fits": 3,
+    "fit_failures": [],
+    "chi_squared_tests": {
+      "sn": {
+        "status": "passed",
+        "chi_squared": 0.0,
+        "dof": 50,
+        "reduced_chi_squared": 0.0,
+        "data_points": 50
+      },
+      "cmb": {
+        "status": "passed",
+        "chi_squared": 0.0,
+        "dof": 3,
+        "reduced_chi_squared": 0.0,
+        "data_points": 3
+      },
+      "bao": {
+        "status": "passed",
+        "chi_squared": 0.0,
+        "dof": 5,
+        "reduced_chi_squared": 0.0,
+        "data_points": 5
+      }
+    },
+    "parameter_recovery": {
+      "sn": {
+        "status": "passed",
+        "n_data_points": 50,
+        "observables": [
+          "distance_modulus"
+        ],
+        "redshift_range": [
+          0.057138491937387605,
+          2.231093561450967
+        ]
+      },
+      "cmb": {
+        "status": "passed",
+        "n_data_points": 3,
+        "observables": [
+          "R",
+          "l_A",
+          "theta_star"
+        ],
+        "redshift_range": [
+          1089.8,
+          1089.8
+        ]
+      },
+      "bao": {
+        "status": "passed",
+        "n_data_points": 5,
+        "observables": [
+          "DV_over_rs"
+        ],
+        "redshift_range": [
+          0.106,
+          0.61
+        ]
+      }
+    },
+    "details": {}
+  },
+  "error_handling": {
+    "status": "passed",
+    "error_tests": 3,
+    "graceful_failures": 3,
+    "error_scenarios": {
+      "invalid_dataset": {
+        "status": "passed",
+        "error_type": "ValueError",
+        "error_message": "Unsupported dataset: nonexistent_dataset. Supported: ['cmb', 'bao', 'bao_ani', 'sn']"
+      },
+      "missing_covariance": {
+        "status": "passed",
+        "note": "System handles missing covariance gracefully"
+      }
+    },
+    "logging_validation": {
+      "log_directory_exists": true,
+      "error_logs_count": 934,
+      "processing_logs_count": 1,
+      "recent_error_logs": [
+        "error_report_sn_20251023_145247.txt",
+        "error_report_bao_20251023_145247.txt",
+        "error_report_cmb_20251023_145247.txt",
+        "error_report_sn_20251023_145246.txt",
+        "error_report_bao_ani_20251023_145246.txt"
+      ]
+    },
+    "details": {}
+  },
+  "overall_status": "fully_compatible",
+  "recommendations": [
+    "\u2705 READY: All datasets are fully compatible - proceed with confidence"
+  ]
+}

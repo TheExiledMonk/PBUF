@@ -1,0 +1,34 @@
+{
+  "input_hash": "d33c4e0802999021f46535d4b9355986fc772d90838230d7520da8ab37351607",
+  "dataset_name": "test_data",
+  "processing_timestamp": "2025-10-23T15:53:19.171917+00:00",
+  "environment_hash": "555b5c3c2a23b01d1e5a83626fbaeae8d3a0f684e3abaa87ee8d73194b40cc5d",
+  "dataset": {
+    "z": [
+      0.1,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "observable": [
+      1.0,
+      2.0,
+      3.0,
+      4.0
+    ],
+    "uncertainty": [
+      0.1,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "covariance": null,
+    "metadata": {
+      "source": "integration_test",
+      "version": "1.0",
+      "description": "Test dataset for integration testing",
+      "processing_info": "Processed by TestDerivationModule",
+      "n_points": 4
+    }
+  }
+}

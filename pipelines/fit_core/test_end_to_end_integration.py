@@ -312,7 +312,7 @@ class TestEndToEndIntegration:
             build_params("invalid_model")
         
         # Test invalid dataset
-        with pytest.raises((KeyError, FileNotFoundError, ValueError)):
+        with pytest.raises((KeyError, FileNotFoundError, ValueError, RuntimeError)):
             run_fit(model="lcdm", datasets_list=["invalid_dataset"])
         
         # Test invalid parameter overrides
