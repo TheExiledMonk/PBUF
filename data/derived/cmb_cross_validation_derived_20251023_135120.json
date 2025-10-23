@@ -1,0 +1,86 @@
+{
+  "data": {
+    "covariance": null,
+    "metadata": {
+      "citation": "",
+      "data_type": "distance_priors",
+      "dataset_type": "cmb",
+      "dimensionless_consistency_check": true,
+      "n_parameters": 3,
+      "n_points": 3,
+      "parameter_descriptions": {
+        "R": "Shift parameter (dimensionless)",
+        "l_A": "Acoustic scale (multipole)",
+        "theta_star": "Angular scale (microradians)"
+      },
+      "parameter_extraction": true,
+      "parameter_validation": true,
+      "parameters": [
+        "R",
+        "l_A",
+        "theta_star"
+      ],
+      "processing_timestamp": "2025-10-23T21:51:20.356377",
+      "redshift": 1090.0,
+      "source": "cross_validation_test",
+      "transformations_applied": [
+        "distance_priors_extraction",
+        "dimensionless_consistency_check",
+        "covariance_matrix_validation",
+        "cosmological_constant_validation"
+      ],
+      "version": "1.0"
+    },
+    "observable": [
+      1.7502,
+      301.63,
+      1.04119
+    ],
+    "uncertainty": [
+      0.1,
+      0.1,
+      0.1
+    ],
+    "z": [
+      1090.0,
+      1090.0,
+      1090.0
+    ]
+  },
+  "dataset_name": "cmb_cross_validation",
+  "environment_hash": "28f73e5ec49e78edadac0fd930337b0aa0ae2978967c644ef6e16d9238f87d95",
+  "processing_timestamp": "2025-10-23T13:51:20.356850+00:00",
+  "transformation_summary": {
+    "assumptions": [
+      "Last scattering redshift z* \u2248 1090",
+      "Planck 2018 cosmological model as reference",
+      "Gaussian uncertainties for CMB parameters",
+      "Adiabatic initial conditions"
+    ],
+    "data_statistics": {
+      "data_release": "unknown",
+      "mission": "unknown",
+      "n_parameters": 3,
+      "redshift": 1090.0
+    },
+    "formulas_used": [
+      "R = \u221a(\u03a9_m H\u2080\u00b2) \u222b\u2080^z* dz/E(z) (shift parameter)",
+      "l_A = \u03c0 D_A(z*) / r_s(z*) (acoustic scale)",
+      "\u03b8_* = r_s(z*) / D_A(z*) (angular scale)",
+      "Consistency: R \u221d l_A \u00d7 \u03b8_*"
+    ],
+    "references": [
+      "Planck Collaboration 2020 (Planck 2018 results)",
+      "Hu & Sugiyama 1996 (CMB anisotropies)",
+      "Bond et al. 1997 (CMB parameter estimation)",
+      "Lewis & Bridle 2002 (CAMB/CosmoMC)"
+    ],
+    "transformation_steps": [
+      "Loaded raw CMB distance priors from Planck data",
+      "Extracted shift parameter R, acoustic scale l_A, and angular scale \u03b8_*",
+      "Validated dimensionless consistency between parameters",
+      "Processed and validated covariance matrix",
+      "Applied cosmological constant validation checks"
+    ]
+  }
+}

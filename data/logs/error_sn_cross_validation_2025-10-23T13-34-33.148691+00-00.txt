@@ -1,0 +1,95 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: sn_cross_validation
+Timestamp: 2025-10-23T13:34:33.148691+00:00
+Stage: transformation
+Severity: ERROR
+Error Type: transformation_failed
+
+ERROR DETAILS:
+----------------------------------------
+Dataset transformation failed: Processing failed for dataset 'unknown'
+Stage: validation
+Error Type: data_validation_error
+Error: Required column 'z' not found after standardization
+Context: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-118/test_sn_cross_validation0/sn_cross_validation.txt'}
+Suggested Actions:
+  1. Check data quality and remove invalid values
+  2. Verify redshift values are positive and finite
+  3. Check magnitude values for NaN or infinite values
+
+
+CONTEXT INFORMATION:
+----------------------------------------
+  module_type: sn
+  supported_formats: ['.txt', '.csv', '.dat', '.fits']
+  file_extension: .txt
+  error_details: Processing failed for dataset 'unknown'
+Stage: validation
+Error Type: data_validation_error
+Error: Required column 'z' not found after standardization
+Context: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-118/test_sn_cross_validation0/sn_cross_validation.txt'}
+Suggested Actions:
+  1. Check data quality and remove invalid values
+  2. Verify redshift values are positive and finite
+  3. Check magnitude values for NaN or infinite values
+
+  transformation_summary: {'transformation_steps': ['Load raw supernova photometry data', 'Validate data quality (redshift, magnitudes)', 'Remove duplicates by coordinate matching', 'Homogenize calibration systems', 'Convert magnitudes to distance modulus', 'Apply systematic covariance matrix'], 'formulas_used': ['μ = m - M (distance modulus formula)', 'μ = mb - Mx1 + αx1 - βc (SALT2 standardization)', 'DL = 10^((μ + 25)/5) Mpc (luminosity distance)', 'Systematic covariance: Csys + Cstat (error combination)', 'Calibration corrections for different surveys'], 'assumptions': ['Standard candle assumption after light curve corrections', 'SALT2 or similar light curve fitter parameterization', 'Gaussian uncertainties for error propagation', 'Survey-specific calibration corrections', 'Systematic errors uncorrelated with statistical errors'], 'references': ['Riess et al. 1998 (SN Ia cosmology)', 'Perlmutter et al. 1999 (accelerating universe)', 'Guy et al. 2007 (SALT2 light curve fitter)', 'Betoule et al. 2014 (JLA compilation)', 'Scolnic et al. 2018 (Pantheon compilation)'], 'data_statistics': {}}
+  dataset_info: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-118/test_sn_cross_validation0/sn_cross_validation.txt', 'metadata_keys': ['source', 'version', 'description']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 12220309504
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check input data format compatibility
+  2. Review transformation module implementation
+  3. Verify all required data fields are present
+  4. Check for data corruption or missing values
+  5. Review transformation parameters and assumptions
+
+RECOVERY INFORMATION:
+----------------------------------------
+  Recovery Attempted: Yes
+  Recovery Successful: False
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/sn_derivation.py", line 170, in derive
+    data = self._load_raw_data(raw_data_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/sn_derivation.py", line 297, in _load_raw_data
+    raise ValueError(f"Required column '{col}' not found after standardization")
+ValueError: Required column 'z' not found after standardization
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 374, in prepare_dataset
+    derived_dataset = enhanced_module.derive(raw_data_path, metadata)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 1628, in derive
+    result = self.wrapped_module.derive(raw_data_path, metadata)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/sn_derivation.py", line 203, in derive
+    raise ProcessingError(
+pipelines.data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: validation
+Error Type: data_validation_error
+Error: Required column 'z' not found after standardization
+Context: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-118/test_sn_cross_validation0/sn_cross_validation.txt'}
+Suggested Actions:
+  1. Check data quality and remove invalid values
+  2. Verify redshift values are positive and finite
+  3. Check magnitude values for NaN or infinite values
+
+
+================================================================================

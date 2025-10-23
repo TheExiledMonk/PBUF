@@ -1,0 +1,96 @@
+{
+  "validation_summary": {
+    "total_datasets": 4,
+    "successful_datasets": 0,
+    "failed_datasets": 4,
+    "success_rate": 0.0,
+    "total_validation_time_seconds": 0.4235575199127197,
+    "validation_timestamp": "2025-10-23T08:43:04.160120+00:00"
+  },
+  "dataset_results": {
+    "cmb_planck2018": {
+      "dataset_name": "cmb_planck2018",
+      "dataset_type": "cmb",
+      "description": "Planck 2018 Distance Priors",
+      "processing_start": "2025-10-23T08:43:03.737559+00:00",
+      "success": false,
+      "error": {
+        "error_type": "EnhancedProcessingError",
+        "error_message": "Processing failed for dataset 'cmb_planck2018'\nStage: input_validation\nError Type: validation_error\nError: Input validation failed: No uncertainty found for parameter 'R' and no covariance matrix provided\nContext: {'file_exists': True, 'file_size': 222, 'metadata_available': True, 'error_details': \"No uncertainty found for parameter 'R' and no covariance matrix provided\", 'dataset_info': {'raw_data_path': 'data/mock_phase_a/cmb_planck2018_mock.json', 'metadata_keys': ['dataset_type', 'description', 'expected_observables', 'expected_data_points', 'source', 'version']}}\nSuggested Actions:\n  1. Check file format and structure\n  2. Verify file is not corrupted\n  3. Review dataset documentation for expected format\n  4. Check file permissions and accessibility\n",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py\", line 319, in prepare_dataset\n    if not module.validate_input(raw_data_path, metadata):\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py\", line 83, in validate_input\n    raise e\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py\", line 76, in validate_input\n    self._validate_cmb_parameters(data, metadata)\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py\", line 155, in _validate_cmb_parameters\n    raise ValueError(f\"No uncertainty found for parameter '{param}' and no covariance matrix provided\")\nValueError: No uncertainty found for parameter 'R' and no covariance matrix provided\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/deploy_phase_a_validation.py\", line 246, in process_dataset\n    derived_dataset = self.framework.prepare_dataset(\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py\", line 363, in prepare_dataset\n    raise enhanced_error\ndata_preparation.core.error_handling.EnhancedProcessingError: Processing failed for dataset 'cmb_planck2018'\nStage: input_validation\nError Type: validation_error\nError: Input validation failed: No uncertainty found for parameter 'R' and no covariance matrix provided\nContext: {'file_exists': True, 'file_size': 222, 'metadata_available': True, 'error_details': \"No uncertainty found for parameter 'R' and no covariance matrix provided\", 'dataset_info': {'raw_data_path': 'data/mock_phase_a/cmb_planck2018_mock.json', 'metadata_keys': ['dataset_type', 'description', 'expected_observables', 'expected_data_points', 'source', 'version']}}\nSuggested Actions:\n  1. Check file format and structure\n  2. Verify file is not corrupted\n  3. Review dataset documentation for expected format\n  4. Check file permissions and accessibility\n\n"
+      },
+      "validation_results": {},
+      "processing_summary": {},
+      "qa_metrics": {},
+      "processing_end": "2025-10-23T08:43:03.847724+00:00",
+      "processing_time_seconds": 0.10962986946105957
+    },
+    "sn_pantheon_plus": {
+      "dataset_name": "sn_pantheon_plus",
+      "dataset_type": "sn",
+      "description": "Pantheon+ Supernova Sample",
+      "processing_start": "2025-10-23T08:43:03.848222+00:00",
+      "success": false,
+      "error": {
+        "error_type": "EnhancedProcessingError",
+        "error_message": "Processing failed for dataset 'sn_pantheon_plus'\nStage: input_validation\nError Type: validation_error\nError: Input validation failed: Unsupported file format: .json\nContext: {'file_exists': True, 'file_size': 18504, 'metadata_available': True, 'error_details': 'Unsupported file format: .json', 'dataset_info': {'raw_data_path': 'data/mock_phase_a/sn_pantheon_plus_mock.json', 'metadata_keys': ['dataset_type', 'description', 'expected_observables', 'expected_data_points', 'source', 'version']}}\nSuggested Actions:\n  1. Check file format and structure\n  2. Verify file is not corrupted\n  3. Review dataset documentation for expected format\n  4. Check file permissions and accessibility\n",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py\", line 319, in prepare_dataset\n    if not module.validate_input(raw_data_path, metadata):\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/sn_derivation.py\", line 140, in validate_input\n    raise e\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/sn_derivation.py\", line 85, in validate_input\n    raise ValueError(f\"Unsupported file format: {raw_data_path.suffix}\")\nValueError: Unsupported file format: .json\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/deploy_phase_a_validation.py\", line 246, in process_dataset\n    derived_dataset = self.framework.prepare_dataset(\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py\", line 363, in prepare_dataset\n    raise enhanced_error\ndata_preparation.core.error_handling.EnhancedProcessingError: Processing failed for dataset 'sn_pantheon_plus'\nStage: input_validation\nError Type: validation_error\nError: Input validation failed: Unsupported file format: .json\nContext: {'file_exists': True, 'file_size': 18504, 'metadata_available': True, 'error_details': 'Unsupported file format: .json', 'dataset_info': {'raw_data_path': 'data/mock_phase_a/sn_pantheon_plus_mock.json', 'metadata_keys': ['dataset_type', 'description', 'expected_observables', 'expected_data_points', 'source', 'version']}}\nSuggested Actions:\n  1. Check file format and structure\n  2. Verify file is not corrupted\n  3. Review dataset documentation for expected format\n  4. Check file permissions and accessibility\n\n"
+      },
+      "validation_results": {},
+      "processing_summary": {},
+      "qa_metrics": {},
+      "processing_end": "2025-10-23T08:43:03.951441+00:00",
+      "processing_time_seconds": 0.10280823707580566
+    },
+    "bao_compilation": {
+      "dataset_name": "bao_compilation",
+      "dataset_type": "bao",
+      "description": "BAO Compilation Dataset (Isotropic)",
+      "processing_start": "2025-10-23T08:43:03.951928+00:00",
+      "success": false,
+      "error": {
+        "error_type": "EnhancedProcessingError",
+        "error_message": "Processing failed for dataset 'bao_compilation'\nStage: input_validation\nError Type: validation_error\nError: Input validation failed: Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\nContext: {'file_exists': True, 'file_size': 416, 'metadata_available': True, 'error_details': \"Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\", 'dataset_info': {'raw_data_path': 'data/mock_phase_a/bao_compilation_mock.json', 'metadata_keys': ['dataset_type', 'description', 'expected_observables', 'expected_data_points', 'source', 'version']}}\nSuggested Actions:\n  1. Check file format and structure\n  2. Verify file is not corrupted\n  3. Review dataset documentation for expected format\n  4. Check file permissions and accessibility\n",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 75, in validate_input\n    data = pd.read_json(raw_data_path)\n           ^^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'read_json'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py\", line 319, in prepare_dataset\n    if not module.validate_input(raw_data_path, metadata):\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 101, in validate_input\n    raise ValueError(f\"Failed to read or validate raw data: {str(e)}\")\nValueError: Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/deploy_phase_a_validation.py\", line 246, in process_dataset\n    derived_dataset = self.framework.prepare_dataset(\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py\", line 363, in prepare_dataset\n    raise enhanced_error\ndata_preparation.core.error_handling.EnhancedProcessingError: Processing failed for dataset 'bao_compilation'\nStage: input_validation\nError Type: validation_error\nError: Input validation failed: Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\nContext: {'file_exists': True, 'file_size': 416, 'metadata_available': True, 'error_details': \"Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\", 'dataset_info': {'raw_data_path': 'data/mock_phase_a/bao_compilation_mock.json', 'metadata_keys': ['dataset_type', 'description', 'expected_observables', 'expected_data_points', 'source', 'version']}}\nSuggested Actions:\n  1. Check file format and structure\n  2. Verify file is not corrupted\n  3. Review dataset documentation for expected format\n  4. Check file permissions and accessibility\n\n"
+      },
+      "validation_results": {},
+      "processing_summary": {},
+      "qa_metrics": {},
+      "processing_end": "2025-10-23T08:43:04.055542+00:00",
+      "processing_time_seconds": 0.1029045581817627
+    },
+    "bao_aniso_boss_dr12": {
+      "dataset_name": "bao_aniso_boss_dr12",
+      "dataset_type": "bao",
+      "description": "BOSS DR12 Anisotropic BAO",
+      "processing_start": "2025-10-23T08:43:04.056297+00:00",
+      "success": false,
+      "error": {
+        "error_type": "EnhancedProcessingError",
+        "error_message": "Processing failed for dataset 'bao_aniso_boss_dr12'\nStage: input_validation\nError Type: validation_error\nError: Input validation failed: Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\nContext: {'file_exists': True, 'file_size': 416, 'metadata_available': True, 'error_details': \"Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\", 'dataset_info': {'raw_data_path': 'data/mock_phase_a/bao_aniso_boss_dr12_mock.json', 'metadata_keys': ['dataset_type', 'description', 'expected_observables', 'expected_data_points', 'source', 'version']}}\nSuggested Actions:\n  1. Check file format and structure\n  2. Verify file is not corrupted\n  3. Review dataset documentation for expected format\n  4. Check file permissions and accessibility\n",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 75, in validate_input\n    data = pd.read_json(raw_data_path)\n           ^^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'read_json'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py\", line 319, in prepare_dataset\n    if not module.validate_input(raw_data_path, metadata):\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 101, in validate_input\n    raise ValueError(f\"Failed to read or validate raw data: {str(e)}\")\nValueError: Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/deploy_phase_a_validation.py\", line 246, in process_dataset\n    derived_dataset = self.framework.prepare_dataset(\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py\", line 363, in prepare_dataset\n    raise enhanced_error\ndata_preparation.core.error_handling.EnhancedProcessingError: Processing failed for dataset 'bao_aniso_boss_dr12'\nStage: input_validation\nError Type: validation_error\nError: Input validation failed: Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\nContext: {'file_exists': True, 'file_size': 416, 'metadata_available': True, 'error_details': \"Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'\", 'dataset_info': {'raw_data_path': 'data/mock_phase_a/bao_aniso_boss_dr12_mock.json', 'metadata_keys': ['dataset_type', 'description', 'expected_observables', 'expected_data_points', 'source', 'version']}}\nSuggested Actions:\n  1. Check file format and structure\n  2. Verify file is not corrupted\n  3. Review dataset documentation for expected format\n  4. Check file permissions and accessibility\n\n"
+      },
+      "validation_results": {},
+      "processing_summary": {},
+      "qa_metrics": {},
+      "processing_end": "2025-10-23T08:43:04.159456+00:00",
+      "processing_time_seconds": 0.1025245189666748
+    }
+  },
+  "successful_datasets": [],
+  "failed_datasets": [
+    "cmb_planck2018",
+    "sn_pantheon_plus",
+    "bao_compilation",
+    "bao_aniso_boss_dr12"
+  ],
+  "framework_status": {
+    "available_modules": [
+      "sn",
+      "bao",
+      "cmb"
+    ],
+    "output_directory": "data/derived",
+    "mock_data_directory": "data/mock_phase_a"
+  }
+}

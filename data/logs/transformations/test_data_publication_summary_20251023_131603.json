@@ -1,0 +1,28 @@
+{
+  "dataset_name": "test_data",
+  "dataset_type": null,
+  "processing_date": "2025-10-23",
+  "total_processing_time": "0.00 seconds",
+  "transformation_steps": [
+    {
+      "step": "test_derivation",
+      "description": "Complete TEST dataset derivation"
+    }
+  ],
+  "validation_results": {
+    "dataset_name": "test_data",
+    "validation_passed": "True",
+    "rules_checked": "[{'rule_name': 'Schema Compliance', 'passed': True}, {'rule_name': 'Numerical Integrity', 'passed': True}, {'rule_name': 'Covariance Matrix Validation', 'passed': True}, {'rule_name': 'Redshift Range (0.0 \u2264 z \u2264 10.0)', 'passed': True}, {'rule_name': 'Monotonicity and Physical Sanity (observable)', 'passed': True}]",
+    "warnings": "[]",
+    "summary": "failed"
+  },
+  "performance": {
+    "total_steps": 1,
+    "processing_efficiency": "5.8%"
+  },
+  "processing_environment": {
+    "python_version": "3.12.3",
+    "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+    "framework_version": "1.0.0"
+  }
+}

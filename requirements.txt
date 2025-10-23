@@ -2,6 +2,7 @@ ajsonrpc==1.2.0
 amdsmi @ file:///opt/rocm-6.4.2/share/amd_smi
 anyio==4.10.0
 argcomplete==3.1.4
+astropy>=7.0.0
 attrs==23.2.0
 beautifulsoup4==4.12.3
 bitarray==2.9.2

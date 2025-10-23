@@ -10,8 +10,8 @@ import json
 import tempfile
 from pathlib import Path
 
-from core.structured_logging import configure_logger, get_logger, log_dataset_event
-from core.logging_integration import configure_logging_integration, get_logging_integration
+from .core.structured_logging import configure_logger, get_logger, log_dataset_event
+from .core.logging_integration import configure_logging_integration, get_logging_integration
 
 
 def test_structured_logging():

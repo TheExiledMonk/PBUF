@@ -1,0 +1,40 @@
+{
+  "input_hash": "9a978d47a3522174c700f2171ed2a5efc47ef804653b3088d61085878df05d05",
+  "dataset_name": "bao_compatibility",
+  "processing_timestamp": "2025-10-23T13:46:39.766278+00:00",
+  "environment_hash": "28f73e5ec49e78edadac0fd930337b0aa0ae2978967c644ef6e16d9238f87d95",
+  "dataset": {
+    "z": [
+      0.32
+    ],
+    "observable": [
+      8.88
+    ],
+    "uncertainty": [
+      0.17
+    ],
+    "covariance": null,
+    "metadata": {
+      "dataset_type": "bao",
+      "measurement_type": "isotropic",
+      "source": "bao_compatibility_test",
+      "citation": "",
+      "version": "1.0",
+      "processing_timestamp": "2025-10-23T21:46:39.765578",
+      "n_redshift_bins": 1,
+      "redshift_range": [
+        0.32,
+        0.32
+      ],
+      "survey": "unknown",
+      "transformations_applied": [
+        "unit_conversion_to_mpc",
+        "survey_specific_corrections",
+        "correlation_matrix_validation"
+      ],
+      "observable_description": "Isotropic BAO distance D_V/r_d",
+      "n_measurements": 1,
+      "n_points": 1
+    }
+  }
+}

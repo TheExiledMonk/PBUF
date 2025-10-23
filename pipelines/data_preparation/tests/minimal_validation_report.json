@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-10-23T16:49:22.153336",
+  "overall_success": false,
+  "summary": {
+    "total_tests": 3,
+    "passed": 0,
+    "failed": 0,
+    "errors": 3,
+    "skipped": 0,
+    "duration_seconds": 0.6820266246795654,
+    "pass_rate": 0.0
+  },
+  "test_results": [],
+  "performance_metrics": {},
+  "requirements_compliance": {
+    "round_trip_deterministic_behavior": false,
+    "cross_validation_concepts": false,
+    "performance_benchmarks": false,
+    "phase_a_simulation_\u2264_30s": false
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "dataset_name": "cmb_cross_validation",
+  "dataset_type": null,
+  "processing_start": "2025-10-23T14:12:31.532554+00:00",
+  "processing_end": "2025-10-23T14:12:31.535999+00:00",
+  "total_duration": 0.003445,
+  "transformation_steps": [
+    {
+      "step_name": "cmb_derivation",
+      "formula": null,
+      "description": "Complete CMB dataset derivation",
+      "input_description": "Raw CMB data file",
+      "output_description": "Standardized dataset format",
+      "input_shape": null,
+      "output_shape": {
+        "z": [
+          3
+        ],
+        "observable": [
+          3
+        ],
+        "uncertainty": [
+          3
+        ],
+        "covariance": null
+      },
+      "parameters": {
+        "input_file_size": {
+          "value": 65,
+          "description": "Size of input data file in bytes"
+        },
+        "input_file_format": {
+          "value": ".txt",
+          "description": "Input file format/extension"
+        },
+        "metadata_keys": {
+          "value": [
+            "source",
+            "version",
+            "description"
+          ],
+          "description": "Available metadata fields"
+        },
+        "summary_transformation_steps": {
+          "value": [
+            "Loaded raw CMB distance priors from Planck data",
+            "Extracted shift parameter R, acoustic scale l_A, and angular scale \u03b8_*",
+            "Validated dimensionless consistency between parameters",
+            "Processed and validated covariance matrix",
+            "Applied cosmological constant validation checks"
+          ],
+          "description": "Transformation summary: transformation_steps"
+        },
+        "summary_formulas_used": {
+          "value": [
+            "R = \u221a(\u03a9_m H\u2080\u00b2) \u222b\u2080^z* dz/E(z) (shift parameter)",
+            "l_A = \u03c0 D_A(z*) / r_s(z*) (acoustic scale)",
+            "\u03b8_* = r_s(z*) / D_A(z*) (angular scale)",
+            "Consistency: R \u221d l_A \u00d7 \u03b8_*"
+          ],
+          "description": "Transformation summary: formulas_used"
+        },
+        "summary_assumptions": {
+          "value": [
+            "Last scattering redshift z* \u2248 1090",
+            "Planck 2018 cosmological model as reference",
+            "Gaussian uncertainties for CMB parameters",
+            "Adiabatic initial conditions"
+          ],
+          "description": "Transformation summary: assumptions"
+        },
+        "summary_references": {
+          "value": [
+            "Planck Collaboration 2020 (Planck 2018 results)",
+            "Hu & Sugiyama 1996 (CMB anisotropies)",
+            "Bond et al. 1997 (CMB parameter estimation)",
+            "Lewis & Bridle 2002 (CAMB/CosmoMC)"
+          ],
+          "description": "Transformation summary: references"
+        },
+        "summary_data_statistics": {
+          "value": {
+            "redshift": 1090.0,
+            "n_parameters": 3,
+            "mission": "unknown",
+            "data_release": "unknown"
+          },
+          "description": "Transformation summary: data_statistics"
+        }
+      },
+      "references": null,
+      "assumptions": null,
+      "timestamp": "2025-10-23T14:12:31.534806+00:00",
+      "duration": 0.0005402565002441406
+    }
+  ],
+  "validation_results": {
+    "dataset_name": "cmb_cross_validation",
+    "validation_passed": true,
+    "rules_checked": [
+      {
+        "rule_name": "Schema Compliance",
+        "passed": true
+      },
+      {
+        "rule_name": "Numerical Integrity",
+        "passed": true
+      },
+      {
+        "rule_name": "Covariance Matrix Validation",
+        "passed": true
+      },
+      {
+        "rule_name": "Redshift Range (0.0 \u2264 z \u2264 10.0)",
+        "passed": true
+      },
+      {
+        "rule_name": "Monotonicity and Physical Sanity (observable)",
+        "passed": true
+      }
+    ],
+    "warnings": [],
+    "summary": {
+      "dataset_name": "cmb_cross_validation",
+      "n_points": 3,
+      "redshift_range": [
+        1090.0,
+        1090.0
+      ],
+      "observable_range": [
+        1.04119,
+        301.63
+      ],
+      "has_covariance": false,
+      "metadata_keys": [
+        "dataset_type",
+        "data_type",
+        "source",
+        "citation",
+        "version",
+        "processing_timestamp",
+        "redshift",
+        "n_parameters",
+        "n_points",
+        "parameters",
+        "parameter_descriptions",
+        "transformations_applied",
+        "dimensionless_consistency_check",
+        "parameter_validation",
+        "parameter_extraction"
+      ]
+    }
+  },
+  "input_metadata": {
+    "source": "cross_validation_test",
+    "version": "1.0",
+    "description": "CMB cross-validation test dataset"
+  },
+  "output_metadata": {
+    "output_file_path": "data/derived/cmb_cross_validation_derived_20251023_141231.json",
+    "derived_dataset_hash": "b9fd13a9afcba720"
+  },
+  "environment_info": {
+    "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]",
+    "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+    "numpy_version": "2.3.4",
+    "timestamp": "2025-10-23T14:12:31.531510+00:00",
+    "total_memory": 33224306688,
+    "available_memory": 12163080192,
+    "git_commit": "6cf6b65383da5a9bbd81525b22db3582e6371698"
+  },
+  "performance_metrics": {
+    "total_steps": 1,
+    "total_transformation_time": 0.0005402565002441406,
+    "average_step_time": 0.0005402565002441406,
+    "longest_step": 0.0005402565002441406,
+    "shortest_step": 0.0005402565002441406,
+    "step_breakdown": {
+      "cmb_derivation": 0.0005402565002441406
+    },
+    "total_processing_time": 0.003445,
+    "transformation_overhead": 0.0029047434997558595,
+    "transformation_efficiency": 15.6823367269707
+  }
+}

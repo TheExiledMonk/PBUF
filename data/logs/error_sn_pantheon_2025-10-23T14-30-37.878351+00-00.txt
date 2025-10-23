@@ -1,0 +1,40 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: sn_pantheon
+Timestamp: 2025-10-23T14:30:37.878351+00:00
+Stage: input_validation
+Severity: ERROR
+Error Type: input_validation_failed
+
+ERROR DETAILS:
+----------------------------------------
+Input validation failed
+
+CONTEXT INFORMATION:
+----------------------------------------
+  raw_data_path: /tmp/pytest-of-fabian/pytest-174/test_prepare_dataset_input_val0/test_data.txt
+  metadata_keys: []
+  file_exists: True
+  file_size: 9
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 10791804928
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check raw data format and integrity
+  2. Verify file permissions and accessibility
+  3. Review dataset metadata completeness
+
+STACK TRACE:
+----------------------------------------
+NoneType: None
+
+================================================================================

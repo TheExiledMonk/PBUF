@@ -1,0 +1,56 @@
+{
+  "health_summary": {
+    "monitoring_period": {
+      "start": "2025-10-23T09:31:54.838498+00:00",
+      "end": "2025-10-23T09:31:54.838498+00:00",
+      "snapshots": 1
+    },
+    "memory_usage": {
+      "average": 63.9,
+      "peak": 63.9,
+      "minimum": 63.9
+    },
+    "cpu_usage": {
+      "average": 11.5,
+      "peak": 11.5,
+      "minimum": 11.5
+    },
+    "disk_usage": {
+      "average": 44.053232246129355,
+      "peak": 44.053232246129355,
+      "minimum": 44.053232246129355
+    },
+    "threshold_violations": {
+      "total_count": 0,
+      "unique_violations": []
+    }
+  },
+  "detailed_data": [
+    {
+      "timestamp": "2025-10-23T09:31:54.838498+00:00",
+      "memory": {
+        "total": 33224306688,
+        "available": 11985010688,
+        "used": 21239296000,
+        "percent": 63.9
+      },
+      "disk": {
+        "total": 1965300219904,
+        "used": 865778270208,
+        "free": 999614676992,
+        "percent": 44.053232246129355
+      },
+      "cpu": {
+        "percent": 11.5,
+        "count": 32
+      },
+      "threshold_violations": []
+    }
+  ],
+  "thresholds": {
+    "memory_usage_percent": 90.0,
+    "disk_usage_percent": 95.0,
+    "cpu_usage_percent": 95.0,
+    "processing_time_seconds": 300.0
+  }
+}

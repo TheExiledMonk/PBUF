@@ -1,0 +1,72 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: sn_compatibility
+Timestamp: 2025-10-23T13:37:11.293131+00:00
+Stage: output_validation
+Severity: ERROR
+Error Type: physical_sanity_error
+
+ERROR DETAILS:
+----------------------------------------
+Supernova distance modulus values outside reasonable range [20, 50] mag
+
+CONTEXT INFORMATION:
+----------------------------------------
+  dataset_shape: {'z_length': 1, 'observable_length': 1, 'uncertainty_length': 1, 'has_covariance': False, 'covariance_shape': None}
+  error_details: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: physical_sanity_error
+Error: Supernova distance modulus values outside reasonable range [20, 50] mag
+Context: {'observable_range': [53.78, 53.78], 'extreme_indices': [0]}
+Suggested Actions:
+  1. Check distance modulus calculation
+  2. Verify magnitude to distance conversion
+  3. Review input magnitude values for outliers
+
+  dataset_info: {'metadata_keys': ['dataset_type', 'source', 'citation', 'version', 'processing_date', 'n_points', 'redshift_range', 'calibration_system', 'transformations_applied', 'calibration_homogenization']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 11340091392
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check derived dataset structure and completeness
+  2. Verify transformation produced valid output
+  3. Review validation rules for appropriateness
+  4. Check for data type consistency
+  5. Verify array shapes and dimensions
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 410, in prepare_dataset
+    validation_results = self.validation_engine.validate_dataset(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 557, in validate_dataset
+    raise e
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 547, in validate_dataset
+    rule_passed = rule.validate(dataset)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 392, in validate
+    self._validate_physical_sanity(dataset)
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 404, in _validate_physical_sanity
+    raise ProcessingError(
+pipelines.data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: physical_sanity_error
+Error: Supernova distance modulus values outside reasonable range [20, 50] mag
+Context: {'observable_range': [53.78, 53.78], 'extreme_indices': [0]}
+Suggested Actions:
+  1. Check distance modulus calculation
+  2. Verify magnitude to distance conversion
+  3. Review input magnitude values for outliers
+
+
+================================================================================

@@ -1,0 +1,28 @@
+{
+  "input_hash": "87ed6bb6a4b1a74a512be0aa8dca6cdfe768bfd61b30c51e208ce39da8c936b4",
+  "dataset_name": "sn_pantheon",
+  "processing_timestamp": "2025-10-23T11:26:49.478752+00:00",
+  "environment_hash": "28f73e5ec49e78edadac0fd930337b0aa0ae2978967c644ef6e16d9238f87d95",
+  "dataset": {
+    "z": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "observable": [
+      1.0,
+      2.0,
+      3.0
+    ],
+    "uncertainty": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "covariance": null,
+    "metadata": {
+      "source": "test",
+      "version": "1.0"
+    }
+  }
+}

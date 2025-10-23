@@ -18,14 +18,18 @@ DatasetDict = Dict[str, Any]
 _registry_manager = None
 _registry_enabled = None
 
+# Preparation framework integration
+_preparation_framework = None
+_preparation_framework_enabled = None
+
 
 def load_dataset(name: str) -> DatasetDict:
     """
     Load observational dataset by name with unified interface.
     
-    This function now integrates with the dataset registry when available,
-    providing automatic fetching, verification, and provenance tracking.
-    Falls back to existing loading logic during transition period.
+    This function now integrates with the data preparation framework when available,
+    providing standardized data processing, validation, and provenance tracking.
+    Falls back to registry-based loading, then legacy loading during transition period.
     
     Args:
         name: Dataset name ("cmb", "bao", "bao_ani", "sn")
@@ -33,12 +37,21 @@ def load_dataset(name: str) -> DatasetDict:
     Returns:
         Dataset dictionary with observations, covariance, and metadata
         
-    Requirements: 4.1, 4.2, 4.3, 4.4, 5.1, 5.3
+    Requirements: 4.1, 4.2, 4.3, 4.4, 5.1, 5.3, 6.3
     """
     if name not in SUPPORTED_DATASETS:
         raise ValueError(f"Unsupported dataset: {name}. Supported: {list(SUPPORTED_DATASETS.keys())}")
     
-    # Try registry-based loading first if available
+    # Try preparation framework first if available
+    if _is_preparation_framework_enabled():
+        try:
+            return _load_dataset_from_preparation_framework(name)
+        except Exception as e:
+            # Log framework failure but continue with fallback
+            print(f"⚠️  Preparation framework loading failed for '{name}': {e}")
+            print("   Falling back to registry loading...")
+    
+    # Try registry-based loading if available
     if _is_registry_enabled():
         try:
             return _load_dataset_from_registry(name)
@@ -49,6 +62,82 @@ def load_dataset(name: str) -> DatasetDict:
     
     # Fallback to existing loading logic
     return _load_dataset_legacy(name)
+
+
+def _load_dataset_from_preparation_framework(name: str) -> DatasetDict:
+    """
+    Load dataset using data preparation framework with standardized processing.
+    
+    Provides enhanced data processing with:
+    - Standardized validation and transformation
+    - Complete provenance tracking
+    - Deterministic processing with caching
+    - Comprehensive error handling and recovery
+    
+    Args:
+        name: Dataset name
+        
+    Returns:
+        Dataset dictionary with standardized data and provenance metadata
+        
+    Raises:
+        Exception: If preparation framework loading fails
+        
+    Requirements: 6.1, 6.3
+    """
+    framework = _get_preparation_framework()
+    
+    try:
+        # Process dataset through preparation framework with full pipeline
+        standard_dataset = framework.prepare_dataset(name)
+        
+        # Convert to existing DatasetDict format for compatibility
+        from ..data_preparation.output.format_converter import FormatConverter
+        dataset_dict = FormatConverter.standard_to_dataset_dict(standard_dataset, name)
+        
+        # Add comprehensive preparation framework metadata
+        dataset_dict["metadata"]["preparation_framework"] = {
+            "used": True,
+            "version": "1.0.0",
+            "processing_timestamp": standard_dataset.metadata.get("processing_timestamp"),
+            "validation_status": "passed",
+            "framework_module": "data_preparation.engine.preparation_engine",
+            "environment_hash": standard_dataset.metadata.get("environment_hash"),
+            "transformation_summary": standard_dataset.metadata.get("transformation_summary"),
+            "cache_used": standard_dataset.metadata.get("cache_used", False)
+        }
+        
+        # Add comprehensive provenance information if available
+        if "provenance_summary" in standard_dataset.metadata:
+            dataset_dict["metadata"]["provenance"] = standard_dataset.metadata["provenance_summary"]
+        
+        # Add validation results metadata
+        if "validation_results" in standard_dataset.metadata:
+            dataset_dict["metadata"]["validation"] = standard_dataset.metadata["validation_results"]
+        
+        # Add processing performance metrics
+        if "processing_metrics" in standard_dataset.metadata:
+            dataset_dict["metadata"]["processing_metrics"] = standard_dataset.metadata["processing_metrics"]
+        
+        return dataset_dict
+        
+    except Exception as e:
+        # Enhanced error context for framework failures
+        error_context = {
+            "dataset_name": name,
+            "framework_available": True,
+            "error_type": type(e).__name__,
+            "error_message": str(e)
+        }
+        
+        # Try to get additional context from framework
+        try:
+            available_types = framework.get_available_dataset_types()
+            error_context["available_dataset_types"] = available_types
+        except:
+            error_context["available_dataset_types"] = "unknown"
+        
+        raise Exception(f"Preparation framework loading failed: {error_context}") from e
 
 
 def _load_dataset_from_registry(name: str) -> DatasetDict:
@@ -650,6 +739,52 @@ def verify_all_datasets(dataset_names: List[str]) -> bool:
     return True
 
 
+def _is_preparation_framework_enabled() -> bool:
+    """
+    Check if data preparation framework is enabled and available.
+    
+    Performs comprehensive availability detection including:
+    - Module import capability
+    - Framework initialization capability
+    - Required dependencies availability
+    
+    Returns:
+        True if framework is fully available, False otherwise
+        
+    Requirements: 6.1, 6.3
+    """
+    global _preparation_framework_enabled
+    
+    if _preparation_framework_enabled is None:
+        try:
+            # Try to import preparation framework components
+            from ..data_preparation.engine.preparation_engine import DataPreparationFramework
+            from ..data_preparation.output.format_converter import FormatConverter
+            from ..data_preparation.core.schema import StandardDataset
+            from ..data_preparation.core.validation import ValidationEngine
+            
+            # Test framework initialization capability
+            test_framework = DataPreparationFramework(
+                registry_manager=None,
+                output_directory=Path("data/derived")
+            )
+            
+            # Verify core components are functional
+            if (hasattr(test_framework, 'prepare_dataset') and 
+                hasattr(FormatConverter, 'standard_to_dataset_dict')):
+                _preparation_framework_enabled = True
+            else:
+                _preparation_framework_enabled = False
+                
+        except ImportError as e:
+            _preparation_framework_enabled = False
+        except Exception as e:
+            # Framework components exist but initialization failed
+            _preparation_framework_enabled = False
+    
+    return _preparation_framework_enabled
+
+
 def _is_registry_enabled() -> bool:
     """Check if dataset registry is enabled and available."""
     global _registry_enabled
@@ -670,6 +805,121 @@ def _is_registry_enabled() -> bool:
             _registry_enabled = False
     
     return _registry_enabled
+
+
+def _get_preparation_framework():
+    """
+    Get or create preparation framework instance with enhanced initialization.
+    
+    Provides graceful degradation and comprehensive error handling:
+    - Attempts registry integration if available
+    - Falls back to standalone operation if registry unavailable
+    - Provides detailed error context for debugging
+    
+    Returns:
+        DataPreparationFramework instance
+        
+    Raises:
+        ImportError: If framework cannot be initialized
+        
+    Requirements: 6.1, 6.3
+    """
+    global _preparation_framework
+    
+    if _preparation_framework is None:
+        try:
+            from ..data_preparation.engine.preparation_engine import DataPreparationFramework
+            
+            # Try to initialize with registry manager if available
+            registry_manager = None
+            registry_integration_status = "not_attempted"
+            
+            if _is_registry_enabled():
+                try:
+                    registry_manager = _get_registry_manager()
+                    registry_integration_status = "successful"
+                except Exception as e:
+                    registry_integration_status = f"failed: {str(e)}"
+                    # Continue without registry integration - framework can operate standalone
+            else:
+                registry_integration_status = "registry_not_available"
+            
+            # Initialize framework with appropriate configuration
+            _preparation_framework = DataPreparationFramework(
+                registry_manager=registry_manager,
+                output_directory=Path("data/derived")
+            )
+            
+            # Log initialization status
+            print(f"✅ Data preparation framework initialized")
+            print(f"   Registry integration: {registry_integration_status}")
+            
+            # Load available derivation modules
+            try:
+                _load_derivation_modules_into_framework(_preparation_framework)
+            except Exception as e:
+                print(f"⚠️  Some derivation modules failed to load: {e}")
+                # Framework can still operate with available modules
+            
+        except ImportError as e:
+            raise ImportError(f"Failed to import preparation framework: {e}")
+        except Exception as e:
+            raise ImportError(f"Failed to initialize preparation framework: {e}")
+    
+    return _preparation_framework
+
+
+def _load_derivation_modules_into_framework(framework):
+    """
+    Load available derivation modules into the framework.
+    
+    Args:
+        framework: DataPreparationFramework instance
+        
+    Requirements: 6.1, 6.3
+    """
+    module_loading_results = {}
+    
+    # List of available derivation modules
+    derivation_modules = [
+        ('sn', '..data_preparation.derivation.sn_derivation', 'SNDerivationModule'),
+        ('bao', '..data_preparation.derivation.bao_derivation', 'BAODerivationModule'),
+        ('cmb', '..data_preparation.derivation.cmb_derivation', 'CMBDerivationModule'),
+        ('cc', '..data_preparation.derivation.cc_derivation', 'CCDerivationModule'),
+        ('rsd', '..data_preparation.derivation.rsd_derivation', 'RSDDerivationModule')
+    ]
+    
+    for dataset_type, module_path, class_name in derivation_modules:
+        try:
+            # Dynamic import of derivation module
+            module = __import__(module_path, fromlist=[class_name])
+            module_class = getattr(module, class_name)
+            
+            # Instantiate and register module
+            derivation_module = module_class()
+            framework.register_derivation_module(derivation_module)
+            
+            module_loading_results[dataset_type] = "loaded"
+            
+        except ImportError:
+            module_loading_results[dataset_type] = "not_implemented"
+        except Exception as e:
+            module_loading_results[dataset_type] = f"error: {str(e)}"
+    
+    # Log module loading results
+    loaded_modules = [k for k, v in module_loading_results.items() if v == "loaded"]
+    if loaded_modules:
+        print(f"   Loaded derivation modules: {', '.join(loaded_modules)}")
+    
+    not_implemented = [k for k, v in module_loading_results.items() if v == "not_implemented"]
+    if not_implemented:
+        print(f"   Modules not yet implemented: {', '.join(not_implemented)}")
+    
+    errors = [f"{k}({v})" for k, v in module_loading_results.items() if v.startswith("error:")]
+    if errors:
+        print(f"   Module loading errors: {', '.join(errors)}")
+    
+    return module_loading_results
 
 
 def _get_registry_manager():

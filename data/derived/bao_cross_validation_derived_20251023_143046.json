@@ -1,0 +1,78 @@
+{
+  "data": {
+    "covariance": null,
+    "metadata": {
+      "citation": "",
+      "dataset_type": "bao",
+      "measurement_type": "isotropic",
+      "n_measurements": 2,
+      "n_points": 2,
+      "n_redshift_bins": 2,
+      "observable_description": "Isotropic BAO distance D_V/r_d",
+      "processing_timestamp": "2025-10-23T22:30:46.025416",
+      "redshift_range": [
+        0.32,
+        0.57
+      ],
+      "source": "cross_validation_test",
+      "survey": "unknown",
+      "transformations_applied": [
+        "unit_conversion_to_mpc",
+        "survey_specific_corrections",
+        "correlation_matrix_validation"
+      ],
+      "version": "1.0"
+    },
+    "observable": [
+      8.88,
+      13.77
+    ],
+    "uncertainty": [
+      0.17,
+      0.13
+    ],
+    "z": [
+      0.32,
+      0.57
+    ]
+  },
+  "dataset_name": "bao_cross_validation",
+  "environment_hash": "28f73e5ec49e78edadac0fd930337b0aa0ae2978967c644ef6e16d9238f87d95",
+  "processing_timestamp": "2025-10-23T14:30:46.025932+00:00",
+  "transformation_summary": {
+    "assumptions": [
+      "Sound horizon scale r_d from CMB measurements",
+      "Linear theory BAO feature at ~150 Mpc/h",
+      "Survey-specific systematic corrections applied",
+      "Gaussian uncertainties for error propagation"
+    ],
+    "data_statistics": {
+      "measurement_type": "isotropic",
+      "n_redshift_bins": 2,
+      "redshift_range": [
+        0.32,
+        0.57
+      ],
+      "survey": "unknown"
+    },
+    "formulas_used": [
+      "D_V(z) = [z * D_M\u00b2(z) * D_H(z)]^(1/3) (isotropic volume-averaged distance)",
+      "D_M(z) = comoving angular diameter distance",
+      "D_H(z) = c/H(z) (Hubble distance)",
+      "Cov_ij = Corr_ij * \u03c3_i * \u03c3_j (correlation to covariance conversion)"
+    ],
+    "references": [
+      "Eisenstein et al. 2005 (BAO detection)",
+      "Anderson et al. 2014 (BOSS BAO measurements)",
+      "Alam et al. 2017 (eBOSS BAO analysis)",
+      "DESI Collaboration 2024 (DESI BAO results)"
+    ],
+    "transformation_steps": [
+      "Loaded raw BAO data with isotropic measurements",
+      "Applied unit conversions to consistent Mpc scale",
+      "Applied survey-specific systematic corrections",
+      "Validated and processed correlation matrix",
+      "Extracted standardized distance measurements"
+    ]
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "dataset_name": "cc_compatibility",
+  "dataset_type": null,
+  "processing_start": "2025-10-23T13:47:25.001051+00:00",
+  "processing_end": "2025-10-23T13:47:25.004194+00:00",
+  "total_duration": 0.003143,
+  "transformation_steps": [
+    {
+      "step_name": "cc_derivation",
+      "formula": null,
+      "description": "Complete CC dataset derivation",
+      "input_description": "Raw CC data file",
+      "output_description": "Standardized dataset format",
+      "input_shape": null,
+      "output_shape": {
+        "z": [
+          1
+        ],
+        "observable": [
+          1
+        ],
+        "uncertainty": [
+          1
+        ],
+        "covariance": null
+      },
+      "parameters": {
+        "input_file_size": {
+          "value": 28,
+          "description": "Size of input data file in bytes"
+        },
+        "input_file_format": {
+          "value": ".txt",
+          "description": "Input file format/extension"
+        },
+        "metadata_keys": {
+          "value": [
+            "source",
+            "version"
+          ],
+          "description": "Available metadata fields"
+        },
+        "summary_transformation_steps": {
+          "value": [
+            "Loaded raw cosmic chronometer H(z) measurements",
+            "Merged data from multiple compilation sources with priority weighting",
+            "Filtered overlapping redshift bins using proximity tolerance",
+            "Validated H(z) sign conventions and evolution trends",
+            "Applied systematic error handling and method-specific corrections"
+          ],
+          "description": "Transformation summary: transformation_steps"
+        },
+        "summary_formulas_used": {
+          "value": [
+            "H(z) = H\u2080 E(z) (Hubble parameter evolution)",
+            "\u03c3\u00b2_total = \u03c3\u00b2_stat + \u03c3\u00b2_sys (error combination)",
+            "\u0394t/\u0394z = -1/[(1+z)H(z)] (differential age method)",
+            "Cov_ij = correlation matrix element conversion"
+          ],
+          "description": "Transformation summary: formulas_used"
+        },
+        "summary_assumptions": {
+          "value": [
+            "Cosmic chronometer galaxies are passively evolving",
+            "Stellar population synthesis models are accurate",
+            "Systematic errors are Gaussian and uncorrelated",
+            "H(z) measurements are independent between redshift bins"
+          ],
+          "description": "Transformation summary: assumptions"
+        },
+        "summary_references": {
+          "value": [
+            "Jimenez & Loeb 2002 (cosmic chronometer method)",
+            "Moresco et al. 2016 (comprehensive compilation)",
+            "Stern et al. 2010 (differential age technique)",
+            "Ratsimbazafy et al. 2017 (systematic analysis)"
+          ],
+          "description": "Transformation summary: references"
+        },
+        "summary_data_statistics": {
+          "value": {
+            "n_measurements": 1,
+            "redshift_range": [
+              0.27,
+              0.27
+            ],
+            "hz_range": [
+              77.0,
+              77.0
+            ],
+            "compilations": [
+              "unknown"
+            ]
+          },
+          "description": "Transformation summary: data_statistics"
+        }
+      },
+      "references": null,
+      "assumptions": null,
+      "timestamp": "2025-10-23T13:47:25.002198+00:00",
+      "duration": 0.0013103485107421875
+    }
+  ],
+  "validation_results": {
+    "dataset_name": "cc_compatibility",
+    "validation_passed": true,
+    "rules_checked": [
+      {
+        "rule_name": "Schema Compliance",
+        "passed": true
+      },
+      {
+        "rule_name": "Numerical Integrity",
+        "passed": true
+      },
+      {
+        "rule_name": "Covariance Matrix Validation",
+        "passed": true
+      },
+      {
+        "rule_name": "Redshift Range (0.0 \u2264 z \u2264 10.0)",
+        "passed": true
+      },
+      {
+        "rule_name": "Monotonicity and Physical Sanity (observable)",
+        "passed": true
+      }
+    ],
+    "warnings": [],
+    "summary": {
+      "dataset_name": "cc_compatibility",
+      "n_points": 1,
+      "redshift_range": [
+        0.27,
+        0.27
+      ],
+      "observable_range": [
+        77.0,
+        77.0
+      ],
+      "has_covariance": false,
+      "metadata_keys": [
+        "dataset_type",
+        "data_type",
+        "source",
+        "citation",
+        "version",
+        "processing_timestamp",
+        "n_points",
+        "redshift_range",
+        "hz_range",
+        "observable_description",
+        "units",
+        "transformations_applied",
+        "compilation_merging"
+      ]
+    }
+  },
+  "input_metadata": {
+    "source": "cc_compatibility_test",
+    "version": "1.0"
+  },
+  "output_metadata": {
+    "output_file_path": "data/derived/cc_compatibility_derived_20251023_134725.json",
+    "derived_dataset_hash": "60bc0cef4da56a61"
+  },
+  "environment_info": {
+    "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]",
+    "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+    "numpy_version": "2.3.4",
+    "timestamp": "2025-10-23T13:47:24.999791+00:00",
+    "total_memory": 33224306688,
+    "available_memory": 10874658816,
+    "git_commit": "6cf6b65383da5a9bbd81525b22db3582e6371698"
+  },
+  "performance_metrics": {
+    "total_steps": 1,
+    "total_transformation_time": 0.0013103485107421875,
+    "average_step_time": 0.0013103485107421875,
+    "longest_step": 0.0013103485107421875,
+    "shortest_step": 0.0013103485107421875,
+    "step_breakdown": {
+      "cc_derivation": 0.0013103485107421875
+    },
+    "total_processing_time": 0.003143,
+    "transformation_overhead": 0.0018326514892578125,
+    "transformation_efficiency": 41.691012113973514
+  }
+}

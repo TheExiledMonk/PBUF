@@ -1,0 +1,148 @@
+{
+  "dataset_name": "sn_pantheon",
+  "dataset_type": null,
+  "processing_start": "2025-10-23T12:56:33.340726+00:00",
+  "processing_end": "2025-10-23T12:56:33.343189+00:00",
+  "total_duration": 0.002463,
+  "transformation_steps": [
+    {
+      "step_name": "sn_derivation",
+      "formula": null,
+      "description": "Complete SN dataset derivation",
+      "input_description": "Raw SN data file",
+      "output_description": "Standardized dataset format",
+      "input_shape": null,
+      "output_shape": {
+        "z": [
+          3
+        ],
+        "observable": [
+          3
+        ],
+        "uncertainty": [
+          3
+        ],
+        "covariance": null
+      },
+      "parameters": {
+        "input_file_size": {
+          "value": 9,
+          "description": "Size of input data file in bytes"
+        },
+        "input_file_format": {
+          "value": ".txt",
+          "description": "Input file format/extension"
+        },
+        "metadata_keys": {
+          "value": [
+            "source",
+            "version"
+          ],
+          "description": "Available metadata fields"
+        },
+        "summary_transformation_steps": {
+          "value": [
+            "Mock sn transformation"
+          ],
+          "description": "Transformation summary: transformation_steps"
+        },
+        "summary_formulas_used": {
+          "value": [
+            "sn_formula = x * 2"
+          ],
+          "description": "Transformation summary: formulas_used"
+        },
+        "summary_assumptions": {
+          "value": [
+            "sn assumption"
+          ],
+          "description": "Transformation summary: assumptions"
+        },
+        "summary_references": {
+          "value": [
+            "sn reference"
+          ],
+          "description": "Transformation summary: references"
+        }
+      },
+      "references": null,
+      "assumptions": null,
+      "timestamp": "2025-10-23T12:56:33.342521+00:00",
+      "duration": 8.797645568847656e-05
+    }
+  ],
+  "validation_results": {
+    "dataset_name": "sn_pantheon",
+    "validation_passed": true,
+    "rules_checked": [
+      {
+        "rule_name": "Schema Compliance",
+        "passed": true
+      },
+      {
+        "rule_name": "Numerical Integrity",
+        "passed": true
+      },
+      {
+        "rule_name": "Covariance Matrix Validation",
+        "passed": true
+      },
+      {
+        "rule_name": "Redshift Range (0.0 \u2264 z \u2264 10.0)",
+        "passed": true
+      },
+      {
+        "rule_name": "Monotonicity and Physical Sanity (observable)",
+        "passed": true
+      }
+    ],
+    "warnings": [],
+    "summary": {
+      "dataset_name": "sn_pantheon",
+      "n_points": 3,
+      "redshift_range": [
+        0.1,
+        0.3
+      ],
+      "observable_range": [
+        1.0,
+        3.0
+      ],
+      "has_covariance": false,
+      "metadata_keys": [
+        "source",
+        "version"
+      ]
+    }
+  },
+  "input_metadata": {
+    "source": "test",
+    "version": "1.0"
+  },
+  "output_metadata": {
+    "output_file_path": "data/derived/sn_pantheon_derived_20251023_125633.json",
+    "derived_dataset_hash": "eb11c90d2f25c68b"
+  },
+  "environment_info": {
+    "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]",
+    "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+    "numpy_version": "2.3.4",
+    "timestamp": "2025-10-23T12:56:33.339448+00:00",
+    "total_memory": 33224306688,
+    "available_memory": 11224281088,
+    "git_commit": "6cf6b65383da5a9bbd81525b22db3582e6371698"
+  },
+  "performance_metrics": {
+    "total_steps": 1,
+    "total_transformation_time": 8.797645568847656e-05,
+    "average_step_time": 8.797645568847656e-05,
+    "longest_step": 8.797645568847656e-05,
+    "shortest_step": 8.797645568847656e-05,
+    "step_breakdown": {
+      "sn_derivation": 8.797645568847656e-05
+    },
+    "total_processing_time": 0.002463,
+    "transformation_overhead": 0.0023750235443115233,
+    "transformation_efficiency": 3.5719226832511803
+  }
+}

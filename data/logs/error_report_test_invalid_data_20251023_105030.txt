@@ -1,0 +1,67 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: test_invalid_data
+Timestamp: 2025-10-23T10:50:30.780216+00:00
+Stage: initialization
+Severity: CRITICAL
+Error Type: unexpected_error
+Processing Duration: 0.00s
+
+ERROR DETAILS:
+----------------------------------------
+Processing failed for dataset 'test_invalid_data'
+Stage: module_selection
+Error Type: unsupported_dataset_type
+Error: No derivation module available for dataset type: unknown
+Context: {'detected_type': 'unknown', 'available_types': ['test'], 'registered_modules': 1}
+Suggested Actions:
+  1. Implement derivation module for unknown
+  2. Check dataset name and type classification
+  3. Verify module registration
+  4. Use register_derivation_module() to add missing module
+
+
+CONTEXT INFORMATION:
+----------------------------------------
+  exception_type: ProcessingError
+  processing_start_time: 2025-10-23T10:50:30.777584+00:00
+  raw_data_path: /tmp/pytest-of-fabian/pytest-61/test_validation_integration0/invalid_dataset.txt
+  has_metadata: True
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 11478192128
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check logs for detailed error information
+  2. Verify system resources and permissions
+  3. Report issue if error persists
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 303, in prepare_dataset
+    module = self._get_derivation_module(dataset_name, dataset_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 158, in _get_derivation_module
+    raise ProcessingError(
+pipelines.data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'test_invalid_data'
+Stage: module_selection
+Error Type: unsupported_dataset_type
+Error: No derivation module available for dataset type: unknown
+Context: {'detected_type': 'unknown', 'available_types': ['test'], 'registered_modules': 1}
+Suggested Actions:
+  1. Implement derivation module for unknown
+  2. Check dataset name and type classification
+  3. Verify module registration
+  4. Use register_derivation_module() to add missing module
+
+
+================================================================================

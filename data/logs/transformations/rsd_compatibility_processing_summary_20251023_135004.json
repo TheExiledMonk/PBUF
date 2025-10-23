@@ -1,0 +1,189 @@
+{
+  "dataset_name": "rsd_compatibility",
+  "dataset_type": null,
+  "processing_start": "2025-10-23T13:50:04.335356+00:00",
+  "processing_end": "2025-10-23T13:50:04.339078+00:00",
+  "total_duration": 0.003722,
+  "transformation_steps": [
+    {
+      "step_name": "rsd_derivation",
+      "formula": null,
+      "description": "Complete RSD dataset derivation",
+      "input_description": "Raw RSD data file",
+      "output_description": "Standardized dataset format",
+      "input_shape": null,
+      "output_shape": {
+        "z": [
+          1
+        ],
+        "observable": [
+          1
+        ],
+        "uncertainty": [
+          1
+        ],
+        "covariance": null
+      },
+      "parameters": {
+        "input_file_size": {
+          "value": 35,
+          "description": "Size of input data file in bytes"
+        },
+        "input_file_format": {
+          "value": ".txt",
+          "description": "Input file format/extension"
+        },
+        "metadata_keys": {
+          "value": [
+            "source",
+            "version"
+          ],
+          "description": "Available metadata fields"
+        },
+        "summary_transformation_steps": {
+          "value": [
+            "Loaded raw growth rate f\u03c3\u2088(z) measurements from RSD analysis",
+            "Validated growth rate sign conventions and evolution trends",
+            "Applied survey-specific systematic corrections (AP, fiber collisions, etc.)",
+            "Homogenized covariance matrices from different published sources",
+            "Propagated theoretical and observational systematic errors"
+          ],
+          "description": "Transformation summary: transformation_steps"
+        },
+        "summary_formulas_used": {
+          "value": [
+            "f\u03c3\u2088(z) = f(z) \u00d7 \u03c3\u2088(z) (growth rate parameter)",
+            "f(z) \u2248 \u03a9_m(z)^\u03b3 (growth rate approximation)",
+            "\u03c3\u00b2_total = \u03c3\u00b2_stat + \u03c3\u00b2_sys (error propagation)",
+            "P(k,\u03bc) = (1 + \u03b2\u03bc\u00b2)\u00b2 P_real(k) (RSD model)"
+          ],
+          "description": "Transformation summary: formulas_used"
+        },
+        "summary_assumptions": {
+          "value": [
+            "Linear theory RSD model on large scales",
+            "Kaiser effect dominates over non-linear corrections",
+            "Gaussian uncertainties for error propagation",
+            "Survey-specific systematics are well-characterized"
+          ],
+          "description": "Transformation summary: assumptions"
+        },
+        "summary_references": {
+          "value": [
+            "Kaiser 1987 (redshift space distortions)",
+            "Percival & White 2009 (RSD measurements)",
+            "Samushia et al. 2014 (growth rate compilation)",
+            "de la Torre et al. 2013 (VIPERS RSD analysis)"
+          ],
+          "description": "Transformation summary: references"
+        },
+        "summary_data_statistics": {
+          "value": {
+            "n_measurements": 1,
+            "redshift_range": [
+              0.25,
+              0.25
+            ],
+            "fsig8_range": [
+              0.3512,
+              0.3512
+            ],
+            "surveys": [
+              "unknown"
+            ]
+          },
+          "description": "Transformation summary: data_statistics"
+        }
+      },
+      "references": null,
+      "assumptions": null,
+      "timestamp": "2025-10-23T13:50:04.337022+00:00",
+      "duration": 0.0012774467468261719
+    }
+  ],
+  "validation_results": {
+    "dataset_name": "rsd_compatibility",
+    "validation_passed": true,
+    "rules_checked": [
+      {
+        "rule_name": "Schema Compliance",
+        "passed": true
+      },
+      {
+        "rule_name": "Numerical Integrity",
+        "passed": true
+      },
+      {
+        "rule_name": "Covariance Matrix Validation",
+        "passed": true
+      },
+      {
+        "rule_name": "Redshift Range (0.0 \u2264 z \u2264 10.0)",
+        "passed": true
+      },
+      {
+        "rule_name": "Monotonicity and Physical Sanity (observable)",
+        "passed": true
+      }
+    ],
+    "warnings": [],
+    "summary": {
+      "dataset_name": "rsd_compatibility",
+      "n_points": 1,
+      "redshift_range": [
+        0.25,
+        0.25
+      ],
+      "observable_range": [
+        0.3512,
+        0.3512
+      ],
+      "has_covariance": false,
+      "metadata_keys": [
+        "dataset_type",
+        "data_type",
+        "source",
+        "citation",
+        "version",
+        "processing_timestamp",
+        "n_points",
+        "redshift_range",
+        "fsig8_range",
+        "observable_description",
+        "units",
+        "transformations_applied",
+        "physical_consistency_check"
+      ]
+    }
+  },
+  "input_metadata": {
+    "source": "rsd_compatibility_test",
+    "version": "1.0"
+  },
+  "output_metadata": {
+    "output_file_path": "data/derived/rsd_compatibility_derived_20251023_135004.json",
+    "derived_dataset_hash": "2d5550a88743382c"
+  },
+  "environment_info": {
+    "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]",
+    "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+    "numpy_version": "2.3.4",
+    "timestamp": "2025-10-23T13:50:04.334132+00:00",
+    "total_memory": 33224306688,
+    "available_memory": 11766231040,
+    "git_commit": "6cf6b65383da5a9bbd81525b22db3582e6371698"
+  },
+  "performance_metrics": {
+    "total_steps": 1,
+    "total_transformation_time": 0.0012774467468261719,
+    "average_step_time": 0.0012774467468261719,
+    "longest_step": 0.0012774467468261719,
+    "shortest_step": 0.0012774467468261719,
+    "step_breakdown": {
+      "rsd_derivation": 0.0012774467468261719
+    },
+    "total_processing_time": 0.003722,
+    "transformation_overhead": 0.002444553253173828,
+    "transformation_efficiency": 34.32151388571123
+  }
+}

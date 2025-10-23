@@ -1,0 +1,72 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: cmb_compatibility
+Timestamp: 2025-10-23T13:46:19.391157+00:00
+Stage: output_validation
+Severity: ERROR
+Error Type: duplicate_redshift_error
+
+ERROR DETAILS:
+----------------------------------------
+Duplicate redshift values found: 1 unique values with duplicates
+
+CONTEXT INFORMATION:
+----------------------------------------
+  dataset_shape: {'z_length': 3, 'observable_length': 3, 'uncertainty_length': 3, 'has_covariance': False, 'covariance_shape': None}
+  error_details: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: duplicate_redshift_error
+Error: Duplicate redshift values found: 1 unique values with duplicates
+Context: {'duplicate_redshifts': [1090.0], 'duplicate_counts': [3], 'total_duplicates': 1}
+Suggested Actions:
+  1. Remove duplicate entries or average observables at same redshift
+  2. Check data loading process for duplicate rows
+  3. Verify redshift precision and rounding issues
+  4. Consider binning strategy for closely spaced redshifts
+
+  dataset_info: {'metadata_keys': ['dataset_type', 'data_type', 'source', 'citation', 'version', 'processing_timestamp', 'redshift', 'n_parameters', 'n_points', 'parameters', 'parameter_descriptions', 'transformations_applied', 'dimensionless_consistency_check', 'parameter_validation', 'parameter_extraction']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 10805526528
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check derived dataset structure and completeness
+  2. Verify transformation produced valid output
+  3. Review validation rules for appropriateness
+  4. Check for data type consistency
+  5. Verify array shapes and dimensions
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 410, in prepare_dataset
+    validation_results = self.validation_engine.validate_dataset(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 575, in validate_dataset
+    raise e
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 565, in validate_dataset
+    rule_passed = rule.validate(dataset)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 383, in validate
+    raise ProcessingError(
+pipelines.data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: duplicate_redshift_error
+Error: Duplicate redshift values found: 1 unique values with duplicates
+Context: {'duplicate_redshifts': [1090.0], 'duplicate_counts': [3], 'total_duplicates': 1}
+Suggested Actions:
+  1. Remove duplicate entries or average observables at same redshift
+  2. Check data loading process for duplicate rows
+  3. Verify redshift precision and rounding issues
+  4. Consider binning strategy for closely spaced redshifts
+
+
+================================================================================

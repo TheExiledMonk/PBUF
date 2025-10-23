@@ -1,0 +1,26 @@
+[
+  {
+    "z_eff": 0.38,
+    "DM_over_rd": 10.3,
+    "DM_err": 0.4,
+    "DH_over_rd": 25.2,
+    "DH_err": 0.7,
+    "correlation": -0.4
+  },
+  {
+    "z_eff": 0.51,
+    "DM_over_rd": 13.7,
+    "DM_err": 0.4,
+    "DH_over_rd": 22.3,
+    "DH_err": 0.5,
+    "correlation": -0.4
+  },
+  {
+    "z_eff": 0.61,
+    "DM_over_rd": 16.1,
+    "DM_err": 0.3,
+    "DH_over_rd": 20.9,
+    "DH_err": 0.4,
+    "correlation": -0.4
+  }
+]

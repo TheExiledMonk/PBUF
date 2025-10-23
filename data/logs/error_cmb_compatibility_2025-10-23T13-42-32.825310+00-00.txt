@@ -1,0 +1,80 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: cmb_compatibility
+Timestamp: 2025-10-23T13:42:32.825310+00:00
+Stage: output_validation
+Severity: ERROR
+Error Type: redshift_range_error
+
+ERROR DETAILS:
+----------------------------------------
+Redshift values above maximum 10.0 found (max: 1090.0)
+
+CONTEXT INFORMATION:
+----------------------------------------
+  dataset_shape: {'z_length': 3, 'observable_length': 3, 'uncertainty_length': 3, 'has_covariance': False, 'covariance_shape': None}
+  error_details: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: redshift_range_error
+Error: Redshift values above maximum 10.0 found (max: 1090.0)
+Context: {'allowed_range': [0.0, 10.0], 'actual_range': [1090.0, 1090.0]}
+Suggested Actions:
+  1. Check that redshift values are within expected range [0.0, 10.0]
+  2. Review input data for outliers or data entry errors
+  3. Verify coordinate system and redshift definitions
+
+  dataset_info: {'metadata_keys': ['dataset_type', 'data_type', 'source', 'citation', 'version', 'processing_timestamp', 'redshift', 'n_parameters', 'n_points', 'parameters', 'parameter_descriptions', 'transformations_applied', 'dimensionless_consistency_check', 'parameter_validation', 'parameter_extraction']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 11325440000
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check derived dataset structure and completeness
+  2. Verify transformation produced valid output
+  3. Review validation rules for appropriateness
+  4. Check for data type consistency
+  5. Verify array shapes and dimensions
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 303, in validate
+    return dataset.validate_redshift_range(self.min_z, self.max_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/schema.py", line 396, in validate_redshift_range
+    raise ValueError(f"Redshift values above maximum {max_z} found (max: {max_found})")
+ValueError: Redshift values above maximum 10.0 found (max: 1090.0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 410, in prepare_dataset
+    validation_results = self.validation_engine.validate_dataset(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 565, in validate_dataset
+    raise e
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 555, in validate_dataset
+    rule_passed = rule.validate(dataset)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 305, in validate
+    raise ProcessingError(
+pipelines.data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: redshift_range_error
+Error: Redshift values above maximum 10.0 found (max: 1090.0)
+Context: {'allowed_range': [0.0, 10.0], 'actual_range': [1090.0, 1090.0]}
+Suggested Actions:
+  1. Check that redshift values are within expected range [0.0, 10.0]
+  2. Review input data for outliers or data entry errors
+  3. Verify coordinate system and redshift definitions
+
+
+================================================================================

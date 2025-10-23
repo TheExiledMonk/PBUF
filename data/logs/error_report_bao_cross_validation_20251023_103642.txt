@@ -1,0 +1,53 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: bao_cross_validation
+Timestamp: 2025-10-23T10:36:42.725030+00:00
+Stage: input_validation
+Severity: ERROR
+Error Type: validation_error
+
+ERROR DETAILS:
+----------------------------------------
+Input validation failed: Cannot determine BAO measurement type from data columns
+
+CONTEXT INFORMATION:
+----------------------------------------
+  file_exists: True
+  file_size: 96
+  metadata_available: True
+  error_details: Cannot determine BAO measurement type from data columns
+  dataset_info: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-58/test_bao_cross_validation0/bao_cross_validation.txt', 'metadata_keys': ['source', 'version', 'description']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 12451827712
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check file format and structure
+  2. Verify file is not corrupted
+  3. Review dataset documentation for expected format
+  4. Check file permissions and accessibility
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 318, in prepare_dataset
+    if not module.validate_input(raw_data_path, metadata):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py", line 99, in validate_input
+    raise e
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py", line 80, in validate_input
+    measurement_type = self._determine_measurement_type(data, metadata)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py", line 126, in _determine_measurement_type
+    raise ValueError("Cannot determine BAO measurement type from data columns")
+ValueError: Cannot determine BAO measurement type from data columns
+
+================================================================================

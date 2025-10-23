@@ -1,0 +1,52 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: cmb_cross_validation
+Timestamp: 2025-10-23T10:16:55.353625+00:00
+Stage: input_validation
+Severity: ERROR
+Error Type: validation_error
+
+ERROR DETAILS:
+----------------------------------------
+Input validation failed: Required CMB parameter 'R' not found. Available keys: ['1.7502', '301.63', '1.04119']
+
+CONTEXT INFORMATION:
+----------------------------------------
+  file_exists: True
+  file_size: 65
+  metadata_available: True
+  error_details: Required CMB parameter 'R' not found. Available keys: ['1.7502', '301.63', '1.04119']
+  dataset_info: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-48/test_cmb_cross_validation0/cmb_cross_validation.txt', 'metadata_keys': ['source', 'version', 'description']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 13114601472
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check file format and structure
+  2. Verify file is not corrupted
+  3. Review dataset documentation for expected format
+  4. Check file permissions and accessibility
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 318, in prepare_dataset
+    if not module.validate_input(raw_data_path, metadata):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 83, in validate_input
+    raise e
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 76, in validate_input
+    self._validate_cmb_parameters(data, metadata)
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 139, in _validate_cmb_parameters
+    raise ValueError(f"Required CMB parameter '{param}' not found. Available keys: {available_keys}")
+ValueError: Required CMB parameter 'R' not found. Available keys: ['1.7502', '301.63', '1.04119']
+
+================================================================================

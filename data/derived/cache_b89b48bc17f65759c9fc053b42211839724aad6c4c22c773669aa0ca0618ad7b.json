@@ -1,0 +1,54 @@
+{
+  "input_hash": "b89b48bc17f65759c9fc053b42211839724aad6c4c22c773669aa0ca0618ad7b",
+  "dataset_name": "cmb_cross_validation",
+  "processing_timestamp": "2025-10-23T13:48:28.631118+00:00",
+  "environment_hash": "28f73e5ec49e78edadac0fd930337b0aa0ae2978967c644ef6e16d9238f87d95",
+  "dataset": {
+    "z": [
+      1090.0,
+      1090.0,
+      1090.0
+    ],
+    "observable": [
+      1.7502,
+      301.63,
+      1.04119
+    ],
+    "uncertainty": [
+      0.1,
+      0.1,
+      0.1
+    ],
+    "covariance": null,
+    "metadata": {
+      "dataset_type": "cmb",
+      "data_type": "distance_priors",
+      "source": "cross_validation_test",
+      "citation": "",
+      "version": "1.0",
+      "processing_timestamp": "2025-10-23T21:48:28.630529",
+      "redshift": 1090.0,
+      "n_parameters": 3,
+      "n_points": 3,
+      "parameters": [
+        "R",
+        "l_A",
+        "theta_star"
+      ],
+      "parameter_descriptions": {
+        "R": "Shift parameter (dimensionless)",
+        "l_A": "Acoustic scale (multipole)",
+        "theta_star": "Angular scale (microradians)"
+      },
+      "transformations_applied": [
+        "distance_priors_extraction",
+        "dimensionless_consistency_check",
+        "covariance_matrix_validation",
+        "cosmological_constant_validation"
+      ],
+      "dimensionless_consistency_check": true,
+      "parameter_validation": true,
+      "parameter_extraction": true
+    }
+  }
+}

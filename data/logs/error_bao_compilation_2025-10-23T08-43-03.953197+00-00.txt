@@ -1,0 +1,56 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: bao_compilation
+Timestamp: 2025-10-23T08:43:03.953197+00:00
+Stage: input_validation
+Severity: ERROR
+Error Type: validation_error
+
+ERROR DETAILS:
+----------------------------------------
+Input validation failed: Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'
+
+CONTEXT INFORMATION:
+----------------------------------------
+  file_exists: True
+  file_size: 416
+  metadata_available: True
+  error_details: Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'
+  dataset_info: {'raw_data_path': 'data/mock_phase_a/bao_compilation_mock.json', 'metadata_keys': ['dataset_type', 'description', 'expected_observables', 'expected_data_points', 'source', 'version']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 12761620480
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check file format and structure
+  2. Verify file is not corrupted
+  3. Review dataset documentation for expected format
+  4. Check file permissions and accessibility
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py", line 75, in validate_input
+    data = pd.read_json(raw_data_path)
+           ^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'read_json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 319, in prepare_dataset
+    if not module.validate_input(raw_data_path, metadata):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py", line 101, in validate_input
+    raise ValueError(f"Failed to read or validate raw data: {str(e)}")
+ValueError: Failed to read or validate raw data: 'NoneType' object has no attribute 'read_json'
+
+================================================================================

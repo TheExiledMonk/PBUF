@@ -1,0 +1,84 @@
+{
+  "data": {
+    "covariance": null,
+    "metadata": {
+      "citation": "",
+      "compilation_merging": true,
+      "data_type": "hubble_parameter",
+      "dataset_type": "cc",
+      "hz_range": [
+        77.0,
+        77.0
+      ],
+      "n_points": 1,
+      "observable_description": "Hubble parameter H(z) from cosmic chronometers",
+      "processing_timestamp": "2025-10-23T21:48:54.034190",
+      "redshift_range": [
+        0.27,
+        0.27
+      ],
+      "source": "cc_compatibility_test",
+      "transformations_applied": [
+        "compilation_merging",
+        "overlapping_bin_filtering",
+        "sign_convention_validation",
+        "systematic_error_handling"
+      ],
+      "units": "km/s/Mpc",
+      "version": "1.0"
+    },
+    "observable": [
+      77.0
+    ],
+    "uncertainty": [
+      14.0
+    ],
+    "z": [
+      0.27
+    ]
+  },
+  "dataset_name": "cc_compatibility",
+  "environment_hash": "28f73e5ec49e78edadac0fd930337b0aa0ae2978967c644ef6e16d9238f87d95",
+  "processing_timestamp": "2025-10-23T13:48:54.034728+00:00",
+  "transformation_summary": {
+    "assumptions": [
+      "Cosmic chronometer galaxies are passively evolving",
+      "Stellar population synthesis models are accurate",
+      "Systematic errors are Gaussian and uncorrelated",
+      "H(z) measurements are independent between redshift bins"
+    ],
+    "data_statistics": {
+      "compilations": [
+        "unknown"
+      ],
+      "hz_range": [
+        77.0,
+        77.0
+      ],
+      "n_measurements": 1,
+      "redshift_range": [
+        0.27,
+        0.27
+      ]
+    },
+    "formulas_used": [
+      "H(z) = H\u2080 E(z) (Hubble parameter evolution)",
+      "\u03c3\u00b2_total = \u03c3\u00b2_stat + \u03c3\u00b2_sys (error combination)",
+      "\u0394t/\u0394z = -1/[(1+z)H(z)] (differential age method)",
+      "Cov_ij = correlation matrix element conversion"
+    ],
+    "references": [
+      "Jimenez & Loeb 2002 (cosmic chronometer method)",
+      "Moresco et al. 2016 (comprehensive compilation)",
+      "Stern et al. 2010 (differential age technique)",
+      "Ratsimbazafy et al. 2017 (systematic analysis)"
+    ],
+    "transformation_steps": [
+      "Loaded raw cosmic chronometer H(z) measurements",
+      "Merged data from multiple compilation sources with priority weighting",
+      "Filtered overlapping redshift bins using proximity tolerance",
+      "Validated H(z) sign conventions and evolution trends",
+      "Applied systematic error handling and method-specific corrections"
+    ]
+  }
+}

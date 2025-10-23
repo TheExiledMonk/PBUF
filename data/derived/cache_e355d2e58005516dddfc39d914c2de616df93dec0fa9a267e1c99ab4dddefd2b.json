@@ -1,0 +1,47 @@
+{
+  "input_hash": "e355d2e58005516dddfc39d914c2de616df93dec0fa9a267e1c99ab4dddefd2b",
+  "dataset_name": "sn_cross_validation",
+  "processing_timestamp": "2025-10-23T13:48:28.618462+00:00",
+  "environment_hash": "28f73e5ec49e78edadac0fd930337b0aa0ae2978967c644ef6e16d9238f87d95",
+  "dataset": {
+    "z": [
+      0.0404,
+      0.0593,
+      0.0743,
+      0.093
+    ],
+    "observable": [
+      53.78,
+      54.879999999999995,
+      55.61,
+      56.33
+    ],
+    "uncertainty": [
+      0.11,
+      0.13,
+      0.14,
+      0.15
+    ],
+    "covariance": null,
+    "metadata": {
+      "dataset_type": "sn",
+      "source": "cross_validation_test",
+      "citation": "",
+      "version": "1.0",
+      "processing_date": "2025-10-23T21:48:28.617787",
+      "n_points": 4,
+      "redshift_range": [
+        0.0404,
+        0.093
+      ],
+      "calibration_system": "unknown",
+      "transformations_applied": [
+        "duplicate_removal",
+        "calibration_homogenization",
+        "magnitude_to_distance_modulus",
+        "systematic_covariance_application"
+      ],
+      "calibration_homogenization": true
+    }
+  }
+}

@@ -1,0 +1,80 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: sn_pantheon
+Timestamp: 2025-10-23T14:18:58.484460+00:00
+Stage: output_validation
+Severity: ERROR
+Error Type: schema_error
+
+ERROR DETAILS:
+----------------------------------------
+Required metadata field 'source' is missing
+
+CONTEXT INFORMATION:
+----------------------------------------
+  dataset_shape: {'z_length': 3, 'observable_length': 3, 'uncertainty_length': 3, 'has_covariance': False, 'covariance_shape': None}
+  error_details: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: schema_error
+Error: Required metadata field 'source' is missing
+Context: {'schema_requirements': {'required_fields': ['z', 'observable', 'uncertainty', 'metadata'], 'optional_fields': ['covariance'], 'required_metadata_keys': ['source'], 'recommended_metadata_keys': ['dataset_type']}}
+Suggested Actions:
+  1. Ensure all required fields (z, observable, uncertainty, metadata) are present
+  2. Check derivation module output format
+  3. Verify data loading process includes all necessary fields
+
+  dataset_info: {'metadata_keys': []}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 10639384576
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check derived dataset structure and completeness
+  2. Verify transformation produced valid output
+  3. Review validation rules for appropriateness
+  4. Check for data type consistency
+  5. Verify array shapes and dimensions
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 24, in validate
+    return dataset.validate_schema()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/schema.py", line 168, in validate_schema
+    raise ValueError(f"Required metadata field '{key}' is missing")
+ValueError: Required metadata field 'source' is missing
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 410, in prepare_dataset
+    validation_results = self.validation_engine.validate_dataset(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 650, in validate_dataset
+    raise e
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 640, in validate_dataset
+    rule_passed = rule.validate(dataset)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/core/validation.py", line 69, in validate
+    raise ProcessingError(
+pipelines.data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: output_validation
+Error Type: schema_error
+Error: Required metadata field 'source' is missing
+Context: {'schema_requirements': {'required_fields': ['z', 'observable', 'uncertainty', 'metadata'], 'optional_fields': ['covariance'], 'required_metadata_keys': ['source'], 'recommended_metadata_keys': ['dataset_type']}}
+Suggested Actions:
+  1. Ensure all required fields (z, observable, uncertainty, metadata) are present
+  2. Check derivation module output format
+  3. Verify data loading process includes all necessary fields
+
+
+================================================================================

@@ -1,0 +1,52 @@
+{
+  "certification_status": "FAILED",
+  "certification_timestamp": "2025-10-23T08:43:04.160389+00:00",
+  "certification_criteria": {
+    "minimum_success_rate": 0.75,
+    "required_datasets": [
+      "cmb_planck2018",
+      "sn_pantheon_plus",
+      "bao_compilation"
+    ],
+    "maximum_processing_time": 600,
+    "required_qa_checks": [
+      "schema_compliance",
+      "data_quality",
+      "physical_consistency"
+    ]
+  },
+  "evaluation_results": {
+    "success_rate_check": {
+      "required": 0.75,
+      "actual": 0.0,
+      "passed": false
+    },
+    "required_datasets_check": {
+      "required_datasets": [
+        "cmb_planck2018",
+        "sn_pantheon_plus",
+        "bao_compilation"
+      ],
+      "successful_datasets": [],
+      "passed": false
+    },
+    "processing_time_check": {
+      "maximum_allowed_seconds": 600,
+      "actual_seconds": 0.4235575199127197,
+      "passed": true
+    },
+    "qa_compliance_check": {
+      "required_checks": [
+        "schema_compliance",
+        "data_quality",
+        "physical_consistency"
+      ],
+      "passed": true,
+      "details": {}
+    }
+  },
+  "recommendations": [
+    "Improve success rate from 0.0% to at least 75.0%",
+    "Fix processing issues for required datasets: cmb_planck2018, sn_pantheon_plus, bao_compilation"
+  ]
+}

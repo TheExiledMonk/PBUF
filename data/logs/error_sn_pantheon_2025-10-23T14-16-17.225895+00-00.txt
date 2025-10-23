@@ -1,0 +1,58 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: sn_pantheon
+Timestamp: 2025-10-23T14:16:17.225895+00:00
+Stage: transformation
+Severity: ERROR
+Error Type: transformation_failed
+
+ERROR DETAILS:
+----------------------------------------
+Dataset transformation failed: Mock transformation failure
+
+CONTEXT INFORMATION:
+----------------------------------------
+  module_type: sn
+  supported_formats: ['.txt', '.csv']
+  file_extension: .txt
+  error_details: Mock transformation failure
+  transformation_summary: {'transformation_steps': ['Mock sn transformation'], 'formulas_used': ['sn_formula = x * 2'], 'assumptions': ['sn assumption'], 'references': ['sn reference']}
+  dataset_info: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-160/test_prepare_dataset_transform0/test_data.txt', 'metadata_keys': []}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 10992685056
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check input data format compatibility
+  2. Review transformation module implementation
+  3. Verify all required data fields are present
+  4. Check for data corruption or missing values
+  5. Review transformation parameters and assumptions
+
+RECOVERY INFORMATION:
+----------------------------------------
+  Recovery Attempted: Yes
+  Recovery Successful: False
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 374, in prepare_dataset
+    derived_dataset = enhanced_module.derive(raw_data_path, metadata)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 1628, in derive
+    result = self.wrapped_module.derive(raw_data_path, metadata)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/tests/test_preparation_engine.py", line 40, in derive
+    raise ValueError("Mock transformation failure")
+ValueError: Mock transformation failure
+
+================================================================================

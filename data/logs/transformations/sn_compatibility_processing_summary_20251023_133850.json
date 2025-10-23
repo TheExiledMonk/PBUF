@@ -1,0 +1,178 @@
+{
+  "dataset_name": "sn_compatibility",
+  "dataset_type": null,
+  "processing_start": "2025-10-23T13:38:50.785786+00:00",
+  "processing_end": "2025-10-23T13:38:50.791487+00:00",
+  "total_duration": 0.005701,
+  "transformation_steps": [
+    {
+      "step_name": "sn_derivation",
+      "formula": null,
+      "description": "Complete SN dataset derivation",
+      "input_description": "Raw SN data file",
+      "output_description": "Standardized dataset format",
+      "input_shape": null,
+      "output_shape": {
+        "z": [
+          1
+        ],
+        "observable": [
+          1
+        ],
+        "uncertainty": [
+          1
+        ],
+        "covariance": null
+      },
+      "parameters": {
+        "input_file_size": {
+          "value": 35,
+          "description": "Size of input data file in bytes"
+        },
+        "input_file_format": {
+          "value": ".txt",
+          "description": "Input file format/extension"
+        },
+        "metadata_keys": {
+          "value": [
+            "source",
+            "version"
+          ],
+          "description": "Available metadata fields"
+        },
+        "summary_transformation_steps": {
+          "value": [
+            "Loaded raw supernova data with standardized column mapping",
+            "Removed duplicate entries using coordinate or redshift matching",
+            "Applied calibration system homogenization to SALT2 reference",
+            "Converted apparent magnitudes to distance modulus using SALT2 formula",
+            "Applied systematic covariance matrix if available"
+          ],
+          "description": "Transformation summary: transformation_steps"
+        },
+        "summary_formulas_used": {
+          "value": [
+            "\u03bc = mb - M + \u03b1x1 - \u03b2c (SALT2 distance modulus)",
+            "\u03c3\u00b2\u03bc = \u03c3\u00b2mb + \u03b1\u00b2\u03c3\u00b2x1 + \u03b2\u00b2\u03c3\u00b2c (uncertainty propagation)",
+            "Cov_total = Cov_stat + Cov_sys (covariance combination)"
+          ],
+          "description": "Transformation summary: formulas_used"
+        },
+        "summary_assumptions": {
+          "value": [
+            "Fiducial absolute magnitude M = -19.3 mag",
+            "SALT2 parameters: \u03b1 = 0.14, \u03b2 = 3.1",
+            "Coordinate matching threshold: 1 arcsecond",
+            "Redshift matching threshold: \u0394z = 0.001"
+          ],
+          "description": "Transformation summary: assumptions"
+        },
+        "summary_references": {
+          "value": [
+            "Betoule et al. 2014 (JLA compilation)",
+            "Guy et al. 2007 (SALT2 light curve fitter)",
+            "Conley et al. 2011 (supernova systematics)"
+          ],
+          "description": "Transformation summary: references"
+        },
+        "summary_data_statistics": {
+          "value": {
+            "n_input_points": 1,
+            "redshift_range": [
+              0.0404,
+              0.0404
+            ],
+            "calibration_system": "unknown"
+          },
+          "description": "Transformation summary: data_statistics"
+        }
+      },
+      "references": null,
+      "assumptions": null,
+      "timestamp": "2025-10-23T13:38:50.788995+00:00",
+      "duration": 0.0016236305236816406
+    }
+  ],
+  "validation_results": {
+    "dataset_name": "sn_compatibility",
+    "validation_passed": true,
+    "rules_checked": [
+      {
+        "rule_name": "Schema Compliance",
+        "passed": true
+      },
+      {
+        "rule_name": "Numerical Integrity",
+        "passed": true
+      },
+      {
+        "rule_name": "Covariance Matrix Validation",
+        "passed": true
+      },
+      {
+        "rule_name": "Redshift Range (0.0 \u2264 z \u2264 10.0)",
+        "passed": true
+      },
+      {
+        "rule_name": "Monotonicity and Physical Sanity (observable)",
+        "passed": true
+      }
+    ],
+    "warnings": [],
+    "summary": {
+      "dataset_name": "sn_compatibility",
+      "n_points": 1,
+      "redshift_range": [
+        0.0404,
+        0.0404
+      ],
+      "observable_range": [
+        53.78,
+        53.78
+      ],
+      "has_covariance": false,
+      "metadata_keys": [
+        "dataset_type",
+        "source",
+        "citation",
+        "version",
+        "processing_date",
+        "n_points",
+        "redshift_range",
+        "calibration_system",
+        "transformations_applied",
+        "calibration_homogenization"
+      ]
+    }
+  },
+  "input_metadata": {
+    "source": "sn_compatibility_test",
+    "version": "1.0"
+  },
+  "output_metadata": {
+    "output_file_path": "data/derived/sn_compatibility_derived_20251023_133850.json",
+    "derived_dataset_hash": "998f25120371686b"
+  },
+  "environment_info": {
+    "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]",
+    "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+    "numpy_version": "2.3.4",
+    "timestamp": "2025-10-23T13:38:50.784272+00:00",
+    "total_memory": 33224306688,
+    "available_memory": 11247190016,
+    "git_commit": "6cf6b65383da5a9bbd81525b22db3582e6371698"
+  },
+  "performance_metrics": {
+    "total_steps": 1,
+    "total_transformation_time": 0.0016236305236816406,
+    "average_step_time": 0.0016236305236816406,
+    "longest_step": 0.0016236305236816406,
+    "shortest_step": 0.0016236305236816406,
+    "step_breakdown": {
+      "sn_derivation": 0.0016236305236816406
+    },
+    "total_processing_time": 0.005701,
+    "transformation_overhead": 0.00407736947631836,
+    "transformation_efficiency": 28.479749582207344
+  }
+}

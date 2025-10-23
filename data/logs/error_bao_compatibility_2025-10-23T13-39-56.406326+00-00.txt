@@ -1,0 +1,113 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: bao_compatibility
+Timestamp: 2025-10-23T13:39:56.406326+00:00
+Stage: transformation
+Severity: ERROR
+Error Type: transformation_failed
+
+ERROR DETAILS:
+----------------------------------------
+Dataset transformation failed: Processing failed for dataset 'unknown'
+Stage: transformation
+Error Type: bao_derivation_error
+Error: None
+Context: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-124/test_format_conversion_compati0/bao_compatibility.txt'}
+Suggested Actions:
+  1. Check raw data format and column names
+  2. Verify measurement type (isotropic/anisotropic) in metadata
+  3. Check unit specifications and survey information
+
+
+CONTEXT INFORMATION:
+----------------------------------------
+  module_type: bao
+  supported_formats: ['.txt', '.csv', '.dat', '.json']
+  file_extension: .txt
+  error_details: Processing failed for dataset 'unknown'
+Stage: transformation
+Error Type: bao_derivation_error
+Error: None
+Context: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-124/test_format_conversion_compati0/bao_compatibility.txt'}
+Suggested Actions:
+  1. Check raw data format and column names
+  2. Verify measurement type (isotropic/anisotropic) in metadata
+  3. Check unit specifications and survey information
+
+  transformation_summary: {'transformation_steps': ['Load raw BAO data with isotropic/anisotropic measurements', 'Apply unit conversions to consistent Mpc scale', 'Apply survey-specific systematic corrections', 'Validate and process correlation matrix', 'Extract standardized distance measurements'], 'formulas_used': ['D_V(z) = [z * D_M²(z) * D_H(z)]^(1/3) (isotropic volume-averaged distance)', 'D_M(z) = comoving angular diameter distance', 'D_H(z) = c/H(z) (Hubble distance)', 'BAO scale: D_V/r_d, D_M/r_d, D_H/r_d (normalized by sound horizon)', 'Cov_ij = Corr_ij * σ_i * σ_j (correlation to covariance conversion)'], 'assumptions': ['Sound horizon scale r_d from CMB measurements', 'Linear theory BAO feature at ~150 Mpc/h', 'Survey-specific systematic corrections applied', 'Gaussian uncertainties for error propagation'], 'references': ['Eisenstein et al. 2005 (BAO detection)', 'Anderson et al. 2014 (BOSS BAO measurements)', 'Alam et al. 2017 (eBOSS BAO analysis)', 'DESI Collaboration 2024 (DESI BAO results)'], 'data_statistics': {}}
+  dataset_info: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-124/test_format_conversion_compati0/bao_compatibility.txt', 'metadata_keys': ['source', 'version']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 10819121152
+  disk_usage: 46.4
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check input data format compatibility
+  2. Review transformation module implementation
+  3. Verify all required data fields are present
+  4. Check for data corruption or missing values
+  5. Review transformation parameters and assumptions
+
+RECOVERY INFORMATION:
+----------------------------------------
+  Recovery Attempted: Yes
+  Recovery Successful: False
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/venv/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: None
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py", line 270, in derive
+    z, observable, uncertainty = self._extract_isotropic_measurements(data)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py", line 455, in _extract_isotropic_measurements
+    uncertainty = data[error_col].values
+                  ~~~~^^^^^^^^^^^
+  File "/home/fabian/PBUF/venv/lib/python3.12/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/venv/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 374, in prepare_dataset
+    derived_dataset = enhanced_module.derive(raw_data_path, metadata)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 1628, in derive
+    result = self.wrapped_module.derive(raw_data_path, metadata)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py", line 307, in derive
+    raise ProcessingError(
+pipelines.data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: transformation
+Error Type: bao_derivation_error
+Error: None
+Context: {'raw_data_path': '/tmp/pytest-of-fabian/pytest-124/test_format_conversion_compati0/bao_compatibility.txt'}
+Suggested Actions:
+  1. Check raw data format and column names
+  2. Verify measurement type (isotropic/anisotropic) in metadata
+  3. Check unit specifications and survey information
+
+
+================================================================================

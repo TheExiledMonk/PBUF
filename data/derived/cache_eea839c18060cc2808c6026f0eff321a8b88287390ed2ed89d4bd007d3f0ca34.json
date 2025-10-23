@@ -1,0 +1,44 @@
+{
+  "input_hash": "eea839c18060cc2808c6026f0eff321a8b88287390ed2ed89d4bd007d3f0ca34",
+  "dataset_name": "cc_compatibility",
+  "processing_timestamp": "2025-10-23T14:16:02.039346+00:00",
+  "environment_hash": "28f73e5ec49e78edadac0fd930337b0aa0ae2978967c644ef6e16d9238f87d95",
+  "dataset": {
+    "z": [
+      0.27
+    ],
+    "observable": [
+      77.0
+    ],
+    "uncertainty": [
+      14.0
+    ],
+    "covariance": null,
+    "metadata": {
+      "dataset_type": "cc",
+      "data_type": "hubble_parameter",
+      "source": "cc_compatibility_test",
+      "citation": "",
+      "version": "1.0",
+      "processing_timestamp": "2025-10-23T22:16:02.038647",
+      "n_points": 1,
+      "redshift_range": [
+        0.27,
+        0.27
+      ],
+      "hz_range": [
+        77.0,
+        77.0
+      ],
+      "observable_description": "Hubble parameter H(z) from cosmic chronometers",
+      "units": "km/s/Mpc",
+      "transformations_applied": [
+        "compilation_merging",
+        "overlapping_bin_filtering",
+        "sign_convention_validation",
+        "systematic_error_handling"
+      ],
+      "compilation_merging": true
+    }
+  }
+}
