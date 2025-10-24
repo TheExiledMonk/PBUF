@@ -1,0 +1,71 @@
+{
+  "performance_requirements": {
+    "description": "Performance requirements for CMB raw parameter processing (Requirements 8.1-8.5)",
+    "processing_time": {
+      "single_parameter_set_max_seconds": 10.0,
+      "jacobian_computation_max_seconds": 30.0,
+      "batch_processing_max_seconds_per_set": 1.0,
+      "covariance_propagation_max_seconds": 5.0,
+      "parameter_parsing_max_seconds": 0.1
+    },
+    "memory_usage": {
+      "single_computation_max_mb": 50.0,
+      "covariance_propagation_max_mb": 1024.0,
+      "batch_processing_max_mb_per_set": 5.0,
+      "memory_leak_tolerance_mb": 100.0,
+      "large_matrix_max_mb": 1024.0
+    },
+    "numerical_stability": {
+      "extreme_parameter_tolerance": 0.1,
+      "precision_limit_tolerance": 1e-6,
+      "jacobian_consistency_threshold": 0.8,
+      "condition_number_max": 1e12
+    },
+    "stress_conditions": {
+      "concurrent_processing_max_seconds": 120.0,
+      "repeated_computation_max_seconds_per_iteration": 0.1,
+      "multithreaded_safety_required": true,
+      "error_recovery_required": true
+    },
+    "scalability": {
+      "batch_size_100_max_seconds": 300.0,
+      "batch_size_500_max_seconds": 1500.0,
+      "memory_scaling_factor_max": 2.0,
+      "concurrent_threads_max": 8
+    }
+  },
+  "test_configuration": {
+    "default_planck_parameters": {
+      "H0": 67.36,
+      "Omega_m": 0.3153,
+      "Omega_b_h2": 0.02237,
+      "n_s": 0.9649,
+      "tau": 0.0544,
+      "A_s": 2.1e-9
+    },
+    "extreme_parameter_ranges": {
+      "H0": [50.1, 79.9],
+      "Omega_m": [0.11, 0.49],
+      "Omega_b_h2": [0.015, 0.049],
+      "n_s": [0.901, 1.099],
+      "tau": [0.02, 0.149]
+    },
+    "test_matrix_sizes": [5, 10, 20, 50],
+    "batch_sizes": [10, 50, 100, 200, 500],
+    "precision_levels": [1e-6, 1e-8, 1e-10, 1e-12],
+    "condition_numbers": [1e3, 1e6, 1e9, 1e12]
+  },
+  "monitoring": {
+    "memory_check_interval_iterations": 50,
+    "performance_log_level": "INFO",
+    "benchmark_comparison_tolerance": 0.2,
+    "regression_detection_enabled": true
+  },
+  "reporting": {
+    "include_system_info": true,
+    "include_performance_metrics": true,
+    "include_memory_profiling": true,
+    "save_benchmark_data": true,
+    "generate_plots": false
+  }
+}

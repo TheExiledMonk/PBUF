@@ -2,39 +2,61 @@
   "manifest_version": "1.0",
   "datasets": {
     "cmb_planck2018": {
-      "canonical_name": "Planck 2018 Distance Priors",
-      "description": "CMB distance priors from Planck 2018 final release including R, l_A, and theta_star measurements",
+      "canonical_name": "Planck 2018 Cosmological Parameters",
+      "description": "CMB cosmological parameters from Planck 2018 final release base-plikHM-TTTEEE-lowl-lowE analysis",
       "citation": "Aghanim et al. 2020, A&A 641, A6 (Planck 2018 results VI. Cosmological parameters)",
       "license": "CC-BY-4.0",
       "sources": {
         "primary": {
-          "url": "https://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_CosmoParams_base-plikHM-TTTEEE-lowl-lowE-lensing-minimum-theory_R3.00.zip",
+          "url": "https://irsa.ipac.caltech.edu/data/Planck/release_3/ancillary-data/cosmoparams/COM_CosmoParams_base-plikHM-TTTEEE-lowl-lowE_R3.00.zip",
           "protocol": "https",
           "extraction": {
             "format": "zip",
-            "target_files": ["base/plikHM_TTTEEE_lowl_lowE_lensing/base_plikHM_TTTEEE_lowl_lowE_lensing.minimum.theory"]
+            "target_files": [
+              "base/plikHM_TTTEEE_lowl_lowE/base_plikHM_TTTEEE_lowl_lowE.minimum"
+            ],
+            "extract_all": false
           }
         },
         "mirror": {
-          "url": "https://zenodo.org/record/4543143/files/planck2018_distance_priors.dat",
-          "protocol": "https"
+          "url": "https://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_CosmoParams_base-plikHM-TTTEEE-lowl-lowE_R3.00.zip",
+          "protocol": "https",
+          "extraction": {
+            "format": "zip",
+            "target_files": [
+              "base/plikHM_TTTEEE_lowl_lowE/base_plikHM_TTTEEE_lowl_lowE.minimum"
+            ],
+            "extract_all": false
+          }
         }
       },
       "verification": {
-        "sha256": "a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456",
-        "size_bytes": 1024,
+        "sha256": "5f2c50602242fef1f39b62a1b1268e1c15ff6f2e24b513d9fa38e9186e13e14e",
+        "size_bytes": 8691,
         "schema": {
           "format": "ascii_table",
-          "columns": ["R", "l_A", "theta_star"],
-          "expected_rows": 1
+          "expected_rows": 143
         }
       },
       "metadata": {
         "dataset_type": "cmb",
-        "redshift_range": [1089.80, 1089.80],
-        "observables": ["R", "l_A", "theta_star"],
-        "n_data_points": 3,
-        "covariance_included": true
+        "redshift_range": [
+          1089.80,
+          1089.80
+        ],
+        "observables": [
+          "H0",
+          "omega_b_h2",
+          "omega_c_h2",
+          "tau",
+          "n_s",
+          "ln10As"
+        ],
+        "n_data_points": 6,
+        "covariance_included": false,
+        "mission": "Planck",
+        "data_release": "R3.00",
+        "analysis": "base-plikHM-TTTEEE-lowl-lowE"
       }
     },
     "bao_compilation": {
@@ -57,14 +79,27 @@
         "size_bytes": 2048,
         "schema": {
           "format": "ascii_table",
-          "columns": ["z_eff", "DM_over_rd", "DM_err", "DH_over_rd", "DH_err", "correlation"],
+          "columns": [
+            "z_eff",
+            "DM_over_rd",
+            "DM_err",
+            "DH_over_rd",
+            "DH_err",
+            "correlation"
+          ],
           "expected_rows": 15
         }
       },
       "metadata": {
         "dataset_type": "bao",
-        "redshift_range": [0.1, 2.4],
-        "observables": ["DM_over_rd", "DH_over_rd"],
+        "redshift_range": [
+          0.1,
+          2.4
+        ],
+        "observables": [
+          "DM_over_rd",
+          "DH_over_rd"
+        ],
         "n_data_points": 15,
         "covariance_included": true
       }
@@ -89,14 +124,30 @@
         "size_bytes": 65536,
         "schema": {
           "format": "ascii_table",
-          "columns": ["CID", "zHD", "zHDERR", "zCMB", "zCMBERR", "MU", "MUERR", "MURES", "MUPULL"],
+          "columns": [
+            "CID",
+            "zHD",
+            "zHDERR",
+            "zCMB",
+            "zCMBERR",
+            "MU",
+            "MUERR",
+            "MURES",
+            "MUPULL"
+          ],
           "expected_rows": 1701
         }
       },
       "metadata": {
         "dataset_type": "sn",
-        "redshift_range": [0.01, 2.26],
-        "observables": ["MU", "MUERR"],
+        "redshift_range": [
+          0.01,
+          2.26
+        ],
+        "observables": [
+          "MU",
+          "MUERR"
+        ],
         "n_data_points": 1701,
         "covariance_included": false
       }
@@ -112,7 +163,9 @@
           "protocol": "https",
           "extraction": {
             "format": "tar.gz",
-            "target_files": ["BAO_consensus_results_dM_Hz.txt"]
+            "target_files": [
+              "BAO_consensus_results_dM_Hz.txt"
+            ]
           }
         }
       },
@@ -121,14 +174,27 @@
         "size_bytes": 4096,
         "schema": {
           "format": "ascii_table",
-          "columns": ["z_eff", "DM_over_rd", "DM_err", "DH_over_rd", "DH_err", "correlation"],
+          "columns": [
+            "z_eff",
+            "DM_over_rd",
+            "DM_err",
+            "DH_over_rd",
+            "DH_err",
+            "correlation"
+          ],
           "expected_rows": 3
         }
       },
       "metadata": {
         "dataset_type": "bao",
-        "redshift_range": [0.38, 0.61],
-        "observables": ["DM_over_rd", "DH_over_rd"],
+        "redshift_range": [
+          0.38,
+          0.61
+        ],
+        "observables": [
+          "DM_over_rd",
+          "DH_over_rd"
+        ],
         "n_data_points": 6,
         "covariance_included": true
       }

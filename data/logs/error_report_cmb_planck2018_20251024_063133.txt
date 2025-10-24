@@ -1,0 +1,245 @@
+================================================================================
+DATA PREPARATION FRAMEWORK - ERROR REPORT
+================================================================================
+Dataset: cmb_planck2018
+Timestamp: 2025-10-24T06:31:33.547583+00:00
+Stage: transformation
+Severity: ERROR
+Error Type: transformation_failed
+
+ERROR DETAILS:
+----------------------------------------
+Dataset transformation failed: Processing failed for dataset 'unknown'
+Stage: derivation
+Error Type: both_methods_failed
+Error: Both raw parameter and legacy processing failed. Raw error: Processing failed for dataset 'unknown'
+Stage: both_methods_failed
+Error Type: complete_processing_failure
+Error: Both raw parameter and legacy processing failed. Check data format and accessibility.
+Context: {'processing_log': {'dataset_name': 'unknown', 'start_time': 1761287493.5461924, 'timestamp': '2025-10-24T14:31:33.546192', 'configuration': {'use_raw_parameters': False, 'z_recombination': 1089.8, 'jacobian_step_size': 1e-06, 'validation_tolerance': 1e-08, 'fallback_to_legacy': True, 'cache_computations': True, 'performance_monitoring': False}, 'stages_completed': ['registry_validation'], 'warnings': [], 'errors': [{'stage': 'legacy_processing', 'error_type': 'ProcessingError', 'error_message': "Processing failed for dataset 'unknown'\nStage: legacy_processing\nError Type: legacy_processing_error\nError: Legacy processing failed: Processing failed for dataset 'unknown'\nStage: legacy_validation\nError Type: data_validation_error\nError: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01\nContext: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}\nSuggested Actions:\n  1. Check data quality and remove invalid values\n  2. Verify CMB parameter values are physically reasonable\n  3. Check z_star values for validity\n\nContext: {'registry_entry_keys': ['metadata', 'sources']}\n"}], 'end_time': '2025-10-24T14:31:33.546893', 'success': False}, 'registry_entry_keys': ['metadata', 'sources']}
+Suggested Actions:
+  1. Verify input data file exists and is readable
+  2. Check data format matches expected CMB structure
+  3. Review processing logs for specific error details
+  4. Consider manual data validation
+. Legacy error: Processing failed for dataset 'unknown'
+Stage: legacy_validation
+Error Type: data_validation_error
+Error: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01
+Context: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}
+Suggested Actions:
+  1. Check data quality and remove invalid values
+  2. Verify CMB parameter values are physically reasonable
+  3. Check z_star values for validity
+
+Context: {'raw_data_path': 'data/datasets/cmb_planck2018.dat', 'metadata_keys': ['dataset_type', 'use_raw_parameters', 'fallback_to_legacy']}
+Suggested Actions:
+  1. Check input data format and structure
+  2. Verify file accessibility and permissions
+  3. Review metadata completeness
+  4. Check for data corruption
+
+
+CONTEXT INFORMATION:
+----------------------------------------
+  module_type: cmb
+  supported_formats: ['.txt', '.csv', '.dat', '.json', '.fits']
+  file_extension: .dat
+  error_details: Processing failed for dataset 'unknown'
+Stage: derivation
+Error Type: both_methods_failed
+Error: Both raw parameter and legacy processing failed. Raw error: Processing failed for dataset 'unknown'
+Stage: both_methods_failed
+Error Type: complete_processing_failure
+Error: Both raw parameter and legacy processing failed. Check data format and accessibility.
+Context: {'processing_log': {'dataset_name': 'unknown', 'start_time': 1761287493.5461924, 'timestamp': '2025-10-24T14:31:33.546192', 'configuration': {'use_raw_parameters': False, 'z_recombination': 1089.8, 'jacobian_step_size': 1e-06, 'validation_tolerance': 1e-08, 'fallback_to_legacy': True, 'cache_computations': True, 'performance_monitoring': False}, 'stages_completed': ['registry_validation'], 'warnings': [], 'errors': [{'stage': 'legacy_processing', 'error_type': 'ProcessingError', 'error_message': "Processing failed for dataset 'unknown'\nStage: legacy_processing\nError Type: legacy_processing_error\nError: Legacy processing failed: Processing failed for dataset 'unknown'\nStage: legacy_validation\nError Type: data_validation_error\nError: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01\nContext: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}\nSuggested Actions:\n  1. Check data quality and remove invalid values\n  2. Verify CMB parameter values are physically reasonable\n  3. Check z_star values for validity\n\nContext: {'registry_entry_keys': ['metadata', 'sources']}\n"}], 'end_time': '2025-10-24T14:31:33.546893', 'success': False}, 'registry_entry_keys': ['metadata', 'sources']}
+Suggested Actions:
+  1. Verify input data file exists and is readable
+  2. Check data format matches expected CMB structure
+  3. Review processing logs for specific error details
+  4. Consider manual data validation
+. Legacy error: Processing failed for dataset 'unknown'
+Stage: legacy_validation
+Error Type: data_validation_error
+Error: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01
+Context: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}
+Suggested Actions:
+  1. Check data quality and remove invalid values
+  2. Verify CMB parameter values are physically reasonable
+  3. Check z_star values for validity
+
+Context: {'raw_data_path': 'data/datasets/cmb_planck2018.dat', 'metadata_keys': ['dataset_type', 'use_raw_parameters', 'fallback_to_legacy']}
+Suggested Actions:
+  1. Check input data format and structure
+  2. Verify file accessibility and permissions
+  3. Review metadata completeness
+  4. Check for data corruption
+
+  transformation_summary: {'transformation_steps': ['Load raw CMB distance priors data', 'Extract CMB distance priors (R, l_A, θ_*)', 'Validate dimensionless consistency', 'Process covariance matrix', 'Apply cosmological constant validation', 'Create standardized dataset'], 'formulas_used': ['R = shift parameter (dimensionless)', 'l_A = acoustic scale (multipole number)', 'θ_* = angular scale at last scattering (microradians)', 'Consistency relation: R ∝ l_A * θ_*', 'Distance priors from CMB power spectrum analysis'], 'assumptions': ['Standard ΛCDM cosmological model', 'Adiabatic initial conditions', 'Gaussian CMB fluctuations', 'Recombination at z_* ≈ 1090', 'Sound horizon scale from baryon physics'], 'references': ['Planck Collaboration 2020 (Planck 2018 results)', 'Hu & Sugiyama 1996 (CMB distance measures)', 'Bond et al. 1997 (shift parameter formalism)', 'Eisenstein & Hu 1998 (sound horizon physics)'], 'data_statistics': {}}
+  dataset_info: {'raw_data_path': 'data/datasets/cmb_planck2018.dat', 'metadata_keys': ['dataset_type', 'use_raw_parameters', 'fallback_to_legacy']}
+
+SYSTEM INFORMATION:
+----------------------------------------
+  python_version: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+  platform: Linux-6.8.0-85-generic-x86_64-with-glibc2.39
+  cpu_count: 32
+  memory_total: 33224306688
+  memory_available: 11406585856
+  disk_usage: 46.5
+
+SUGGESTED ACTIONS:
+----------------------------------------
+  1. Check input data format compatibility
+  2. Review transformation module implementation
+  3. Verify all required data fields are present
+  4. Check for data corruption or missing values
+  5. Review transformation parameters and assumptions
+
+RECOVERY INFORMATION:
+----------------------------------------
+  Recovery Attempted: Yes
+  Recovery Successful: False
+
+STACK TRACE:
+----------------------------------------
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 3739, in _legacy_derive
+    self._validate_dimensionless_consistency(parameters)
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 3917, in _validate_dimensionless_consistency
+    raise ValueError(f"CMB parameters show inconsistent dimensionless ratio: {ratio:.2e}, expected ~{expected_ratio_value:.2e}")
+ValueError: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 1420, in _process_legacy_distance_priors
+    standard_dataset = cmb_module._legacy_derive(raw_data_path, metadata)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 3767, in _legacy_derive
+    raise ProcessingError(
+data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: legacy_validation
+Error Type: data_validation_error
+Error: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01
+Context: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}
+Suggested Actions:
+  1. Check data quality and remove invalid values
+  2. Verify CMB parameter values are physically reasonable
+  3. Check z_star values for validity
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 1128, in process_cmb_dataset
+    result = _process_legacy_distance_priors(registry_entry, config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 1426, in _process_legacy_distance_priors
+    raise ProcessingError(
+data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: legacy_processing
+Error Type: legacy_processing_error
+Error: Legacy processing failed: Processing failed for dataset 'unknown'
+Stage: legacy_validation
+Error Type: data_validation_error
+Error: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01
+Context: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}
+Suggested Actions:
+  1. Check data quality and remove invalid values
+  2. Verify CMB parameter values are physically reasonable
+  3. Check z_star values for validity
+
+Context: {'registry_entry_keys': ['metadata', 'sources']}
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 3679, in derive
+    return process_cmb_dataset(registry_entry, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 1151, in process_cmb_dataset
+    raise ProcessingError(
+data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: both_methods_failed
+Error Type: complete_processing_failure
+Error: Both raw parameter and legacy processing failed. Check data format and accessibility.
+Context: {'processing_log': {'dataset_name': 'unknown', 'start_time': 1761287493.5461924, 'timestamp': '2025-10-24T14:31:33.546192', 'configuration': {'use_raw_parameters': False, 'z_recombination': 1089.8, 'jacobian_step_size': 1e-06, 'validation_tolerance': 1e-08, 'fallback_to_legacy': True, 'cache_computations': True, 'performance_monitoring': False}, 'stages_completed': ['registry_validation'], 'warnings': [], 'errors': [{'stage': 'legacy_processing', 'error_type': 'ProcessingError', 'error_message': "Processing failed for dataset 'unknown'\nStage: legacy_processing\nError Type: legacy_processing_error\nError: Legacy processing failed: Processing failed for dataset 'unknown'\nStage: legacy_validation\nError Type: data_validation_error\nError: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01\nContext: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}\nSuggested Actions:\n  1. Check data quality and remove invalid values\n  2. Verify CMB parameter values are physically reasonable\n  3. Check z_star values for validity\n\nContext: {'registry_entry_keys': ['metadata', 'sources']}\n"}], 'end_time': '2025-10-24T14:31:33.546893', 'success': False}, 'registry_entry_keys': ['metadata', 'sources']}
+Suggested Actions:
+  1. Verify input data file exists and is readable
+  2. Check data format matches expected CMB structure
+  3. Review processing logs for specific error details
+  4. Consider manual data validation
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 3739, in _legacy_derive
+    self._validate_dimensionless_consistency(parameters)
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 3917, in _validate_dimensionless_consistency
+    raise ValueError(f"CMB parameters show inconsistent dimensionless ratio: {ratio:.2e}, expected ~{expected_ratio_value:.2e}")
+ValueError: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 3694, in derive
+    return self._legacy_derive(raw_data_path, metadata)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 3767, in _legacy_derive
+    raise ProcessingError(
+data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: legacy_validation
+Error Type: data_validation_error
+Error: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01
+Context: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}
+Suggested Actions:
+  1. Check data quality and remove invalid values
+  2. Verify CMB parameter values are physically reasonable
+  3. Check z_star values for validity
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 374, in prepare_dataset
+    derived_dataset = enhanced_module.derive(raw_data_path, metadata)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/engine/preparation_engine.py", line 1628, in derive
+    result = self.wrapped_module.derive(raw_data_path, metadata)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/fabian/PBUF/pipelines/data_preparation/derivation/cmb_derivation.py", line 3697, in derive
+    raise ProcessingError(
+data_preparation.core.interfaces.ProcessingError: Processing failed for dataset 'unknown'
+Stage: derivation
+Error Type: both_methods_failed
+Error: Both raw parameter and legacy processing failed. Raw error: Processing failed for dataset 'unknown'
+Stage: both_methods_failed
+Error Type: complete_processing_failure
+Error: Both raw parameter and legacy processing failed. Check data format and accessibility.
+Context: {'processing_log': {'dataset_name': 'unknown', 'start_time': 1761287493.5461924, 'timestamp': '2025-10-24T14:31:33.546192', 'configuration': {'use_raw_parameters': False, 'z_recombination': 1089.8, 'jacobian_step_size': 1e-06, 'validation_tolerance': 1e-08, 'fallback_to_legacy': True, 'cache_computations': True, 'performance_monitoring': False}, 'stages_completed': ['registry_validation'], 'warnings': [], 'errors': [{'stage': 'legacy_processing', 'error_type': 'ProcessingError', 'error_message': "Processing failed for dataset 'unknown'\nStage: legacy_processing\nError Type: legacy_processing_error\nError: Legacy processing failed: Processing failed for dataset 'unknown'\nStage: legacy_validation\nError Type: data_validation_error\nError: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01\nContext: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}\nSuggested Actions:\n  1. Check data quality and remove invalid values\n  2. Verify CMB parameter values are physically reasonable\n  3. Check z_star values for validity\n\nContext: {'registry_entry_keys': ['metadata', 'sources']}\n"}], 'end_time': '2025-10-24T14:31:33.546893', 'success': False}, 'registry_entry_keys': ['metadata', 'sources']}
+Suggested Actions:
+  1. Verify input data file exists and is readable
+  2. Check data format matches expected CMB structure
+  3. Review processing logs for specific error details
+  4. Consider manual data validation
+. Legacy error: Processing failed for dataset 'unknown'
+Stage: legacy_validation
+Error Type: data_validation_error
+Error: CMB parameters show inconsistent dimensionless ratio: 1.32e+08, expected ~5.57e+01
+Context: {'raw_data_path': 'data/datasets/cmb_planck2018.dat'}
+Suggested Actions:
+  1. Check data quality and remove invalid values
+  2. Verify CMB parameter values are physically reasonable
+  3. Check z_star values for validity
+
+Context: {'raw_data_path': 'data/datasets/cmb_planck2018.dat', 'metadata_keys': ['dataset_type', 'use_raw_parameters', 'fallback_to_legacy']}
+Suggested Actions:
+  1. Check input data format and structure
+  2. Verify file accessibility and permissions
+  3. Review metadata completeness
+  4. Check for data corruption
+
+
+================================================================================

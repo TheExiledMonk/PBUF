@@ -36,6 +36,13 @@ This framework extends the existing PBUF infrastructure by introducing systemati
 - Coordinates dataset loading, transformation, and validation
 - Error handling and recovery mechanisms
 
+### 5. CMB Raw Parameter Integration (`derivation/cmb_derivation.py`)
+- Advanced CMB processing with raw parameter support
+- Automatic detection of Planck-style parameter files
+- Distance prior derivation using PBUF background integrators
+- Covariance propagation through numerical Jacobian computation
+- Backward compatibility with pre-computed distance priors
+
 ## Usage
 
 ### Basic Usage
@@ -79,9 +86,52 @@ print(f"Validation passed: {results['validation_passed']}")
 The framework is designed to support:
 - **SN**: Supernova distance measurements
 - **BAO**: Baryon Acoustic Oscillation measurements (isotropic/anisotropic)
-- **CMB**: Cosmic Microwave Background distance priors
+- **CMB**: Cosmic Microwave Background distance priors (with raw parameter processing)
 - **CC**: Cosmic Chronometers H(z) measurements
 - **RSD**: Redshift Space Distortion growth rate measurements
+
+### CMB Processing Workflow
+
+The CMB module supports two processing modes:
+
+#### Raw Parameter Mode (New)
+```mermaid
+graph TB
+    A[Registry Entry] --> B[Parameter Detection]
+    B --> C{Raw Parameters Found?}
+    C -->|Yes| D[Parse Parameter File]
+    D --> E[Validate Parameters]
+    E --> F[Derive Distance Priors]
+    F --> G[Compute Jacobian]
+    G --> H[Propagate Covariance]
+    H --> I[Build StandardDataset]
+    C -->|No| J[Legacy Distance Prior Mode]
+    J --> I
+```
+
+**Features:**
+- Automatic detection of Planck-style parameter files (CSV, JSON, NumPy, text)
+- Fuzzy parameter name matching (H0/h0/hubble, Omega_m/Om0/omega_m, etc.)
+- Distance prior derivation: R = √(Ωₘ H₀²) × r(z*)/c, ℓₐ = π × r(z*)/rₛ(z*), θ* = rₛ(z*)/r(z*)
+- Numerical Jacobian computation for covariance propagation
+- Integration with PBUF background integrators for consistency
+
+#### Legacy Distance Prior Mode
+- Processes pre-computed distance priors from existing files
+- Maintains full backward compatibility
+- No changes required for existing datasets
+
+**Configuration:**
+```python
+from pipelines.data_preparation.derivation.cmb_models import CMBConfig
+
+config = CMBConfig(
+    use_raw_parameters=True,        # Enable raw parameter processing
+    z_recombination=1089.8,         # Recombination redshift
+    jacobian_step_size=1e-6,        # Numerical differentiation step
+    fallback_to_legacy=True         # Auto-fallback if needed
+)
+```
 
 ## Testing
 

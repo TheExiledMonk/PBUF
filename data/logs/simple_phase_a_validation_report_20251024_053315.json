@@ -1,0 +1,187 @@
+{
+  "validation_summary": {
+    "total_datasets": 4,
+    "successful_datasets": 1,
+    "failed_datasets": 3,
+    "success_rate": 0.25,
+    "total_validation_time_seconds": 0.6355836391448975,
+    "validation_timestamp": "2025-10-24T05:33:15.651858+00:00"
+  },
+  "dataset_results": {
+    "cmb_planck2018": {
+      "dataset_name": "cmb_planck2018",
+      "dataset_type": "cmb",
+      "description": "Planck 2018 Distance Priors",
+      "processing_start": "2025-10-24T05:33:15.016320+00:00",
+      "success": true,
+      "error": null,
+      "validation_results": {
+        "dataset_name": "cmb_planck2018",
+        "validation_passed": true,
+        "rules_checked": [
+          {
+            "rule_name": "Schema Compliance",
+            "passed": true
+          },
+          {
+            "rule_name": "Numerical Integrity",
+            "passed": true
+          },
+          {
+            "rule_name": "Covariance Matrix Validation",
+            "passed": true
+          },
+          {
+            "rule_name": "Redshift Range (0.0 \u2264 z \u2264 10.0)",
+            "passed": true
+          },
+          {
+            "rule_name": "Monotonicity and Physical Sanity (observable)",
+            "passed": true
+          }
+        ],
+        "warnings": [],
+        "summary": {
+          "dataset_name": "cmb_planck2018",
+          "n_points": 3,
+          "redshift_range": [
+            1090.0,
+            1090.0
+          ],
+          "observable_range": [
+            1.04119,
+            301.63
+          ],
+          "has_covariance": true,
+          "metadata_keys": [
+            "dataset_type",
+            "data_type",
+            "source",
+            "citation",
+            "version",
+            "processing_timestamp",
+            "redshift",
+            "n_parameters",
+            "n_points",
+            "parameters",
+            "parameter_descriptions",
+            "transformations_applied",
+            "dimensionless_consistency_check",
+            "parameter_validation",
+            "parameter_extraction",
+            "processing_method",
+            "backward_compatibility",
+            "processing_log"
+          ],
+          "covariance_shape": [
+            3,
+            3
+          ],
+          "covariance_condition_number": 250000.0
+        }
+      },
+      "qa_metrics": {
+        "data_completeness": {
+          "has_redshifts": true,
+          "has_observables": true,
+          "has_uncertainties": true,
+          "arrays_same_length": true
+        },
+        "data_quality": {
+          "no_nan_redshifts": true,
+          "no_nan_observables": true,
+          "no_nan_uncertainties": true,
+          "positive_uncertainties": true,
+          "non_negative_redshifts": true
+        },
+        "schema_compliance": {
+          "has_required_fields": true,
+          "metadata_is_dict": true,
+          "covariance_available": true
+        },
+        "physical_consistency": {
+          "redshift_range_reasonable": false,
+          "uncertainty_reasonable": true
+        }
+      },
+      "processing_end": "2025-10-24T05:33:15.647671+00:00",
+      "processing_time_seconds": 0.6313505172729492,
+      "derived_dataset_summary": {
+        "z_range": [
+          1090.0,
+          1090.0
+        ],
+        "n_data_points": 3,
+        "has_covariance": true,
+        "observable_range": [
+          1.04119,
+          301.63
+        ]
+      }
+    },
+    "sn_pantheon_plus": {
+      "dataset_name": "sn_pantheon_plus",
+      "dataset_type": "sn",
+      "description": "Pantheon+ Supernova Sample",
+      "processing_start": "2025-10-24T05:33:15.647756+00:00",
+      "success": false,
+      "error": {
+        "error_type": "ValueError",
+        "error_message": "Missing required columns ['z', 'mb', 'dmb']. Available columns: ['CID', 'zHD', 'zHDERR', 'zCMB', 'zCMBERR', 'MU', 'MUERR', 'MURES', 'MUPULL']",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/simple_phase_a_validation.py\", line 165, in process_dataset\n    if not module.validate_input(raw_data_path, metadata):\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/sn_derivation.py\", line 151, in validate_input\n    raise e\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/sn_derivation.py\", line 122, in validate_input\n    raise ValueError(f\"Missing required columns {missing_columns}. Available columns: {available_cols}\")\nValueError: Missing required columns ['z', 'mb', 'dmb']. Available columns: ['CID', 'zHD', 'zHDERR', 'zCMB', 'zCMBERR', 'MU', 'MUERR', 'MURES', 'MUPULL']\n"
+      },
+      "validation_results": {},
+      "qa_metrics": {},
+      "processing_end": "2025-10-24T05:33:15.649831+00:00",
+      "processing_time_seconds": 0.0016956329345703125
+    },
+    "bao_compilation": {
+      "dataset_name": "bao_compilation",
+      "dataset_type": "bao",
+      "description": "BAO Compilation Dataset (Isotropic)",
+      "processing_start": "2025-10-24T05:33:15.650074+00:00",
+      "success": false,
+      "error": {
+        "error_type": "ValueError",
+        "error_message": "No redshift column found",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/simple_phase_a_validation.py\", line 165, in process_dataset\n    if not module.validate_input(raw_data_path, metadata):\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 114, in validate_input\n    raise e\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 100, in validate_input\n    self._validate_anisotropic_data(data)\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 190, in _validate_anisotropic_data\n    raise ValueError(\"No redshift column found\")\nValueError: No redshift column found\n"
+      },
+      "validation_results": {},
+      "qa_metrics": {},
+      "processing_end": "2025-10-24T05:33:15.650852+00:00",
+      "processing_time_seconds": 0.0005598068237304688
+    },
+    "bao_aniso_boss_dr12": {
+      "dataset_name": "bao_aniso_boss_dr12",
+      "dataset_type": "bao",
+      "description": "BOSS DR12 Anisotropic BAO",
+      "processing_start": "2025-10-24T05:33:15.651068+00:00",
+      "success": false,
+      "error": {
+        "error_type": "ValueError",
+        "error_message": "No redshift column found",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/fabian/PBUF/pipelines/data_preparation/simple_phase_a_validation.py\", line 165, in process_dataset\n    if not module.validate_input(raw_data_path, metadata):\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 114, in validate_input\n    raise e\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 100, in validate_input\n    self._validate_anisotropic_data(data)\n  File \"/home/fabian/PBUF/pipelines/data_preparation/derivation/bao_derivation.py\", line 190, in _validate_anisotropic_data\n    raise ValueError(\"No redshift column found\")\nValueError: No redshift column found\n"
+      },
+      "validation_results": {},
+      "qa_metrics": {},
+      "processing_end": "2025-10-24T05:33:15.651695+00:00",
+      "processing_time_seconds": 0.00048804283142089844
+    }
+  },
+  "successful_datasets": [
+    "cmb_planck2018"
+  ],
+  "failed_datasets": [
+    "sn_pantheon_plus",
+    "bao_compilation",
+    "bao_aniso_boss_dr12"
+  ],
+  "framework_status": {
+    "available_modules": [
+      "sn",
+      "bao",
+      "cmb"
+    ],
+    "output_directory": "data/derived"
+  }
+}

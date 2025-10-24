@@ -592,6 +592,68 @@ class DatasetCLI:
         
         return "\n".join(lines)
     
+    def fetch_dataset(self, dataset_name: str, force_refresh: bool = False) -> None:
+        """
+        Fetch and verify a single dataset
+        
+        Args:
+            dataset_name: Name of the dataset to fetch
+            force_refresh: Force re-download even if dataset exists
+        """
+        try:
+            from pipelines.dataset_registry.integration.dataset_integration import DatasetRegistry
+            
+            print(f"📡 Fetching dataset: {dataset_name}")
+            
+            # Initialize registry
+            registry = DatasetRegistry(
+                registry_path=Path(self.registry_path),
+                manifest_path=Path(self.manifest_path)
+            )
+            
+            # Define progress callback
+            def progress_callback(progress):
+                if progress.progress_percent is not None:
+                    print(f"\r📥 Progress: {progress.progress_percent:.1f}% ({progress.downloaded_bytes:,} bytes)", end="", flush=True)
+                elif progress.downloaded_bytes > 0:
+                    print(f"\r📥 Downloaded: {progress.downloaded_bytes:,} bytes", end="", flush=True)
+            
+            # Fetch the dataset with detailed error reporting
+            try:
+                result = registry.fetch_dataset(dataset_name, force_refresh=force_refresh, progress_callback=progress_callback)
+                
+                print(f"\n✅ Successfully fetched dataset: {dataset_name}")
+                print(f"   Local path: {result.local_path}")
+                print(f"   Verified: {'✓' if result.is_verified else '✗'}")
+                
+            except Exception as fetch_error:
+                print(f"\n❌ Dataset fetch failed at stage: {type(fetch_error).__name__}")
+                
+                # Try to provide more specific error information
+                if "download" in str(fetch_error).lower():
+                    print("   Stage: Download")
+                elif "extract" in str(fetch_error).lower():
+                    print("   Stage: Extraction")
+                elif "verif" in str(fetch_error).lower():
+                    print("   Stage: Verification")
+                elif "registry" in str(fetch_error).lower():
+                    print("   Stage: Registry creation")
+                else:
+                    print("   Stage: Unknown")
+                
+                print(f"   Error: {fetch_error}")
+                
+                # Check if file was downloaded but failed later
+                local_path = registry._get_local_path(dataset_name)
+                if local_path.exists():
+                    print(f"   Note: File was downloaded to {local_path} ({local_path.stat().st_size:,} bytes)")
+                    print("   The download succeeded but post-processing failed")
+                
+                raise fetch_error
+            
+        except Exception as e:
+            raise CLIError(f"Failed to fetch dataset {dataset_name}: {e}")
+    
     def fetch_all_datasets(self, force_refresh: bool = False, parallel: bool = True, 
                           output_file: Optional[str] = None) -> None:
         """
@@ -1164,6 +1226,8 @@ def main():
           %(prog)s cleanup --dry-run             # Show orphaned files (dry run)
           %(prog)s export --format markdown      # Export summary as Markdown
           %(prog)s audit --dataset cmb_planck2018 # Show audit trail for dataset
+          %(prog)s fetch cmb_planck2018          # Fetch a single dataset
+          %(prog)s fetch cmb_planck2018 --force-refresh # Force re-download single dataset
           %(prog)s fetch-all                     # Fetch all datasets for reproduction
           %(prog)s fetch-all --force-refresh     # Force re-download all datasets
           %(prog)s reproduction-status           # Check reproduction system status
@@ -1238,6 +1302,12 @@ def main():
     summary_parser.add_argument("--format", choices=["json", "markdown"], default="json",
                                help="Output format (default: json)")
     
+    # Fetch command (single dataset)
+    fetch_parser = subparsers.add_parser("fetch", help="Fetch and verify a single dataset")
+    fetch_parser.add_argument("dataset", help="Dataset name to fetch")
+    fetch_parser.add_argument("--force-refresh", action="store_true",
+                             help="Force re-download even if dataset exists")
+    
     # Fetch-all command (reproducibility)
     fetch_all_parser = subparsers.add_parser("fetch-all", help="Fetch and verify all datasets for reproduction")
     fetch_all_parser.add_argument("--force-refresh", action="store_true",
@@ -1298,6 +1368,8 @@ def main():
             cli.show_audit_trail(args.dataset, args.limit)
         elif args.command == "summary":
             cli.generate_summary(args.type, args.output, args.format)
+        elif args.command == "fetch":
+            cli.fetch_dataset(args.dataset, args.force_refresh)
         elif args.command == "fetch-all":
             parallel = args.parallel and not args.no_parallel
             cli.fetch_all_datasets(args.force_refresh, parallel, args.output)

@@ -216,7 +216,7 @@ class BAODerivationModule(DerivationModule):
 
 ### CMBDerivationModule
 
-Cosmic Microwave Background dataset processing module.
+Cosmic Microwave Background dataset processing module with advanced raw parameter processing capabilities.
 
 ```python
 from pipelines.data_preparation.derivation.cmb_derivation import CMBDerivationModule
@@ -226,20 +226,153 @@ class CMBDerivationModule(DerivationModule):
 ```
 
 #### Supported Input Formats
-- JSON files with CMB distance priors: `R`, `l_A`, `theta_star`
+
+**Raw Parameter Files (New):**
+- CSV files with cosmological parameters: `H0`, `Omega_m`, `Omega_b_h2`, `n_s`, `tau`, `A_s`
+- JSON files with parameter dictionaries and nested structures
+- NumPy files (.npy/.npz) with parameter arrays or dictionaries
+- Text files with key=value or tab-separated parameter formats
+- Covariance matrix files in matching formats
+
+**Legacy Distance Prior Files:**
+- JSON files with pre-computed CMB distance priors: `R`, `l_A`, `theta_star`
 - Planck chain files with compressed parameters
 
+#### Raw Parameter Processing Features
+
+**Automatic Parameter Detection:**
+```python
+# Detects raw parameters from registry entries
+raw_params = detect_raw_parameters(registry_entry)
+if raw_params:
+    # Process using raw parameter workflow
+    dataset = process_raw_parameters(raw_params)
+else:
+    # Fallback to legacy distance-prior mode
+    dataset = process_legacy_distance_priors(registry_entry)
+```
+
+**Flexible Parameter Parsing:**
+- Fuzzy parameter name matching (case-insensitive, underscore variations)
+- Support for multiple file formats with automatic format detection
+- Handles various parameter naming conventions (H0/h0/hubble, Omega_m/Om0/omega_m, etc.)
+
+**Distance Prior Derivation:**
+- Computes R = √(Ωₘ H₀²) × r(z*)/c using PBUF background integrators
+- Calculates ℓₐ = π × r(z*)/rₛ(z*) with consistent sound horizon integration
+- Derives θ* = rₛ(z*)/r(z*) using same numerical methods as BAO/SN calculations
+- Configurable recombination redshift (default z* ≈ 1089.8)
+
+**Covariance Propagation:**
+- Numerical Jacobian computation: J = ∂(R,ℓₐ,θ*)/∂(H₀,Ωₘ,Ωᵦh²,nₛ,τ)
+- Uncertainty propagation: C_derived = J × C_params × J^T
+- Matrix validation (symmetry, positive-definiteness)
+- Graceful degradation when covariance unavailable
+
+#### Configuration Options
+
+```python
+from pipelines.data_preparation.derivation.cmb_models import CMBConfig
+
+config = CMBConfig(
+    use_raw_parameters=True,        # Enable raw parameter processing
+    z_recombination=1089.8,         # Recombination redshift
+    jacobian_step_size=1e-6,        # Numerical differentiation step
+    validation_tolerance=1e-8,       # Covariance validation tolerance
+    fallback_to_legacy=True,        # Auto-fallback if raw params unavailable
+    cache_computations=True         # Cache expensive computations
+)
+```
+
 #### Transformations Applied
-1. Distance prior extraction from Planck chains
+
+**Raw Parameter Mode:**
+1. Parameter detection and format classification
+2. Fuzzy parameter name normalization
+3. Physical parameter validation (ranges, numerical stability)
+4. Distance prior derivation using PBUF background integrators
+5. Numerical Jacobian computation for covariance propagation
+6. StandardDataset construction with comprehensive metadata
+
+**Legacy Distance Prior Mode:**
+1. Distance prior extraction from pre-computed files
 2. Dimensionless consistency validation
 3. Covariance matrix application
 4. Cosmological constant verification
 
 #### Output Format
-- `z`: Recombination redshift (z_* ≈ 1089.8)
-- `observable`: [R, l_A, θ_*] compressed parameters
-- `uncertainty`: Parameter uncertainties
-- `covariance`: Parameter covariance matrix
+- `z`: Recombination redshift array [z_recombination]
+- `observable`: [R, ℓₐ, Ωᵦh², θ*] distance priors and baryon density
+- `uncertainty`: Derived parameter uncertainties (√diagonal(covariance))
+- `covariance`: Full 4×4 covariance matrix (propagated from parameters or legacy)
+- `metadata`: Processing provenance, parameter sources, validation results
+
+#### Error Handling
+
+**Custom Exception Hierarchy:**
+```python
+from pipelines.data_preparation.derivation.cmb_exceptions import (
+    ParameterDetectionError,    # Raw parameter detection/parsing failures
+    ParameterValidationError,   # Parameter validation failures
+    DerivationError,           # Distance prior computation failures
+    CovarianceError,          # Covariance propagation failures
+    NumericalInstabilityError # Numerical computation issues
+)
+```
+
+**Automatic Recovery:**
+- Falls back to legacy mode if raw parameters unavailable
+- Provides diagonal covariance if matrix propagation fails
+- Detailed error messages with suggested actions
+- Comprehensive logging for debugging
+
+#### Usage Examples
+
+**Basic Raw Parameter Processing:**
+```python
+# Registry entry with raw parameter files
+registry_entry = {
+    "metadata": {"dataset_type": "cmb"},
+    "sources": {
+        "planck_params": {
+            "url": "planck2018_base_plikHM_TTTEEE_lowl_lowE.csv",
+            "extraction": {"target_files": ["base_plikHM_TTTEEE_lowl_lowE_post_lensing.csv"]}
+        }
+    }
+}
+
+# Process with automatic parameter detection
+cmb_module = CMBDerivationModule()
+dataset = cmb_module.derive(None, registry_entry)
+
+print(f"Derived distance priors: R={dataset.observable[0]:.4f}, l_A={dataset.observable[1]:.2f}")
+print(f"Processing method: {dataset.metadata['processing']}")
+```
+
+**Configuration-Driven Processing:**
+```python
+# Custom configuration
+config = CMBConfig(
+    use_raw_parameters=True,
+    z_recombination=1090.0,  # Custom recombination redshift
+    jacobian_step_size=1e-5   # Larger step for faster computation
+)
+
+# Process with custom config
+dataset = process_cmb_dataset(registry_entry, config)
+```
+
+**Error Handling:**
+```python
+try:
+    dataset = cmb_module.derive(raw_data_path, metadata)
+except ParameterDetectionError as e:
+    print(f"Parameter detection failed: {e.message}")
+    print(f"Suggested actions: {e.suggested_actions}")
+except DerivationError as e:
+    print(f"Distance prior computation failed: {e.message}")
+    print(f"Context: {e.context}")
+```
 
 ### CCDerivationModule
 

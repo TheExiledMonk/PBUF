@@ -1,0 +1,112 @@
+{
+  "data": {
+    "covariance": null,
+    "metadata": {
+      "backward_compatibility": true,
+      "citation": "",
+      "cosmological_parameters": {
+        "H0": 67.32178
+      },
+      "data_type": "distance_priors",
+      "dataset_type": "cmb",
+      "dimensionless_consistency_check": true,
+      "n_parameters": 3,
+      "n_points": 3,
+      "parameter_descriptions": {
+        "R": "Shift parameter (dimensionless)",
+        "l_A": "Acoustic scale (multipole)",
+        "theta_star": "Angular scale (microradians)"
+      },
+      "parameter_extraction": true,
+      "parameter_validation": true,
+      "parameters": [
+        "R",
+        "l_A",
+        "theta_star"
+      ],
+      "processing_log": {
+        "configuration": {
+          "cache_computations": true,
+          "fallback_to_legacy": true,
+          "jacobian_step_size": 1e-06,
+          "performance_monitoring": false,
+          "use_raw_parameters": false,
+          "validation_tolerance": 1e-08,
+          "z_recombination": 1089.8
+        },
+        "dataset_name": "unknown",
+        "end_time": "2025-10-24T14:42:56.835962",
+        "errors": [],
+        "processing_method": "legacy_fallback",
+        "stages_completed": [
+          "registry_validation",
+          "legacy_processing"
+        ],
+        "start_time": 1761288176.8351765,
+        "success": true,
+        "timestamp": "2025-10-24T14:42:56.835177",
+        "warnings": []
+      },
+      "processing_method": "legacy_distance_priors",
+      "processing_timestamp": "2025-10-24T14:42:56.835942",
+      "redshift": 1090.0,
+      "source": "unknown",
+      "transformations_applied": [
+        "distance_priors_extraction",
+        "dimensionless_consistency_check",
+        "covariance_matrix_validation",
+        "cosmological_constant_validation"
+      ],
+      "version": ""
+    },
+    "observable": [
+      1.7502,
+      301.76,
+      1.041097
+    ],
+    "uncertainty": [
+      0.1,
+      0.1,
+      0.1
+    ],
+    "z": [
+      1090.0,
+      1090.0,
+      1090.0
+    ]
+  },
+  "dataset_name": "cmb_planck2018",
+  "environment_hash": "fec26910632f3320be272b052f2eb4f20eecb4dda4b485f14154b767bafadbdd",
+  "processing_timestamp": "2025-10-24T06:42:56.836344+00:00",
+  "transformation_summary": {
+    "assumptions": [
+      "Standard \u039bCDM cosmological model",
+      "Adiabatic initial conditions",
+      "Gaussian CMB fluctuations",
+      "Recombination at z_* \u2248 1090",
+      "Sound horizon scale from baryon physics"
+    ],
+    "data_statistics": {},
+    "formulas_used": [
+      "R = shift parameter (dimensionless)",
+      "l_A = acoustic scale (multipole number)",
+      "\u03b8_* = angular scale at last scattering (microradians)",
+      "Consistency relation: R \u221d l_A * \u03b8_*",
+      "Distance priors from CMB power spectrum analysis"
+    ],
+    "references": [
+      "Planck Collaboration 2020 (Planck 2018 results)",
+      "Hu & Sugiyama 1996 (CMB distance measures)",
+      "Bond et al. 1997 (shift parameter formalism)",
+      "Eisenstein & Hu 1998 (sound horizon physics)"
+    ],
+    "transformation_steps": [
+      "Load raw CMB distance priors data",
+      "Extract CMB distance priors (R, l_A, \u03b8_*)",
+      "Validate dimensionless consistency",
+      "Process covariance matrix",
+      "Apply cosmological constant validation",
+      "Create standardized dataset"
+    ]
+  }
+}

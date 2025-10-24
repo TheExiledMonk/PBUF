@@ -11,7 +11,7 @@ from dataclasses import dataclass
 
 from ..core.manifest_schema import DatasetManifest, DatasetInfo
 from ..core.registry_manager import RegistryManager, VerificationResult, ProvenanceRecord
-from ..protocols.download_manager import DownloadManager
+from ..protocols.download_manager import DownloadManager, ExtractionConfig
 from ..verification.verification_engine import VerificationEngine
 from ..core.extensible_interface import ExtensibleDatasetInterface, APIVersion, DatasetRequest
 from ..core.version_control_integration import VersionControlIntegration, check_dataset_compatibility
@@ -57,7 +57,7 @@ class DatasetRegistry:
         self.extensible_interface = ExtensibleDatasetInterface(self.registry_manager)
         self.version_control = VersionControlIntegration()
     
-    def fetch_dataset(self, name: str, force_refresh: bool = False) -> DatasetRegistryInfo:
+    def fetch_dataset(self, name: str, force_refresh: bool = False, progress_callback=None) -> DatasetRegistryInfo:
         """
         Fetch and verify dataset, creating registry entry if needed (works for both downloaded and manual datasets)
         
@@ -108,12 +108,46 @@ class DatasetRegistry:
         
         # Download dataset
         local_path = self._get_local_path(name)
-        source_used = self.download_manager.download_dataset(dataset_info, local_path)
+        
+        # Extract sources from dataset info
+        sources = []
+        for source_name, source_info in dataset_info.sources.items():
+            sources.append(source_info["url"])
+        
+        # Check if extraction is needed
+        extraction_config = None
+        primary_source = next(iter(dataset_info.sources.values()), {})
+        if "extraction" in primary_source:
+            extraction_info = primary_source["extraction"]
+            extraction_config = ExtractionConfig(
+                format=extraction_info.get("format", "zip"),
+                target_files=extraction_info.get("target_files"),
+                extract_all=extraction_info.get("extract_all", False)
+            )
+        
+        # Download with fallback sources and optional extraction
+        try:
+            progress = self.download_manager.download_with_extraction(
+                sources=sources,
+                target_path=local_path,
+                extraction_config=extraction_config,
+                expected_checksum=dataset_info.verification.get("sha256"),
+                expected_size=dataset_info.verification.get("size_bytes"),
+                progress_callback=progress_callback
+            )
+        except Exception as e:
+            raise Exception(f"Download/extraction failed: {e}")
+        
+        # Extract the source that was actually used
+        source_used = progress.current_url or sources[0] if sources else "unknown"
         
         # Verify dataset
-        verification_result_obj = self.verification_engine.verify_dataset(
-            name, local_path, dataset_info.verification
-        )
+        try:
+            verification_result_obj = self.verification_engine.verify_dataset(
+                name, local_path, dataset_info.verification
+            )
+        except Exception as e:
+            raise Exception(f"Verification failed: {e}")
         
         # Convert to registry VerificationResult format
         from ..core.registry_manager import VerificationResult
@@ -130,12 +164,15 @@ class DatasetRegistry:
         )
         
         # Create or update registry entry
-        if self.registry_manager.has_registry_entry(name):
-            self.registry_manager.update_verification(name, verification_result)
-        else:
-            self.registry_manager.create_registry_entry(
-                dataset_info, verification_result, source_used, local_path
-            )
+        try:
+            if self.registry_manager.has_registry_entry(name):
+                self.registry_manager.update_verification(name, verification_result)
+            else:
+                self.registry_manager.create_registry_entry(
+                    dataset_info, verification_result, source_used, local_path
+                )
+        except Exception as e:
+            raise Exception(f"Registry creation failed: {e}")
         
         # Get updated registry entry
         registry_entry = self.registry_manager.get_registry_entry(name)

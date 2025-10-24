@@ -253,11 +253,27 @@ class HTTPDownloader(ProtocolDownloader):
             progress.error_message = f"Timeout error: {e}"
             raise NetworkError(f"Timeout downloading from {url}: {e}", url)
             
-        except Exception as e:
+        except requests.exceptions.SSLError as e:
             progress.status = DownloadStatus.FAILED
             progress.end_time = time.time()
-            progress.error_message = f"Unexpected error: {e}"
-            raise DownloadError(f"Unexpected error downloading from {url}: {e}", url)
+            progress.error_message = f"SSL error: {e}"
+            # SSL errors are retryable network errors
+            raise NetworkError(f"SSL error downloading from {url}: {e}", url)
+            
+        except Exception as e:
+            # Check if it's a MAC verification error (common SSL/TLS issue)
+            error_str = str(e).lower()
+            if any(keyword in error_str for keyword in ['mac', 'ssl', 'tls', 'certificate', 'handshake']):
+                progress.status = DownloadStatus.FAILED
+                progress.end_time = time.time()
+                progress.error_message = f"SSL/TLS error: {e}"
+                # Make SSL/TLS errors retryable
+                raise NetworkError(f"SSL/TLS error downloading from {url}: {e}", url)
+            else:
+                progress.status = DownloadStatus.FAILED
+                progress.end_time = time.time()
+                progress.error_message = f"Unexpected error: {e}"
+                raise DownloadError(f"Unexpected error downloading from {url}: {e}", url)
 
 
 @dataclass
@@ -705,27 +721,29 @@ class DownloadManager:
                 )
                 
                 if result.status == DownloadStatus.COMPLETED:
-                    # Verify checksum if provided
-                    if expected_checksum:
-                        actual_checksum = self._calculate_file_checksum(download_path)
-                        if actual_checksum != expected_checksum:
-                            result.status = DownloadStatus.FAILED
-                            result.error_message = f"Checksum mismatch: expected {expected_checksum}, got {actual_checksum}"
-                            continue
-                    
-                    # Handle extraction if needed
+                    # Handle extraction if needed FIRST
                     if extraction_config:
                         try:
                             FileExtractor.extract_file(download_path, extraction_config, target_path)
                         except Exception as e:
                             result.status = DownloadStatus.FAILED
-                            result.error_message = f"Extraction failed: {e}"
+                            result.error_message = f"EXTRACTION_FAILED: {e}"
+                            last_error = result.error_message
                             continue
                     elif download_path != target_path:
                         # Copy from cache to target if not extracted
                         target_path.parent.mkdir(parents=True, exist_ok=True)
                         import shutil
                         shutil.copy2(download_path, target_path)
+                    
+                    # Verify checksum of the FINAL file (extracted or copied)
+                    if expected_checksum:
+                        actual_checksum = self._calculate_file_checksum(target_path)
+                        if actual_checksum != expected_checksum:
+                            result.status = DownloadStatus.FAILED
+                            result.error_message = f"CHECKSUM_MISMATCH: expected {expected_checksum}, got {actual_checksum} for file {target_path}"
+                            last_error = result.error_message
+                            continue
                     
                     # Log successful completion
                     if dataset_name:
@@ -748,7 +766,7 @@ class DownloadManager:
                 elif result.status == DownloadStatus.CANCELLED:
                     return result
                 else:
-                    last_error = result.error_message
+                    last_error = result.error_message or f"Download failed with status: {result.status}"
                     
             except DownloadError as e:
                 last_error = str(e)
@@ -757,7 +775,7 @@ class DownloadManager:
         
         # All sources failed
         progress.status = DownloadStatus.FAILED
-        progress.error_message = f"All {len(source_configs)} sources failed. Last error: {last_error}"
+        progress.error_message = f"All {len(source_configs)} sources failed. Last error: {last_error or 'Unknown'}"
         
         # Log download failure
         if dataset_name:
@@ -775,7 +793,7 @@ class DownloadManager:
             )
         
         raise DownloadError(
-            f"Failed to download from all sources: {[s.url for s in source_configs]}. Last error: {last_error}",
+            f"Failed to download from all sources: {[s.url for s in source_configs]}. Last error: {last_error or 'Unknown'}",
             source_configs[-1].url if source_configs else ""
         )
     
@@ -839,6 +857,11 @@ class DownloadManager:
                 # For network errors, retry with backoff
                 if attempt < self.retry_config.max_attempts:
                     delay = self._calculate_retry_delay(attempt)
+                    
+                    # For SSL/MAC errors, ensure minimum 1 second delay
+                    if isinstance(e, NetworkError) and any(keyword in str(e).lower() for keyword in ['ssl', 'tls', 'mac', 'certificate', 'handshake']):
+                        delay = max(delay, 1.0)
+                    
                     time.sleep(delay)
                     continue
                 else:
@@ -862,7 +885,7 @@ class DownloadManager:
         # Should not reach here, but just in case
         progress = DownloadProgress(
             status=DownloadStatus.FAILED,
-            error_message=f"Max attempts ({self.retry_config.max_attempts}) exceeded. Last error: {last_error}",
+            error_message=f"Max attempts ({self.retry_config.max_attempts}) exceeded. Last error: {last_error or 'Unknown'}",
             attempt_number=self.retry_config.max_attempts
         )
         return progress

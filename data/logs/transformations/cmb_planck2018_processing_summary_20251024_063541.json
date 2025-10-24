@@ -1,0 +1,191 @@
+{
+  "dataset_name": "cmb_planck2018",
+  "dataset_type": "cmb",
+  "processing_start": "2025-10-24T06:35:41.588936+00:00",
+  "processing_end": "2025-10-24T06:35:41.594655+00:00",
+  "total_duration": 0.005719,
+  "transformation_steps": [
+    {
+      "step_name": "cmb_derivation",
+      "formula": null,
+      "description": "Complete CMB dataset derivation",
+      "input_description": "Raw CMB data file",
+      "output_description": "Standardized dataset format",
+      "input_shape": null,
+      "output_shape": {
+        "z": [
+          3
+        ],
+        "observable": [
+          3
+        ],
+        "uncertainty": [
+          3
+        ],
+        "covariance": null
+      },
+      "parameters": {
+        "input_file_size": {
+          "value": 8691,
+          "description": "Size of input data file in bytes"
+        },
+        "input_file_format": {
+          "value": ".dat",
+          "description": "Input file format/extension"
+        },
+        "metadata_keys": {
+          "value": [
+            "dataset_type",
+            "use_raw_parameters",
+            "fallback_to_legacy"
+          ],
+          "description": "Available metadata fields"
+        },
+        "dataset_type": {
+          "value": "cmb",
+          "description": "Dataset type from metadata"
+        },
+        "summary_transformation_steps": {
+          "value": [
+            "Load raw CMB distance priors data",
+            "Extract CMB distance priors (R, l_A, \u03b8_*)",
+            "Validate dimensionless consistency",
+            "Process covariance matrix",
+            "Apply cosmological constant validation",
+            "Create standardized dataset"
+          ],
+          "description": "Transformation summary: transformation_steps"
+        },
+        "summary_formulas_used": {
+          "value": [
+            "R = shift parameter (dimensionless)",
+            "l_A = acoustic scale (multipole number)",
+            "\u03b8_* = angular scale at last scattering (microradians)",
+            "Consistency relation: R \u221d l_A * \u03b8_*",
+            "Distance priors from CMB power spectrum analysis"
+          ],
+          "description": "Transformation summary: formulas_used"
+        },
+        "summary_assumptions": {
+          "value": [
+            "Standard \u039bCDM cosmological model",
+            "Adiabatic initial conditions",
+            "Gaussian CMB fluctuations",
+            "Recombination at z_* \u2248 1090",
+            "Sound horizon scale from baryon physics"
+          ],
+          "description": "Transformation summary: assumptions"
+        },
+        "summary_references": {
+          "value": [
+            "Planck Collaboration 2020 (Planck 2018 results)",
+            "Hu & Sugiyama 1996 (CMB distance measures)",
+            "Bond et al. 1997 (shift parameter formalism)",
+            "Eisenstein & Hu 1998 (sound horizon physics)"
+          ],
+          "description": "Transformation summary: references"
+        },
+        "summary_data_statistics": {
+          "value": {},
+          "description": "Transformation summary: data_statistics"
+        }
+      },
+      "references": null,
+      "assumptions": null,
+      "timestamp": "2025-10-24T06:35:41.590437+00:00",
+      "duration": 0.0024514198303222656
+    }
+  ],
+  "validation_results": {
+    "dataset_name": "cmb_planck2018",
+    "validation_passed": true,
+    "rules_checked": [
+      {
+        "rule_name": "Schema Compliance",
+        "passed": true
+      },
+      {
+        "rule_name": "Numerical Integrity",
+        "passed": true
+      },
+      {
+        "rule_name": "Covariance Matrix Validation",
+        "passed": true
+      },
+      {
+        "rule_name": "Redshift Range (0.0 \u2264 z \u2264 10.0)",
+        "passed": true
+      },
+      {
+        "rule_name": "Monotonicity and Physical Sanity (observable)",
+        "passed": true
+      }
+    ],
+    "warnings": [],
+    "summary": {
+      "dataset_name": "cmb_planck2018",
+      "n_points": 3,
+      "redshift_range": [
+        1090.0,
+        1090.0
+      ],
+      "observable_range": [
+        1.041097,
+        301.76
+      ],
+      "has_covariance": false,
+      "metadata_keys": [
+        "dataset_type",
+        "data_type",
+        "source",
+        "citation",
+        "version",
+        "processing_timestamp",
+        "redshift",
+        "n_parameters",
+        "n_points",
+        "parameters",
+        "parameter_descriptions",
+        "transformations_applied",
+        "cosmological_parameters",
+        "dimensionless_consistency_check",
+        "parameter_validation",
+        "parameter_extraction",
+        "processing_method",
+        "backward_compatibility",
+        "processing_log"
+      ]
+    }
+  },
+  "input_metadata": {
+    "dataset_type": "cmb",
+    "use_raw_parameters": true,
+    "fallback_to_legacy": true
+  },
+  "output_metadata": {
+    "output_file_path": "data/derived/cmb_planck2018_derived_20251024_063541.json",
+    "derived_dataset_hash": "9124a96daf45e245"
+  },
+  "environment_info": {
+    "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]",
+    "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.39",
+    "numpy_version": "2.3.4",
+    "timestamp": "2025-10-24T06:35:41.587608+00:00",
+    "total_memory": 33224306688,
+    "available_memory": 11491282944,
+    "git_commit": "ffd5aa5951cf5a22e3d974489fda6ae9520937c6"
+  },
+  "performance_metrics": {
+    "total_steps": 1,
+    "total_transformation_time": 0.0024514198303222656,
+    "average_step_time": 0.0024514198303222656,
+    "longest_step": 0.0024514198303222656,
+    "shortest_step": 0.0024514198303222656,
+    "step_breakdown": {
+      "cmb_derivation": 0.0024514198303222656
+    },
+    "total_processing_time": 0.005719,
+    "transformation_overhead": 0.0032675801696777345,
+    "transformation_efficiency": 42.86448383147868
+  }
+}

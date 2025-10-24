@@ -1,0 +1,103 @@
+{
+  "validation_summary": {
+    "total_datasets": 4,
+    "successful_datasets": 1,
+    "failed_datasets": 3,
+    "success_rate": 0.25,
+    "total_validation_time_seconds": 0.05641317367553711,
+    "validation_timestamp": "2025-10-24T03:44:54.695945+00:00"
+  },
+  "dataset_results": {
+    "cmb_planck2018": {
+      "dataset_name": "cmb_planck2018",
+      "dataset_type": "cmb",
+      "description": "Planck 2018 Distance Priors",
+      "processing_start": "2025-10-24T03:44:54.639577+00:00",
+      "success": true,
+      "error": null,
+      "validation_results": {
+        "dataset_name": "cmb_planck2018",
+        "validation_passed": true,
+        "rules_checked": [
+          {
+            "rule_name": "Schema Compliance",
+            "passed": true
+          },
+          {
+            "rule_name": "Numerical Integrity",
+            "passed": true
+          },
+          {
+            "rule_name": "Covariance Matrix Validation",
+            "passed": true
+          },
+          {
+            "rule_name": "Redshift Range (0.0 \u2264 z \u2264 10.0)",
+            "passed": true
+          },
+          {
+            "rule_name": "Monotonicity and Physical Sanity (observable)",
+            "passed": true
+          }
+        ],
+        "warnings": [],
+        "summary": {
+          "dataset_name": "cmb_planck2018",
+          "n_points": 3,
+          "redshift_range": [
+            1090.0,
+            1090.0
+          ],
+          "observable_range": [
+            1.04119,
+            301.63
+          ],
+          "has_covariance": true,
+          "metadata_keys": [
+            "dataset_type",
+            "data_type",
+            "source",
+            "citation",
+            "version",
+            "processing_timestamp",
+            "redshift",
+            "n_parameters",
+            "n_points",
+            "parameters",
+            "parameter_descriptions",
+            "transformations_applied",
+            "dimensionless_consistency_check",
+            "parameter_validation",
+            "parameter_extraction",
+            "processing_method",
+            "backward_compatibility",
+            "processing_log"
+          ],
+          "covariance_shape": [
+            3,
+            3
+          ],
+          "covariance_condition_number": 250000.0
+        }
+      },
+      "qa_metrics": {
+        "data_completeness": {
+          "has_redshifts": true,
+          "has_observables": true,
+          "has_uncertainties": true,
+          "arrays_same_length": true
+        },
+        "data_quality": {
+          "no_nan_redshifts": true,
+          "no_nan_observables": true,
+          "no_nan_uncertainties": true,
+          "positive_uncertainties": true,
+          "non_negative_redshifts": true
+        },
+        "schema_compliance": {
+          "has_required_fields": true,
+          "metadata_is_dict": true,
+          "covariance_available": true
+        },
+        "physical_consistency": {
+          "redshift_range_reasonable": 

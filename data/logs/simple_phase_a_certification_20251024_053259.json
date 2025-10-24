@@ -1,0 +1,14 @@
+{
+  "certification_status": "FAILED",
+  "certification_timestamp": "2025-10-24T05:32:59.911748+00:00",
+  "evaluation_results": {
+    "success_rate": 0.25,
+    "required_datasets_success": false,
+    "processing_time_acceptable": true,
+    "qa_compliance": true
+  },
+  "recommendations": [
+    "Improve success rate from 25.0% to at least 75%",
+    "Fix processing for required datasets: sn_pantheon_plus, bao_compilation"
+  ]
+}

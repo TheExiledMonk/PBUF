@@ -14,6 +14,21 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 import traceback
+import numpy as np
+
+
+class NumpyEncoder(json.JSONEncoder):
+    """JSON encoder that handles numpy types."""
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, np.bool_):
+            return bool(obj)
+        return super().default(obj)
 
 # Add the pipelines directory to the path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -284,7 +299,7 @@ class SimplePhaseAValidator:
         report_file.parent.mkdir(parents=True, exist_ok=True)
         
         with open(report_file, 'w') as f:
-            json.dump(report, f, indent=2)
+            json.dump(report, f, indent=2, cls=NumpyEncoder)
         
         self.logger.info(f"Validation completed in {total_validation_time:.2f} seconds")
         self.logger.info(f"Success rate: {report['validation_summary']['success_rate']:.1%}")
@@ -365,7 +380,7 @@ class SimplePhaseAValidator:
         cert_file = self.output_directory.parent / "logs" / f"simple_phase_a_certification_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         
         with open(cert_file, 'w') as f:
-            json.dump(certification_report, f, indent=2)
+            json.dump(certification_report, f, indent=2, cls=NumpyEncoder)
         
         self.logger.info(f"Certification status: {certification_report['certification_status']}")
         self.logger.info(f"Certification report saved to: {cert_file}")

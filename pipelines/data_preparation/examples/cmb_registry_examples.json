@@ -1,0 +1,368 @@
+{
+  "cmb_registry_examples": {
+    "planck2018_base_lcdm_csv": {
+      "name": "planck2018_base_lcdm_csv",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "Planck 2018 base ΛCDM cosmological parameters from CSV file",
+        "citation": "Planck Collaboration VI. Cosmological parameters. A&A 641, A6 (2020)",
+        "version": "1.0",
+        "z_recombination": 1089.8,
+        "processing_notes": "Raw cosmological parameters processed to derive distance priors"
+      },
+      "sources": {
+        "parameters": {
+          "url": "https://pla.esac.esa.int/pla/aio/planck2018_base_plikHM_TTTEEE_lowl_lowE.csv",
+          "extraction": {
+            "target_files": ["base_plikHM_TTTEEE_lowl_lowE_post_lensing.csv"],
+            "format": "csv",
+            "description": "CSV file with cosmological parameters: H0, Omega_m, Omega_b_h2, n_s, tau"
+          }
+        }
+      }
+    },
+
+    "planck2018_base_lcdm_json": {
+      "name": "planck2018_base_lcdm_json",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "Planck 2018 base ΛCDM parameters with covariance in JSON format",
+        "citation": "Planck Collaboration VI. Cosmological parameters. A&A 641, A6 (2020)",
+        "version": "1.0",
+        "z_recombination": 1089.8
+      },
+      "sources": {
+        "parameters_and_covariance": {
+          "url": "planck2018_params_with_covariance.json",
+          "extraction": {
+            "target_files": ["planck2018_params_with_covariance.json"],
+            "format": "json",
+            "description": "JSON file containing both parameters and covariance matrix"
+          }
+        }
+      }
+    },
+
+    "planck2018_mcmc_chain": {
+      "name": "planck2018_mcmc_chain",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "Planck 2018 MCMC chain samples for statistical analysis",
+        "citation": "Planck Collaboration VI. Cosmological parameters. A&A 641, A6 (2020)",
+        "version": "1.0",
+        "z_recombination": 1089.8,
+        "processing_notes": "Mean values computed from MCMC chain samples"
+      },
+      "sources": {
+        "mcmc_chain": {
+          "url": "https://pla.esac.esa.int/pla/aio/planck2018_base_plikHM_TTTEEE_lowl_lowE_chain.csv",
+          "extraction": {
+            "target_files": [
+              "planck2018_chain.csv",
+              "planck2018_chain_cov.csv"
+            ],
+            "format": "csv",
+            "description": "MCMC chain with parameter samples and covariance matrix"
+          }
+        }
+      }
+    },
+
+    "planck2018_numpy_format": {
+      "name": "planck2018_numpy_format",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "Planck 2018 parameters stored in NumPy format",
+        "citation": "Planck Collaboration VI. Cosmological parameters. A&A 641, A6 (2020)",
+        "version": "1.0",
+        "z_recombination": 1089.8
+      },
+      "sources": {
+        "parameters": {
+          "url": "planck2018_params.npz",
+          "extraction": {
+            "target_files": ["planck2018_params.npz"],
+            "format": "numpy",
+            "description": "NumPy archive with named parameter arrays"
+          }
+        },
+        "covariance": {
+          "url": "planck2018_covariance.npy",
+          "extraction": {
+            "target_files": ["planck2018_covariance.npy"],
+            "format": "numpy",
+            "description": "NumPy array with parameter covariance matrix"
+          }
+        }
+      }
+    },
+
+    "planck2018_text_format": {
+      "name": "planck2018_text_format",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "Planck 2018 parameters in text file format",
+        "citation": "Planck Collaboration VI. Cosmological parameters. A&A 641, A6 (2020)",
+        "version": "1.0",
+        "z_recombination": 1089.8
+      },
+      "sources": {
+        "parameters": {
+          "url": "planck2018_params.txt",
+          "extraction": {
+            "target_files": ["planck2018_params.txt"],
+            "format": "text",
+            "description": "Text file with key=value parameter format"
+          }
+        }
+      }
+    },
+
+    "planck2018_with_extensions": {
+      "name": "planck2018_with_extensions",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "Planck 2018 base ΛCDM + lensing + BAO + SN extensions",
+        "citation": "Planck Collaboration VI. Cosmological parameters. A&A 641, A6 (2020)",
+        "version": "1.0",
+        "z_recombination": 1089.8,
+        "extensions": ["lensing", "bao", "sn"]
+      },
+      "sources": {
+        "parameters": {
+          "url": "planck2018_base_plikHM_TTTEEE_lowl_lowE_lensing_BAO_SN.csv",
+          "extraction": {
+            "target_files": ["base_plikHM_TTTEEE_lowl_lowE_lensing_BAO_SN_post_lensing.csv"],
+            "format": "csv"
+          }
+        },
+        "covariance": {
+          "url": "planck2018_base_plikHM_TTTEEE_lowl_lowE_lensing_BAO_SN_cov.csv",
+          "extraction": {
+            "target_files": ["base_plikHM_TTTEEE_lowl_lowE_lensing_BAO_SN_cov.csv"],
+            "format": "csv"
+          }
+        }
+      }
+    },
+
+    "custom_cmb_analysis": {
+      "name": "custom_cmb_analysis",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "Custom CMB analysis with modified recombination redshift",
+        "citation": "Custom Analysis 2024",
+        "version": "1.0",
+        "z_recombination": 1090.5,
+        "custom_settings": {
+          "jacobian_step_size": 1e-5,
+          "validation_tolerance": 1e-7
+        }
+      },
+      "sources": {
+        "parameters": {
+          "url": "custom_cmb_params.json",
+          "extraction": {
+            "target_files": ["custom_cmb_params.json"],
+            "format": "json"
+          }
+        }
+      }
+    },
+
+    "legacy_distance_priors": {
+      "name": "legacy_distance_priors",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "Pre-computed CMB distance priors (legacy format)",
+        "citation": "Planck Collaboration VI. Cosmological parameters. A&A 641, A6 (2020)",
+        "version": "1.0",
+        "processing_mode": "legacy_distance_priors",
+        "z_recombination": 1089.8
+      },
+      "sources": {
+        "distance_priors": {
+          "url": "planck2018_distance_priors.json",
+          "extraction": {
+            "target_files": ["planck2018_distance_priors.json"],
+            "format": "json",
+            "description": "Pre-computed R, l_A, theta_star values with covariance"
+          }
+        }
+      }
+    },
+
+    "minimal_cmb_dataset": {
+      "name": "minimal_cmb_dataset",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "Minimal CMB dataset with required parameters only",
+        "citation": "Test Dataset 2024",
+        "version": "1.0"
+      },
+      "sources": {
+        "parameters": {
+          "url": "minimal_cmb_params.csv",
+          "extraction": {
+            "target_files": ["minimal_cmb_params.csv"],
+            "format": "csv",
+            "description": "CSV with H0, Omega_m, Omega_b_h2, n_s, tau only"
+          }
+        }
+      }
+    },
+
+    "high_precision_cmb": {
+      "name": "high_precision_cmb",
+      "metadata": {
+        "dataset_type": "cmb",
+        "description": "High-precision CMB analysis with tight parameter constraints",
+        "citation": "High Precision Analysis 2024",
+        "version": "1.0",
+        "z_recombination": 1089.8,
+        "precision_settings": {
+          "jacobian_step_size": 1e-8,
+          "validation_tolerance": 1e-10,
+          "numerical_precision": "high"
+        }
+      },
+      "sources": {
+        "parameters": {
+          "url": "high_precision_params.json",
+          "extraction": {
+            "target_files": ["high_precision_params.json"],
+            "format": "json"
+          }
+        },
+        "covariance": {
+          "url": "high_precision_covariance.json",
+          "extraction": {
+            "target_files": ["high_precision_covariance.json"],
+            "format": "json"
+          }
+        }
+      }
+    }
+  },
+
+  "example_parameter_files": {
+    "csv_simple": {
+      "filename": "planck2018_simple.csv",
+      "format": "csv",
+      "content": "H0,Omega_m,Omega_b_h2,n_s,tau,A_s\n67.36,0.3153,0.02237,0.9649,0.0544,2.1e-9",
+      "description": "Simple CSV with parameter values in header row"
+    },
+
+    "csv_two_column": {
+      "filename": "planck2018_two_column.csv",
+      "format": "csv",
+      "content": "parameter,value\nH0,67.36\nOmega_m,0.3153\nOmega_b_h2,0.02237\nn_s,0.9649\ntau,0.0544\nA_s,2.1e-9",
+      "description": "Two-column CSV with parameter names and values"
+    },
+
+    "json_simple": {
+      "filename": "planck2018_simple.json",
+      "format": "json",
+      "content": {
+        "H0": 67.36,
+        "Omega_m": 0.3153,
+        "Omega_b_h2": 0.02237,
+        "n_s": 0.9649,
+        "tau": 0.0544,
+        "A_s": 2.1e-9
+      },
+      "description": "Simple JSON with parameter dictionary"
+    },
+
+    "json_with_covariance": {
+      "filename": "planck2018_with_cov.json",
+      "format": "json",
+      "content": {
+        "cosmological_parameters": {
+          "H0": 67.36,
+          "Omega_m": 0.3153,
+          "Omega_b_h2": 0.02237,
+          "n_s": 0.9649,
+          "tau": 0.0544
+        },
+        "covariance_matrix": [
+          [0.54, 0.12, 0.03, 0.01, 0.02],
+          [0.12, 0.0025, 0.0008, 0.0003, 0.0001],
+          [0.03, 0.0008, 0.000015, 0.000002, 0.000001],
+          [0.01, 0.0003, 0.000002, 0.000042, 0.000005],
+          [0.02, 0.0001, 0.000001, 0.000005, 0.000081]
+        ]
+      },
+      "description": "JSON with nested structure including covariance matrix"
+    },
+
+    "text_key_value": {
+      "filename": "planck2018_keyvalue.txt",
+      "format": "text",
+      "content": "# Planck 2018 base ΛCDM parameters\nH0 = 67.36\nOmega_m = 0.3153\nOmega_b_h2 = 0.02237\nn_s = 0.9649\ntau = 0.0544\nA_s = 2.1e-9",
+      "description": "Text file with key=value format and comments"
+    },
+
+    "text_tab_separated": {
+      "filename": "planck2018_tab.txt",
+      "format": "text",
+      "content": "H0\t67.36\nOmega_m\t0.3153\nOmega_b_h2\t0.02237\nn_s\t0.9649\ntau\t0.0544",
+      "description": "Tab-separated text file"
+    },
+
+    "legacy_distance_priors": {
+      "filename": "planck2018_distance_priors.json",
+      "format": "json",
+      "content": {
+        "z_recombination": 1089.8,
+        "distance_priors": {
+          "R": 1.7502,
+          "l_A": 301.845,
+          "theta_star": 1.04092,
+          "Omega_b_h2": 0.02237
+        },
+        "covariance_matrix": [
+          [0.000005, 0.000012, 0.000001, 0.000000],
+          [0.000012, 0.008281, 0.000003, 0.000001],
+          [0.000001, 0.000003, 0.000000096, 0.000000],
+          [0.000000, 0.000001, 0.000000, 0.000000015]
+        ]
+      },
+      "description": "Legacy format with pre-computed distance priors"
+    }
+  },
+
+  "configuration_examples": {
+    "default_config": {
+      "use_raw_parameters": true,
+      "z_recombination": 1089.8,
+      "jacobian_step_size": 1e-6,
+      "validation_tolerance": 1e-8,
+      "fallback_to_legacy": true,
+      "cache_computations": true
+    },
+
+    "fast_processing": {
+      "use_raw_parameters": true,
+      "z_recombination": 1089.8,
+      "jacobian_step_size": 1e-4,
+      "validation_tolerance": 1e-6,
+      "fallback_to_legacy": true,
+      "cache_computations": true
+    },
+
+    "high_precision": {
+      "use_raw_parameters": true,
+      "z_recombination": 1089.8,
+      "jacobian_step_size": 1e-8,
+      "validation_tolerance": 1e-10,
+      "fallback_to_legacy": true,
+      "cache_computations": true
+    },
+
+    "legacy_only": {
+      "use_raw_parameters": false,
+      "fallback_to_legacy": true
+    }
+  }
+}
