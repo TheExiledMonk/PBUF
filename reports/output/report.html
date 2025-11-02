@@ -1,0 +1,2081 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'/><title>PBUF Science Run Report</title>
+    <style>
+    body {
+        font-family: system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: #0b0d10;
+        color: #f0f3f6;
+        margin: 0;
+        padding: 2rem;
+        line-height: 1.5;
+    }
+    h1, h2, h3 {
+        font-weight: 600;
+        color: #fff;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    h1 { font-size: 1.8rem; margin-top: 0; }
+    h2 { font-size: 1.25rem; border-left: 4px solid #4e8cff; padding-left: 0.6rem; }
+    h3 { font-size: 1.05rem; color: #9cb3ff; margin-top: 1.5rem; }
+
+    .section { margin-top: 2rem; }
+
+    .data-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 1rem 0 2rem;
+        font-size: 0.9rem;
+        background: #1a1f27;
+        color: #d5d9e0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .data-table.small { width: auto; min-width: 320px; }
+    .data-table th, .data-table td {
+        border: 1px solid #3a4356;
+        padding: 0.5rem 0.75rem;
+        text-align: right;
+    }
+    .data-table th:first-child,
+    .data-table td:first-child {
+        text-align: left;
+    }
+
+    .run-table td:nth-child(2) { text-align: left; }
+
+    .param-card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .param-card {
+        background: #1a1f27;
+        border: 1px solid #3a4356;
+        border-radius: 8px;
+        padding: 1rem 1rem 0.5rem;
+        min-width: 220px;
+        max-width: 260px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+        flex: 0 0 auto;
+    }
+    .param-header {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.75rem;
+        border-bottom: 1px solid #3a4356;
+        padding-bottom: 0.5rem;
+    }
+    .param-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        margin-bottom: 0.35rem;
+        color: #d9dfe8;
+    }
+    .param-key { color: #9cb3ff; }
+
+    .plot-gallery {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        margin: 1rem 0 2rem;
+    }
+    .plot-block {
+        background: #161b24;
+        border: 1px solid #30394a;
+        border-radius: 8px;
+        padding: 0.75rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+    }
+    .plot-img {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+    .plot-img img {
+        max-width: 100%;
+        border-radius: 4px;
+        border: 1px solid #2a3140;
+    }
+    .plot-caption {
+        font-size: 0.8rem;
+        color: #a8b5d1;
+        text-align: center;
+    }
+
+    .notes-block {
+        background: #141922;
+        border: 1px solid #2f3849;
+        border-radius: 8px;
+        padding: 1rem 1.2rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+    }
+    .notes-block ul {
+        margin: 0.5rem 0 0;
+        padding-left: 1.1rem;
+    }
+    .notes-block li { margin-bottom: 0.35rem; }
+
+    .raw-block {
+        margin: 2rem 0;
+        background: #121720;
+        border: 1px solid #2a3242;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+    .raw-block pre {
+        white-space: pre-wrap;
+        font-size: 0.75rem;
+        overflow-x: auto;
+        color: #cdd7f2;
+    }
+
+    .meta-list {
+        margin: 0.5rem 0 1.5rem;
+        padding-left: 1.1rem;
+        color: #d5d9e0;
+        font-size: 0.9rem;
+    }
+    .meta-list li { margin-bottom: 0.35rem; }
+
+    .explain {
+        font-size: 0.8rem;
+        color: #a7b3cf;
+        margin-top: 0.75rem;
+    }
+    </style>
+    </head><body>
+        <header>
+            <h1>PBUF Science Run Comparison Report</h1>
+            <p class="subtitle">
+                Generated 2025-11-02 16:22:04 UTC — Models: LCDM, PBUF
+            </p>
+        </header>
+        
+    <div class="section">
+      <h2>1. Aggregated Overview</h2>
+    </div>
+    <h3>1.1 Dataset Diagnostics</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Dataset</th>
+          <th>χ² LCDM</th>
+          <th>χ² PBUF</th>
+          <th>Δχ² (pbuf-lcdm)</th>
+          <th>AIC LCDM</th>
+          <th>AIC PBUF</th>
+          <th>ΔAIC</th>
+          <th>BIC LCDM</th>
+          <th>BIC PBUF</th>
+          <th>ΔBIC</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+            <tr>
+              <td>BAO_ANISO</td>
+              <td>63.0181</td>
+              <td>62.9832</td>
+              <td>-0.0349</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td>CC</td>
+              <td>19.5849</td>
+              <td>19.7652</td>
+              <td>0.1803</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td>CMB</td>
+              <td>0.9523</td>
+              <td>0.9506</td>
+              <td>-0.0017</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td>RSD</td>
+              <td>11.5679</td>
+              <td>11.4638</td>
+              <td>-0.1042</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            
+      </tbody>
+    </table>
+    <h3>1.2 Global Model Totals</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>χ² total</th>
+          <th>AIC total</th>
+          <th>BIC total</th>
+          <th>Reduced χ²</th>
+          <th># Data</th>
+          <th># Params</th>
+          <th># Runs</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+            <tr>
+              <td>LCDM</td>
+              <td>883.342330</td>
+              <td>891.342330</td>
+              <td>913.273058</td>
+              <td>0.498219</td>
+              <td>1777</td>
+              <td>4</td>
+              <td>1</td>
+            </tr>
+            
+            <tr>
+              <td>PBUF</td>
+              <td>882.478509</td>
+              <td>906.478509</td>
+              <td>972.270691</td>
+              <td>0.499988</td>
+              <td>1777</td>
+              <td>12</td>
+              <td>1</td>
+            </tr>
+            
+      </tbody>
+    </table>
+    <h3>1.3 Model Preference</h3>
+    <table class="data-table small">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Value</th>
+          <th>Preferred Model</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ΔAIC (PBUF-LCDM)</td>
+          <td>15.1362</td>
+          <td>LCDM</td>
+        </tr>
+        <tr>
+          <td>ΔBIC (PBUF-LCDM)</td>
+          <td>58.9976</td>
+          <td>LCDM</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="explain">
+      Positive ΔAIC/ΔBIC values favour LCDM; negative values favour PBUF.
+      Magnitudes &gt; 10 typically signal decisive evidence.
+    </p>
+    <h3>1.4 Average Best-Fit Parameters</h3><div class='param-card-container'>
+            <div class="param-card">
+                <div class="param-header">LCDM Parameters (run-average)</div>
+                
+                    <div class="param-row">
+                        <div class="param-key">H0</div>
+                        <div class="param-val">73.996722</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">Ok0</div>
+                        <div class="param-val">0</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">Om0</div>
+                        <div class="param-val">0.239080</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">Or0</div>
+                        <div class="param-val">9.20e-05</div>
+                    </div>
+                    
+            </div>
+            
+            <div class="param-card">
+                <div class="param-header">PBUF Parameters (run-average)</div>
+                
+                    <div class="param-row">
+                        <div class="param-key">H0</div>
+                        <div class="param-val">73.995228</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">Ok0</div>
+                        <div class="param-val">0</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">Ol0</div>
+                        <div class="param-val">0</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">Om0</div>
+                        <div class="param-val">0.240034</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">Or0</div>
+                        <div class="param-val">9.20e-05</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">Rmax</div>
+                        <div class="param-val">5.00e+06</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">alpha</div>
+                        <div class="param-val">0.022776</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">eps0</div>
+                        <div class="param-val">0.909768</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">k_sat</div>
+                        <div class="param-val">0.978691</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">n_R</div>
+                        <div class="param-val">0</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">n_alpha</div>
+                        <div class="param-val">0.800000</div>
+                    </div>
+                    
+                    <div class="param-row">
+                        <div class="param-key">n_eps</div>
+                        <div class="param-val">-0.500000</div>
+                    </div>
+                    
+            </div>
+            </div><h3>1.5 Aggregated Plots</h3><div class='plot-gallery'>
+            <div class="plot-block">
+                <div class="plot-img">
+                    <img src="plots/aggregated_model_totals.png" alt="Aggregated model totals (χ², AIC, BIC)" />
+                </div>
+                <div class="plot-caption">Aggregated model totals (χ², AIC, BIC)</div>
+            </div>
+            
+            <div class="plot-block">
+                <div class="plot-img">
+                    <img src="plots/aggregated_dataset_breakdown.png" alt="Aggregated dataset χ² contributions" />
+                </div>
+                <div class="plot-caption">Aggregated dataset χ² contributions</div>
+            </div>
+            </div>
+    <div class="section">
+      <h2>2. Science Run — 20251101_232513_v10_full_run</h2>
+    </div>
+    <h3>Metadata</h3><ul class='meta-list'><li><strong>Directory</strong>: /home/fabian/PBUF4/data/science_runs/20251101_232513_v10_full_run</li></ul><h3>Scenario Summary</h3>
+    <table class="data-table run-table">
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Model</th>
+          <th>χ²</th>
+          <th>AIC</th>
+          <th>BIC</th>
+          <th>Runtime [s]</th>
+          <th>Phase-6a</th>
+    <th>ΔAIC (PBUF-LCDM)</th><th>ΔBIC (PBUF-LCDM)</th></tr></thead><tbody><tr><td rowspan='2'>geom</td><td>LCDM</td><td>81.8590</td><td>89.8590</td><td>98.1008</td><td>11.8189</td><td>✅ pass</td><td rowspan='2'>16.0432</td><td rowspan='2'>32.5267</td></tr><tr><td>PBUF</td><td>81.9022</td><td>105.9022</td><td>130.6275</td><td>61.1503</td><td>✅ pass (enforced)</td></tr><tr><td rowspan='2'>sn_rel</td><td>LCDM</td><td>745.4017</td><td>753.4017</td><td>775.1576</td><td>1032.3274</td><td>✅ pass</td><td rowspan='2'>16.0000</td><td rowspan='2'>59.5118</td></tr><tr><td>PBUF</td><td>745.4017</td><td>769.4017</td><td>834.6694</td><td>2964.3582</td><td>✅ pass (enforced)</td></tr><tr><td rowspan='2'>sn_abs</td><td>LCDM</td><td>745.4017</td><td>753.4017</td><td>775.1576</td><td>1028.1488</td><td>✅ pass</td><td rowspan='2'>16.0000</td><td rowspan='2'>59.5118</td></tr><tr><td>PBUF</td><td>745.4017</td><td>769.4017</td><td>834.6694</td><td>2844.5696</td><td>✅ pass (enforced)</td></tr><tr><td rowspan='2'>geom_plus_sn_rel</td><td>LCDM</td><td>870.9649</td><td>878.9649</td><td>900.8549</td><td>1557.4550</td><td>✅ pass</td><td rowspan='2'>16</td><td rowspan='2'>59.7800</td></tr><tr><td>PBUF</td><td>870.9649</td><td>894.9649</td><td>960.6349</td><td>2702.6591</td><td>✅ pass (enforced)</td></tr><tr><td rowspan='2'>geom_plus_sn_abs</td><td>LCDM</td><td>870.9649</td><td>878.9649</td><td>900.8549</td><td>1587.0187</td><td>✅ pass</td><td rowspan='2'>16</td><td rowspan='2'>59.7800</td></tr><tr><td>PBUF</td><td>870.9649</td><td>894.9649</td><td>960.6349</td><td>2584.7913</td><td>✅ pass (enforced)</td></tr><tr><td rowspan='2'>full_rel</td><td>LCDM</td><td>883.3423</td><td>891.3423</td><td>913.2731</td><td>1672.4785</td><td>✅ pass</td><td rowspan='2'>15.1362</td><td rowspan='2'>58.9976</td></tr><tr><td>PBUF</td><td>882.4785</td><td>906.4785</td><td>972.2707</td><td>3206.3928</td><td>✅ pass (enforced)</td></tr><tr><td rowspan='2'>full_abs</td><td>LCDM</td><td>883.3423</td><td>891.3423</td><td>913.2731</td><td>1686.0609</td><td>✅ pass</td><td rowspan='2'>15.1362</td><td rowspan='2'>58.9976</td></tr><tr><td>PBUF</td><td>882.4785</td><td>906.4785</td><td>972.2707</td><td>3167.2568</td><td>✅ pass (enforced)</td></tr></tbody></table><h3>Plots</h3><div class='plot-gallery'>
+            <div class="plot-block">
+                <div class="plot-img">
+                    <img src="plots/20251101_232513_v10_full_run/scenario_chi2.png" alt="Scenario χ² totals" />
+                </div>
+                <div class="plot-caption">Scenario χ² totals</div>
+            </div>
+            
+            <div class="plot-block">
+                <div class="plot-img">
+                    <img src="plots/20251101_232513_v10_full_run/scenario_runtime.png" alt="Scenario wall time" />
+                </div>
+                <div class="plot-caption">Scenario wall time</div>
+            </div>
+            
+            <div class="plot-block">
+                <div class="plot-img">
+                    <img src="plots/20251101_232513_v10_full_run/parameter_scatter.png" alt="Best-fit H₀ vs Ωₘ" />
+                </div>
+                <div class="plot-caption">Best-fit H₀ vs Ωₘ</div>
+            </div>
+            
+            <div class="plot-block">
+                <div class="plot-img">
+                    <img src="plots/20251101_232513_v10_full_run/joint_deltas.png" alt="Joint ΔAIC / ΔBIC" />
+                </div>
+                <div class="plot-caption">Joint ΔAIC / ΔBIC</div>
+            </div>
+            </div>
+    <div class="section">
+      <h2>3. Appendices</h2>
+    </div>
+    <h3>Appendix A — Raw Statistics Object</h3>
+    <details class="raw-block">
+      <summary>Raw statistics object (click to expand)</summary>
+      <pre>{
+  "runs": [
+    {
+      "name": "20251101_232513_v10_full_run",
+      "path": "/home/fabian/PBUF4/data/science_runs/20251101_232513_v10_full_run",
+      "meta": [
+        {
+          "extensions_applied": {
+            "checkpointing": true,
+            "priors": true,
+            "reporting": true,
+            "targets": true,
+            "walker": true
+          },
+          "last_completed_scenario": "full_abs",
+          "models": [
+            "lcdm",
+            "pbuf"
+          ],
+          "run_id": "v10_full_run",
+          "runtime_seconds": 25662.369928121567
+        },
+        {
+          "extensions_applied": {
+            "checkpointing": true,
+            "priors": true,
+            "reporting": true,
+            "targets": true,
+            "walker": true
+          },
+          "last_completed_scenario": "full_abs",
+          "models": [
+            "lcdm",
+            "pbuf"
+          ],
+          "run_id": "v10_full_run",
+          "runtime_seconds": 26033.714962005615
+        }
+      ],
+      "state": {},
+      "models_present": [
+        "lcdm",
+        "pbuf"
+      ],
+      "scouts": {},
+      "scenarios": [
+        {
+          "id": "geom",
+          "order": 0,
+          "models": {
+            "lcdm": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "bao_aniso",
+                "cc"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 68.30035081071048,
+                  "Ok0": 0.0,
+                  "Om0": 0.26224887487295967,
+                  "Or0": 9.2e-05
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 81.8590382071392,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.94727264205694,
+                  "cc": 17.997678099643117,
+                  "cmb": 0.9140874654391532
+                },
+                "n_params": 4,
+                "n_data": 58,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "bao_aniso": 24,
+                  "cc": 31
+                },
+                "dof": 54,
+                "chi2_reduced": 1.5159081149470224,
+                "aic": 89.8590382071392,
+                "bic": 98.10081024932488
+              },
+              "runtime": {
+                "wall_seconds": 11.818901300430298
+              },
+              "physics_flags": {
+                "phase6a_applied": false,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 68.30035081071048,
+                      "1.0": 115.04346388601277
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-01T23:25:25.119836+00:00"
+              }
+            },
+            "pbuf": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "bao_aniso",
+                "cc"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 68.24664582300343,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.26275402085334404,
+                  "Or0": 9.2e-05,
+                  "Rmax": 27316250.0,
+                  "alpha": 0.0019690438325366925,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9589298051926356,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 81.90219040127683,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.96192297928487,
+                  "cc": 18.02694383921283,
+                  "cmb": 0.9133235827791228
+                },
+                "n_params": 12,
+                "n_data": 58,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "bao_aniso": 24,
+                  "cc": 31
+                },
+                "dof": 46,
+                "chi2_reduced": 1.780482400027757,
+                "aic": 105.90219040127683,
+                "bic": 130.62750652783387
+              },
+              "runtime": {
+                "wall_seconds": 61.15027165412903
+              },
+              "physics_flags": {
+                "phase6a_applied": true,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 68.24664582300343,
+                      "1.0": 115.02461751926664
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-01T23:26:26.282507+00:00"
+              }
+            }
+          },
+          "joint": {
+            "artifact_path": null,
+            "deltas": {
+              "delta_chi2": 0.04315219413761895,
+              "delta_aic": 16.04315219413762,
+              "delta_bic": 32.52669627850899
+            },
+            "models": {
+              "lcdm": {
+                "chi2_total": 81.8590382071392,
+                "aic": 89.8590382071392,
+                "bic": 98.10081024932488,
+                "dof": 54,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.94727264205694,
+                  "cc": 17.997678099643117,
+                  "cmb": 0.9140874654391532
+                },
+                "params": {
+                  "H0": 68.30035081071048,
+                  "Ok0": 0.0,
+                  "Om0": 0.26224887487295967,
+                  "Or0": 9.2e-05
+                }
+              },
+              "pbuf": {
+                "chi2_total": 81.90219040127683,
+                "aic": 105.90219040127683,
+                "bic": 130.62750652783387,
+                "dof": 46,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.96192297928487,
+                  "cc": 18.02694383921283,
+                  "cmb": 0.9133235827791228
+                },
+                "params": {
+                  "H0": 68.24664582300343,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.26275402085334404,
+                  "Or0": 9.2e-05,
+                  "Rmax": 27316250.0,
+                  "alpha": 0.0019690438325366925,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9589298051926356,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                }
+              }
+            },
+            "options": {},
+            "parity": {}
+          },
+          "options": {}
+        },
+        {
+          "id": "sn_rel",
+          "order": 1,
+          "models": {
+            "lcdm": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "sn_pantheon"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 72.974570697003,
+                  "Ok0": 0.0,
+                  "Om0": 0.35065910773349285,
+                  "Or0": 9.2e-05
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 745.4017002819551,
+                "chi2_per_dataset": {
+                  "sn_pantheon": 745.4017002819551
+                },
+                "n_params": 4,
+                "n_data": 1701,
+                "n_data_per_dataset": {
+                  "sn_pantheon": 1701
+                },
+                "dof": 1697,
+                "chi2_reduced": 0.4392467296888362,
+                "aic": 753.4017002819551,
+                "bic": 775.1575866515385
+              },
+              "runtime": {
+                "wall_seconds": 1032.3274092674255
+              },
+              "physics_flags": {
+                "phase6a_applied": false,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 72.974570697003,
+                      "1.0": 135.66193997506753
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T09:24:56.092470+00:00"
+              }
+            },
+            "pbuf": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "sn_pantheon"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 72.97446768513703,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.3506647489845218,
+                  "Or0": 9.2e-05,
+                  "Rmax": 5000000.0,
+                  "alpha": 0.010218592963516404,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9745433605095204,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 745.4017000584722,
+                "chi2_per_dataset": {
+                  "sn_pantheon": 745.4017000584722
+                },
+                "n_params": 12,
+                "n_data": 1701,
+                "n_data_per_dataset": {
+                  "sn_pantheon": 1701
+                },
+                "dof": 1689,
+                "chi2_reduced": 0.4413272350849451,
+                "aic": 769.4017000584722,
+                "bic": 834.6693591672225
+              },
+              "runtime": {
+                "wall_seconds": 2964.358236312866
+              },
+              "physics_flags": {
+                "phase6a_applied": true,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 72.97446768513703,
+                      "1.0": 135.6625235174714
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T10:14:20.460230+00:00"
+              }
+            }
+          },
+          "joint": {
+            "artifact_path": null,
+            "deltas": {
+              "delta_chi2": -2.2348285710904747e-07,
+              "delta_aic": 15.999999776517143,
+              "delta_bic": 59.511772515684015
+            },
+            "models": {
+              "lcdm": {
+                "chi2_total": 745.4017002819551,
+                "aic": 753.4017002819551,
+                "bic": 775.1575866515385,
+                "dof": 1697,
+                "chi2_per_dataset": {
+                  "sn_pantheon": 745.4017002819551
+                },
+                "params": {
+                  "H0": 72.974570697003,
+                  "Ok0": 0.0,
+                  "Om0": 0.35065910773349285,
+                  "Or0": 9.2e-05
+                }
+              },
+              "pbuf": {
+                "chi2_total": 745.4017000584722,
+                "aic": 769.4017000584722,
+                "bic": 834.6693591672225,
+                "dof": 1689,
+                "chi2_per_dataset": {
+                  "sn_pantheon": 745.4017000584722
+                },
+                "params": {
+                  "H0": 72.97446768513703,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.3506647489845218,
+                  "Or0": 9.2e-05,
+                  "Rmax": 5000000.0,
+                  "alpha": 0.010218592963516404,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9745433605095204,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                }
+              }
+            },
+            "options": {},
+            "parity": {}
+          },
+          "options": {}
+        },
+        {
+          "id": "sn_abs",
+          "order": 2,
+          "models": {
+            "lcdm": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "sn_pantheon"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 72.974570697003,
+                  "Ok0": 0.0,
+                  "Om0": 0.35065910773349285,
+                  "Or0": 9.2e-05
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 745.4017002819551,
+                "chi2_per_dataset": {
+                  "sn_pantheon": 745.4017002819551
+                },
+                "n_params": 4,
+                "n_data": 1701,
+                "n_data_per_dataset": {
+                  "sn_pantheon": 1701
+                },
+                "dof": 1697,
+                "chi2_reduced": 0.4392467296888362,
+                "aic": 753.4017002819551,
+                "bic": 775.1575866515385
+              },
+              "runtime": {
+                "wall_seconds": 1028.1488168239594
+              },
+              "physics_flags": {
+                "phase6a_applied": false,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 72.974570697003,
+                      "1.0": 135.66193997506753
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T10:31:28.623392+00:00"
+              }
+            },
+            "pbuf": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "sn_pantheon"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 72.97446768513812,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.3506647489844858,
+                  "Or0": 9.2e-05,
+                  "Rmax": 8034557.4399999995,
+                  "alpha": 0.0025009290659977336,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9521241747605832,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 745.4017000584727,
+                "chi2_per_dataset": {
+                  "sn_pantheon": 745.4017000584727
+                },
+                "n_params": 12,
+                "n_data": 1701,
+                "n_data_per_dataset": {
+                  "sn_pantheon": 1701
+                },
+                "dof": 1689,
+                "chi2_reduced": 0.4413272350849453,
+                "aic": 769.4017000584727,
+                "bic": 834.669359167223
+              },
+              "runtime": {
+                "wall_seconds": 2844.569581747055
+              },
+              "physics_flags": {
+                "phase6a_applied": true,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 72.97446768513811,
+                      "1.0": 135.66252351747212
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T11:18:53.203416+00:00"
+              }
+            }
+          },
+          "joint": {
+            "artifact_path": null,
+            "deltas": {
+              "delta_chi2": -2.2348240236169659e-07,
+              "delta_aic": 15.999999776517598,
+              "delta_bic": 59.51177251568447
+            },
+            "models": {
+              "lcdm": {
+                "chi2_total": 745.4017002819551,
+                "aic": 753.4017002819551,
+                "bic": 775.1575866515385,
+                "dof": 1697,
+                "chi2_per_dataset": {
+                  "sn_pantheon": 745.4017002819551
+                },
+                "params": {
+                  "H0": 72.974570697003,
+                  "Ok0": 0.0,
+                  "Om0": 0.35065910773349285,
+                  "Or0": 9.2e-05
+                }
+              },
+              "pbuf": {
+                "chi2_total": 745.4017000584727,
+                "aic": 769.4017000584727,
+                "bic": 834.669359167223,
+                "dof": 1689,
+                "chi2_per_dataset": {
+                  "sn_pantheon": 745.4017000584727
+                },
+                "params": {
+                  "H0": 72.97446768513812,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.3506647489844858,
+                  "Or0": 9.2e-05,
+                  "Rmax": 8034557.4399999995,
+                  "alpha": 0.0025009290659977336,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9521241747605832,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                }
+              }
+            },
+            "options": {},
+            "parity": {}
+          },
+          "options": {}
+        },
+        {
+          "id": "geom_plus_sn_rel",
+          "order": 3,
+          "models": {
+            "lcdm": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "bao_aniso",
+                "cc",
+                "sn_pantheon"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 74.01341901681371,
+                  "Ok0": 0.0,
+                  "Om0": 0.23983007058165834,
+                  "Or0": 9.2e-05
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 870.9648776613824,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.99038574667103,
+                  "cc": 19.776805574689813,
+                  "cmb": 0.9509379654300556,
+                  "sn_pantheon": 787.2467483745914
+                },
+                "n_params": 4,
+                "n_data": 1759,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "bao_aniso": 24,
+                  "cc": 31,
+                  "sn_pantheon": 1701
+                },
+                "dof": 1755,
+                "chi2_reduced": 0.49627628356773923,
+                "aic": 878.9648776613824,
+                "bic": 900.8548806403326
+              },
+              "runtime": {
+                "wall_seconds": 1557.4549701213837
+              },
+              "physics_flags": {
+                "phase6a_applied": false,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 74.01341901681371,
+                      "1.0": 121.16949502787837
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T11:44:50.673401+00:00"
+              }
+            },
+            "pbuf": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "bao_aniso",
+                "cc",
+                "sn_pantheon"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 74.01341901681371,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.23983007058165834,
+                  "Or0": 9.2e-05,
+                  "Rmax": 21085193.183147673,
+                  "alpha": 0.002500774221664778,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9520532249852102,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 870.9648776613811,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.9903857466662,
+                  "cc": 19.77680557468919,
+                  "cmb": 0.9509379654300627,
+                  "sn_pantheon": 787.2467483745957
+                },
+                "n_params": 12,
+                "n_data": 1759,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "bao_aniso": 24,
+                  "cc": 31,
+                  "sn_pantheon": 1701
+                },
+                "dof": 1747,
+                "chi2_reduced": 0.498548871013956,
+                "aic": 894.9648776613811,
+                "bic": 960.6348865982318
+              },
+              "runtime": {
+                "wall_seconds": 2702.6590797901154
+              },
+              "physics_flags": {
+                "phase6a_applied": true,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 74.01341901681371,
+                      "1.0": 121.16949502787776
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T12:29:53.345327+00:00"
+              }
+            }
+          },
+          "joint": {
+            "artifact_path": null,
+            "deltas": {
+              "delta_chi2": -1.2505552149377763e-12,
+              "delta_aic": 15.99999999999875,
+              "delta_bic": 59.78000595789922
+            },
+            "models": {
+              "lcdm": {
+                "chi2_total": 870.9648776613824,
+                "aic": 878.9648776613824,
+                "bic": 900.8548806403326,
+                "dof": 1755,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.99038574667103,
+                  "cc": 19.776805574689813,
+                  "cmb": 0.9509379654300556,
+                  "sn_pantheon": 787.2467483745914
+                },
+                "params": {
+                  "H0": 74.01341901681371,
+                  "Ok0": 0.0,
+                  "Om0": 0.23983007058165834,
+                  "Or0": 9.2e-05
+                }
+              },
+              "pbuf": {
+                "chi2_total": 870.9648776613811,
+                "aic": 894.9648776613811,
+                "bic": 960.6348865982318,
+                "dof": 1747,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.9903857466662,
+                  "cc": 19.77680557468919,
+                  "cmb": 0.9509379654300627,
+                  "sn_pantheon": 787.2467483745957
+                },
+                "params": {
+                  "H0": 74.01341901681371,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.23983007058165834,
+                  "Or0": 9.2e-05,
+                  "Rmax": 21085193.183147673,
+                  "alpha": 0.002500774221664778,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9520532249852102,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                }
+              }
+            },
+            "options": {},
+            "parity": {}
+          },
+          "options": {}
+        },
+        {
+          "id": "geom_plus_sn_abs",
+          "order": 4,
+          "models": {
+            "lcdm": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "bao_aniso",
+                "cc",
+                "sn_pantheon"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 74.01341901681371,
+                  "Ok0": 0.0,
+                  "Om0": 0.23983007058165834,
+                  "Or0": 9.2e-05
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 870.9648776613824,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.99038574667103,
+                  "cc": 19.776805574689813,
+                  "cmb": 0.9509379654300556,
+                  "sn_pantheon": 787.2467483745914
+                },
+                "n_params": 4,
+                "n_data": 1759,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "bao_aniso": 24,
+                  "cc": 31,
+                  "sn_pantheon": 1701
+                },
+                "dof": 1755,
+                "chi2_reduced": 0.49627628356773923,
+                "aic": 878.9648776613824,
+                "bic": 900.8548806403326
+              },
+              "runtime": {
+                "wall_seconds": 1587.018718957901
+              },
+              "physics_flags": {
+                "phase6a_applied": false,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 74.01341901681371,
+                      "1.0": 121.16949502787837
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T12:56:20.378682+00:00"
+              }
+            },
+            "pbuf": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "bao_aniso",
+                "cc",
+                "sn_pantheon"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 74.01341901681371,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.23983007058165834,
+                  "Or0": 9.2e-05,
+                  "Rmax": 21085193.183147673,
+                  "alpha": 0.0015004645329988668,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9506346303058947,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 870.964877661381,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.990385746666206,
+                  "cc": 19.776805574689206,
+                  "cmb": 0.9509379654300627,
+                  "sn_pantheon": 787.2467483745955
+                },
+                "n_params": 12,
+                "n_data": 1759,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "bao_aniso": 24,
+                  "cc": 31,
+                  "sn_pantheon": 1701
+                },
+                "dof": 1747,
+                "chi2_reduced": 0.49854887101395595,
+                "aic": 894.964877661381,
+                "bic": 960.6348865982317
+              },
+              "runtime": {
+                "wall_seconds": 2584.7912933826447
+              },
+              "physics_flags": {
+                "phase6a_applied": true,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 74.01341901681371,
+                      "1.0": 121.16949502787776
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T13:39:25.182496+00:00"
+              }
+            }
+          },
+          "joint": {
+            "artifact_path": null,
+            "deltas": {
+              "delta_chi2": -1.3642420526593924e-12,
+              "delta_aic": 15.999999999998636,
+              "delta_bic": 59.78000595789911
+            },
+            "models": {
+              "lcdm": {
+                "chi2_total": 870.9648776613824,
+                "aic": 878.9648776613824,
+                "bic": 900.8548806403326,
+                "dof": 1755,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.99038574667103,
+                  "cc": 19.776805574689813,
+                  "cmb": 0.9509379654300556,
+                  "sn_pantheon": 787.2467483745914
+                },
+                "params": {
+                  "H0": 74.01341901681371,
+                  "Ok0": 0.0,
+                  "Om0": 0.23983007058165834,
+                  "Or0": 9.2e-05
+                }
+              },
+              "pbuf": {
+                "chi2_total": 870.964877661381,
+                "aic": 894.964877661381,
+                "bic": 960.6348865982317,
+                "dof": 1747,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.990385746666206,
+                  "cc": 19.776805574689206,
+                  "cmb": 0.9509379654300627,
+                  "sn_pantheon": 787.2467483745955
+                },
+                "params": {
+                  "H0": 74.01341901681371,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.23983007058165834,
+                  "Or0": 9.2e-05,
+                  "Rmax": 21085193.183147673,
+                  "alpha": 0.0015004645329988668,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9506346303058947,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                }
+              }
+            },
+            "options": {},
+            "parity": {}
+          },
+          "options": {}
+        },
+        {
+          "id": "full_rel",
+          "order": 5,
+          "models": {
+            "lcdm": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "sn_pantheon",
+                "bao_aniso",
+                "cc",
+                "rsd"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 73.9967224027913,
+                  "Ok0": 0.0,
+                  "Om0": 0.23907988650637085,
+                  "Or0": 9.2e-05
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 883.342330336932,
+                "chi2_per_dataset": {
+                  "bao_aniso": 63.01809254240595,
+                  "cc": 19.584891613347207,
+                  "cmb": 0.9522800390850957,
+                  "rsd": 11.567945772845228,
+                  "sn_pantheon": 788.2191203692487
+                },
+                "n_params": 4,
+                "n_data": 1777,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "sn_pantheon": 1701,
+                  "bao_aniso": 24,
+                  "cc": 31,
+                  "rsd": 18
+                },
+                "dof": 1773,
+                "chi2_reduced": 0.49821902444271404,
+                "aic": 891.342330336932,
+                "bic": 913.2730576495507
+              },
+              "runtime": {
+                "wall_seconds": 1672.4784803390503
+              },
+              "physics_flags": {
+                "phase6a_applied": false,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 73.9967224027913,
+                      "1.0": 121.0234256127864
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T14:07:17.675369+00:00"
+              }
+            },
+            "pbuf": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "sn_pantheon",
+                "bao_aniso",
+                "cc",
+                "rsd"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 73.99522775747708,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.24003351702802386,
+                  "Or0": 9.2e-05,
+                  "Rmax": 5000000.0,
+                  "alpha": 0.022776003921653534,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9786914391254508,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 882.478509030791,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.983197335293305,
+                  "cc": 19.765176398166002,
+                  "cmb": 0.9505753231923527,
+                  "rsd": 11.463779326992304,
+                  "sn_pantheon": 787.3157806471471
+                },
+                "n_params": 12,
+                "n_data": 1777,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "sn_pantheon": 1701,
+                  "bao_aniso": 24,
+                  "cc": 31,
+                  "rsd": 18
+                },
+                "dof": 1765,
+                "chi2_reduced": 0.4999878238134793,
+                "aic": 906.478509030791,
+                "bic": 972.2706909686468
+              },
+              "runtime": {
+                "wall_seconds": 3206.3928298950195
+              },
+              "physics_flags": {
+                "phase6a_applied": true,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 73.99522775747707,
+                      "1.0": 121.1718932472432
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T15:00:44.081794+00:00"
+              }
+            }
+          },
+          "joint": {
+            "artifact_path": null,
+            "deltas": {
+              "delta_chi2": -0.8638213061410625,
+              "delta_aic": 15.136178693858938,
+              "delta_bic": 58.99763331909617
+            },
+            "models": {
+              "lcdm": {
+                "chi2_total": 883.342330336932,
+                "aic": 891.342330336932,
+                "bic": 913.2730576495507,
+                "dof": 1773,
+                "chi2_per_dataset": {
+                  "bao_aniso": 63.01809254240595,
+                  "cc": 19.584891613347207,
+                  "cmb": 0.9522800390850957,
+                  "rsd": 11.567945772845228,
+                  "sn_pantheon": 788.2191203692487
+                },
+                "params": {
+                  "H0": 73.9967224027913,
+                  "Ok0": 0.0,
+                  "Om0": 0.23907988650637085,
+                  "Or0": 9.2e-05
+                }
+              },
+              "pbuf": {
+                "chi2_total": 882.478509030791,
+                "aic": 906.478509030791,
+                "bic": 972.2706909686468,
+                "dof": 1765,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.983197335293305,
+                  "cc": 19.765176398166002,
+                  "cmb": 0.9505753231923527,
+                  "rsd": 11.463779326992304,
+                  "sn_pantheon": 787.3157806471471
+                },
+                "params": {
+                  "H0": 73.99522775747708,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.24003351702802386,
+                  "Or0": 9.2e-05,
+                  "Rmax": 5000000.0,
+                  "alpha": 0.022776003921653534,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9786914391254508,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                }
+              }
+            },
+            "options": {},
+            "parity": {}
+          },
+          "options": {}
+        },
+        {
+          "id": "full_abs",
+          "order": 6,
+          "models": {
+            "lcdm": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "sn_pantheon",
+                "bao_aniso",
+                "cc",
+                "rsd"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 73.9967224027913,
+                  "Ok0": 0.0,
+                  "Om0": 0.23907988650637085,
+                  "Or0": 9.2e-05
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 883.342330336932,
+                "chi2_per_dataset": {
+                  "bao_aniso": 63.01809254240595,
+                  "cc": 19.584891613347207,
+                  "cmb": 0.9522800390850957,
+                  "rsd": 11.567945772845228,
+                  "sn_pantheon": 788.2191203692487
+                },
+                "n_params": 4,
+                "n_data": 1777,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "sn_pantheon": 1701,
+                  "bao_aniso": 24,
+                  "cc": 31,
+                  "rsd": 18
+                },
+                "dof": 1773,
+                "chi2_reduced": 0.49821902444271404,
+                "aic": 891.342330336932,
+                "bic": 913.2730576495507
+              },
+              "runtime": {
+                "wall_seconds": 1686.060947418213
+              },
+              "physics_flags": {
+                "phase6a_applied": false,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 73.9967224027913,
+                      "1.0": 121.0234256127864
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T15:28:50.158766+00:00"
+              }
+            },
+            "pbuf": {
+              "artifact_path": null,
+              "raw_path": null,
+              "datasets": [
+                "cmb",
+                "sn_pantheon",
+                "bao_aniso",
+                "cc",
+                "rsd"
+              ],
+              "best_fit": {
+                "params": {
+                  "H0": 73.99522775747708,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.24003351702802386,
+                  "Or0": 9.2e-05,
+                  "Rmax": 5000000.0,
+                  "alpha": 0.022776003921653534,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9786914391254508,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                },
+                "derived": {}
+              },
+              "fit_stats": {
+                "chi2_total": 882.478509030791,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.983197335293305,
+                  "cc": 19.765176398166002,
+                  "cmb": 0.9505753231923527,
+                  "rsd": 11.463779326992304,
+                  "sn_pantheon": 787.3157806471471
+                },
+                "n_params": 12,
+                "n_data": 1777,
+                "n_data_per_dataset": {
+                  "cmb": 3,
+                  "sn_pantheon": 1701,
+                  "bao_aniso": 24,
+                  "cc": 31,
+                  "rsd": 18
+                },
+                "dof": 1765,
+                "chi2_reduced": 0.4999878238134793,
+                "aic": 906.478509030791,
+                "bic": 972.2706909686468
+              },
+              "runtime": {
+                "wall_seconds": 3167.2568366527557
+              },
+              "physics_flags": {
+                "phase6a_applied": true,
+                "phase6a_passed": true,
+                "validation": {
+                  "diagnostics": {
+                    "Hz_samples": {
+                      "0.0": 73.99522775747707,
+                      "1.0": 121.1718932472432
+                    }
+                  },
+                  "reasons": [],
+                  "valid": true
+                }
+              },
+              "provenance": {
+                "source": "data/science_runs/20251101_232513_v10_full_run/summary.json",
+                "timestamp": "2025-11-02T16:21:37.429303+00:00"
+              }
+            }
+          },
+          "joint": {
+            "artifact_path": null,
+            "deltas": {
+              "delta_chi2": -0.8638213061410625,
+              "delta_aic": 15.136178693858938,
+              "delta_bic": 58.99763331909617
+            },
+            "models": {
+              "lcdm": {
+                "chi2_total": 883.342330336932,
+                "aic": 891.342330336932,
+                "bic": 913.2730576495507,
+                "dof": 1773,
+                "chi2_per_dataset": {
+                  "bao_aniso": 63.01809254240595,
+                  "cc": 19.584891613347207,
+                  "cmb": 0.9522800390850957,
+                  "rsd": 11.567945772845228,
+                  "sn_pantheon": 788.2191203692487
+                },
+                "params": {
+                  "H0": 73.9967224027913,
+                  "Ok0": 0.0,
+                  "Om0": 0.23907988650637085,
+                  "Or0": 9.2e-05
+                }
+              },
+              "pbuf": {
+                "chi2_total": 882.478509030791,
+                "aic": 906.478509030791,
+                "bic": 972.2706909686468,
+                "dof": 1765,
+                "chi2_per_dataset": {
+                  "bao_aniso": 62.983197335293305,
+                  "cc": 19.765176398166002,
+                  "cmb": 0.9505753231923527,
+                  "rsd": 11.463779326992304,
+                  "sn_pantheon": 787.3157806471471
+                },
+                "params": {
+                  "H0": 73.99522775747708,
+                  "Ok0": 0.0,
+                  "Ol0": 0.0,
+                  "Om0": 0.24003351702802386,
+                  "Or0": 9.2e-05,
+                  "Rmax": 5000000.0,
+                  "alpha": 0.022776003921653534,
+                  "eps0": 0.909768,
+                  "k_sat": 0.9786914391254508,
+                  "n_R": 0.0,
+                  "n_alpha": 0.8,
+                  "n_eps": -0.5
+                }
+              }
+            },
+            "options": {},
+            "parity": {}
+          },
+          "options": {}
+        }
+      ],
+      "primary_scenario_id": "full_rel"
+    }
+  ],
+  "aggregated": {
+    "models": {
+      "lcdm": {
+        "chi2_total": 883.342330336932,
+        "AIC_total": 891.342330336932,
+        "BIC_total": 913.2730576495507,
+        "chi2_reduced_total": 0.49821902444271404,
+        "n_data_total": 1777,
+        "n_params_total": 4,
+        "dof_total": 1773,
+        "run_count": 1,
+        "runs": [
+          {
+            "run": "20251101_232513_v10_full_run",
+            "scenario": "full_rel",
+            "chi2_total": 883.342330336932,
+            "AIC": 891.342330336932,
+            "BIC": 913.2730576495507,
+            "n_data": 1777,
+            "n_params": 4,
+            "runtime": {
+              "wall_seconds": 1672.4784803390503
+            }
+          }
+        ]
+      },
+      "pbuf": {
+        "chi2_total": 882.478509030791,
+        "AIC_total": 906.478509030791,
+        "BIC_total": 972.2706909686468,
+        "chi2_reduced_total": 0.4999878238134793,
+        "n_data_total": 1777,
+        "n_params_total": 12,
+        "dof_total": 1765,
+        "run_count": 1,
+        "runs": [
+          {
+            "run": "20251101_232513_v10_full_run",
+            "scenario": "full_rel",
+            "chi2_total": 882.478509030791,
+            "AIC": 906.478509030791,
+            "BIC": 972.2706909686468,
+            "n_data": 1777,
+            "n_params": 12,
+            "runtime": {
+              "wall_seconds": 3206.3928298950195
+            }
+          }
+        ]
+      }
+    },
+    "datasets": {
+      "bao_aniso": {
+        "lcdm": {
+          "chi2": 63.01809254240595,
+          "n_data": 24,
+          "n_params": 0,
+          "dof": 0,
+          "AIC": 0.0,
+          "BIC": 0.0,
+          "runs": [
+            {
+              "run": "20251101_232513_v10_full_run",
+              "scenario": "full_rel",
+              "chi2": 63.01809254240595,
+              "n_data": 24
+            }
+          ],
+          "scout_runs": [],
+          "parameters": [],
+          "chi2_reduced": 2.6257538559335813,
+          "AIC_average": 0.0,
+          "BIC_average": 0.0
+        },
+        "pbuf": {
+          "chi2": 62.983197335293305,
+          "n_data": 24,
+          "n_params": 0,
+          "dof": 0,
+          "AIC": 0.0,
+          "BIC": 0.0,
+          "runs": [
+            {
+              "run": "20251101_232513_v10_full_run",
+              "scenario": "full_rel",
+              "chi2": 62.983197335293305,
+              "n_data": 24
+            }
+          ],
+          "scout_runs": [],
+          "parameters": [],
+          "chi2_reduced": 2.624299888970554,
+          "AIC_average": 0.0,
+          "BIC_average": 0.0
+        }
+      },
+      "cc": {
+        "lcdm": {
+          "chi2": 19.584891613347207,
+          "n_data": 31,
+          "n_params": 0,
+          "dof": 0,
+          "AIC": 0.0,
+          "BIC": 0.0,
+          "runs": [
+            {
+              "run": "20251101_232513_v10_full_run",
+              "scenario": "full_rel",
+              "chi2": 19.584891613347207,
+              "n_data": 31
+            }
+          ],
+          "scout_runs": [],
+          "parameters": [],
+          "chi2_reduced": 0.6317706972047487,
+          "AIC_average": 0.0,
+          "BIC_average": 0.0
+        },
+        "pbuf": {
+          "chi2": 19.765176398166002,
+          "n_data": 31,
+          "n_params": 0,
+          "dof": 0,
+          "AIC": 0.0,
+          "BIC": 0.0,
+          "runs": [
+            {
+              "run": "20251101_232513_v10_full_run",
+              "scenario": "full_rel",
+              "chi2": 19.765176398166002,
+              "n_data": 31
+            }
+          ],
+          "scout_runs": [],
+          "parameters": [],
+          "chi2_reduced": 0.6375863354247098,
+          "AIC_average": 0.0,
+          "BIC_average": 0.0
+        }
+      },
+      "cmb": {
+        "lcdm": {
+          "chi2": 0.9522800390850957,
+          "n_data": 3,
+          "n_params": 0,
+          "dof": 0,
+          "AIC": 0.0,
+          "BIC": 0.0,
+          "runs": [
+            {
+              "run": "20251101_232513_v10_full_run",
+              "scenario": "full_rel",
+              "chi2": 0.9522800390850957,
+              "n_data": 3
+            }
+          ],
+          "scout_runs": [],
+          "parameters": [],
+          "chi2_reduced": 0.3174266796950319,
+          "AIC_average": 0.0,
+          "BIC_average": 0.0
+        },
+        "pbuf": {
+          "chi2": 0.9505753231923527,
+          "n_data": 3,
+          "n_params": 0,
+          "dof": 0,
+          "AIC": 0.0,
+          "BIC": 0.0,
+          "runs": [
+            {
+              "run": "20251101_232513_v10_full_run",
+              "scenario": "full_rel",
+              "chi2": 0.9505753231923527,
+              "n_data": 3
+            }
+          ],
+          "scout_runs": [],
+          "parameters": [],
+          "chi2_reduced": 0.3168584410641176,
+          "AIC_average": 0.0,
+          "BIC_average": 0.0
+        }
+      },
+      "rsd": {
+        "lcdm": {
+          "chi2": 11.567945772845228,
+          "n_data": 18,
+          "n_params": 0,
+          "dof": 0,
+          "AIC": 0.0,
+          "BIC": 0.0,
+          "runs": [
+            {
+              "run": "20251101_232513_v10_full_run",
+              "scenario": "full_rel",
+              "chi2": 11.567945772845228,
+              "n_data": 18
+            }
+          ],
+          "scout_runs": [],
+          "parameters": [],
+          "chi2_reduced": 0.6426636540469571,
+          "AIC_average": 0.0,
+          "BIC_average": 0.0
+        },
+        "pbuf": {
+          "chi2": 11.463779326992304,
+          "n_data": 18,
+          "n_params": 0,
+          "dof": 0,
+          "AIC": 0.0,
+          "BIC": 0.0,
+          "runs": [
+            {
+              "run": "20251101_232513_v10_full_run",
+              "scenario": "full_rel",
+              "chi2": 11.463779326992304,
+              "n_data": 18
+            }
+          ],
+          "scout_runs": [],
+          "parameters": [],
+          "chi2_reduced": 0.6368766292773502,
+          "AIC_average": 0.0,
+          "BIC_average": 0.0
+        }
+      }
+    },
+    "global": {
+      "run_count": 1,
+      "primary_scenarios": {
+        "20251101_232513_v10_full_run": "full_rel"
+      },
+      "requested_models": [
+        "lcdm",
+        "pbuf"
+      ],
+      "comparison": {
+        "\u0394AIC (pbuf-lcdm)": 15.136178693858938,
+        "\u0394BIC (pbuf-lcdm)": 58.99763331909617,
+        "preferred_model_AIC": "lcdm",
+        "preferred_model_BIC": "lcdm"
+      }
+    }
+  },
+  "metadata": {
+    "generated_at": "2025-11-02T16:22:03.868535Z",
+    "science_runs_root": "/home/fabian/PBUF4/data/science_runs",
+    "collected_at": "2025-11-02T16:22:03.811018Z",
+    "requested_models": [
+      "lcdm",
+      "pbuf"
+    ]
+  }
+}</pre>
+    </details>
+    <h3>Appendix B — Notes</h3>
+    <div class="notes-block">
+      <h3>Methodology Notes</h3>
+      <ul>
+        <li>Aggregates combine the primary scenario of each science run (highest data volume).</li>
+        <li>ΔAIC/ΔBIC are computed as (MODEL<sub>2</sub> − MODEL<sub>1</sub>); positive values favour MODEL<sub>1</sub>.</li>
+        <li>Phase-6a status reflects the guard-rail enforcement during the coordinate optimisation.</li>
+        <li>Per-run parameter cards display the mean of best-fit values across runs.</li>
+        <li>Plots are generated via <code>reports.plotter</code>; regenerate them after new science runs.</li>
+      </ul>
+    </div>
+    </body></html>

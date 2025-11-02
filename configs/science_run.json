@@ -1,0 +1,92 @@
+{
+  "run_id": "v10_full_run",
+  "models": ["lcdm", "pbuf"],
+
+  "scenarios": [
+    { "id": "geom", "datasets": ["cmb", "bao_aniso", "cc"] },
+
+    { "id": "sn_rel", "datasets": ["sn_pantheon"], "options": { "sn_mode": "relative" } },
+    { "id": "sn_abs", "datasets": ["sn_pantheon"], "options": { "sn_mode": "absolute" } },
+
+    {
+      "id": "geom_plus_sn_rel",
+      "datasets": ["cmb", "bao_aniso", "cc", "sn_pantheon"],
+      "options": { "sn_mode": "relative" }
+    },
+    {
+      "id": "geom_plus_sn_abs",
+      "datasets": ["cmb", "bao_aniso", "cc", "sn_pantheon"],
+      "options": { "sn_mode": "absolute" }
+    },
+
+    {
+      "id": "full_rel",
+      "datasets": ["cmb", "sn_pantheon", "bao_aniso", "cc", "rsd"],
+      "options": { "sn_mode": "relative" }
+    },
+    {
+      "id": "full_abs",
+      "datasets": ["cmb", "sn_pantheon", "bao_aniso", "cc", "rsd"],
+      "options": { "sn_mode": "absolute" }
+    }
+  ],
+
+  "budgets": {
+    "island_samples": 300,
+    "island_delta": 10,
+    "workers": 14,
+    "eval_cap_per_model": 6000
+  },
+
+  "phase6a": {
+    "enabled_for_pbuf": true,
+    "ksat_bounds": [0.85, 1.0]
+  },
+
+  "walker": {
+    "converge": true,
+    "max_rebalances": 3,
+    "reseed_on_plateau": true
+  },
+
+  "priors": {
+    "pbuf": {
+      "k_sat": { "type": "uniform", "min": 0.95, "max": 1.0 },
+      "Rmax": { "type": "log_uniform", "min": 3e6, "max": 3e7 }
+    },
+    "lcdm": {}
+  },
+
+  "checkpointing": {
+    "enabled": true,
+    "frequency": "per_scenario",
+    "resume": true
+  },
+
+  "reporting": {
+    "record_dof": true,
+    "store_per_dataset_partitions": true,
+    "write_optimizer_trace": true
+  },
+
+  "targets": {
+    "cmb": [0.8, 1.0],
+    "sn_pantheon": [745.0, 30.0],
+    "bao_aniso": [63.0, 8.0],
+    "cc": [18.0, 6.0],
+    "rsd": [15.5, 6.0]
+  },
+
+  "seeds": {
+    "island_seed": 42,
+    "global_random_seed": 1337
+  },
+
+  "output_root": "data/science_runs",
+
+  "env_meta": {
+    "machine": "desktop-20c",
+    "notes": "baseline strict"
+  }
+}
+

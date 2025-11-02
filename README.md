@@ -1,127 +1,151 @@
-# PBUF Cosmology Pipeline
+# PBUF v10: The Planck-Bound Unified Framework  
+**A Λ-free Elastic Spacetime Model for Cosmology**
 
-Planck-Bound Unified Framework (PBUF)
+| Field | Value |
+| --- | --- |
+| Author | Fabian Olesen |
+| Affiliation | Independent Researcher, Cosmos Engine Project |
+| Version | v10 Baseline A (2025) |
+| ORCID | 0009-0009-7125-8547 |
+| DOI | https://doi.org/10.5281/zenodo.17394412 |
+| GitHub | https://github.com/TheExiledMonk/PBUF |
+
+This repository hosts the automation and reporting pipeline used to reproduce the cosmological analyses behind **PBUF v10: The Planck-Bound Unified Framework**. The tooling sits on top of the **Cosmos Engine v1.0 (beta)** runtime and orchestrates coordinated ΛCDM/PBUF comparisons, provenance capture, and publication-ready reporting.
 
 ---
-**Author:** Fabian Olesen  
-**ORCID:** [0009-0009-7125-8547](https://orcid.org/0009-0009-7125-8547)  
-**DOI:** [10.5281/zenodo.17394412](https://doi.org/10.5281/zenodo.17394412)
+
+## 🚀 One-Command Reproduction
+
+To replicate the PBUF v10 results (fresh virtual environment, science run, and reports) execute:
+
+```bash
+./scripts/science_run_oneclick.sh
+```
+
+What it does:
+1. Creates/refreshes a virtual environment (`.venv_science`).
+2. Installs `requirements.txt`.
+3. Launches the unified science runner via `python cli.py run science`.
+4. Builds the full report suite with `python cli.py report generate`.
+
+Outputs are written under `data/science_runs/` and `reports/output/`.
+
 ---
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17394412.svg)](https://doi.>
+## 📚 Project Overview
 
+- **Cosmos Engine v1.0 beta** supplies the physical models, dataset loaders, and optimisation primitives.
+- **PBUF v10 orchestration** (`scripts/run_science.py`, `configs/science_run.json`) enforces a two-stage workflow:  
+  _Stage 1_: single-dataset “scout” fits for diagnostics.  
+  _Stage 2_: scenario bundles covering relative/absolute SN modes, geometry-only combinations, and joint fits.  
+- **Reporting stack** (`reports/report_pipeline.py`) yields interactive HTML, Markdown, and JSON artifacts summarising every run.
 
-This repository and all associated analysis were created and maintained by Fabi>
+The full design is documented in `docs/specs/science_run_orchestrator.md`.
 
-License: MIT for code | CC-BY 4.0 for documentation and papers
+---
 
-
-A unified cosmological parameter fitting infrastructure for PBUF and ΛCDM models.
-
-## Quick Setup
-
-### 1. Automatic Setup (Recommended)
-
-Run the setup script to create the virtual environment and install dependencies:
+## 🧭 Manual Setup (if you prefer step-by-step)
 
 ```bash
-./setup_env.sh
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-### 2. Manual Setup
+Ensure the standardised datasets referenced by the science configuration exist under `data/standardized/` (run the converters in `data_interface/` if needed).
 
-If you prefer manual setup:
+---
+
+## 🔄 Running the Science Orchestrator
+
+### CLI-first workflow
 
 ```bash
-# Create virtual environment
-python3 -m venv venv
-
-# Activate environment
-source venv/bin/activate
-
-# Install core dependencies
-pip install numpy>=1.21.0 scipy>=1.7.0 matplotlib>=3.5.0
+python cli.py run science \
+  --config configs/science_run.json \
+  --fresh                     # optional: force a new timestamped run directory
+  --science-root data/science_runs  # optional override
 ```
 
-### 3. Verify Setup
+Key flags:
+- `--fresh` — ignore existing checkpoints and start clean.
+- `--resume-dir PATH` — pick up an incomplete run manually.
+- `--skip-scouts` — bypass Stage 1 diagnostics.
+- `--quiet-cli`, `--no-progress` — forward logging controls to the coordinate walker.
 
-Test that everything is working:
+### Direct script entry (legacy)
 
 ```bash
-# Activate environment (if not already active)
-source venv/bin/activate
-
-# Run setup test
-python3 test_setup.py
+python scripts/run_science.py --config configs/science_run.json
 ```
 
-## Project Structure
+Both entry points record progress in `state.json`, capture environment metadata in `meta.json`, and generate per-step artifacts + logs under the timestamped run directory.
+
+---
+
+## 📁 Output Layout
 
 ```
-pipelines/
-├── __init__.py                 # Main package initialization
-├── fit_core/                   # Core fitting infrastructure
-│   ├── __init__.py            # Core module with type definitions
-│   ├── engine.py              # Unified optimization engine
-│   ├── parameter.py           # Centralized parameter management
-│   ├── likelihoods.py         # Block likelihood functions
-│   ├── datasets.py            # Unified dataset loading
-│   ├── statistics.py          # Statistical computations
-│   ├── logging_utils.py       # Standardized logging
-│   └── integrity.py           # Physics validation
-├── fit_cmb.py                 # CMB fitting wrapper
-├── fit_bao.py                 # BAO fitting wrapper
-├── fit_aniso.py               # Anisotropic BAO wrapper
-├── fit_sn.py                  # Supernova fitting wrapper
-└── fit_joint.py               # Joint fitting wrapper
+data/science_runs/{timestamp}_{run_id}/
+  meta.json        # environment snapshot (git, packages, dataset hashes)
+  state.json       # authoritative resume ledger
+  logs/            # stdout/stderr for every CLI call
+  raw/             # coordinate walker outputs
+  artifacts/       # best-fit and joint comparison summaries
+reports/output/
+  report.html      # interactive dashboard
+  summary.md       # publication-ready tables
+  results.json     # machine-readable bundle
+  plots/           # generated figures (H(z), μ(z), BAO, RSD, etc.)
 ```
 
-## Core Features
+Joint comparison artifacts (`*-joint-comparison.json`) provide Δχ², ΔAIC, and ΔBIC between ΛCDM and PBUF with parity checks, mirroring the results cited in the v10 manuscript.
 
-- **Unified Architecture**: Single optimization engine used by all fitters
-- **Centralized Parameters**: Consistent parameter handling across all models
-- **Physics Validation**: Comprehensive integrity checks and consistency tests
-- **Standardized Logging**: Consistent diagnostic output and result reporting
-- **Type Safety**: Full type hints for better development experience
+---
 
-## Usage
+## 🧪 Inspecting and Extending Runs
 
-The pipeline is currently in development. Core interfaces and scaffolding are complete.
+1. Check `state.json` to confirm each step reports `"status": "done"` with wall time and CPU-hours.
+2. Dive into `artifacts/{order}-{scenario}-{model}-done.json` for per-dataset χ², parameter vectors, and provenance records.
+3. Joint artifacts provide consolidated statistics once both models finish a scenario.
+4. To rerun or widen parameter bounds, edit `configs/science_run.json` (e.g., `budgets`, `targets`, custom scenario options) and re-launch via the CLI.
 
-To test the basic functionality:
+---
 
-```python
-import sys
-sys.path.append('pipelines')
+## 📰 Reporting Pipeline
 
-from fit_core import ParameterDict, ResultsDict
-import fit_core.parameter as param
+The reporting stage is reusable on its own:
 
-# Access default parameters
-lcdm_defaults = param.DEFAULTS['lcdm']
-pbuf_defaults = param.DEFAULTS['pbuf']
-
-print("LCDM parameters:", lcdm_defaults)
-print("PBUF parameters:", pbuf_defaults)
+```bash
+python cli.py report generate --output reports/output
 ```
 
-## Development Status
+Internally this calls `reports/report_pipeline.py::build_full_report`, which:
+1. Collects all science runs under `data/science_runs/`.
+2. Aggregates χ²/AIC/BIC statistics per dataset and model.
+3. Generates plots via `reports/plotter.py`.
+4. Emits HTML/Markdown/JSON/PDF (PDF optional) summaries.
 
-✅ **Task 1 Complete**: Project structure and core interfaces  
-🔄 **In Progress**: Implementation of core functionality
+---
 
-See `.kiro/specs/pbuf-cosmology-refactor/tasks.md` for detailed implementation plan.
+## 🤝 Citation
 
-## Requirements
+Please cite the Zenodo record when referencing this workflow or the accompanying parameters:
 
-- Python 3.8+
-- NumPy >= 1.21.0
-- SciPy >= 1.7.0
-- Matplotlib >= 3.5.0
+```
+Fabian Olesen. "PBUF v10: The Planck-Bound Unified Framework —
+A Λ-free Elastic Spacetime Model for Cosmology." Cosmos Engine Project, 2025.
+Version v10 Baseline A. DOI: 10.5281/zenodo.17394412.
+```
 
-Optional dependencies (uncomment in `requirements.txt` as needed):
-- pandas, h5py, astropy, pytest, jupyter, sphinx
+Direct BibTeX is provided on the DOI landing page.
 
-## License
+---
 
-See LICENSE.txt for details.
+## 🔗 Additional Resources
+
+- Cosmos Engine v1.0 beta release notes — see the main Cosmos Engine repository for APIs and validation suites.
+- `README_PBUF.md` — extended physics discussion and prior guardrails.
+- `docs/fit_coord.md` — coordinate basin walker options.
+
+For questions or collaboration enquiries, open an issue or reach out through the Cosmos Engine Project channels listed in the GitHub profile.

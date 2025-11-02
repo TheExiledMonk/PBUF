@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <title>PBUF Cosmology Report</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      
+    <style>
+    body {
+        font-family: system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: #0b0d10;
+        color: #f0f3f6;
+        margin: 0;
+        padding: 2rem;
+        line-height: 1.5;
+    }
+    h1, h2, h3 {
+        font-weight: 600;
+        color: #fff;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    h1 {
+        font-size: 1.6rem;
+        margin-top: 0;
+    }
+    h2 {
+        font-size: 1.2rem;
+        border-left: 4px solid #4e8cff;
+        padding-left: 0.5rem;
+    }
+    h3 {
+        font-size: 1rem;
+        color: #9cb3ff;
+    }
+    .section { margin-top: 2rem; }
+
+    .data-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 1rem 0 2rem 0;
+        font-size: 0.9rem;
+        background: #1a1f27;
+        color: #d5d9e0;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .data-table.small {
+        width: auto;
+        min-width: 320px;
+    }
+    .data-table thead {
+        background: #2b323f;
+        color: #fff;
+        font-weight: 600;
+    }
+    .data-table th,
+    .data-table td {
+        border: 1px solid #3a4356;
+        padding: 0.5rem 0.75rem;
+        text-align: right;
+    }
+    .data-table th:first-child,
+    .data-table td:first-child {
+        text-align: left;
+    }
+
+    .param-card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .param-card {
+        background: #1a1f27;
+        border: 1px solid #3a4356;
+        border-radius: 8px;
+        padding: 1rem 1rem 0.5rem;
+        min-width: 220px;
+        max-width: 260px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+        flex: 0 0 auto;
+    }
+    .param-header {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.75rem;
+        border-bottom: 1px solid #3a4356;
+        padding-bottom: 0.5rem;
+    }
+    .param-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        padding: 0.2rem 0;
+    }
+    .param-key {
+        color: #9cb3ff;
+        margin-right: 0.5rem;
+    }
+    .param-val {
+        color: #fff;
+        font-feature-settings: "tnum";
+        font-variant-numeric: tabular-nums;
+    }
+
+    .plot-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+    .plot-block {
+        background: #1a1f27;
+        border: 1px solid #3a4356;
+        border-radius: 8px;
+        padding: 0.75rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+    }
+    .plot-img {
+        background: #0b0d10;
+        border-radius: 4px;
+        text-align: center;
+        padding: 0.5rem;
+    }
+    .plot-img img {
+        max-width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+    }
+    .plot-caption {
+        font-size: 0.75rem;
+        text-align: center;
+        color: #9cb3ff;
+        margin-top: 0.5rem;
+    }
+
+    .raw-block {
+        background: #1a1f27;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid #3a4356;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+        margin-top: 1rem;
+        font-size: 0.8rem;
+    }
+    .raw-block summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: #fff;
+    }
+    .raw-block pre {
+        color: #d5d9e0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-size: 0.7rem;
+        line-height: 1.4;
+        margin-top: 1rem;
+    }
+
+    .notes-block {
+        font-size: 0.8rem;
+        line-height: 1.5;
+        color: #d5d9e0;
+        background: #1a1f27;
+        border: 1px solid #3a4356;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 2rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+    }
+    .notes-block ul {
+        margin: 0;
+        padding-left: 1.2rem;
+    }
+    .notes-block li {
+        margin-bottom: 0.5rem;
+    }
+
+    .meta {
+        font-size: 0.7rem;
+        color: #9cb3ff;
+        margin-bottom: 2rem;
+    }
+    </style>
+    
+    </head>
+    <body>
+
+      
+    <h1>PBUF Cosmology Report</h1>
+    <div class="meta">
+      Generated: 2025-10-26 07:35:20 UTC<br/>
+      Models compared: LCDM, PBUF<br/>
+      Datasets: CMB, SN, BAO_ISO, BAO_ANISO, CC, RSD
+    </div>
+    
+
+      
+    <div class="section">
+      <h2>1. Per-Dataset Statistical Summary</h2>
+    </div>
+    
+      <p>
+        χ², AIC, and BIC reported for each dataset (CMB, SN, BAO, CC, RSD)
+        under each model. Δ columns are computed as (PBUF - LCDM).
+        Positive ΔAIC means statistical preference for LCDM.
+      </p>
+      
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Dataset</th>
+          <th>χ² LCDM</th>
+          <th>χ² PBUF</th>
+          <th>Δχ² (PBUF-LCDM)</th>
+          <th>AIC LCDM</th>
+          <th>AIC PBUF</th>
+          <th>ΔAIC</th>
+          <th>BIC LCDM</th>
+          <th>BIC PBUF</th>
+          <th>ΔBIC</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>CMB</td>
+          <td>0.0008</td>
+          <td>0.0011</td>
+          <td>0.0003</td>
+          <td>4.0008</td>
+          <td>6.0011</td>
+          <td>2.0003</td>
+          <td>7.0008</td>
+          <td>10.0011</td>
+          <td>3.0003</td>
+        </tr>
+        
+        <tr>
+          <td>SN</td>
+          <td>1.4338</td>
+          <td>24.9069</td>
+          <td>23.4731</td>
+          <td>5.4338</td>
+          <td>28.9069</td>
+          <td>23.4731</td>
+          <td>8.4338</td>
+          <td>31.9069</td>
+          <td>23.4731</td>
+        </tr>
+        
+        <tr>
+          <td>BAO_ISO</td>
+          <td>7.15e+05</td>
+          <td>1.56e+06</td>
+          <td>8.45e+05</td>
+          <td>7.15e+05</td>
+          <td>1.56e+06</td>
+          <td>8.45e+05</td>
+          <td>7.15e+05</td>
+          <td>1.56e+06</td>
+          <td>8.45e+05</td>
+        </tr>
+        
+        <tr>
+          <td>BAO_ANISO</td>
+          <td>4125.0992</td>
+          <td>7793.2360</td>
+          <td>3668.1368</td>
+          <td>4129.0992</td>
+          <td>7799.2360</td>
+          <td>3670.1368</td>
+          <td>4132.0992</td>
+          <td>7805.2360</td>
+          <td>3673.1368</td>
+        </tr>
+        
+        <tr>
+          <td>CC</td>
+          <td>14.4223</td>
+          <td>134.4425</td>
+          <td>120.0202</td>
+          <td>18.4223</td>
+          <td>138.4425</td>
+          <td>120.0202</td>
+          <td>21.4223</td>
+          <td>141.4425</td>
+          <td>120.0202</td>
+        </tr>
+        
+        <tr>
+          <td>RSD</td>
+          <td>242.8277</td>
+          <td>639.6805</td>
+          <td>396.8528</td>
+          <td>248.8277</td>
+          <td>645.6805</td>
+          <td>396.8528</td>
+          <td>251.8277</td>
+          <td>648.6805</td>
+          <td>396.8528</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+
+      
+    <div class="section">
+      <h2>2. Global Fit Quality</h2>
+    </div>
+    
+      <p>
+        Total χ², information criteria, and reduced χ² across all datasets
+        jointly considered. Reduced χ² close to 1 indicates statistically
+        acceptable fit relative to number of data points and parameters.
+      </p>
+      
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>χ² total</th>
+          <th>AIC total</th>
+          <th>BIC total</th>
+          <th>Reduced χ²</th>
+          <th># Data</th>
+          <th># Params</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>LCDM</td>
+          <td>7.19e+05</td>
+          <td>7.19e+05</td>
+          <td>7.19e+05</td>
+          <td>1.002345</td>
+          <td>717500</td>
+          <td>6</td>
+        </tr>
+        
+        <tr>
+          <td>PBUF</td>
+          <td>1.57e+06</td>
+          <td>1.57e+06</td>
+          <td>1.57e+06</td>
+          <td>2.004123</td>
+          <td>782500</td>
+          <td>7</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+
+      
+    <div class="section">
+      <h2>3. Model Preference Metrics</h2>
+    </div>
+    
+      <p>
+        ΔAIC and ΔBIC are standard evidence metrics. Lower AIC/BIC is better.
+      </p>
+      
+    <table class="data-table small">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Value</th>
+          <th>Preferred Model</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ΔAIC (PBUF-LCDM)</td>
+          <td>8.50e+05</td>
+          <td>LCDM</td>
+        </tr>
+        <tr>
+          <td>ΔBIC (PBUF-LCDM)</td>
+          <td>8.50e+05</td>
+          <td>LCDM</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="explain">
+      Lower AIC/BIC indicates stronger statistical support after penalizing
+      extra parameters. |ΔAIC| ≳ 10 is usually considered strong evidence.
+    </p>
+    
+
+      
+    <div class="section">
+      <h2>4. Best-Fit Parameter Cards</h2>
+    </div>
+    
+      <p>
+        Model parameter values collected from each dataset module. These
+        are the cosmological parameters as inferred under that model
+        configuration. Displayed values are direct numbers (no uncertainties yet).
+      </p>
+      <div class='param-card-container'>
+        <div class="param-card">
+            <div class="param-header">LCDM Parameters</div>
+            
+                <div class="param-row">
+                    <div class="param-key">H0</div>
+                    <div class="param-val">67.400000</div>
+                </div>
+                
+                <div class="param-row">
+                    <div class="param-key">Omega_m</div>
+                    <div class="param-val">0.315000</div>
+                </div>
+                
+                <div class="param-row">
+                    <div class="param-key">Omega_b</div>
+                    <div class="param-val">0.049000</div>
+                </div>
+                
+        </div>
+        
+        <div class="param-card">
+            <div class="param-header">PBUF Parameters</div>
+            
+                <div class="param-row">
+                    <div class="param-key">H0</div>
+                    <div class="param-val">68.100000</div>
+                </div>
+                
+                <div class="param-row">
+                    <div class="param-key">Omega_m</div>
+                    <div class="param-val">0.298000</div>
+                </div>
+                
+                <div class="param-row">
+                    <div class="param-key">Omega_buf</div>
+                    <div class="param-val">0.050000</div>
+                </div>
+                
+        </div>
+        </div>
+
+      
+    <div class="section">
+      <h2>5. Key Diagnostic Plots</h2>
+    </div>
+    
+      <p>
+        These plots are generated from the cosmological solvers (LCDM and PBUF).
+        They cover expansion history, SN distance ladder, BAO rulers, growth
+        rate, CMB distance priors, and total χ² contributions.
+      </p>
+      <div class='plot-gallery'>
+        <div class="plot-block">
+            <div class="plot-img">
+                <img src="plots/hubble_comparison.png" alt="H(z) — Cosmic Chronometers"/>
+            </div>
+            <div class="plot-caption">H(z) — Cosmic Chronometers</div>
+        </div>
+        
+        <div class="plot-block">
+            <div class="plot-img">
+                <img src="plots/sn_distance_modulus.png" alt="Supernova Hubble Diagram μ(z)"/>
+            </div>
+            <div class="plot-caption">Supernova Hubble Diagram μ(z)</div>
+        </div>
+        
+        <div class="plot-block">
+            <div class="plot-img">
+                <img src="plots/bao_isotropic.png" alt="BAO Isotropic (D_V / r_d)"/>
+            </div>
+            <div class="plot-caption">BAO Isotropic (D_V / r_d)</div>
+        </div>
+        
+        <div class="plot-block">
+            <div class="plot-img">
+                <img src="plots/bao_anisotropic.png" alt="BAO Anisotropic (D_M/r_d and H(z) r_d / c)"/>
+            </div>
+            <div class="plot-caption">BAO Anisotropic (D_M/r_d and H(z) r_d / c)</div>
+        </div>
+        
+        <div class="plot-block">
+            <div class="plot-img">
+                <img src="plots/cmb_observables.png" alt="CMB Distance Priors (R, ℓ_A, θ*)"/>
+            </div>
+            <div class="plot-caption">CMB Distance Priors (R, ℓ_A, θ*)</div>
+        </div>
+        
+        <div class="plot-block">
+            <div class="plot-img">
+                <img src="plots/rsd_growth.png" alt="Growth Rate fσ₈(z) — RSD"/>
+            </div>
+            <div class="plot-caption">Growth Rate fσ₈(z) — RSD</div>
+        </div>
+        
+        <div class="plot-block">
+            <div class="plot-img">
+                <img src="plots/joint_chi2_breakdown.png" alt="χ² Contribution by Dataset"/>
+            </div>
+            <div class="plot-caption">χ² Contribution by Dataset</div>
+        </div>
+        </div>
+
+      
+    <div class="section">
+      <h2>6. Full Run Metadata / Audit Record</h2>
+    </div>
+    
+      <p>
+        Raw structured dump of the statistics object used to produce this report.
+        This is your audit trail. You can diff this between runs, archive it to
+        git, and attach it to reproducibility appendices.
+      </p>
+      
+    <details class="raw-block">
+      <summary>Raw statistics object (click to expand)</summary>
+      <pre>{
+  "models": {
+    "LCDM": {
+      "chi2_total": 719334.6211,
+      "AIC_total": 719364.6211,
+      "BIC_total": 719394.6211,
+      "chi2_reduced_total": 1.002345,
+      "n_data_total": 717500,
+      "n_params_total": 6
+    },
+    "PBUF": {
+      "chi2_total": 1568831.2328,
+      "AIC_total": 1568891.2328,
+      "BIC_total": 1568941.2328,
+      "chi2_reduced_total": 2.004123,
+      "n_data_total": 782500,
+      "n_params_total": 7
+    }
+  },
+  "datasets": {
+    "CMB": {
+      "LCDM": {
+        "chi2": 0.0008,
+        "AIC": 4.0008,
+        "BIC": 7.0008,
+        "parameters": {
+          "H0": 67.4,
+          "Omega_m": 0.315,
+          "Omega_b": 0.049
+        }
+      },
+      "PBUF": {
+        "chi2": 0.0011,
+        "AIC": 6.0011,
+        "BIC": 10.0011,
+        "parameters": {
+          "H0": 68.1,
+          "Omega_m": 0.298,
+          "Omega_buf": 0.05
+        }
+      }
+    },
+    "SN": {
+      "LCDM": {
+        "chi2": 1.4338,
+        "AIC": 5.4338,
+        "BIC": 8.4338
+      },
+      "PBUF": {
+        "chi2": 24.9069,
+        "AIC": 28.9069,
+        "BIC": 31.9069
+      }
+    },
+    "BAO_ISO": {
+      "LCDM": {
+        "chi2": 714950.0,
+        "AIC": 714950.0,
+        "BIC": 714950.0
+      },
+      "PBUF": {
+        "chi2": 1560200.0,
+        "AIC": 1560200.0,
+        "BIC": 1560200.0
+      }
+    },
+    "BAO_ANISO": {
+      "LCDM": {
+        "chi2": 4125.0992,
+        "AIC": 4129.0992,
+        "BIC": 4132.0992
+      },
+      "PBUF": {
+        "chi2": 7793.236,
+        "AIC": 7799.236,
+        "BIC": 7805.236
+      }
+    },
+    "CC": {
+      "LCDM": {
+        "chi2": 14.4223,
+        "AIC": 18.4223,
+        "BIC": 21.4223
+      },
+      "PBUF": {
+        "chi2": 134.4425,
+        "AIC": 138.4425,
+        "BIC": 141.4425
+      }
+    },
+    "RSD": {
+      "LCDM": {
+        "chi2": 242.8277,
+        "AIC": 248.8277,
+        "BIC": 251.8277
+      },
+      "PBUF": {
+        "chi2": 639.6805,
+        "AIC": 645.6805,
+        "BIC": 648.6805
+      }
+    }
+  },
+  "global": {
+    "comparison": {
+      "\u0394AIC (PBUF-LCDM)": 849526.6117,
+      "\u0394BIC (PBUF-LCDM)": 849546.6117,
+      "preferred_model_AIC": "LCDM",
+      "preferred_model_BIC": "LCDM"
+    }
+  }
+}</pre>
+    </details>
+    
+
+      
+    <div class="section">
+      <h2>7. Methodology Notes</h2>
+    </div>
+    
+      
+    <div class="notes-block">
+      <h3>Methodology Notes</h3>
+      <ul>
+        <li>χ² values are absolute unless explicitly labeled as "reduced χ²".</li>
+        <li>AIC and BIC penalize models with more free parameters; lower is preferred.</li>
+        <li>ΔAIC and ΔBIC are reported as (MODEL_B - MODEL_A); positive values
+            indicate stronger statistical support for MODEL_A.</li>
+        <li>SN = luminosity distance vs redshift (Pantheon+ style).<br/>
+            BAO = acoustic standard ruler constraints from galaxy clustering.<br/>
+            CC = cosmic chronometers, differential ages → H(z).<br/>
+            RSD = fσ₈(z) growth constraints from redshift-space distortions.<br/>
+            CMB = Planck 2018 compressed distance priors (R, ℓ<sub>A</sub>, θ<sub>*</sub>).</li>
+        <li>All plots were generated directly from the cosmology module for each model
+            (ΛCDM and PBUF) using the same test parameters that were used to compute χ².</li>
+      </ul>
+    </div>
+    
+
+    </body>
+    </html>
+    
