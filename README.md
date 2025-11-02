@@ -7,7 +7,7 @@
 | Affiliation | Independent Researcher, Cosmos Engine Project |
 | Version | v10 Baseline A (2025) |
 | ORCID | 0009-0009-7125-8547 |
-| DOI | [https://doi.org/10.5281/zenodo.17394412](https://doi.org/10.5281/zenodo.17507682) |
+| DOI | [https://doi.org/10.5281/zenodo.17507682](https://doi.org/10.5281/zenodo.17507682) |
 | GitHub | https://github.com/TheExiledMonk/PBUF |
 
 This repository hosts the automation and reporting pipeline used to reproduce the cosmological analyses behind **PBUF v10: The Planck-Bound Unified Framework**. The tooling sits on top of the **Cosmos Engine v1.0 (beta)** runtime and orchestrates coordinated ΛCDM/PBUF comparisons, provenance capture, and publication-ready reporting.
