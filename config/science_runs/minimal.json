@@ -1,0 +1,75 @@
+{
+  "run_id": "minimal_run",
+  "description": "Small-footprint run covering scout passes for key datasets and a final joint optimisation.",
+  "joint_config": {
+    "fits": ["cmb", "cc", "rsd"]
+  },
+  "parameter_bounds": {
+    "lcdm": {
+      "H0": [65, 75],
+      "Omega_m0": [0.25, 0.35],
+      "Omega_b0": [0.02, 0.05],
+      "Omega_k0": [-0.03, 0.03]
+    },
+    "pbuf": {
+      "H0": [65, 75],
+      "Omega_m0": [0.25, 0.35],
+      "Omega_b0": [0.02, 0.03],
+      "Rmax": [5e6, 1e8]
+    }
+  },
+
+  "models": ["lcdm", "pbuf"],
+
+  "scenarios": [
+    {
+      "id": "scout_cmb",
+      "mode": "scout",
+      "datasets": ["cmb"],
+      "notes": "Warm up H0/Omega_m0 and sanity checks against Planck distance priors."
+    },
+    {
+      "id": "scout_cc",
+      "mode": "scout",
+      "datasets": ["cc"],
+      "notes": "Review cosmic chronometers before committing to the joint stage."
+    },
+    {
+      "id": "scout_rsd",
+      "mode": "scout",
+      "datasets": ["rsd"],
+      "notes": "Probe the growth-rate likelihood to seed the basin walkers."
+    },
+    {
+      "id": "joint_minimal",
+      "mode": "fit",
+      "datasets": ["cmb", "cc", "rsd"],
+      "notes": "Full multi-probe optimisation after the scouts."
+    }
+  ],
+
+  "engine_settings": {
+    "n_threads": 20,
+    "n_scatter": 500,
+    "n_seeds": 30,
+    "n_refine": 100,
+    "seed": 42,
+    "grid_points": 5
+  },
+
+  "priors": {
+    "lcdm": {},
+    "pbuf": {}
+  },
+
+  "reporting": {
+    "record_dof": true,
+    "write_optimizer_trace": true
+  },
+
+  "output_root": "data/science_runs/minimal",
+
+  "env_meta": {
+    "notes": "Minimal coverage run with scouts + joint stage."
+  }
+}

@@ -1,5 +1,5 @@
-# Project-specific ignores
-venv/
+.venv/
 data/raw/
-__pycache__/
-.pytest_cache/
+data/quantum
+.pytest_cache
+__pytest__

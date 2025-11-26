@@ -1,0 +1,58 @@
+{
+  "run_id": "minimal_joint",
+  "description": "Joint fit over CMB, CC, and RSD using LCDM + PBUF.",
+  "joint_config": {
+    "fits": ["cmb", "cc", "rsd"]
+  },
+  "parameter_bounds": {
+    "lcdm": {
+      "H0": [65, 75],
+      "Omega_m0": [0.25, 0.35],
+      "Omega_b0": [0.02, 0.05],
+      "Omega_k0": [-0.03, 0.03]
+    },
+    "pbuf": {
+      "H0": [65, 75],
+      "Omega_m0": [0.25, 0.35],
+      "Omega_b0": [0.02, 0.03],
+      "Rmax": [5e6, 1e8]
+    }
+  },
+  "models": ["lcdm", "pbuf"],
+  "scenarios": [
+    {
+      "id": "joint_minimal",
+      "mode": "fit",
+      "datasets": ["cmb", "cc", "rsd"],
+      "notes": "Minimal multi-probe joint optimisation."
+    }
+  ],
+  "engine_settings": {
+    "n_threads": 20,
+    "workers": 20,
+    "n_scatter": 500,
+    "n_seeds": 50,
+    "n_refine": 200,
+    "batch_size": 256,
+    "seed": 42,
+    "grid_points": 9
+  },
+  "priors": {
+    "lcdm": {},
+    "pbuf": {}
+  },
+  "reporting": {
+    "record_dof": true,
+    "write_optimizer_trace": true
+  },
+  "output": {
+    "base_dir": "../../data/science_runs/minimal_joint",
+    "generate_plots": true,
+    "generate_reports": true,
+    "report_formats": ["json", "html"],
+    "save_space": false
+  },
+  "env_meta": {
+    "notes": "Minimal joint run over three anchors."
+  }
+}

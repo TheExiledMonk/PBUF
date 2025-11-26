@@ -1,0 +1,24 @@
+{
+  "fits": [
+    "cmb",
+    "bao_iso",
+    "bao_aniso",
+    "sn",
+    "sh0es",
+    "cc",
+    "rsd",
+    "wl_s8"
+  ],
+  "fit_weights": {
+    "cmb": 1.0,
+    "bao_iso": 1.0,
+    "bao_aniso": 1.0,
+    "sn": 1.0,
+    "sh0es": 1.0,
+    "cc": 1.0,
+    "rsd": 1.0,
+    "wl_s8": 1.0,
+    "galaxy_pk": 1.0,
+    "lensing_x": 1.0
+  }
+}

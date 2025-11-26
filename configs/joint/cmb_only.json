@@ -1,0 +1,8 @@
+{
+  "fits": [
+    "cmb"
+  ],
+  "fit_weights": {
+    "cmb": 1.0
+  }
+}

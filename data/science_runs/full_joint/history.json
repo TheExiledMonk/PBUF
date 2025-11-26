@@ -1,0 +1,82 @@
+[
+  {
+    "run_name": "full_joint",
+    "timestamp": "2025-11-25T142806",
+    "model": "pbuf",
+    "best_chi2": 53163.58588882194,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Full joint fit over CMB, SN, BAO anisotropic, CC, and RSD for LCDM + PBUF.",
+    "success": true
+  },
+  {
+    "run_name": "full_joint",
+    "timestamp": "2025-11-25T232736",
+    "model": "lcdm",
+    "best_chi2": 1176.221013117408,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Full joint fit over CMB, SN, BAO anisotropic, CC, and RSD for LCDM + PBUF.",
+    "success": true
+  },
+  {
+    "run_name": "full_joint",
+    "timestamp": "2025-11-25T232736",
+    "model": "pbuf",
+    "best_chi2": 991.5866258266559,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Full joint fit over CMB, SN, BAO anisotropic, CC, and RSD for LCDM + PBUF.",
+    "success": true
+  },
+  {
+    "run_name": "full_joint",
+    "timestamp": "2025-11-26T052026",
+    "model": "lcdm",
+    "best_chi2": 1176.221013117408,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Full joint fit over CMB, SN, BAO anisotropic, CC, and RSD for LCDM + PBUF.",
+    "success": true
+  },
+  {
+    "run_name": "full_joint",
+    "timestamp": "2025-11-26T052026",
+    "model": "pbuf",
+    "best_chi2": 991.5812950260733,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Full joint fit over CMB, SN, BAO anisotropic, CC, and RSD for LCDM + PBUF.",
+    "success": true
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "a_curv_min": 1e-6,
+  "a_curv_max": 1.0,
+  "n_curv_points": 200,
+  "curv_factor": 1.5,
+  "curv_fraction_tolerance": 0.05,
+  "curv_eps": 1e-30,
+  "baseline_max_ratio": 1.4e6,
+  "a_min_global": 1e-8,
+  "a_min_curv": 1e-3,
+  "n_global_points": 300,
+  "n_early_points": 120,
+  "n_elastic_points": 240,
+  "eps_early_max": 1e-3,
+  "early_monotonic_tol": 1e-8,
+  "df_max": 0.75,
+  "f_el_min": 0.01,
+  "f_el_max": 0.3
+}

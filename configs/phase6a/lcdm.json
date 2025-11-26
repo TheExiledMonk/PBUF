@@ -1,0 +1,9 @@
+{
+  "a_curv_min": 1e-6,
+  "a_curv_max": 1.0,
+  "n_curv_points": 200,
+  "curv_factor": 1.2,
+  "curv_fraction_tolerance": 0.05,
+  "curv_eps": 1e-30,
+  "baseline_max_ratio": 1.4e6
+}

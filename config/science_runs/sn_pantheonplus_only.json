@@ -1,0 +1,58 @@
+{
+  "run_id": "sn_pantheonplus_only",
+  "description": "Single-fit run for SN Pantheon+ only (LCDM + PBUF).",
+  "joint_config": {
+    "fits": ["sn_pantheonplus"]
+  },
+  "parameter_bounds": {
+    "lcdm": {
+      "H0": [65, 75],
+      "Omega_m0": [0.25, 0.35],
+      "Omega_b0": [0.02, 0.05],
+      "Omega_k0": [-0.03, 0.03]
+    },
+    "pbuf": {
+      "H0": [65, 75],
+      "Omega_m0": [0.25, 0.35],
+      "Omega_b0": [0.02, 0.05],
+      "Rmax": [5e6, 5e8]
+    }
+  },
+  "models": ["lcdm", "pbuf"],
+  "scenarios": [
+    {
+      "id": "fit_sn_pantheonplus",
+      "mode": "fit",
+      "datasets": ["sn_pantheonplus"],
+      "notes": "SN Pantheon+-only fit."
+    }
+  ],
+  "engine_settings": {
+    "n_threads": 20,
+    "workers": 20,
+    "n_scatter": 500,
+    "n_seeds": 40,
+    "n_refine": 100,
+    "batch_size": 16,
+    "seed": 42,
+    "grid_points": 9
+  },
+  "priors": {
+    "lcdm": {},
+    "pbuf": {}
+  },
+  "reporting": {
+    "record_dof": true,
+    "write_optimizer_trace": true
+  },
+  "output": {
+    "base_dir": "../../data/science_runs/sn_pantheonplus_only",
+    "generate_plots": true,
+    "generate_reports": true,
+    "report_formats": ["json", "html"],
+    "save_space": false
+  },
+  "env_meta": {
+    "notes": "Single-dataset SN Pantheon+ run."
+  }
+}

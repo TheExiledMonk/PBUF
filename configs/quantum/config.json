@@ -1,0 +1,13 @@
+{
+  "temperature_points": 512,
+  "dense_points": 32,
+  "t_min": 2.7255,
+  "t_max": 1000000000000.0,
+  "table_version": 12,
+  "method_version": 12,
+  "fit_samples": 128,
+  "fit_min": 1000.0,
+  "fit_max": 1000000000.0,
+  "fit_points": 48,
+  "engine_override_path": null
+}

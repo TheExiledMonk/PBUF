@@ -1,0 +1,26 @@
+{
+  "mean": {
+    "R": 1.7488,
+    "la": 301.76,
+    "theta_star": 0.010410999999999998
+  },
+  "covariance": [
+    [
+      5.4760000000000004e-05,
+      -0.0005563320000000002,
+      -9.717384e-09
+    ],
+    [
+      -0.0005563320000000002,
+      0.019600000000000003,
+      3.5023800000000004e-07
+    ],
+    [
+      -9.717384e-09,
+      3.5023800000000004e-07,
+      9.61e-12
+    ]
+  ],
+  "source": "Planck 2018 TT,TE,EE+lowE+lensing (Table 2 of Planck 2018 paper VI, arXiv:1807.06209)",
+  "note": "Compressed distance priors for CMB analysis. Covariance includes correlations from Planck 2018."
+}

@@ -1,0 +1,11 @@
+{
+  "model": "pbuf",
+  "version": 1,
+  "description": "System-level parameter constraints for PBUF",
+  "parameters": {
+    "H0":        [60, 80],
+    "Omega_m0":  [0.25, 0.35],
+    "Omega_b0":  [0.02, 0.05],
+    "Rmax":      [5e6, 1e8]
+  }
+}

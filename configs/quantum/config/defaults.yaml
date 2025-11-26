@@ -1,0 +1,39 @@
+source: "quantum_engine_v11"
+data:
+  root: "data/quantum"
+  events_dir: "data/standardized/quantum_real_events.npz"
+  events_search_roots:
+    - "data/quantum/events"
+    - "data/quantum/rigidity_events"
+    - "data/quantum"
+    - "outputs"
+  events_patterns:
+    - "*.json"
+    - "*.csv"
+    - "*.npz"
+  reports_dir: "outputs/quantum_state"
+  downloader_log: "logs/downloads_summary.json"
+e0:
+  time_window: 1000.0
+  eps_min: 0.8
+  eps_max: 1.2
+  steps: 500000
+  k_eps: 1.0
+  threads: 1
+alpha:
+  alpha_band: [0.01, 0.05]
+  mixing_range: [0.0001, 1.0]
+  mixing_samples: 400
+  regulators:
+    hard_cutoff: 0.019894367886486918
+    covariant: 0.026525823848649224
+    heat_kernel: 0.013262911924324612
+  field_sets:
+    SM_min: 80.0
+    SM_full: 110.0
+    SM_plus_heavy: 180.0
+  enforce_reproducibility: true
+  reference_field: "SM_full"
+  target_regulator: "hard_cutoff"
+  target_field_set: "SM_full"
+  warnings_threshold: 0.05

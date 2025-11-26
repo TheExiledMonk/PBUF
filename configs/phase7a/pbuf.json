@@ -1,0 +1,25 @@
+{
+  "alpha_max_abs": 0.1,
+  "alpha_step_max": 0.01,
+  "epsilon0_max": 2.0,
+  "epsilon0_step_max": 0.02,
+  "k_sat_step_max": 0.02,
+  "Rmax_min": 1e5,
+  "Rmax_max": 1e10,
+  "Rmax_step_factor": 3.0,
+
+  "df_max": 3.0,
+  "curv_ratio_max": 5e9,
+  "curv_ratio_fraction": 0.30,
+
+  "alpha_deriv_max": 30.0,
+  "epsilon_deriv_max": 30.0,
+  "H_monotonic_rel_tol": 0.05,
+
+  "a_min": 1e-6,
+  "a_max": 1.0,
+  "n_a": 300,
+
+  "early_lcdm_tol": 0.001,
+  "closure_tol": 0.08
+}

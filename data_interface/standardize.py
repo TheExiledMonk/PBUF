@@ -12,7 +12,7 @@ Each dataset must be a dict with the following keys:
 
     {
         "name": str,             # e.g. "Planck2018", "Pantheon+", "DR16"
-        "type": str,             # one of: "CMB", "SN", "BAO_ISO", "BAO_ANISO", "CC", "RSD"
+        "type": str,             # one of: "CMB", "SN", "BAO_ISO", "BAO_ANISO", "CC", "RSD", "WL"
         "z": np.ndarray | None,  # redshifts (None for CMB)
         "obs": np.ndarray,       # observed values (e.g. μ, R, D_V/rd, etc.)
         "err": np.ndarray | None,# 1σ uncertainties (optional if covariance provided)
@@ -38,7 +38,7 @@ def ensure_standard_dataset(data, expected_type: str):
     data : dict
         Input dataset dictionary (e.g. from loader or pipeline).
     expected_type : str
-        Expected dataset type (CMB, SN, BAO_ISO, BAO_ANISO, CC, RSD).
+        Expected dataset type (CMB, SN, BAO_ISO, BAO_ANISO, CC, RSD, WL).
 
     Returns
     -------
@@ -54,6 +54,11 @@ def ensure_standard_dataset(data, expected_type: str):
         raise ValueError(f"Dataset type mismatch: expected '{expected_type}', got '{dtype}'")
     data["type"] = dtype
 
+    # WL datasets have different validation requirements
+    if expected_type == "WL":
+        return _validate_wl_dataset_schema(data)
+
+    # Standard validation for other dataset types
     # Ensure required keys
     defaults = {
         "name": "unknown",
@@ -67,21 +72,107 @@ def ensure_standard_dataset(data, expected_type: str):
         data.setdefault(key, val)
 
     # Type & shape sanity checks
-    obs = np.asarray(data["obs"], dtype=float)
-    data["obs"] = obs
+    if data["obs"] is not None:
+        obs = np.asarray(data["obs"], dtype=float)
+        data["obs"] = obs
 
-    if data["err"] is not None:
-        err = np.asarray(data["err"], dtype=float)
-        if err.shape != obs.shape:
-            raise ValueError(f"obs/err shape mismatch: {obs.shape} vs {err.shape}")
-        data["err"] = err
+        if data["err"] is not None:
+            err = np.asarray(data["err"], dtype=float)
+            if err.shape != obs.shape:
+                raise ValueError(f"obs/err shape mismatch: {obs.shape} vs {err.shape}")
+            data["err"] = err
 
-    if data["cov"] is not None:
-        cov = np.asarray(data["cov"], dtype=float)
-        if cov.ndim != 2 or cov.shape[0] != cov.shape[1]:
-            raise ValueError(f"Invalid covariance matrix shape: {cov.shape}")
-        data["cov"] = cov
+        if data["cov"] is not None:
+            cov = np.asarray(data["cov"], dtype=float)
+            if cov.ndim != 2 or cov.shape[0] != cov.shape[1]:
+                raise ValueError(f"Invalid covariance matrix shape: {cov.shape}")
+            data["cov"] = cov
 
+    return data
+
+
+def _validate_wl_dataset_schema(data: dict):
+    """
+    Validate WL dataset against WL-specific schema requirements.
+    
+    Parameters
+    ----------
+    data : dict
+        WL dataset dictionary
+        
+    Returns
+    -------
+    dict
+        Validated WL dataset
+    """
+    import numpy as np
+    
+    # Ensure required standard keys exist (but may be None for WL)
+    defaults = {
+        "name": "unknown_wl_survey",
+        "z": None,
+        "obs": None, 
+        "err": None,
+        "cov": None,
+        "meta": {},
+    }
+    for key, val in defaults.items():
+        data.setdefault(key, val)
+    
+    # WL-specific required fields
+    wl_required = [
+        "theta_bins", "data_vector", "covariance", "tomo_pairs",
+        "n_of_z", "z_grid", "shear_m"
+    ]
+    
+    for field in wl_required:
+        if field not in data:
+            raise ValueError(f"Missing required WL field: {field}")
+    
+    # Validate WL field types and basic structure
+    data["theta_bins"] = np.asarray(data["theta_bins"], dtype=float)
+    data["data_vector"] = np.asarray(data["data_vector"], dtype=float)
+    data["covariance"] = np.asarray(data["covariance"], dtype=float)
+    data["z_grid"] = np.asarray(data["z_grid"], dtype=float)
+    data["shear_m"] = np.asarray(data["shear_m"], dtype=float)
+    
+    # Handle tomo_pairs (convert from numpy array if needed)
+    tomo_pairs = data["tomo_pairs"]
+    if isinstance(tomo_pairs, np.ndarray):
+        if tomo_pairs.ndim == 2:
+            data["tomo_pairs"] = [(int(tomo_pairs[i, 0]), int(tomo_pairs[i, 1])) for i in range(tomo_pairs.shape[0])]
+        else:
+            raise ValueError(f"tomo_pairs array must be 2D, got shape {tomo_pairs.shape}")
+    elif isinstance(tomo_pairs, (list, tuple)):
+        data["tomo_pairs"] = [(int(pair[0]), int(pair[1])) for pair in tomo_pairs]
+    else:
+        raise ValueError("tomo_pairs must be list/array of pairs")
+    
+    # Validate n_of_z as list of arrays (handle numpy array from npz files)
+    n_of_z = data["n_of_z"]
+    if isinstance(n_of_z, np.ndarray):
+        # Convert from 2D numpy array (from npz file) to list of 1D arrays
+        if n_of_z.ndim == 2:
+            data["n_of_z"] = [n_of_z[i] for i in range(n_of_z.shape[0])]
+        else:
+            raise ValueError(f"n_of_z array must be 2D, got shape {n_of_z.shape}")
+    elif isinstance(n_of_z, (list, tuple)):
+        data["n_of_z"] = [np.asarray(nz, dtype=float) for nz in n_of_z]
+    else:
+        raise ValueError("n_of_z must be list/array of arrays")
+    
+    # Basic shape validation
+    if data["theta_bins"].ndim != 1:
+        raise ValueError(f"theta_bins must be 1D, got shape {data['theta_bins'].shape}")
+    if data["data_vector"].ndim != 1:
+        raise ValueError(f"data_vector must be 1D, got shape {data['data_vector'].shape}")
+    if data["covariance"].ndim != 2:
+        raise ValueError(f"covariance must be 2D, got shape {data['covariance'].shape}")
+    if data["covariance"].shape[0] != data["covariance"].shape[1]:
+        raise ValueError(f"covariance must be square, got shape {data['covariance'].shape}")
+    if data["covariance"].shape[0] != len(data["data_vector"]):
+        raise ValueError(f"covariance size {data['covariance'].shape[0]} != data_vector length {len(data['data_vector'])}")
+    
     return data
 
 
@@ -287,6 +378,57 @@ def convert_rsd_to_standard(rsd_data: dict):
     }
 
 
+def convert_wl_to_standard(wl_data: dict):
+    """
+    Convert legacy WL loader format to standard PBUF format.
+
+    Parameters
+    ----------
+    wl_data : dict
+        Legacy WL data from wl_loader.py
+
+    Returns
+    -------
+    dict
+        Standardized WL dataset
+    """
+    import numpy as np
+    
+    # WL datasets use different field names than standard schema
+    standardized = {
+        "name": wl_data.get("name", "WL_survey"),
+        "type": "WL",
+        "z": None,  # WL uses z_grid instead
+        "obs": None,  # WL uses data_vector instead
+        "err": None,  # WL uses covariance instead
+        "cov": None,  # WL uses covariance instead
+        "meta": wl_data.get("meta", {}),
+        
+        # WL-specific fields
+        "theta_bins": np.asarray(wl_data["theta_bins"], dtype=float),
+        "data_vector": np.asarray(wl_data["data_vector"], dtype=float),
+        "covariance": np.asarray(wl_data["covariance"], dtype=float),
+        "tomo_pairs": wl_data["tomo_pairs"],
+        "n_of_z": [np.asarray(nz, dtype=float) for nz in wl_data["n_of_z"]],
+        "z_grid": np.asarray(wl_data["z_grid"], dtype=float),
+        "shear_m": np.asarray(wl_data["shear_m"], dtype=float),
+    }
+    
+    # Optional fields
+    if "S8_obs" in wl_data:
+        standardized["S8_obs"] = wl_data["S8_obs"]
+    
+    # Ensure meta has required WL fields
+    meta = standardized["meta"]
+    meta.setdefault("survey", standardized["name"])
+    meta.setdefault("observable", "cosmic shear ξ±(θ)")
+    meta.setdefault("theta_units", "arcmin")
+    meta.setdefault("data_order", "xi_plus_then_xi_minus")
+    meta.setdefault("n_tomo_bins", len(standardized["n_of_z"]))
+    
+    return standardized
+
+
 # -------------------------------------------------------------------------
 # Batch converter for all datasets
 # -------------------------------------------------------------------------
@@ -311,6 +453,7 @@ def standardize_all_datasets(datasets: dict):
         "cmb": convert_cmb_to_standard,
         "cc": convert_cc_to_standard,
         "rsd": convert_rsd_to_standard,
+        "wl": convert_wl_to_standard,
     }
 
     standardized = {}

@@ -1,0 +1,18 @@
+{
+  "max_iterations": 1000,
+  "initial_samples": 600,
+  "main_step_scale": 0.2,
+  "threads": 20,
+  "dataset_weights": {
+    "cmb": 1.0,
+    "bao_iso": 1.0,
+    "bao_aniso": 1.0,
+    "sn": 1.0,
+    "sh0es": 1.0,
+    "cc": 1.0,
+    "rsd": 1.0,
+    "wl_s8": 1.0,
+    "lensing_cross": 1.0,
+    "galaxy_pk": 1.0
+  }
+}

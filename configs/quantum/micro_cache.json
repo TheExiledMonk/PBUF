@@ -1,0 +1,129 @@
+{
+  "T_star": 689427.0089680285,
+  "alpha_error": 0.011070170717513499,
+  "alpha_qm": 0.02204192849386733,
+  "beta": 2.9540635075758708,
+  "dense_points": 32,
+  "engine_override_path": null,
+  "engine_source": "quantum_engine_v11",
+  "eps0_base": 0.9999995999992,
+  "eps0_error": 0.0,
+  "f_coup": 0.10681574949464218,
+  "f_cut": 0.6759873752010777,
+  "field_content": "SM_full",
+  "iterations": 512,
+  "k_eps": 1.0,
+  "method_version": 12,
+  "mixing_strength": 0.3458176201952377,
+  "power_index": 0.1,
+  "regulator": "hard_cutoff",
+  "run_metadata": {
+    "config_used": {
+      "alpha": {
+        "alpha_band": [
+          0.01,
+          0.05
+        ],
+        "enforce_reproducibility": true,
+        "field_sets": {
+          "SM_full": 110.0,
+          "SM_min": 80.0,
+          "SM_plus_heavy": 180.0
+        },
+        "mixing_range": [
+          0.0001,
+          1.0
+        ],
+        "mixing_samples": 400,
+        "reference_field": "SM_full",
+        "regulators": {
+          "covariant": 0.026525823848649224,
+          "hard_cutoff": 0.019894367886486918,
+          "heat_kernel": 0.013262911924324612
+        },
+        "target_field_set": "SM_full",
+        "target_regulator": "hard_cutoff",
+        "warnings_threshold": 0.05
+      },
+      "data": {
+        "downloader_log": "/home/fabian/PBUF5-optimise/logs/downloads_summary.json",
+        "events_dir": "/home/fabian/PBUF5-optimise/data/standardized/quantum_real_events.npz",
+        "events_patterns": [
+          "*.json",
+          "*.csv",
+          "*.npz"
+        ],
+        "events_search_roots": [
+          "/home/fabian/PBUF5-optimise/data/quantum/events",
+          "/home/fabian/PBUF5-optimise/data/quantum/rigidity_events",
+          "/home/fabian/PBUF5-optimise/data/quantum",
+          "/home/fabian/PBUF5-optimise/outputs"
+        ],
+        "reports_dir": "/home/fabian/PBUF5-optimise/outputs/quantum_state",
+        "root": "/home/fabian/PBUF5-optimise/data/quantum"
+      },
+      "eps_max": 1.2,
+      "eps_min": 0.8,
+      "k_eps": 1.0,
+      "source": "quantum_engine_v11",
+      "steps": 500000,
+      "threads": 1,
+      "time_window": 1000.0
+    },
+    "paths": {
+      "data_root": "/home/fabian/PBUF5-optimise/data/quantum",
+      "downloader_log": "/home/fabian/PBUF5-optimise/logs/downloads_summary.json",
+      "event_files": [
+        "/home/fabian/PBUF5-optimise/data/standardized/quantum_real_events.npz"
+      ],
+      "events": "/home/fabian/PBUF5-optimise/data/standardized/quantum_real_events.npz",
+      "reports_dir": "/home/fabian/PBUF5-optimise/outputs/quantum_state"
+    },
+    "stats": {
+      "alpha": {
+        "band_hits": 343,
+        "field_count": 3,
+        "mixing_range": [
+          0.0001,
+          1.0
+        ],
+        "mixing_samples": 400,
+        "regulator_count": 3,
+        "total_samples": 3600
+      },
+      "end_time": "2025-11-26T05:19:59.874477+00:00",
+      "event_source_type": "file",
+      "events": {
+        "best_loglike": -2.3694788826082947e+21,
+        "eps_range": [
+          0.8,
+          1.2
+        ],
+        "event_count": 8,
+        "interval_68": [
+          0.9999995999992,
+          0.9999995999992
+        ],
+        "interval_95": [
+          0.9999995999992,
+          0.9999995999992
+        ],
+        "raw_event_count": 8,
+        "scan_steps": 500000
+      },
+      "k_eps": 1.0,
+      "runtime_seconds": 11.655808,
+      "start_time": "2025-11-26T05:19:48.218669+00:00",
+      "threads": 1,
+      "time_window": 1000.0
+    },
+    "warnings": []
+  },
+  "t_max": 1000000000000.0,
+  "t_min": 2.7255,
+  "table_version": 12,
+  "temperature_points": 512,
+  "thermal_mode": "exp",
+  "threads": 1,
+  "time_window": 1000.0
+}

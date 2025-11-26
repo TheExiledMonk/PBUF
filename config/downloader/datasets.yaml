@@ -1,0 +1,41 @@
+datasets:
+  bao_aniso:
+    url: https://data.sdss.org/sas/dr12/boss/papers/clustering/BAO_consensus_boss_dr12.json
+    notes: >-
+      BOSS DR12 consensus BAO anisotropic measurements (α⊥, α∥, and related
+      compression variables).
+    filename: BAO_consensus_boss_dr12.json
+    expected_files:
+      - BAO_consensus_boss_dr12.json
+  bao_eBOSS:
+    url: https://data.sdss.org/sas/dr16/eboss/papers/clustering/eBOSS_LRG_bao_consensus.json
+    notes: eBOSS LRG BAO consensus measurements.
+    filename: eBOSS_LRG_bao_consensus.json
+    expected_files:
+      - eBOSS_LRG_bao_consensus.json
+  cc_cosmic_chronometers_compilation:
+    url: https://arxiv.org/src/1807.06209v3/anc/cosmic_chronometers.txt
+    notes: Compilation of cosmic chronometer H(z) measurements.
+    filename: cosmic_chronometers.txt
+    expected_files:
+      - cosmic_chronometers.txt
+  pantheon_sn:
+    url: https://github.com/dscolnic/Pantheon/archive/refs/heads/master.zip
+    notes: Pantheon+ supernova compilation (CSV/covariance matrix).
+    filename: Pantheon-master.zip
+    expected_files:
+      - Pantheon/data/Pantheon.dat
+      - Pantheon/data/sys_full_long.txt
+  planck2018_distance_priors:
+    url: https://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_CosmoParams_R3.00.zip
+    notes: Planck 2018 distance priors and derived parameters (R, l_A, θ_* from table VI).
+    filename: COM_CosmoParams_R3.00.zip
+    expected_files:
+      - COM_PowerSpect_CMB_R3.00.zip
+      - COM_CosmoParams_R3.00.pdf
+  rsd_fsigma8_compilation:
+    url: https://arxiv.org/src/1801.02656v3/anc/fsigma8_compilation.txt
+    notes: Compilation of redshift-space distortion fσ₈ measurements.
+    filename: fsigma8_compilation.txt
+    expected_files:
+      - fsigma8_compilation.txt

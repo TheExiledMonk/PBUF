@@ -1,0 +1,60 @@
+{
+  "model": "lcdm",
+  "datasets": [
+    "cmb"
+  ],
+  "result": {
+    "best_chi2": 2.871374700471983,
+    "best_parameters": {
+      "H0": 65.01060407002545,
+      "Omega_m0": 0.33053058449260897,
+      "Omega_b0": 0.059948610640803375,
+      "Omega_r0": 9e-05,
+      "Omega_k0": -0.0037249023953266265
+    },
+    "dataset_results": {
+      "cmb": {
+        "dataset_name": "cmb",
+        "chi2": 2.871374700471983,
+        "status": "ok",
+        "reasons": []
+      }
+    },
+    "phase6a_passed": true,
+    "timestamp": "2025-11-17T03:54:49.401786+00:00",
+    "quantum_metadata": {
+      "micro_hash": null,
+      "thermal_table_path": null,
+      "datasets": [
+        "cmb"
+      ],
+      "engine_source": "lcdm-noop"
+    },
+    "model": "lcdm",
+    "datasets": [
+      "cmb"
+    ],
+    "boundaries_used": {
+      "H0": [
+        65,
+        75
+      ],
+      "Omega_m0": [
+        0.25,
+        0.35
+      ],
+      "Omega_b0": [
+        0.02,
+        0.06
+      ],
+      "Omega_k0": [
+        -0.01,
+        0.01
+      ],
+      "Omega_r0": [
+        9e-05,
+        9e-05
+      ]
+    }
+  }
+}

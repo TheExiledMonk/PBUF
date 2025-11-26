@@ -1,0 +1,18 @@
+{
+  "fits": [
+    "sn",
+    "bao_iso",
+    "bao_aniso",
+    "cc",
+    "rsd",
+    "wl_s8"
+  ],
+  "fit_weights": {
+    "sn": 1.0,
+    "bao_iso": 1.0,
+    "bao_aniso": 1.0,
+    "cc": 1.0,
+    "rsd": 1.0,
+    "wl_s8": 1.0
+  }
+}

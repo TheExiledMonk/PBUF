@@ -1,0 +1,71 @@
+{
+  "model": "pbuf",
+  "datasets": [
+    "cmb"
+  ],
+  "result": {
+    "best_chi2": 1000000000000.0,
+    "best_parameters": {
+      "H0": 65.0,
+      "Omega_m0": 0.35,
+      "Omega_b0": 0.06,
+      "Omega_r0": 9e-05,
+      "alpha": -0.05,
+      "Rmax": 44055415.15527676
+    },
+    "dataset_results": {
+      "cmb": {
+        "dataset_name": "cmb",
+        "chi2": 1000000000000.0,
+        "status": "sanity_failed",
+        "reasons": [
+          "PBUF elastic: |H''/H'| > 1.2 somewhere on the grid"
+        ]
+      }
+    },
+    "phase6a_passed": false,
+    "timestamp": "2025-11-17T03:41:00.987415+00:00",
+    "quantum_metadata": {
+      "micro_hash": "14e0be3d41048bd844eb3db64cdc2bd24867be554d72603e3179a964fe3a153a",
+      "thermal_table_path": "/home/fabian/PBUF5/cosmos/models/pbuf/thermal_table_cache.json",
+      "alpha_qm": 0.02204192849386733,
+      "eps0_base": 0.9999995999992,
+      "beta": 0.7,
+      "datasets": [
+        "cmb"
+      ],
+      "generated_at": "2025-11-17T03:41:00.974860+00:00",
+      "engine_source": "quantum_engine_v11"
+    },
+    "model": "pbuf",
+    "datasets": [
+      "cmb"
+    ],
+    "boundaries_used": {
+      "H0": [
+        65,
+        75
+      ],
+      "Omega_m0": [
+        0.25,
+        0.35
+      ],
+      "Omega_b0": [
+        0.02,
+        0.06
+      ],
+      "alpha": [
+        -0.05,
+        0.05
+      ],
+      "Omega_r0": [
+        9e-05,
+        9e-05
+      ],
+      "Rmax": [
+        100000,
+        100000000.0
+      ]
+    }
+  }
+}
