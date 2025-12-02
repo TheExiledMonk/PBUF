@@ -2,40 +2,66 @@
   "run_id": "cmb_only",
   "description": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
   "joint_config": {
-    "fits": ["cmb"]
+    "fits": [
+      "cmb"
+    ]
   },
   "parameter_bounds": {
     "lcdm": {
-      "H0": [65, 75],
-      "Omega_m0": [0.25, 0.35],
-      "Omega_b0": [0.02, 0.05],
-      "Omega_k0": [-0.03, 0.03]
+      "H0": [
+        65,
+        75
+      ],
+      "Omega_m0": [
+        0.25,
+        0.35
+      ],
+      "Omega_b0": [
+        0.02,
+        0.05
+      ],
+      "Omega_k0": [
+        -0.03,
+        0.03
+      ]
     },
     "pbuf": {
-      "H0": [65, 75],
-      "Omega_m0": [0.25, 0.35],
-      "Omega_b0": [0.02, 0.03],
-      "Rmax": [5e6, 1e8]
+      "H0": [
+        60,
+        80
+      ],
+      "Omega_m0": [
+        0.326,
+        0.326
+      ],
+      "Rmax": [
+        90000000.0,
+        90000000.0
+      ]
     }
   },
-  "models": ["lcdm", "pbuf"],
+  "models": [
+    "pbuf"
+  ],
   "scenarios": [
     {
       "id": "fit_cmb",
       "mode": "fit",
-      "datasets": ["cmb"],
+      "datasets": [
+        "cmb"
+      ],
       "notes": "CMB-only fit to reproduce distance priors."
     }
   ],
   "engine_settings": {
     "n_threads": 20,
     "workers": 20,
-    "n_scatter": 500,
-    "n_seeds": 40,
-    "n_refine": 100,
-    "batch_size": 16,
+    "n_scatter": 5000,
+    "n_seeds": 80,
+    "n_refine": 200,
+    "batch_size": 256,
     "seed": 42,
-    "grid_points": 9
+    "grid_points": 18
   },
   "priors": {
     "lcdm": {},
@@ -49,7 +75,10 @@
     "base_dir": "../../data/science_runs/cmb_only",
     "generate_plots": true,
     "generate_reports": true,
-    "report_formats": ["json", "html"],
+    "report_formats": [
+      "json",
+      "html"
+    ],
     "save_space": false
   },
   "env_meta": {

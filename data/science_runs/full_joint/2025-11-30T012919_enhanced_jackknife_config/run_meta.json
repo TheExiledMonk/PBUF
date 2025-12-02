@@ -1,0 +1,30 @@
+{
+  "run_name": "enhanced_jackknife_config",
+  "timestamp": "2025-11-30T012919",
+  "start_time": "2025-11-30T01:29:19.173731+00:00",
+  "end_time": "2025-11-30T01:31:23.286080+00:00",
+  "total_runtime": 124.11235189437866,
+  "mode": "fit",
+  "engine": "basin",
+  "machine": {
+    "node": "fabian-MS-7E28",
+    "system": "Linux",
+    "release": "6.14.0-36-generic",
+    "cpus": 32,
+    "python": "3.12.3"
+  },
+  "fits_used": [
+    "cmb",
+    "sn",
+    "bao_iso",
+    "cc",
+    "rsd"
+  ],
+  "joint_hash": "1deb96f8dc238fe14d2fc37fcbfcba8bdfbfa796c07f1c3db6b25e2ab943e970",
+  "joint_config_hash": "1deb96f8dc238fe14d2fc37fcbfcba8bdfbfa796c07f1c3db6b25e2ab943e970",
+  "parameter_bounds_hash": "a7e5cc7eee81b804f71a20d2ce16141d5a2777e295b922bf1e4e03e33d080668",
+  "dataset_manifest_hash": "6389c3f09e27875d82e73cef5107cbd7b273e05a2635640465e7c5cc8a07a9bd",
+  "config_hash": "010a286b6734946d01bd55a6e7dc4a37a6602444acfed4739d9da54c994e9498",
+  "success": true,
+  "model_failures": []
+}

@@ -1,0 +1,17 @@
+{
+  "run_name": "bao_iso_only",
+  "timestamp": "2025-11-30T154535",
+  "mode": "fit",
+  "engine": "basin",
+  "run_hashes": {
+    "joint": "740883fd6872b55d73d3c40d6ce77fda721e165dc6cfaf8535efe45e5f2be4ae",
+    "parameters": "aa2160398f3c272813e63269984b7223c1a5638a4670954ecfd84606ab78047b",
+    "dataset_manifest": "d6088203b6538f7b5683d1c9e0e0e0ea96de3aef93ad1c494173960a25420627",
+    "config": "34b5a88fe42ae22cb5ab76c7b15fa488e78c659a6301658fe660aef3705e8562"
+  },
+  "success": true,
+  "model_count": 2,
+  "history_entries": 2,
+  "start_timestamp": "2025-11-30T154535",
+  "end_timestamp": "2025-11-30T15:46:14.133127+00:00"
+}

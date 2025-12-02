@@ -56,7 +56,11 @@ def serialize_value(value: Any) -> Any:
 
     if isinstance(value, (int, float)):
         if isinstance(value, float) and (math.isinf(value) or math.isnan(value)):
-            return str(value)
+            # Return a special marker for infinity instead of string "inf"
+            if math.isinf(value):
+                return {"__type__": "infinity", "value": "inf" if value > 0 else "-inf"}
+            else:  # NaN
+                return {"__type__": "nan", "value": "nan"}
         return value
 
     if isinstance(value, str):

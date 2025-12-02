@@ -18,7 +18,7 @@ Follow this checklist if you need a LCDM-only build:
    - Drop the PBUF export from `cosmos2/models/__init__.py`.
    - Remove the PBUF branch from `cosmos2/models/model_factory.py` (leave LCDM + legacy-error guard).
    - Collapse `_make_joint_evaluator`/`_evaluate_fit_breakdown` in `cosmos2/api/engine.py` to the LCDM path and delete the `PBUF_FIT_REGISTRY`/`build_pbuf_joint_chi2` imports and `build_pbuf_model_config`.
-   - Remove the `PBUF_FIT_REGISTRY` allowance from `cosmos2/science_runner/config.py` and the LUT note in `cosmos2/science_runner/run_reports.py`; update `cosmos2/utils/cpu_affinity.py` if you keep the LCDM-only runner.
+- Remove the `PBUF_FIT_REGISTRY` allowance from `cosmos2/science_runner/config.py` and any LUT notes that mention the legacy reporting generator; update `cosmos2/utils/cpu_affinity.py` if you keep the LCDM-only runner.
 3. Clean configs: ensure `config/science_runs/*` and CLI invocations request `lcdm` only; drop any PBUF LUT plumbing that was passed into `create_model`.
 
 Because the two models are isolated, these edits leave the LCDM pipeline intact (fit registry, kernels, runners, and tests remain unchanged).

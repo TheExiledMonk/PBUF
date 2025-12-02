@@ -512,12 +512,15 @@ def build_pbuf_joint_chi2(
     joint_config_path: str | Any,
     *,
     skip_valid: bool = False,
+    registry: Mapping[str, Callable[[Any], Any]] | None = None,
 ) -> Callable[[Dict[str, float]], float]:
+    # Use provided registry or default
+    evaluator_registry = registry if registry is not None else PBUF_FIT_REGISTRY
     return build_joint_chi2_evaluator(
         model_factory,
         joint_config_path,
         skip_valid=skip_valid,
-        registry=PBUF_FIT_REGISTRY,
+        registry=evaluator_registry,
     )
 
 

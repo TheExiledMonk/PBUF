@@ -104,12 +104,17 @@ def build_joint_chi2_evaluator(
     config = load_joint_config(joint_config_path)
     fits, weights = _parse_fits_and_weights_from_registry(config, registry)
 
+    print(f"[jackknife] Building joint evaluator with {len(fits)} fits: {fits}")
+    print(f"[jackknife] Registry type: {type(registry)}")
+
     enabled: list[tuple[str, Callable[[Any], tuple[float, Any]], float]] = []
     for fit_name in fits:
         if fit_name not in registry:
             raise ValueError(f"Unknown fit '{fit_name}' referenced by joint config.")
+        fit_fn = registry[fit_name]
         weight = weights.get(fit_name, 1.0)
-        enabled.append((fit_name, registry[fit_name], weight))
+        print(f"[jackknife] Fit {fit_name}: function={fit_fn}, weight={weight}")
+        enabled.append((fit_name, fit_fn, weight))
 
     if not enabled:
         raise ValueError("Joint config did not resolve any valid fits.")

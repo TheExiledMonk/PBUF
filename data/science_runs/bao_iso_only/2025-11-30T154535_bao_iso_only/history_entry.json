@@ -1,0 +1,26 @@
+[
+  {
+    "run_name": "bao_iso_only",
+    "timestamp": "2025-11-30T154535",
+    "model": "lcdm",
+    "best_chi2": 0.00631280506148326,
+    "fits_used": [
+      "bao_iso"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for BAO isotropic only (LCDM + PBUF).",
+    "success": true
+  },
+  {
+    "run_name": "bao_iso_only",
+    "timestamp": "2025-11-30T154535",
+    "model": "pbuf",
+    "best_chi2": 0.17890175448170637,
+    "fits_used": [
+      "bao_iso"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for BAO isotropic only (LCDM + PBUF).",
+    "success": true
+  }
+]

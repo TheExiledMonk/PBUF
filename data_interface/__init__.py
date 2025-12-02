@@ -73,19 +73,84 @@ def load_all_datasets(use_real: bool = False, standardize: bool = False):
         print("🔬 Using synthetic datasets for internal validation...")
         datasets = _load_synthetic()
     else:
-        print("📡 Loading real datasets from /data_interface/datasets/")
-        datasets = {
-            "cmb": load_cmb_priors(),
-            "sn": load_sn_data(),
-            "bao": load_bao_data(),
-            "cc": load_cc_data(),
-            "rsd": load_rsd_data(),
-        }
+        print("📡 Loading real datasets from data/standardized/")
+        datasets = _load_standardized_datasets()
 
     if standardize:
-        print("📐 Converting to standardized PBUF format...")
-        datasets = standardize_all_datasets(datasets)
+        print("📐 Skipping standardization - data already in standardized format")
+        # No need to standardize - already in correct format
 
+    return datasets
+
+
+# -------------------------------------------------------------------
+# Standardized data loader (direct from data/standardized/)
+# -------------------------------------------------------------------
+def _load_standardized_datasets():
+    """Load pre-standardized datasets from data/standardized/ directory."""
+    import numpy as np
+    from pathlib import Path
+    
+    # Map dataset names to standardized files
+    dataset_files = {
+        "cmb": "cmb.npz",
+        "sn": "sn_pantheon.npz", 
+        "bao_iso": "bao_iso.npz",
+        "bao_aniso": "bao_aniso.npz",
+        "cc": "cc.npz",
+        "rsd": "rsd.npz"
+    }
+    
+    standardized_dir = Path(__file__).resolve().parent.parent / "data" / "standardized"
+    datasets = {}
+    
+    for dataset_name, filename in dataset_files.items():
+        dataset_path = standardized_dir / filename
+        if dataset_path.exists():
+            try:
+                with np.load(dataset_path, allow_pickle=True) as npz:
+                    # Convert numpy arrays to regular python structures
+                    dataset_data = {}
+                    for key, value in npz.items():
+                        if key == "meta":
+                            # Handle metadata specially
+                            if isinstance(value, np.ndarray):
+                                if value.shape == ():
+                                    dataset_data[key] = dict(value.item())
+                                elif value.size == 1:
+                                    dataset_data[key] = dict(value.reshape(-1)[0])
+                                else:
+                                    dataset_data[key] = value.tolist()
+                            else:
+                                dataset_data[key] = value
+                        else:
+                            # Convert numpy arrays to lists for better JSON serialization
+                            dataset_data[key] = value.tolist() if isinstance(value, np.ndarray) else value
+                    
+                    datasets[dataset_name] = dataset_data
+                    print(f"[data_interface] Loaded {dataset_name}: {len(dataset_data.get('z', []))} points")
+                    
+            except Exception as e:
+                print(f"[data_interface] Warning: Could not load {dataset_name} from {filename}: {e}")
+        else:
+            print(f"[data_interface] Warning: Dataset file not found: {dataset_path}")
+    
+    # Handle BAO datasets - combine bao_iso and bao_aniso into "bao" for compatibility
+    if "bao_iso" in datasets and "bao_aniso" in datasets:
+        datasets["bao"] = {
+            "iso": datasets["bao_iso"],
+            "aniso": datasets["bao_aniso"]
+        }
+    elif "bao_iso" in datasets:
+        datasets["bao"] = datasets["bao_iso"]
+    elif "bao_aniso" in datasets:
+        datasets["bao"] = datasets["bao_aniso"]
+    
+    if not datasets:
+        print("[data_interface] Warning: No standardized datasets loaded, falling back to synthetic")
+        return _load_synthetic()
+    
+    print(f"[data_interface] Loaded {len(datasets)} standardized datasets")
     return datasets
 
 

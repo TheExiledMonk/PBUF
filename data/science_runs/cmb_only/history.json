@@ -1,0 +1,110 @@
+[
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T151648",
+    "model": "lcdm",
+    "best_chi2": 4.6314554826055865,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  },
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T151648",
+    "model": "pbuf",
+    "best_chi2": 36.06389108327569,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  },
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T151755",
+    "model": "pbuf",
+    "best_chi2": 36.06389108327569,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  },
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T151833",
+    "model": "pbuf",
+    "best_chi2": 36.06389108327569,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  },
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T151910",
+    "model": "pbuf",
+    "best_chi2": 41.14284670920828,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  },
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T151942",
+    "model": "pbuf",
+    "best_chi2": 36.06389100520436,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  },
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T152003",
+    "model": "pbuf",
+    "best_chi2": 36.06389156994071,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  },
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T152029",
+    "model": "pbuf",
+    "best_chi2": 36.04507010943722,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  },
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T152257",
+    "model": "pbuf",
+    "best_chi2": 36.04507023617585,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  }
+]

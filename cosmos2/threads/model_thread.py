@@ -2,12 +2,68 @@
 
 from __future__ import annotations
 
+import subprocess
 import time
+from datetime import datetime, timezone
 from typing import Dict, Optional
 from threading import Lock
 
 from cosmos2.walkers.basin_walker import BasinWalker
 from cosmos2.threads.executor import make_process_pool
+
+try:
+    import psutil  # type: ignore
+except ImportError:  # pragma: no cover
+    psutil = None  # type: ignore
+
+
+def _capture_process_cpu_time(process: "psutil.Process" | None) -> float | None:
+    if process is None:
+        return None
+    try:
+        times = process.cpu_times()
+        return float(times.user + times.system)
+    except Exception:
+        return None
+
+
+def _capture_process_memory_mb(process: "psutil.Process" | None) -> float | None:
+    if process is None:
+        return None
+    try:
+        rss = process.memory_info().rss
+        return float(rss) / (1024 ** 2)
+    except Exception:
+        return None
+
+
+def _sample_gpu_stats() -> Dict[str, float] | None:
+    """Try to query NVIDIA GPU utilization via nvidia-smi."""
+    try:
+        output = subprocess.check_output(
+            [
+                "nvidia-smi",
+                "--query-gpu=utilization.gpu,memory.used",
+                "--format=csv,noheader,nounits",
+            ],
+            text=True,
+            timeout=1.0,
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError, OSError):
+        return None
+
+    line = output.strip().splitlines()[0] if output.strip() else ""
+    if not line:
+        return None
+    parts = [segment.strip() for segment in line.split(",")]
+    if len(parts) < 2:
+        return None
+    try:
+        gpu_util = float(parts[0])
+        mem_used = float(parts[1])
+        return {"utilization_pct": gpu_util, "memory_used_mb": mem_used}
+    except ValueError:
+        return None
 
 
 def run_model_thread(model_config: Dict, queue=None, shared_state: Optional[Dict] = None, lock: Optional[Lock] = None) -> Dict:
@@ -68,6 +124,10 @@ def run_model_thread(model_config: Dict, queue=None, shared_state: Optional[Dict
     pool_fallbacks = 0
     if worker_count > 1:
         map_fn, shutdown = make_process_pool(evaluator_fn, worker_count)
+    process = psutil.Process() if psutil else None
+    start_cpu = _capture_process_cpu_time(process)
+    start_mem = _capture_process_memory_mb(process)
+    start_ts = time.time()
     all_results = []
     chi2_history = []
     running_best = float("inf")
@@ -125,6 +185,32 @@ def run_model_thread(model_config: Dict, queue=None, shared_state: Optional[Dict
             }
     if shutdown is not None:
         shutdown()
+    end_ts = time.time()
+    end_cpu = _capture_process_cpu_time(process)
+    end_mem = _capture_process_memory_mb(process)
+    gpu_snapshot = _sample_gpu_stats()
+    tolerance_value = (
+        model_config.get("tolerance")
+        or model_config.get("tol")
+        or model_config.get("stop_tolerance")
+        or model_config.get("convergence_tol")
+    )
+    performance: Dict[str, float | str | Dict[str, float] | None] = {
+        "start_time": datetime.fromtimestamp(start_ts, timezone.utc).isoformat(),
+        "end_time": datetime.fromtimestamp(end_ts, timezone.utc).isoformat(),
+        "duration_seconds": float(end_ts - start_ts),
+        "cpu_seconds": float(end_cpu - start_cpu) if start_cpu is not None and end_cpu is not None else None,
+        "memory_rss_mb": float(end_mem) if end_mem is not None else None,
+        "memory_rss_start_mb": float(start_mem) if start_mem is not None else None,
+        "worker_count": worker_count,
+        "batch_iterations": n_batches,
+        "batch_size": batch_size,
+        "evaluations": eval_counter,
+        "stop_reason": f"Completed {n_batches} batches",
+        "stop_tolerance": tolerance_value,
+        "gpu": gpu_snapshot,
+    }
+    summary["performance"] = performance
     if queue is not None:
         queue.put(summary)
     return summary

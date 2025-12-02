@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <title>Model Comparison Report</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    
+        <style>
+            :root {
+                color-scheme: light;
+                font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+            }
+            body {
+                margin: 0;
+                background: #f4f6fb;
+                color: #0f172a;
+                line-height: 1.6;
+            }
+            header.hero {
+                padding: 2.5rem 1.5rem 2rem;
+                background: linear-gradient(135deg, #020617, #0f172a);
+                color: #f8fafc;
+            }
+            .hero h1 {
+                margin: 0;
+                font-size: clamp(1.9rem, 3vw, 2.6rem);
+            }
+            .hero p {
+                margin: 0.25rem 0;
+                color: rgba(248, 250, 252, 0.8);
+            }
+            .panel {
+                background: white;
+                border-radius: 0.8rem;
+                padding: 1.5rem;
+                margin: 1.5rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .panel h2 {
+                margin: 0 0 1rem 0;
+                font-size: 1.5rem;
+                color: #1e293b;
+            }
+            .model-panel {
+                border-left: 4px solid #3b82f6;
+            }
+            .comparison-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 1rem 0;
+            }
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem;
+                text-align: left;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .comparison-table th {
+                background: #f8fafc;
+                font-weight: 600;
+                color: #374151;
+            }
+            .lcdm-row { background: #eff6ff; }
+            .pbuf-row { background: #fef2f2; }
+            .comparison-metrics {
+                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                color: white;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                text-align: center;
+                margin: 1rem 0;
+            }
+            .model-meta {
+                display: flex;
+                gap: 1rem;
+                margin: 1rem 0;
+                flex-wrap: wrap;
+            }
+            .model-meta span {
+                background: #f1f5f9;
+                padding: 0.25rem 0.75rem;
+                border-radius: 999px;
+                font-size: 0.875rem;
+                font-weight: 500;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1rem;
+                margin: 1rem 0;
+            }
+            .grid-item {
+                background: #f8fafc;
+                padding: 1rem;
+                border-radius: 0.5rem;
+            }
+            .grid-item label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: #374151;
+            }
+            .details {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.875rem;
+            }
+            .details th,
+            .details td {
+                padding: 0.5rem;
+                text-align: left;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .details th {
+                background: #f1f5f9;
+                font-weight: 600;
+            }
+            .model-extra {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .model-extra li {
+                padding: 0.25rem 0;
+                font-size: 0.875rem;
+            }
+            .plot-column {
+                margin-top: 1rem;
+            }
+            .plot-figure {
+                margin: 1rem 0;
+                text-align: center;
+            }
+            .plot-image {
+                max-width: 100%;
+                height: auto;
+                border-radius: 0.5rem;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .plot-figure figcaption {
+                margin-top: 0.5rem;
+                font-size: 0.875rem;
+                color: #6b7280;
+            }
+            .stability-good { color: #059669; font-weight: 600; }
+            .stability-moderate { color: #d97706; font-weight: 600; }
+            .stability-poor { color: #dc2626; font-weight: 600; }
+            .data-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 1.5rem;
+                margin: 1rem 0;
+            }
+            .data-item {
+                background: #f8fafc;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                border: 1px solid #e5e7eb;
+            }
+            .data-item h4 {
+                margin: 0 0 1rem 0;
+                color: #374151;
+                font-size: 1rem;
+            }
+            .table-container {
+                max-height: 300px;
+                overflow: auto;
+            }
+            .data-table {
+                font-size: 0.75rem;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            .data-table th,
+            .data-table td {
+                padding: 0.25rem;
+                text-align: left;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .data-table th {
+                background: #f1f5f9;
+                position: sticky;
+                top: 0;
+            }
+            .figures-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1rem;
+                margin: 1rem 0;
+            }
+            .figure-item {
+                background: #f8fafc;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                border: 1px solid #e5e7eb;
+                text-align: center;
+            }
+            .figure-item h4 {
+                margin: 0 0 0.5rem 0;
+                color: #374151;
+                font-size: 0.9rem;
+            }
+            .figure-image {
+                max-width: 100%;
+                height: auto;
+                border-radius: 0.25rem;
+            }
+            .config-section {
+                margin: 1rem 0;
+            }
+            .config-json {
+                background: #1e293b;
+                color: #f1f5f9;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                overflow: auto;
+                max-height: 400px;
+                font-size: 0.875rem;
+            }
+            .footer {
+                text-align: center;
+                color: #64748b;
+                font-size: 0.9rem;
+                padding: 1rem 0;
+                border-top: 1px solid #e2e8f0;
+                margin-top: 2rem;
+            }
+        </style>
+        
+</head>
+<body>
+    <header class='hero'>
+        <h1>🔬 Cosmos2 Model Comparison Report</h1>
+        <p>Generated: 2025-12-02 07:38:29</p>
+        <p>Run: 2025-11-29T001013_enhanced_jackknife_config</p>
+    </header>
+    
+    <section class='panel'><h2>Model Comparison</h2><p>No model data available</p></section>
+    
+    <section class='panel model-panel'><h2>LCDM</h2><p>No data available</p></section>
+    
+    <section class='panel model-panel'><h2>PBUF</h2><p>No data available</p></section>
+    
+    
+        <section class='panel'>
+            <h2>📊 Comprehensive Data</h2>
+
+        </section>
+
+
+    <footer class='footer'>
+        Generated by Cosmos2 Version 2.0
+    </footer>
+
+</body>
+</html>

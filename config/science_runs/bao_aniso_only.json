@@ -2,28 +2,55 @@
   "run_id": "bao_aniso_only",
   "description": "Single-fit run for BAO anisotropic only (LCDM + PBUF).",
   "joint_config": {
-    "fits": ["bao_aniso"]
+    "fits": [
+      "bao_aniso"
+    ]
   },
   "parameter_bounds": {
     "lcdm": {
-      "H0": [65, 75],
-      "Omega_m0": [0.25, 0.35],
-      "Omega_b0": [0.02, 0.05],
-      "Omega_k0": [-0.03, 0.03]
+      "H0": [
+        65,
+        75
+      ],
+      "Omega_m0": [
+        0.25,
+        0.35
+      ],
+      "Omega_b0": [
+        0.02,
+        0.05
+      ],
+      "Omega_k0": [
+        -0.03,
+        0.03
+      ]
     },
     "pbuf": {
-      "H0": [65, 75],
-      "Omega_m0": [0.25, 0.35],
-      "Omega_b0": [0.02, 0.05],
-      "Rmax": [5e6, 5e8]
+      "H0": [
+        65,
+        75
+      ],
+      "Omega_m0": [
+        0.25,
+        0.35
+      ],
+      "Rmax": [
+        5000000.0,
+        500000000.0
+      ]
     }
   },
-  "models": ["lcdm", "pbuf"],
+  "models": [
+    "lcdm",
+    "pbuf"
+  ],
   "scenarios": [
     {
       "id": "fit_bao_aniso",
       "mode": "fit",
-      "datasets": ["bao_aniso"],
+      "datasets": [
+        "bao_aniso"
+      ],
       "notes": "BAO anisotropic-only fit."
     }
   ],
@@ -49,7 +76,10 @@
     "base_dir": "../../data/science_runs/bao_aniso_only",
     "generate_plots": true,
     "generate_reports": true,
-    "report_formats": ["json", "html"],
+    "report_formats": [
+      "json",
+      "html"
+    ],
     "save_space": false
   },
   "env_meta": {

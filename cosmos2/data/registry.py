@@ -75,6 +75,10 @@ def load_rsd() -> Dict[str, Any]:
     return _load_npz_standardized("rsd")
 
 
+def load_weak_lensing_kids1000() -> Dict[str, Any]:
+    return _load_npz_standardized("weak_lensing_kids1000_raw_v1")
+
+
 def load_wl_s8() -> Dict[str, Any]:
     return _load_npz_standardized("wl_s8")
 
@@ -117,12 +121,26 @@ _LOADERS: Dict[str, Callable[[], Dataset]] = {
     "lensing_cross": load_lensing_cross,
     "lensing_x": load_lensing_cross,
     "galaxy_pk": load_galaxy_pk,
+    "weak_lensing_kids1000": load_weak_lensing_kids1000,
+    "wl_kids1000": load_weak_lensing_kids1000,
 }
 
 
 @lru_cache(maxsize=None)
 def get_dataset(name: str) -> Dataset:
     normalized = name.strip().lower()
+
+    # Check if we have jackknife masked data first
+    from cosmos2.api.engine import _jackknife_masked_datasets
+    if normalized in _jackknife_masked_datasets:
+        dataset = _jackknife_masked_datasets[normalized]
+        size = len(dataset.get('z', dataset.get('data', [])))
+        print(f"[jackknife] get_dataset: Using masked dataset for {normalized} ({size} points)")
+        if isinstance(dataset, dict):
+            dataset = _ensure_inv_cov(dataset)
+        return dataset
+
+    # Fall back to normal loading
     loader = _LOADERS.get(normalized)
     if loader is None:
         raise ValueError(f"Dataset '{name}' is not supported.")

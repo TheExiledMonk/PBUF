@@ -397,6 +397,79 @@ class ThermalTable:
 
         return self.interp(at_scale_factor, field)
 
+    def to_dict(self) -> Dict[str, Any]:
+        """Export thermal table data as a dictionary for serialization."""
+        return {
+            "metadata": self.metadata,
+            "path": str(self.path) if self.path else None,
+            "table_data": {
+                "a": self.a.tolist(),
+                "z": self.z.tolist(),
+                "T": self.T.tolist(),
+                "eps": self.eps.tolist(),
+                "alpha": self.alpha.tolist(),
+                "dln_eps": self.dln_eps.tolist(),
+                "dln_alpha": self.dln_alpha.tolist(),
+                "g_star": self.g_star.tolist(),
+                "g_starS": self.g_starS.tolist(),
+            },
+            "field_info": {
+                "available_fields": self.available_fields(),
+                "log_fields": list(self._log_fields),
+                "a_min": float(self._a_min),
+                "a_max": float(self._a_max),
+                "n_points": len(self.a),
+            }
+        }
+
+    def to_csv(self, output_path: Path) -> None:
+        """Export thermal table data to CSV format."""
+        import csv
+        
+        with open(output_path, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            
+            # Write header
+            writer.writerow(['a', 'z', 'T', 'eps', 'alpha', 'dln_eps', 'dln_alpha', 'g_star', 'g_starS'])
+            
+            # Write data rows
+            for i in range(len(self.a)):
+                writer.writerow([
+                    self.a[i],
+                    self.z[i], 
+                    self.T[i],
+                    self.eps[i],
+                    self.alpha[i],
+                    self.dln_eps[i],
+                    self.dln_alpha[i],
+                    self.g_star[i],
+                    self.g_starS[i]
+                ])
+
+    def export_interpolated_samples(self, n_samples: int = 100) -> Dict[str, Any]:
+        """Generate interpolated samples for smooth plotting/analysis."""
+        a_samples = np.linspace(self._a_min, self._a_max, n_samples)
+        
+        interpolated_data = {
+            "metadata": {
+                "description": "Interpolated thermal table samples for smooth visualization",
+                "n_samples": n_samples,
+                "original_table_path": str(self.path) if self.path else None,
+                "interpolation_method": "linear in a, log-linear in T"
+            },
+            "a": a_samples.tolist(),
+            "z": (1/a_samples - 1).tolist(),
+            "interpolated_fields": {}
+        }
+        
+        # Interpolate all available fields
+        for field_name in self.available_fields():
+            if field_name not in ['a', 'z']:  # Skip the coordinate columns
+                field_values = [self.interp(a_val, field_name) for a_val in a_samples]
+                interpolated_data["interpolated_fields"][field_name] = field_values
+        
+        return interpolated_data
+
     def get_by_z(self, field: str, *, at_redshift: float) -> float:
         """Interpolate a field at the supplied redshift."""
 

@@ -19,10 +19,13 @@ Standard format for .npz files:
 
 import numpy as np
 import json
+import re
 from pathlib import Path
 from datetime import datetime
 import os
 import pandas as pd
+from typing import Mapping, Sequence
+from astropy.io import fits
 
 # Import existing converters
 from data_interface.standardize import (
@@ -34,6 +37,12 @@ from data_interface.standardize import (
     ensure_standard_dataset
 )
 from data_interface import load_all_datasets
+from .planck_converter import convert_planck_raw, PLANCK_COMPONENTS
+
+KIDS_DATASET_KEY = "weak_lensing_kids1000"
+KIDS_DATASET_TYPE = "WL_KIDS1000"
+KIDS_OUTPUT_VERSION = "v1"
+KIDS_COMPONENT_DEFAULTS = ("xi", "cov", "nz")
 
 
 def detect_dataset_type(raw_dir: Path) -> str:
@@ -51,6 +60,14 @@ def detect_dataset_type(raw_dir: Path) -> str:
 
     if not all_files:
         return "unknown"
+
+    kids_candidates = [
+        data_file
+        for data_file in all_files
+        if "kids1000" in data_file.name.lower() and data_file.suffix.lower() in {".fits", ".tgz", ".tar", ".zip"}
+    ]
+    if kids_candidates and any("xipm" in data_file.name.lower() for data_file in kids_candidates):
+        return KIDS_DATASET_TYPE
 
     # Try to detect by content
     for data_file in all_files:
@@ -116,8 +133,16 @@ def detect_dataset_type(raw_dir: Path) -> str:
     return "unknown"
 
 
-def convert_dataset(source: str, output_path: str, dataset_type: str = None, 
-                   cosmology_config: dict = None) -> dict:
+def convert_dataset(
+    source: str,
+    output_path: str,
+    dataset_type: str = None,
+    cosmology_config: dict = None,
+    raw_path: str | Path | None = None,
+    planck_components: Sequence[str] | None = None,
+    dataset_components: Sequence[str] | None = None,
+    download_metadata: Mapping[str, object] | None = None,
+) -> dict:
     """
     Convert raw dataset to standardized .npz format.
 
@@ -133,6 +158,14 @@ def convert_dataset(source: str, output_path: str, dataset_type: str = None,
         Cosmological configuration for model-specific values.
         Required for CMB datasets if z_star not in raw data.
         Example: {"z_star": 1089.92} for LCDM model
+    raw_path : str | Path, optional
+        Override the raw directory (useful when the download metadata points to a custom location).
+    planck_components : Sequence[str], optional
+        Subset of Planck components to convert (e.g. ["cmb_raw", "cmb_masks"]).
+    dataset_components : Sequence[str], optional
+        Component overrides for dataset-specific conversion (e.g. KiDS-1000 partial conversion).
+    download_metadata : Mapping[str, object], optional
+        Metadata produced by the downloader (source_url, raw_path, downloaded_at).
 
     Returns
     -------
@@ -141,10 +174,13 @@ def convert_dataset(source: str, output_path: str, dataset_type: str = None,
     """
     print(f"🔄 Converting {source} to standardized format...")
 
-    # Check if raw data exists
-    raw_dir = Path(f"data/raw/{source}")
+    raw_dir = Path(raw_path) if raw_path else Path(f"data/raw/{source}")
     if not raw_dir.exists():
         raise FileNotFoundError(f"Raw data directory not found: {raw_dir}")
+
+    normalized_source = source.strip().lower()
+    if normalized_source == "planck_2018_raw":
+        dataset_type = "PLANCK_RAW"
 
     # Auto-detect type if not specified
     if dataset_type is None:
@@ -175,6 +211,19 @@ def convert_dataset(source: str, output_path: str, dataset_type: str = None,
                 dataset_type = "RSD"
             else:
                 dataset_type = "unknown"
+
+    if dataset_type == "PLANCK_RAW":
+        output_root = Path(output_path)
+        output_root.mkdir(parents=True, exist_ok=True)
+        return convert_planck_raw(raw_dir, output_root, components=planck_components)
+
+    if dataset_type == KIDS_DATASET_TYPE:
+        return _convert_wl_kids1000(
+            raw_dir,
+            Path(output_path),
+            components=dataset_components,
+            download_metadata=download_metadata,
+        )
 
     if dataset_type == "unknown":
         raise ValueError(f"Could not determine dataset type for {source}")
@@ -810,6 +859,251 @@ def _load_rsd_data(raw_dir: Path):
         return load_rsd_data()
     except:
         return None
+
+
+def _normalize_kids_components(components: Sequence[str] | None) -> set[str]:
+    defaults = set(KIDS_COMPONENT_DEFAULTS)
+    if not components:
+        return defaults.copy()
+    aliases = {"xi_plus": "xi", "xi_minus": "xi", "covariance": "cov"}
+    normalized: set[str] = set()
+    for component in components:
+        key = component.strip().lower()
+        key = aliases.get(key, key)
+        if key in defaults:
+            normalized.add(key)
+    return normalized or defaults.copy()
+
+
+def _find_kids_fits(raw_dir: Path) -> Path:
+    if not raw_dir.exists():
+        raise FileNotFoundError(f"KiDS raw directory not found: {raw_dir}")
+    candidates = sorted(raw_dir.rglob("*xipm*.fits"))
+    if not candidates:
+        raise FileNotFoundError(f"KiDS-1000 xipm FITS file not found under {raw_dir}")
+    return candidates[0]
+
+
+def _derive_kids_release_label(path: Path) -> str:
+    match = re.search(r"V\d+(?:\.\d+)*[A-Z]*", path.name)
+    if match:
+        return match.group(0)
+    return path.parent.name
+
+
+def _build_kids_xi_arrays(xi_p_hdu, xi_m_hdu):
+    if xi_p_hdu is None or xi_m_hdu is None:
+        raise FileNotFoundError("KiDS-1000 xiP/xiM extensions are missing.")
+    xi_p = xi_p_hdu.data
+    xi_m = xi_m_hdu.data
+    max_bin = int(
+        max(
+            np.max(xi_p["BIN1"]),
+            np.max(xi_p["BIN2"]),
+            np.max(xi_m["BIN1"]),
+            np.max(xi_m["BIN2"]),
+        )
+    )
+    max_angle = int(max(np.max(xi_p["ANGBIN"]), np.max(xi_m["ANGBIN"])))
+    n_bins = max_bin
+    n_theta = max_angle
+    theta_units = (
+        xi_p_hdu.header.get("TUNIT5")
+        or xi_p_hdu.header.get("TUNIT4")
+        or "arcmin"
+    )
+    theta = np.full(n_theta, np.nan, dtype=float)
+    for table in (xi_p, xi_m):
+        for row in table:
+            angle_idx = int(row["ANGBIN"]) - 1
+            if 0 <= angle_idx < n_theta:
+                angle_value = float(row["ANG"])
+                if np.isnan(theta[angle_idx]):
+                    theta[angle_idx] = angle_value
+                elif not np.isclose(theta[angle_idx], angle_value, rtol=1e-8, atol=0):
+                    print(
+                        f"   ⚠️ Theta bin {angle_idx + 1} varies "
+                        f"({theta[angle_idx]} vs {angle_value}); keeping first."
+                    )
+    if np.isnan(theta).any():
+        for table in (xi_m, xi_p):
+            for row in table:
+                angle_idx = int(row["ANGBIN"]) - 1
+                if 0 <= angle_idx < n_theta and np.isnan(theta[angle_idx]):
+                    theta[angle_idx] = float(row["ANG"])
+    xi_plus = np.full((n_bins, n_bins, n_theta), np.nan, dtype=float)
+    xi_minus = np.full((n_bins, n_bins, n_theta), np.nan, dtype=float)
+    for table, target in ((xi_p, xi_plus), (xi_m, xi_minus)):
+        for row in table:
+            i = int(row["BIN1"]) - 1
+            j = int(row["BIN2"]) - 1
+            angle_idx = int(row["ANGBIN"]) - 1
+            if (
+                i < 0
+                or j < 0
+                or angle_idx < 0
+                or i >= n_bins
+                or j >= n_bins
+                or angle_idx >= n_theta
+            ):
+                continue
+            value = float(row["VALUE"])
+            target[i, j, angle_idx] = value
+            target[j, i, angle_idx] = value
+    upper = np.triu_indices(n_bins)
+    triangular = xi_plus[upper]
+    if np.isnan(triangular).any():
+        print("   ⚠️ Some xi_plus entries remain unset for KiDS-1000.")
+    if not np.all(np.isfinite(triangular)):
+        print("   ⚠️ xi_plus contains non-finite values; check the FITS table.")
+    return xi_plus, xi_minus, theta, theta_units, n_bins, n_theta
+
+
+def _parse_kids_nz(nz_hdu):
+    if nz_hdu is None:
+        print("   ⚠️ NZ_SOURCE extension missing; n(z) unavailable.")
+        return None, None, None
+    data = nz_hdu.data
+    z_grid = np.asarray(data["Z_MID"], dtype=float)
+    z_low = np.asarray(data["Z_LOW"], dtype=float)
+    z_high = np.asarray(data["Z_HIGH"], dtype=float)
+    bin_columns = sorted(
+        [name for name in data.names if name.upper().startswith("BIN")],
+        key=lambda name: int(re.search(r"\d+", name).group()) if re.search(r"\d+", name) else 0,
+    )
+    if not bin_columns:
+        print("   ⚠️ NZ_SOURCE contains no BIN columns.")
+        return z_grid, None, None
+    nz_values = np.vstack([np.asarray(data[col], dtype=float) for col in bin_columns])
+    edges = []
+    for index, column in enumerate(bin_columns):
+        values = nz_values[index]
+        mask = values > 0
+        if not np.any(mask):
+            start = 0
+            end = len(z_grid) - 1
+        else:
+            start = int(np.argmax(mask))
+            end = len(mask) - int(np.argmax(mask[::-1])) - 1
+        edges.append((float(z_low[start]), float(z_high[end])))
+        if not np.any(mask):
+            print(f"   ⚠️ n(z) for {column} has zero support.")
+    return z_grid, nz_values, np.asarray(edges, dtype=float)
+
+
+def _convert_wl_kids1000(
+    raw_dir: Path,
+    output_path: Path,
+    components: Sequence[str] | None,
+    download_metadata: Mapping[str, object] | None,
+) -> dict:
+    component_set = _normalize_kids_components(components)
+    fits_file = _find_kids_fits(raw_dir)
+    with fits.open(fits_file) as hdul:
+        xi_p = hdul["xiP"] if "xiP" in hdul else None
+        xi_m = hdul["xiM"] if "xiM" in hdul else None
+        xi_plus, xi_minus, theta, theta_units, n_bins, n_theta = _build_kids_xi_arrays(
+            xi_p, xi_m
+        )
+        covariance = None
+        if "COVMAT" in hdul:
+            cov_hdu = hdul["COVMAT"]
+            raw_cov = cov_hdu.data
+            if raw_cov is not None:
+                covariance = np.asarray(raw_cov, dtype=float)
+                if covariance.ndim != 2 or covariance.shape[0] != covariance.shape[1]:
+                    print("   ⚠️ Covariance matrix shape unexpected; ignoring covariance.")
+                    covariance = None
+                else:
+                    if not np.allclose(covariance, covariance.T, atol=1e-12):
+                        covariance = 0.5 * (covariance + covariance.T)
+        z_grid, nz_array, tomographic_edges = _parse_kids_nz(
+            hdul["NZ_SOURCE"] if "NZ_SOURCE" in hdul else None
+        )
+    release_label = _derive_kids_release_label(fits_file)
+    source_url = download_metadata.get("source_url") if download_metadata else None
+    downloaded_at = (
+        download_metadata.get("downloaded_at")
+        if download_metadata and download_metadata.get("downloaded_at")
+        else datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    )
+    total_pairs = n_bins * (n_bins + 1) // 2
+    vector_length = total_pairs * n_theta
+    meta = {
+        "dataset_type": "WL",
+        "survey": "KiDS-1000",
+        "kids_release": release_label,
+        "source_url": source_url,
+        "downloaded_at": downloaded_at,
+        "raw_path": str(raw_dir),
+        "components": sorted(component_set),
+        "tomographic_bins": n_bins,
+        "theta_bins": n_theta,
+        "vector_length": vector_length,
+    }
+    if covariance is not None:
+        meta["covariance_shape"] = covariance.shape
+    if z_grid is not None:
+        meta["nz_grid"] = int(z_grid.size)
+    notes = [
+        "xi arrays follow [bin_i, bin_j, theta_bin] ordering with symmetry enforced.",
+        "Covariance matches xi_plus followed by xi_minus blocks from the release.",
+        "n(z) values are available for each BIN* column in the NZ_SOURCE table.",
+    ]
+    metadata_details = {
+        "dataset_name": KIDS_DATASET_KEY,
+        "dataset_version": KIDS_OUTPUT_VERSION,
+        "kids_release": release_label,
+        "source_url": source_url,
+        "extracted_at": downloaded_at,
+        "components": sorted(component_set),
+        "tomographic_bins": n_bins,
+        "theta_bins": n_theta,
+        "model_neutral": True,
+        "notes": notes,
+        "provenance": {
+            "fits_file": str(fits_file),
+            "raw_path": str(raw_dir),
+        },
+    }
+    if tomographic_edges is not None:
+        metadata_details["tomographic_bin_edges"] = tomographic_edges.tolist()
+    if nz_array is not None:
+        metadata_details["nz_grid_points"] = int(z_grid.size) if z_grid is not None else None
+    if covariance is not None:
+        metadata_details["covariance_shape"] = covariance.shape
+    metadata_json = json.dumps(metadata_details, ensure_ascii=False, sort_keys=True)
+    payload: dict[str, object] = {
+        "name": KIDS_DATASET_KEY,
+        "meta": meta,
+        "metadata_json": metadata_json,
+    }
+    if "xi" in component_set:
+        payload["xi_plus"] = xi_plus
+        payload["xi_minus"] = xi_minus
+        payload["theta"] = theta
+        payload["theta_units"] = theta_units
+    if tomographic_edges is not None:
+        payload["tomographic_bin_edges"] = tomographic_edges
+    if z_grid is not None:
+        payload["z_grid"] = z_grid
+    if "nz" in component_set and nz_array is not None:
+        payload["nz"] = nz_array
+    if "cov" in component_set:
+        if covariance is not None:
+            payload["covariance"] = covariance
+        else:
+            print("   ⚠️ Covariance requested but not available in the release.")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    np.savez(str(output_path), **payload)
+    print(f"✅ Converted KiDS-1000 data → {output_path}")
+    print(f"   Components: {', '.join(sorted(component_set))}")
+    print(f"   Tomographic bins: {n_bins}, theta bins: {n_theta}")
+    if covariance is not None:
+        print(f"   Covariance matrix: {covariance.shape}")
+    if z_grid is not None:
+        print(f"   n(z) grid points: {len(z_grid)}")
+    return payload
 
 
 def _convert_to_npz_format(standard_data: dict, source: str, cosmology_config: dict = None) -> dict:

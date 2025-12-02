@@ -16,6 +16,15 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
     sync = subparsers.add_parser("data-sync", help="Download/convert raw datasets")
     sync.add_argument("--datasets", nargs="+", help="Subset of dataset keys to sync")
+    sync.add_argument(
+        "--planck-components",
+        help="Comma-separated planck_2018_raw component list (default: all)",
+    )
+    sync.add_argument(
+        "--dataset-components",
+        action="append",
+        help="Dataset-specific component overrides (format: dataset=component1,component2)",
+    )
 
     download = subparsers.add_parser("quantum-download", help="Mirror GWOSC/GCN/Fermi archives")
     download.add_argument("--force-downloads", action="store_true", help="Redownload even when data exists")
@@ -37,7 +46,32 @@ def main(argv: Sequence[str] | None = None) -> None:
 
     if args.command == "data-sync":
         dataset_names = args.datasets or data_sync.available_datasets()
-        data_sync.sync_all(dataset_names=dataset_names)
+        planck_components = None
+        if args.planck_components:
+            selection = [
+                comp.strip() for comp in args.planck_components.split(",") if comp.strip()
+            ]
+            if selection:
+                planck_components = {"planck_2018_raw": selection}
+        dataset_component_map = None
+        if args.dataset_components:
+            dataset_component_map = {}
+            for dataset_spec in args.dataset_components:
+                if "=" not in dataset_spec:
+                    continue
+                dataset_name, values = dataset_spec.split("=", 1)
+                components = [
+                    comp.strip()
+                    for comp in values.split(",")
+                    if comp.strip()
+                ]
+                if components:
+                    dataset_component_map[dataset_name.strip()] = components
+        data_sync.sync_all(
+            dataset_names=dataset_names,
+            planck_component_map=planck_components,
+            dataset_component_map=dataset_component_map,
+        )
     elif args.command == "quantum-download":
         downloader_args: list[str] = []
         if args.force_downloads:

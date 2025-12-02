@@ -13,9 +13,9 @@ class PBUFParams:
 
     H0: float
     Omega_m0: float
-    Omega_b0: float
     Rmax: float
-    Omega_r0: float = 9.0e-5
+    Omega_b0: float = 0.0
+    Omega_r0: float = 9e-5
     alpha: float = 0.0
     omega_normalization: str = "flat_today"
     sigma_rescale: float = 1.0
@@ -35,7 +35,7 @@ def coerce_pbuf_parameters(params: Dict[str, Any], *, normalization_mode: Option
     Return a sanitized dictionary of PBUF parameters, inferring normalization mode.
     """
 
-    required = ["H0", "Omega_m0", "Omega_b0", "Rmax"]
+    required = ["H0", "Rmax"]
     missing: List[str] = [key for key in required if key not in params]
     if missing:
         raise ValueError(f"Missing required PBUF parameters: {missing}")
@@ -50,8 +50,11 @@ def coerce_pbuf_parameters(params: Dict[str, Any], *, normalization_mode: Option
     if cleaned["Rmax"] <= 0.0:
         raise ValueError("Rmax must be positive and supplied explicitly.")
 
-    cleaned.setdefault("Omega_r0", 9.0e-5)
+    cleaned.setdefault("Omega_r0", 9e-5)
     cleaned["alpha"] = float(params.get("alpha", 0.0))
+    cleaned["Omega_b0"] = float(params.get("Omega_b0", 0.0))
+    # Omega_m0 is derived later, so we just stash a placeholder here for compatibility.
+    cleaned["Omega_m0"] = float(params.get("Omega_m0", 0.0))
 
     legacy = [key for key in ("eps0", "Omega_k0") if key in params]
     if legacy:

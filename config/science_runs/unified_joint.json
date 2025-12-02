@@ -1,0 +1,119 @@
+{
+  "run_name": "unified_joint",
+  "description": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+  "models": [
+    "lcdm",
+    "pbuf"
+  ],
+  "mode": "fit",
+  "interactive": false,
+  "joint_config": {
+    "fits": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ]
+  },
+  "parameter_bounds": {
+    "global": {
+      "H0": [
+        65,
+        75
+      ]
+    },
+    "models": {
+      "lcdm": {
+        "Omega_m0": [
+          0.25,
+          0.35
+        ],
+        "Omega_b0": [
+          0.04,
+          0.05
+        ],
+        "Omega_k0": [
+          -0.03,
+          0.03
+        ]
+      },
+      "pbuf": {
+        "Rmax": [
+          90000000.0,
+          90000000.0
+        ]
+      }
+    }
+  },
+  "engine_settings": {
+    "workers": 20,
+    "n_seeds": 40,
+    "n_refine": 80,
+    "n_scatter": 400,
+    "batch_size": 12,
+    "grid_points": 9,
+    "monitor": true,
+    "resume": true
+  },
+  "priors": {
+    "lcdm": {
+      "Omega_m0": 0.3
+    },
+    "pbuf": {}
+  },
+  "reporting": {
+    "record_dof": true,
+    "write_optimizer_trace": true
+  },
+  "output": {
+    "base_dir": "../../data/science_runs/unified_joint",
+    "generate_plots": true,
+    "generate_reports": true,
+    "report_formats": [
+      "json",
+      "html",
+      "pdf"
+    ],
+    "save_space": false
+  },
+  "jackknife": {
+    "enabled": true,
+    "n_draws": 30,
+    "fraction_removed": 0.15,
+    "datasets_to_test": [
+      "sn",
+      "bao_iso"
+    ],
+    "dataset_weights": {
+      "sn": 1.0,
+      "bao_iso": 0.8
+    }
+  },
+  "plugins": [
+    {
+      "id": "joint_full",
+      "plugin": "joint",
+      "description": "Baseline joint optimisation over LCDM + PBUF.",
+      "mode": "fit",
+      "engine_settings": {
+        "monitor": true,
+        "workers": 32
+      }
+    },
+    {
+      "id": "jackknife_validation",
+      "plugin": "jackknife",
+      "description": "Jackknife validation that runs after the baseline joint pass.",
+      "engine_settings": {
+        "workers": 8
+      },
+      "jackknife": {
+        "enabled": true,
+        "n_draws": 20,
+        "fraction_removed": 0.05,
+        "random_seed": 1234
+      }
+    }
+  ]
+}

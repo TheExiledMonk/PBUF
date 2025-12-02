@@ -1,0 +1,17 @@
+{
+  "run_name": "cmb_only",
+  "timestamp": "2025-11-30T151755",
+  "mode": "fit",
+  "engine": "basin",
+  "run_hashes": {
+    "joint": "c41cc87f016675ff878ebf5cc7aa99f1b937b63fcfa3d9b95aae5d4ac2c50eb9",
+    "parameters": "a7e5cc7eee81b804f71a20d2ce16141d5a2777e295b922bf1e4e03e33d080668",
+    "dataset_manifest": "7ecee6e94bb7cf7a8784ace6c2c2e42daf90b7eb02dd5a60f777b8653d697250",
+    "config": "fb74fa14c1087cde5c700ed15d17edaa85b333173a3ef599eac80fdb701dca10"
+  },
+  "success": true,
+  "model_count": 1,
+  "history_entries": 1,
+  "start_timestamp": "2025-11-30T151755",
+  "end_timestamp": "2025-11-30T15:18:02.417581+00:00"
+}

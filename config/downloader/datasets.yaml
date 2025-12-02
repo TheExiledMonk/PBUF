@@ -26,6 +26,18 @@ datasets:
     expected_files:
       - Pantheon/data/Pantheon.dat
       - Pantheon/data/sys_full_long.txt
+  planck_2018_raw:
+    url: placeholder://planck_2018_raw
+    raw_dir: COM_Likelihood_Data-baseline
+    notes: >
+      Planck 2018 baseline likelihood release (COM_Likelihood_Data-baseline).
+      Final download URL will be provided later; for now ensure the COM_Likelihood_Data-baseline
+      bundle is placed under data/raw/COM_Likelihood_Data-baseline before running conversions.
+    filename: COM_Likelihood_Data-baseline.tar.gz
+    expected_files:
+      - plc_3.0/hi_l/plik/plik_rd12_HM_v22b_TTTEEE.clik
+      - plc_3.0/low_l/commander/commander_dx12_v3_2_29.clik
+      - plc_3.0/lensing/smicadx12_Dec5_ftl_mv2_ndclpp_p_teb_consext8.clik_lensing
   planck2018_distance_priors:
     url: https://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_CosmoParams_R3.00.zip
     notes: Planck 2018 distance priors and derived parameters (R, l_A, θ_* from table VI).
@@ -39,3 +51,12 @@ datasets:
     filename: fsigma8_compilation.txt
     expected_files:
       - fsigma8_compilation.txt
+  weak_lensing_kids1000:
+    url: https://kids.strw.leidenuniv.nl/DR4/data_files/KiDS1000_cosmic_shear_data_release.tgz
+    notes: KiDS-1000 weak-lensing cosmic shear data release (tomographic ξ±, covariance, n(z)).
+    filename: KiDS1000_cosmic_shear_data_release.tgz
+    extract: true
+    raw_dir: KiDS1000_cosmis_shear_data_release
+    expected_files:
+      - KiDS1000_cosmis_shear_data_release/data_fits/xipm_KIDS1000_BlindC_with_m_bias_V1.0.0A_ugriZYJHKs_photoz_SG_mask_LF_svn_309c_2Dbins_v2_goldclasses_Flag_SOM_Fid.fits
+      - KiDS1000_cosmis_shear_data_release/chains_and_config_files/main_chains_iterative_covariance/xipm/config/pipeline.ini

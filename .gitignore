@@ -1,5 +1,10 @@
 .venv/
+venv/
+logs/
+.coverage
+.vscode/
+__pycache__/
 data/raw/
-data/quantum
-.pytest_cache
+data/quantum/
+.pytest_cache/
 __pytest__

@@ -1,0 +1,50 @@
+{
+  "chi2": 4.6314554826055865,
+  "extras": {
+    "dataset": {
+      "name": "CMB",
+      "meta": {
+        "survey": "Planck 2018",
+        "observable": "distance priors",
+        "parameters": [
+          "R",
+          "la",
+          "theta_star"
+        ],
+        "reference": "Planck Collaboration 2020 (arXiv:1807.06209)",
+        "z": 1089.92,
+        "dataset_type": "CMB",
+        "created_at": "2025-11-16T04:16:15.594653+00:00Z",
+        "note": "Compressed distance priors from Planck 2018 TT,TE,EE+lowE+lensing"
+      }
+    },
+    "predictions": [
+      1.761991001140661,
+      301.727014293634,
+      0.010412036393043897
+    ],
+    "observed": [
+      1.7488,
+      301.76,
+      0.010410999999999998
+    ],
+    "residuals": [
+      0.013191001140661074,
+      -0.03298570636599152,
+      1.0363930438989089e-06
+    ],
+    "cmb_output": {
+      "R": 1.761991001140661,
+      "l_A": 301.727014293634,
+      "Omega_b_h2": 0.021860351562499998,
+      "theta_star": 0.010412036393043897,
+      "z_star": 1094.0687364637927,
+      "D_M_Mpc": 13225.582163306628,
+      "D_A_Mpc": 12.077399091873279,
+      "r_s_Mpc": 137.70524280354084,
+      "extras": {
+        "engine": "cosmos2"
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "run_id": "test_jackknife",
+  "description": "Test jackknife configuration",
+  "joint_config": {
+    "fits": ["sn", "bao_iso"]
+  },
+  "parameter_bounds": {
+    "lcdm": {
+      "H0": [65, 75],
+      "Omega_m0": [0.25, 0.35]
+    }
+  },
+  "models": ["lcdm"],
+  "jackknife": {
+    "enabled": true,
+    "n_draws": 5,
+    "fraction_removed": 0.1,
+    "random_seed": 42
+  },
+  "engine_settings": {
+    "workers": 2,
+    "n_scatter": 10,
+    "n_seeds": 5,
+    "n_refine": 10
+  },
+  "output": {
+    "base_dir": "data/test_jackknife",
+    "generate_plots": false,
+    "generate_reports": true
+  }
+}

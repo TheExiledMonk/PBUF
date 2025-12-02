@@ -1,0 +1,117 @@
+{
+  "success_rate": 1.0,
+  "n_draws_total": 1,
+  "n_draws_successful": 1,
+  "stability_metrics": {
+    "overall_stability_score": 0.0,
+    "model_comparison": {},
+    "dataset_impact": {},
+    "n_draws_total": 1,
+    "n_draws_successful": 1,
+    "parameter_stability_score": 0.0,
+    "chi2_stability_score": 0.0
+  },
+  "model_analyses": {
+    "pbuf": {
+      "model_name": "pbuf",
+      "n_draws": 1,
+      "parameter_stability": {
+        "parameter_stats": {},
+        "stability_score": 0.0
+      },
+      "chi2_stability": {},
+      "overall_stability_score": 0.0
+    },
+    "lcdm": {
+      "model_name": "lcdm",
+      "n_draws": 1,
+      "parameter_stability": {
+        "parameter_stats": {},
+        "stability_score": 0.0
+      },
+      "chi2_stability": {},
+      "overall_stability_score": 0.0
+    }
+  },
+  "draws": [
+    {
+      "draw_index": 0,
+      "removed_datasets": {
+        "sn": 170,
+        "cmb": 1,
+        "cc": 3,
+        "rsd": 1
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 66.54180560539116,
+            "Omega_m0": 0.31359414975623773,
+            "Omega_b0": 0.03755027993099767,
+            "Omega_k0": 0.029938405253342328
+          },
+          "chi_squared": 1206.384505783385,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.8446509677404,
+            "Omega_m0": 0.326,
+            "Rmax": 90000000.0,
+            "Omega_b0": 0.0441
+          },
+          "chi_squared": 957.1917184903882,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {},
+          "chi_squared": {
+            "__type__": "infinity",
+            "value": "inf"
+          },
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "failed"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {},
+          "chi_squared": {
+            "__type__": "infinity",
+            "value": "inf"
+          },
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "failed"
+        }
+      },
+      "best_model_full": "lcdm",
+      "best_model_jackknife": "unknown",
+      "success": true,
+      "error_message": null,
+      "random_seed": 42
+    }
+  ],
+  "parameter_shifts": {
+    "parameter_stats": {},
+    "stability_score": 0.0,
+    "n_parameters_analyzed": 0
+  },
+  "chi2_changes": {
+    "chi2_stats": {},
+    "stability_score": 0.0
+  }
+}

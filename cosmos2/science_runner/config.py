@@ -13,6 +13,7 @@ from cosmos2.fits.registry import FIT_REGISTRY
 from cosmos2.models.pbuf.fits import PBUF_FIT_REGISTRY
 
 from cosmos2.science_runner.utils import load_json_or_yaml
+from cosmos2.science_runner.jackknife import JackknifeConfig
 
 
 @dataclass(frozen=True)
@@ -33,6 +34,7 @@ class ScienceRunConfig:
     description: str | None
     models: list[str]
     mode: str
+    auto_mode: str | None
     fits_config: Path | None
     fits_override: list[str]
     engine: str
@@ -43,6 +45,7 @@ class ScienceRunConfig:
     fixed_parameters: dict[str, float]
     initial_parameters: dict[str, float]
     profile_likelihood: dict[str, Any] | None
+    jackknife: JackknifeConfig | None
     output: ScienceRunOutputConfig
     interactive: bool
 
@@ -67,6 +70,12 @@ class ScienceRunConfig:
         description = payload.get("description")
         models = list(cls._normalize_list(payload.get("models") or payload.get("model") or ["lcdm"]))
         mode = str(payload.get("mode", "fit")).strip().lower()
+        auto_mode_raw = payload.get("auto_mode")
+        auto_mode = None
+        if isinstance(auto_mode_raw, str):
+            normalized = auto_mode_raw.strip().lower()
+            if normalized:
+                auto_mode = normalized
         joint_config_source = payload.get("joint_config")
         fits_config_path = None
         joint_config_inline: dict[str, Any] | None = None
@@ -99,6 +108,8 @@ class ScienceRunConfig:
         fixed_parameters = cls._coerce_params(payload.get("fixed_parameters") or {})
         initial_parameters = cls._coerce_params(payload.get("initial_parameters") or {})
         profile_likelihood = payload.get("profile_likelihood")
+        jackknife_data = payload.get("jackknife")
+        jackknife = JackknifeConfig.from_dict(jackknife_data) if jackknife_data else None
         interactive = bool(payload.get("interactive", False))
 
         output_payload = payload.get("output") or {}
@@ -132,6 +143,8 @@ class ScienceRunConfig:
             fixed_parameters=fixed_parameters,
             initial_parameters=initial_parameters,
             profile_likelihood=profile_likelihood,
+            jackknife=jackknife,
+            auto_mode=auto_mode,
             output=output_config,
             interactive=interactive,
         )
@@ -154,6 +167,9 @@ class ScienceRunConfig:
             return None
         candidate = Path(value)
         if candidate.is_absolute():
+            return candidate.expanduser().resolve()
+        # For data/science_runs, resolve relative to project root, not config file location
+        if str(candidate).startswith("data/science_runs"):
             return candidate.expanduser().resolve()
         return (reference.parent / candidate).expanduser().resolve()
 
@@ -220,11 +236,29 @@ class ScienceRunConfig:
     ) -> tuple[dict[str, tuple[float, float]], dict[str, dict[str, tuple[float, float]]]]:
         global_bounds: dict[str, tuple[float, float]] = {}
         per_model_bounds: dict[str, dict[str, tuple[float, float]]] = {}
+
+        def _ingest_model_bounds(name: str, source: Mapping[str, Any]) -> None:
+            normalized = ScienceRunConfig._normalize_parameter_map(source)
+            if normalized:
+                per_model_bounds[name.strip().lower()] = normalized
+
         for key, value in payload.items():
-            if isinstance(value, Mapping):
+            if not isinstance(key, str):
+                continue
+            lower_key = key.strip().lower()
+            if lower_key == "global" and isinstance(value, Mapping):
                 normalized = ScienceRunConfig._normalize_parameter_map(value)
                 if normalized:
-                    per_model_bounds[key.strip().lower()] = normalized
+                    global_bounds.update(normalized)
+                continue
+            if lower_key == "models" and isinstance(value, Mapping):
+                for model_key, model_value in value.items():
+                    if isinstance(model_key, str) and isinstance(model_value, Mapping):
+                        _ingest_model_bounds(model_key, model_value)
+                continue
+
+            if isinstance(value, Mapping):
+                _ingest_model_bounds(key, value)
                 continue
             interval = ScienceRunConfig._normalize_interval(value)
             if interval is not None:
@@ -315,6 +349,10 @@ class ScienceRunConfig:
         return list(self.fits_list)
 
     @property
+    def jackknife_enabled(self) -> bool:
+        return bool(self.jackknife and self.jackknife.enabled)
+
+    @property
     def joint_config_payload(self) -> dict[str, Any]:
         self._flush_joint_payload()
         return dict(self._joint_payload or {})
@@ -383,6 +421,7 @@ class ScienceRunConfig:
             "description": self.description,
             "models": self.models,
             "mode": self.mode,
+            "auto_mode": self.auto_mode,
             "fits_config": str(self.fits_config) if self.fits_config else None,
             "joint_config": dict(self.joint_config_inline) if self.joint_config_inline is not None else None,
             "joint_config_path": str(self.joint_config_path) if self.joint_config_path else None,
@@ -396,6 +435,7 @@ class ScienceRunConfig:
             "fixed_parameters": self.fixed_parameters,
             "initial_parameters": self.initial_parameters,
             "profile_likelihood": self.profile_likelihood,
+            "jackknife": self.jackknife.to_dict() if self.jackknife else None,
             "output": {
                 "base_dir": str(self.output.base_dir),
                 "generate_plots": self.output.generate_plots,

@@ -1,0 +1,14 @@
+[
+  {
+    "run_name": "rsd_only",
+    "timestamp": "2025-12-01T035003",
+    "model": "pbuf",
+    "best_chi2": 14.326368068945245,
+    "fits_used": [
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for RSD f\u03c38 only (LCDM + PBUF).",
+    "success": true
+  }
+]

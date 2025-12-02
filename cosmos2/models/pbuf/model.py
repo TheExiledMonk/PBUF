@@ -30,7 +30,6 @@ from .growth import growth_ode_rhs, make_growth_rhs_njit
 from .growth_table import GrowthTable
 
 C_LIGHT = pbuf_utils.C_LIGHT
-_DEFAULT_SIGMA8 = 0.811
 _GROWTH_RHS_ENV = os.environ.get("PBUF_GROWTH_RHS", "").strip().lower()
 _FORCE_PYTHON_GROWTH = _GROWTH_RHS_ENV in {"python", "py", "force_python"}
 _GRID_ENV = os.environ.get("PBUF_BACKGROUND_GRID", "").strip().lower()
@@ -96,9 +95,9 @@ class PBUFModel:
         self._parameters["alpha_resolved"] = self._alpha
         self._parameters["normalization_metadata"] = dict(self._normalization_metadata)
 
-        # TODO (V12): Remove explicit sigma8_0. Compute sigma8 from growth or P(k). 
-        # The current fallback is a temporary V11 compatibility default.
-        self._sigma8 = float(params.get("sigma8_0", _DEFAULT_SIGMA8))
+        # Derive sigma8 directly from Omega_m0 (σ₈ ≈ 1 - Ωₘ₀).
+        omega_m0_val = float(self._params.Omega_m0)
+        self._sigma8 = float(1.0 - omega_m0_val)
         self._sigma8_today = self._sigma8
         self._r_d: float | None = None
 

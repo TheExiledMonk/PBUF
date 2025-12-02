@@ -27,7 +27,9 @@ from cosmos2.fits.registry import FIT_REGISTRY as COSMOS2_FIT_REGISTRY
 from cosmos2.api.engine import run_optimisation
 from cosmos2.models.model_factory import create_model as create_cosmos2_model
 
-from cosmos2.science_runner.run_reports import ScienceRunReportGenerator
+from cosmos2.science_runner.config import ScienceRunConfig
+from cosmos2.science_runner.unified_runner import UnifiedScienceRunner
+from cosmos2.threads.monitor_types import available_monitor_modes, normalize_monitor_mode
 from toolbox import run_toolbox
 
 
@@ -83,6 +85,19 @@ def _load_pbuf_lut() -> dict[str, Any]:
 
 
 _PBUF_LUT: dict[str, Any] | None = None
+
+
+_MONITOR_CHOICES = list(available_monitor_modes())
+
+
+def _monitor_arg(value: str | None) -> str | None:
+    """Parse a monitor argument, allowing aliases to map to canonical modes."""
+    if value is None:
+        return None
+    try:
+        return normalize_monitor_mode(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(str(exc)) from exc
 
 
 def _build_model(model_name: str, overrides: dict[str, float | str]) -> object:
@@ -164,17 +179,53 @@ def _make_joint_evaluator(
     return evaluate, evaluate_with_breakdown
 
 
-def _run_science_runner(argv: Sequence[str]) -> None:
-    """Dispatch science runs through the cosmos2 runner while keeping cosmos_cli.py the gateway."""
-    original_argv = sys.argv
-    try:
-        sys.argv = ["cosmos2_science_runner.py", *argv]
-        import cosmos2_science_runner
+def _run_science_runner(args: argparse.Namespace) -> None:
+    """Run the cosmos2 science runner using the unified runner."""
+    from science_runner import _collect_paths, _collect_override_items, _interactive_confirm
+    from cosmos2_science_runner import _make_progress_printer
 
-        cosmos2_science_runner.main()
-        return
-    finally:
-        sys.argv = original_argv
+    config_paths = _collect_paths(args.config, args.config_dir)
+    if not config_paths:
+        raise SystemExit("No science config files were provided.")
+
+    for cfg_path in config_paths:
+        config = ScienceRunConfig.from_path(cfg_path)
+        if args.mode:
+            config.mode = args.mode
+        if args.engine:
+            config.engine = args.engine
+        if args.workers:
+            config.engine_settings["workers"] = args.workers
+        if args.monitor is not None:
+            config.engine_settings["monitor"] = args.monitor
+        if args.resume:
+            config.engine_settings["resume"] = True
+        override_models = _collect_override_items(args.override_models)
+        override_fits = _collect_override_items(args.override_fits)
+        try:
+            if override_models:
+                config.set_models(override_models)
+            if override_fits:
+                config.set_fits(override_fits)
+        except ValueError as exc:
+            raise SystemExit(str(exc))
+
+        interactive = args.interactive or config.interactive
+        if interactive:
+            if not _interactive_confirm(config):
+                print(f"Skipping {cfg_path}")
+                continue
+
+        runner = UnifiedScienceRunner(config, dry_run=args.dry_run)
+        try:
+            monitor_mode = normalize_monitor_mode(config.engine_settings.get("monitor"))
+        except ValueError as exc:
+            raise SystemExit(str(exc))
+
+        if monitor_mode == "plugin":
+            runner.execute()
+        else:
+            runner.execute(progress_callback=_make_progress_printer(config.run_name))
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -221,13 +272,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="Override dataset weights (dataset=weight) when summing χ² (can be repeated)",
     )
     report_parser = subparsers.add_parser("report", help="Generate summary reports from a science run")
-    report_parser.add_argument("--run-dir", required=True, help="Path to the science run directory")
+    report_parser.add_argument("--run", required=True, help="Path to the science run directory")
     report_parser.add_argument("--output-dir", help="Directory to place the generated report bundle")
     report_parser.add_argument(
         "--format",
         action="append",
         default=[],
-        help="Report format to emit (json, html). Can be repeated; defaults to json+html when unspecified.",
+        help="Report format to emit (json, html, latex, libre, csv). Can be repeated; defaults to json+html when unspecified. HTML format includes embedded plots.",
+    )
+    report_parser.add_argument(
+        "--cleanup",
+        action="store_true",
+        help="Clean up legacy report files to avoid confusion"
     )
     optim_parser.add_argument("--samples", type=int, default=500, help="Sample count for grid search")
     optim_parser.add_argument("--seed", type=int, help="PRNG seed for optimisation")
@@ -253,7 +309,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     science_parser.add_argument("--mode", choices=["fit", "scout"], help="Override mode from config")
     science_parser.add_argument("--engine", help="Engine override (cosmos2_basin/basin/threaded)")
     science_parser.add_argument("--workers", type=int, help="Worker processes for batch evaluation")
-    science_parser.add_argument("--monitor", action="store_true", help="Enable console monitor output during optimisation")
+    science_parser.add_argument(
+        "--monitor",
+        nargs="?",
+        const="simple",
+        type=_monitor_arg,
+        choices=_MONITOR_CHOICES,
+        help="Enable monitoring during optimisation (options: ansi, plugin, textual).",
+    )
     science_parser.add_argument("--resume", action="store_true", help="Resume from checkpoint.json when available")
 
     quantum_thermal_parser = subparsers.add_parser(
@@ -282,6 +345,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="Toolbox command to execute",
     )
     toolbox_parser.add_argument("--datasets", nargs="+", help="Dataset names to sync (data-sync)")
+    toolbox_parser.add_argument(
+        "--dataset-components",
+        action="append",
+        help="Forwarded to toolbox data-sync for dataset-specific component overrides.",
+    )
     toolbox_parser.add_argument("--max-gcn", type=int, help="Limit GCN files (quantum-ingest)")
     toolbox_parser.add_argument("--summary", type=Path, help="Summary path (quantum-ingest)")
     toolbox_parser.add_argument("--output", type=Path, help="Normalized CSV output (quantum-ingest)")
@@ -292,30 +360,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.command == "science":
-        science_args: list[str] = []
-        for cfg in args.config:
-            science_args.extend(["--config", cfg])
-        if args.config_dir:
-            science_args.extend(["--config-dir", args.config_dir])
-        if args.interactive:
-            science_args.append("--interactive")
-        if args.dry_run:
-            science_args.append("--dry-run")
-        for override in args.override_fits or []:
-            science_args.extend(["--override-fits", override])
-        for override in args.override_models or []:
-            science_args.extend(["--override-models", override])
-        if args.mode:
-            science_args.extend(["--mode", args.mode])
-        if args.workers:
-            science_args.extend(["--workers", str(args.workers)])
-        if args.engine:
-            science_args.extend(["--engine", args.engine])
-        if args.monitor:
-            science_args.append("--monitor")
-        if args.resume:
-            science_args.append("--resume")
-        _run_science_runner(science_args)
+        _run_science_runner(args)
         return 0
 
     if args.command == "thermal":
@@ -352,6 +397,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         toolbox_args = [args.action]
         if args.action == "data-sync" and args.datasets:
             toolbox_args.extend(["--datasets", *args.datasets])
+        if args.action == "data-sync" and args.dataset_components:
+            for spec in args.dataset_components:
+                toolbox_args.extend(["--dataset-components", spec])
         if args.action == "quantum-ingest":
             if args.max_gcn is not None:
                 toolbox_args.extend(["--max-gcn", str(args.max_gcn)])
@@ -582,24 +630,68 @@ def _handle_sanity(args: argparse.Namespace) -> int:
 
 
 def _handle_report(args: argparse.Namespace) -> int:
-    run_dir = Path(args.run_dir).expanduser()
+    """Handle the report command using the new standalone reporting system."""
+    run_dir = Path(args.run)
     if not run_dir.exists():
-        raise FileNotFoundError(f"Science run directory not found: {run_dir}")
-    output_dir = Path(args.output_dir).expanduser() if args.output_dir else None
-    formats = args.format or ["json", "html"]
-    generator = ScienceRunReportGenerator(run_dir, output_dir=output_dir, formats=formats)
-    summary = generator.generate()
-    print(f"Generated run report in {generator.output_dir}")
-    if summary.get("models"):
-        print(f"Included models: {', '.join(entry['name'] for entry in summary['models'])}")
+        print(f"[cosmos_cli] Error: Run directory {run_dir} does not exist")
+        return 1
+    
+    output_dir = Path(args.output_dir) if args.output_dir else run_dir
+    
+    # Default to html when no formats specified (our system generates HTML)
+    formats = set(args.format) if args.format else {"html"}
+    
+    print(f"[cosmos_cli] 🚀 Using STANDALONE REPORTING SYSTEM")
+    print(f"[cosmos_cli] Run directory: {run_dir.name}")
+    print(f"[cosmos_cli] Output directory: {output_dir}")
+    print(f"[cosmos_cli] Format: {', '.join(formats)}")
+    
+    # Add the project root to the Python path
+    project_root = Path(__file__).parent.parent
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
+
+    try:
+        from reporting_system.report_cli import main as report_main
+    except ImportError as e:
+        print(f"[cosmos_cli] ❌ ERROR: Standalone reporting system not available: {e}")
+        print("[cosmos_cli] 💡 Please ensure the reporting_system module is properly installed")
+        return 1
+
+    # Prepare arguments for the standalone reporting system
+    sys.argv = [
+        'report_cli.py',
+        str(run_dir),
+        '--output', str(output_dir / 'science_report.html')
+    ]
+
+    print("[cosmos_cli] 📊 Initializing Standalone Report Generator...")
+
+    try:
+        report_main()
+    except Exception as e:
+        print(f"[cosmos_cli] ❌ ERROR generating standalone report: {e}")
+        print(f"[cosmos_cli] 💡 Check run directory and data integrity")
+        return 1
+
+    print(f"[cosmos_cli] ✅ STANDALONE REPORT GENERATED SUCCESSFULLY!")
+    print(f"[cosmos_cli] 📁 Report location: {output_dir / 'science_report.html'}")
+
+    # Get file size
+    report_file = output_dir / 'science_report.html'
+    file_size = report_file.stat().st_size if report_file.exists() else 0
+    print(f"[cosmos_cli] 📊 File size: {file_size:,} bytes")
+
+    print("[cosmos_cli] 🎨 Report sections:")
+    print("  - 🔬 Hero Header (Run info, datasets)")
+    print("  - 📊 Model Comparison (Performance analysis)")
+    print("  - 🔬 Individual Models (LCDM, PBUF details)")
+    print("  - 📈 Jackknife Analysis (Parameter stability)")
+    print("  - 📋 Data Tables (Comprehensive data display)")
+    print("  - 🎯 Conclusion (Recommendations)")
+    print("  - ✅ Professional theme with exact example layout")
+
     return 0
-
-
-def _parse_dataset_names(raw: str) -> list[str]:
-    tokens = [token.strip().lower() for token in raw.replace(",", " ").split() if token.strip()]
-    if not tokens:
-        raise ValueError("At least one dataset must be provided via --datasets.")
-    return tokens
 
 
 def _parse_dataset_weights(raw: Sequence[str]) -> dict[str, float]:

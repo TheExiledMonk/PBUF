@@ -1,0 +1,27 @@
+Parameter,Value,Unit,Description,Source
+=== PBUF ===,,,,
+Regulator Type,—,,Type of UV regularization scheme,quantum_engine
+Field Content,—,,Number and type of quantum fields,quantum_engine
+,,,,
+UV Cutoff (f_cut),0.00e+00,GeV,Maximum frequency scale for quantum modes,quantum_engine
+Coupling Scale (f_coup),0.00e+00,,Quantum-gravity coupling strength,quantum_engine
+,,,,
+ε₀ Source,—,,Source of initial quantum vacuum energy,quantum_engine
+,,,,
+α Value,0.000,,Quantum deformation parameter,quantum_engine
+,,,,
+Maximum Rigidity (R_max),0.00e+00,GeV⁻¹,Maximum spacetime rigidity scale,quantum_engine
+,,,,
+Ω Normalization,—,,Cosmological parameter normalization scheme,quantum_engine
+,,,,
+σ Rescale,0.000,,Rescaling factor for matter fluctuations,quantum_engine
+,,,,
+LUT Type,Bootstrap,,Type of lookup table used,bootstrap
+LUT Version,—,,Version identifier for thermal table,bootstrap
+Interpolation Method,—,,Interpolation scheme for thermal quantities,thermal_table
+,,,,
+T_min,—,GeV,Minimum temperature in thermal table,thermal_table
+T_max,—,GeV,Maximum temperature in thermal table,thermal_table
+N_T Points,—,,Number of temperature grid points,thermal_table
+,,,,
+Normalization Mode,—,,Parameter normalization approach,quantum_engine

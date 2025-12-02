@@ -1,0 +1,1108 @@
+"""Jackknife resampling functionality for cosmos2 science runner.
+
+This is a minimal, reliable implementation focused on:
+1. Simple random data removal (10-20% per dataset)
+2. Proper error handling and validation
+3. Clear success/failure metrics
+4. Integration with science runner
+"""
+
+from __future__ import annotations
+
+import json
+import random
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, Dict, List, Sequence, Optional, Tuple
+from enum import Enum
+from concurrent.futures import ProcessPoolExecutor, as_completed
+import multiprocessing
+
+import numpy as np
+
+
+class RemovalStrategy(Enum):
+    """Selective removal strategies for jackknife."""
+    RANDOM_PERCENTAGE = "random_percentage"
+    REDSHIFT_BANDS = "redshift_bands"
+    SURVEY_ORIGIN = "survey_origin"
+    SPECIFIC_POINTS = "specific_points"
+    DATASET_REMOVAL = "dataset_removal"
+    K_MODE_RANGES = "k_mode_ranges"
+    L_MODE_RANGES = "l_mode_ranges"
+
+
+@dataclass
+class SelectiveRemovalConfig:
+    """Configuration for selective data removal strategies."""
+    strategy: RemovalStrategy
+    dataset_type: str
+    fraction: float = 0.1
+    specific_indices: List[int] = field(default_factory=list)
+    redshift_ranges: List[Tuple[float, float]] = field(default_factory=list)
+    survey_names: List[str] = field(default_factory=list)
+    k_range: Tuple[float, float] = field(default_factory=lambda: (0.0, 1.0))
+    l_range: Tuple[int, int] = field(default_factory=lambda: (0, 2500))
+
+
+@dataclass
+class JackknifeConfig:
+    """Enhanced jackknife configuration with selective removal strategies."""
+    enabled: bool = False
+    n_draws: int = 20  # Reasonable number for statistical significance
+    fraction_removed: float = 0.1  # Remove 10% of data per draw (fallback)
+    random_seed: int | None = None
+    datasets_to_test: List[str] = field(default_factory=lambda: ["sn", "bao", "cmb", "cc", "rsd"])
+    dataset_weights: Dict[str, float] = field(default_factory=dict)  # Weight datasets differently
+    confidence_level: float = 0.95  # Confidence level for intervals
+    removal_configs: List[SelectiveRemovalConfig] = field(default_factory=list)  # Selective removal strategies
+    parallel_execution: bool = True  # Enable parallel processing of draws
+    max_workers: Optional[int] = None  # Max parallel workers (None = CPU count)
+
+    def __post_init__(self) -> None:
+        if self.enabled:
+            if self.n_draws < 5:
+                raise ValueError("n_draws must be >= 5 for statistical significance")
+            if not 0.05 <= self.fraction_removed <= 0.25:
+                raise ValueError("fraction_removed must be between 0.05 and 0.25")
+            if not 0.8 <= self.confidence_level <= 0.99:
+                raise ValueError("confidence_level must be between 0.8 and 0.99")
+
+    @classmethod
+    def from_dict(cls, config: Dict[str, Any] | None) -> "JackknifeConfig":
+        if not config:
+            return cls(enabled=False)
+
+        # Parse selective removal configs
+        removal_configs = []
+        for removal_data in config.get("removal_configs", []):
+            removal_config = SelectiveRemovalConfig(
+                strategy=RemovalStrategy(removal_data["strategy"]),
+                dataset_type=removal_data["dataset_type"],
+                fraction=removal_data.get("fraction", 0.1),
+                specific_indices=removal_data.get("specific_indices", []),
+                redshift_ranges=removal_data.get("redshift_ranges", []),
+                survey_names=removal_data.get("survey_names", []),
+                k_range=tuple(removal_data.get("k_range", (0.0, 1.0))),
+                l_range=tuple(removal_data.get("l_range", (0, 2500)))
+            )
+            removal_configs.append(removal_config)
+
+        return cls(
+            enabled=bool(config.get("enabled", False)),
+            n_draws=int(config.get("n_draws", 20)),
+            fraction_removed=float(config.get("fraction_removed", 0.1)),
+            random_seed=config.get("random_seed", 42),
+            datasets_to_test=list(config.get("datasets_to_test", ["sn", "bao", "cmb", "cc", "rsd"])),
+            dataset_weights=dict(config.get("dataset_weights", {})),
+            confidence_level=float(config.get("confidence_level", 0.95)),
+            removal_configs=removal_configs,
+            parallel_execution=bool(config.get("parallel_execution", True)),
+            max_workers=config.get("max_workers")
+        )
+
+    def is_enabled(self) -> bool:
+        """Check if jackknife is enabled."""
+        return self.enabled
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert configuration to dictionary for serialization."""
+        return {
+            "enabled": self.enabled,
+            "n_draws": self.n_draws,
+            "fraction_removed": self.fraction_removed,
+            "random_seed": self.random_seed,
+            "datasets_to_test": self.datasets_to_test,
+            "dataset_weights": self.dataset_weights,
+            "confidence_level": self.confidence_level,
+            "parallel_execution": self.parallel_execution,
+            "max_workers": self.max_workers,
+            "removal_configs": [
+                {
+                    "strategy": config.strategy.value,
+                    "dataset_type": config.dataset_type,
+                    "fraction": config.fraction,
+                    "specific_indices": config.specific_indices,
+                    "redshift_ranges": [list(rng) for rng in config.redshift_ranges],
+                    "survey_names": config.survey_names,
+                    "k_range": list(config.k_range),
+                    "l_range": list(config.l_range)
+                }
+                for config in self.removal_configs
+            ]
+        }
+
+
+@dataclass
+class ModelResult:
+    """Result for a single model in a jackknife draw."""
+    model_name: str
+    parameters: Dict[str, float]
+    chi_squared: float
+    aic: Optional[float] = None
+    bic: Optional[float] = None
+    dof: Optional[int] = None
+    convergence_status: str = "unknown"
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "model_name": self.model_name,
+            "parameters": self.parameters,
+            "chi_squared": self.chi_squared,
+            "aic": self.aic,
+            "bic": self.bic,
+            "dof": self.dof,
+            "convergence_status": self.convergence_status
+        }
+
+
+@dataclass
+class JackknifeDraw:
+    """Results from a single jackknife draw with model comparison."""
+    draw_index: int
+    removed_datasets: Dict[str, Any]  # dataset -> removal_info
+    original_models: Dict[str, ModelResult]  # Results from full dataset for each model
+    jackknife_models: Dict[str, ModelResult]  # Results from jackknife dataset for each model
+    best_model_full: str  # Best model on full dataset
+    best_model_jackknife: str  # Best model on jackknife dataset
+    random_seed: int
+    success: bool = True
+    error_message: Optional[str] = None
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "draw_index": self.draw_index,
+            "removed_datasets": self.removed_datasets,
+            "original_models": {name: result.to_dict() for name, result in self.original_models.items()},
+            "jackknife_models": {name: result.to_dict() for name, result in self.jackknife_models.items()},
+            "best_model_full": self.best_model_full,
+            "best_model_jackknife": self.best_model_jackknife,
+            "success": self.success,
+            "error_message": self.error_message,
+            "random_seed": self.random_seed,
+        }
+
+
+class SimpleJackknifeRunner:
+    """Simple, reliable jackknife implementation."""
+
+    def __init__(self, config: JackknifeConfig, models: List[str] = None) -> None:
+        self.config = config
+        self.models = models or ["lcdm"]  # Default to LCDM if no models specified
+        self.rng = np.random.RandomState(config.random_seed)
+        self.draws: List[JackknifeDraw] = []
+
+    def run_jackknife(
+        self,
+        original_datasets: Dict[str, Any],
+        original_models: Dict[str, Any],
+        fit_function
+    ) -> List[JackknifeDraw]:
+        """Run jackknife analysis by repeatedly removing random data points."""
+        print(f"[jackknife] Running {self.config.n_draws} jackknife draws with {len(self.models)} models")
+        print(f"[jackknife] Models: {', '.join(self.models)}")
+        if self.config.parallel_execution:
+            print(f"[jackknife] Parallel execution enabled (up to {self.config.max_workers or multiprocessing.cpu_count()} workers)")
+
+        self.draws = []
+
+        for draw_idx in range(self.config.n_draws):
+            try:
+                draw = self._run_single_draw(draw_idx, original_datasets, original_models, fit_function)
+                self.draws.append(draw)
+                status = "SUCCESS" if draw.success else "FAILED"
+                model_change = "→" if draw.best_model_full != draw.best_model_jackknife else "="
+                print(f"[jackknife] Draw {draw_idx + 1}/{self.config.n_draws}: {status} "
+                      f"({draw.best_model_full} {model_change} {draw.best_model_jackknife})")
+
+            except Exception as e:
+                print(f"[jackknife] Draw {draw_idx + 1} failed: {e}")
+                # Create failed draw record
+                empty_models = {model: ModelResult(model, {}, float('inf')) for model in self.models}
+                draw = JackknifeDraw(
+                    draw_index=draw_idx,
+                    removed_datasets={},
+                    original_models=original_models,
+                    jackknife_models=empty_models,
+                    best_model_full=list(original_models.keys())[0] if original_models else "unknown",
+                    best_model_jackknife="unknown",
+                    success=False,
+                    error_message=str(e),
+                    random_seed=self.rng.randint(0, 2**32)
+                )
+                self.draws.append(draw)
+
+        return self.draws
+
+    def _run_parallel_jackknife(
+        self,
+        original_datasets: Dict[str, Any],
+        original_models: Dict[str, ModelResult]
+    ) -> List[JackknifeDraw]:
+        """Run jackknife draws in parallel using multiprocessing."""
+        max_workers = self.config.max_workers or min(multiprocessing.cpu_count(), self.config.n_draws)
+        print(f"[jackknife] Running in parallel mode with {max_workers} workers")
+
+        self.draws = []
+
+        # Prepare arguments for parallel execution
+        # Pre-create all masked datasets to avoid recomputation
+        masked_datasets_list = []
+        for draw_idx in range(self.config.n_draws):
+            seed = (self.config.random_seed or 0) + draw_idx * 1000
+            draw_rng = np.random.RandomState(seed)
+
+            # Create jackknife datasets for this draw
+            jackknife_datasets = {}
+            removed_info = {}
+
+            # Use selective removal configs if available, otherwise fall back to random removal
+            if self.config.removal_configs:
+                # Pick one removal strategy per draw (rotate through them)
+                strategy_index = draw_idx % len(self.config.removal_configs)
+                removal_config = self.config.removal_configs[strategy_index]
+
+                dataset_name = removal_config.dataset_type
+                if dataset_name in original_datasets:
+                    dataset = original_datasets[dataset_name]
+                    jackknife_dataset, removal_details = self._apply_selective_removal(
+                        dataset, removal_config, draw_rng, draw_idx
+                    )
+
+                    jackknife_datasets[dataset_name] = jackknife_dataset
+                    removed_info[f"{dataset_name}_{removal_config.strategy.value}"] = removal_details
+            else:
+                # Fallback to simple random removal
+                for dataset_name in self.config.datasets_to_test:
+                    if dataset_name not in original_datasets:
+                        continue
+
+                    dataset = original_datasets[dataset_name]
+                    jackknife_dataset, n_removed = self._create_jackknife_dataset(
+                        dataset, self.config.fraction_removed, draw_rng
+                    )
+
+                    jackknife_datasets[dataset_name] = jackknife_dataset
+                    removed_info[dataset_name] = n_removed
+
+            # Keep datasets not being tested unchanged
+            for dataset_name, dataset in original_datasets.items():
+                if dataset_name not in jackknife_datasets:
+                    jackknife_datasets[dataset_name] = dataset
+
+            masked_datasets_list.append((jackknife_datasets, removed_info))
+
+        draw_args = []
+        for draw_idx in range(self.config.n_draws):
+            seed = (self.config.random_seed or 0) + draw_idx * 1000
+            masked_datasets, removed_info = masked_datasets_list[draw_idx]
+            draw_args.append((draw_idx, original_datasets, original_models, masked_datasets, removed_info, seed, self.config, self.models, fit_function))
+
+        # Submit all draws to the executor
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            futures = [executor.submit(_run_single_draw_isolated, *args) for args in draw_args]
+
+            # Collect results as they complete
+            completed_count = 0
+            for future in as_completed(futures):
+                try:
+                    draw = future.result()
+                    self.draws.append(draw)
+                    completed_count += 1
+
+                    status = "SUCCESS" if draw.success else "FAILED"
+                    model_change = "→" if draw.best_model_full != draw.best_model_jackknife else "="
+                    print(f"[jackknife] Draw {completed_count}/{self.config.n_draws}: {status} "
+                          f"({draw.best_model_full} {model_change} {draw.best_model_jackknife})")
+
+                except Exception as e:
+                    print(f"[jackknife] Parallel draw failed: {e}")
+                    completed_count += 1
+
+        # Sort draws by index for consistent ordering
+        self.draws.sort(key=lambda d: d.draw_index)
+        return self.draws
+
+def _run_single_draw_isolated(
+    draw_idx: int,
+    original_datasets: Dict[str, Any],
+    original_models: Dict[str, ModelResult],
+    masked_datasets: Dict[str, Any],
+    removed_info: Dict[str, Any],
+    seed: int,
+    config: JackknifeConfig,
+    models: List[str],
+    fit_function
+) -> JackknifeDraw:
+    """Run a single jackknife draw in an isolated process."""
+    import os
+    import json
+
+    # Create isolated runner instance
+    runner = SimpleJackknifeRunner(config, models)
+    runner.rng = np.random.RandomState(seed)
+
+    # Run the draw with isolated logic
+    return runner._run_single_draw_isolated(draw_idx, original_datasets, original_models, masked_datasets, removed_info, fit_function)
+
+
+class SimpleJackknifeRunner:
+
+        # Run actual optimization with masked datasets
+        jackknife_models = {}
+        success = True
+        error_msg = None
+
+        try:
+            # Call the fit function with the masked datasets (available via environment variable)
+            jackknife_results = fit_function(jackknife_datasets, self.models)
+
+            # Convert results to ModelResult objects
+            for model_name in self.models:
+                if model_name in jackknife_results:
+                    model_data = jackknife_results[model_name]
+                    model_result = ModelResult(
+                        model_name=model_name,
+                        parameters=model_data.get("parameters", {}),
+                        chi_squared=model_data.get("chi_squared", float('inf')),
+                        aic=model_data.get("aic"),
+                        bic=model_data.get("bic"),
+                        dof=model_data.get("dof"),
+                        convergence_status=model_data.get("convergence_status", "unknown")
+                    )
+                    jackknife_models[model_name] = model_result
+                else:
+                    # Model failed to run
+                    jackknife_models[model_name] = ModelResult(
+                        model_name=model_name,
+                        parameters={},
+                        chi_squared=float('inf'),
+                        convergence_status="failed"
+                    )
+
+            # Determine best model for jackknife datasets
+            valid_models = [(name, model) for name, model in jackknife_models.items()
+                          if model.chi_squared < float('inf')]
+            best_model_jackknife = min(valid_models, key=lambda x: x[1].chi_squared)[0] if valid_models else "unknown"
+
+        except Exception as e:
+            error_msg = str(e)
+            success = False
+            # Create failed model results
+            for model_name in self.models:
+                jackknife_models[model_name] = ModelResult(
+                    model_name=model_name,
+                    parameters={},
+                    chi_squared=float('inf'),
+                    convergence_status="failed"
+                )
+            best_model_jackknife = "unknown"
+
+        # Clean up environment variable
+        os.environ.pop(f'COSMOS2_JACKKNIFE_DATA_{os.getpid()}', None)
+
+        # Use first model as baseline (LCDM)
+        best_model_full = list(original_models.keys())[0] if original_models else "unknown"
+
+        return JackknifeDraw(
+            draw_index=draw_idx,
+            removed_datasets=removed_info,
+            original_models=original_models,
+            jackknife_models=jackknife_models,
+            best_model_full=best_model_full,
+            best_model_jackknife=best_model_jackknife,
+            success=success,
+            error_message=None,
+            random_seed=seed
+        )
+
+    def _run_single_draw(
+        self,
+        draw_idx: int,
+        original_datasets: Dict[str, Any],
+        original_models: Dict[str, ModelResult],
+        fit_function
+    ) -> JackknifeDraw:
+        """Run a single jackknife draw with selective removal strategies and multiple models."""
+        # Use deterministic seed for reproducibility
+        seed = (self.config.random_seed or 0) + draw_idx * 1000
+        draw_rng = np.random.RandomState(seed)
+
+        # Create jackknife datasets using selective removal strategies
+        jackknife_datasets = {}
+        removed_info = {}
+
+        # Use selective removal configs if available, otherwise fall back to random removal
+        if self.config.removal_configs:
+            # Pick one removal strategy per draw (rotate through them)
+            strategy_index = draw_idx % len(self.config.removal_configs)
+            removal_config = self.config.removal_configs[strategy_index]
+
+            dataset_name = removal_config.dataset_type
+            if dataset_name in original_datasets:
+                dataset = original_datasets[dataset_name]
+                jackknife_dataset, removal_details = self._apply_selective_removal(
+                    dataset, removal_config, draw_rng, draw_idx
+                )
+
+                jackknife_datasets[dataset_name] = jackknife_dataset
+                removed_info[f"{dataset_name}_{removal_config.strategy.value}"] = removal_details
+        else:
+            # Fallback to simple random removal
+            for dataset_name in self.config.datasets_to_test:
+                if dataset_name not in original_datasets:
+                    continue
+
+                dataset = original_datasets[dataset_name]
+                jackknife_dataset, n_removed = self._create_jackknife_dataset(
+                    dataset, self.config.fraction_removed, draw_rng
+                )
+
+                jackknife_datasets[dataset_name] = jackknife_dataset
+                removed_info[dataset_name] = n_removed
+
+        # Keep datasets not being tested unchanged
+        for dataset_name, dataset in original_datasets.items():
+            if dataset_name not in jackknife_datasets:
+                jackknife_datasets[dataset_name] = dataset
+
+        # Run all models on jackknife datasets
+        jackknife_models = {}
+        success = True
+        error_msg = None
+
+        try:
+            # Run fit with jackknife datasets for all models
+            jackknife_results = fit_function(jackknife_datasets, self.models)
+
+            # Convert results to ModelResult objects
+            for model_name in self.models:
+                if model_name in jackknife_results:
+                    model_data = jackknife_results[model_name]
+                    model_result = ModelResult(
+                        model_name=model_name,
+                        parameters=model_data.get("parameters", {}),
+                        chi_squared=model_data.get("chi_squared", float('inf')),
+                        aic=model_data.get("aic"),
+                        bic=model_data.get("bic"),
+                        dof=model_data.get("dof"),
+                        convergence_status=model_data.get("convergence_status", "unknown")
+                    )
+                    jackknife_models[model_name] = model_result
+                else:
+                    # Model failed to run
+                    jackknife_models[model_name] = ModelResult(
+                        model_name=model_name,
+                        parameters={},
+                        chi_squared=float('inf'),
+                        convergence_status="failed"
+                    )
+
+            # Determine best model for jackknife datasets
+            valid_models = [(name, model) for name, model in jackknife_models.items()
+                          if model.chi_squared < float('inf')]
+            best_model_jackknife = min(valid_models, key=lambda x: x[1].chi_squared)[0] if valid_models else "unknown"
+
+        except Exception as e:
+            error_msg = str(e)
+            success = False
+            # Create failed model results
+            for model_name in self.models:
+                jackknife_models[model_name] = ModelResult(
+                    model_name=model_name,
+                    parameters={},
+                    chi_squared=float('inf'),
+                    convergence_status="failed"
+                )
+            best_model_jackknife = "unknown"
+
+        # Use first model as baseline (typically LCDM)
+        best_model_full = list(original_models.keys())[0] if original_models else "unknown"
+
+        return JackknifeDraw(
+            draw_index=draw_idx,
+            removed_datasets=removed_info,
+            original_models=original_models,
+            jackknife_models=jackknife_models,
+            best_model_full=best_model_full,
+            best_model_jackknife=best_model_jackknife,
+            success=success,
+            error_message=error_msg,
+            random_seed=seed
+        )
+
+    def _apply_selective_removal(
+        self,
+        dataset: Dict[str, Any],
+        removal_config: SelectiveRemovalConfig,
+        rng: np.random.RandomState,
+        draw_idx: int
+    ) -> tuple[Dict[str, Any], Dict[str, Any]]:
+        """Apply selective removal strategy to a dataset."""
+        if not dataset:
+            return dataset, {"n_removed": 0, "strategy": removal_config.strategy.value}
+
+        data_size = self._get_dataset_size(dataset)
+        if data_size == 0:
+            return dataset, {"n_removed": 0, "strategy": removal_config.strategy.value}
+
+        remove_indices = []
+
+        if removal_config.strategy == RemovalStrategy.RANDOM_PERCENTAGE:
+            # Random percentage removal (fallback behavior)
+            n_to_remove = max(1, int(data_size * removal_config.fraction))
+            n_to_remove = min(n_to_remove, data_size // 2)
+            remove_indices = rng.choice(data_size, n_to_remove, replace=False).tolist()
+
+        elif removal_config.strategy == RemovalStrategy.REDSHIFT_BANDS:
+            # Remove data in specific redshift ranges
+            if "z" in dataset:
+                z_data = np.array(dataset["z"])
+                for z_min, z_max in removal_config.redshift_ranges:
+                    band_mask = (z_data >= z_min) & (z_data <= z_max)
+                    band_indices = np.where(band_mask)[0].tolist()
+                    remove_indices.extend(band_indices)
+
+        elif removal_config.strategy == RemovalStrategy.SURVEY_ORIGIN:
+            # Remove data from specific surveys (placeholder - needs survey metadata)
+            # For now, implement as random removal with survey weighting
+            n_to_remove = max(1, int(data_size * removal_config.fraction))
+            n_to_remove = min(n_to_remove, data_size // 2)
+            remove_indices = rng.choice(data_size, n_to_remove, replace=False).tolist()
+
+        elif removal_config.strategy == RemovalStrategy.SPECIFIC_POINTS:
+            # Remove specific data points by index
+            remove_indices = [i for i in removal_config.specific_indices if i < data_size]
+
+        elif removal_config.strategy == RemovalStrategy.DATASET_REMOVAL:
+            # Remove entire dataset (or large portion)
+            n_to_remove = int(data_size * removal_config.fraction)
+            remove_indices = list(range(min(n_to_remove, data_size)))
+
+        elif removal_config.strategy == RemovalStrategy.K_MODE_RANGES:
+            # Remove data in specific k-mode ranges (placeholder for RSD)
+            n_to_remove = max(1, int(data_size * removal_config.fraction))
+            n_to_remove = min(n_to_remove, data_size // 2)
+            remove_indices = rng.choice(data_size, n_to_remove, replace=False).tolist()
+
+        elif removal_config.strategy == RemovalStrategy.L_MODE_RANGES:
+            # Remove data in specific ℓ-mode ranges (placeholder for CMB)
+            n_to_remove = max(1, int(data_size * removal_config.fraction))
+            n_to_remove = min(n_to_remove, data_size // 2)
+            remove_indices = rng.choice(data_size, n_to_remove, replace=False).tolist()
+
+        # Remove duplicates and ensure valid indices
+        remove_indices = list(set(remove_indices))
+        remove_indices = [i for i in remove_indices if i < data_size]
+
+        if not remove_indices:
+            return dataset, {"n_removed": 0, "strategy": removal_config.strategy.value}
+
+        # Create jackknife dataset
+        jackknife_dataset = self._apply_mask_to_dataset(dataset, remove_indices)
+
+        removal_info = {
+            "n_removed": len(remove_indices),
+            "strategy": removal_config.strategy.value,
+            "fraction_removed": len(remove_indices) / data_size,
+            "removed_indices": remove_indices[:10]  # Store first 10 indices for reference
+        }
+
+        return jackknife_dataset, removal_info
+
+    def _create_jackknife_dataset(
+        self,
+        dataset: Dict[str, Any],
+        fraction_to_remove: float,
+        rng: np.random.RandomState
+    ) -> tuple[Dict[str, Any], int]:
+        """Create a jackknife version of a dataset by removing random points (legacy method)."""
+        if not dataset:
+            return dataset, 0
+
+        # Find the size of the dataset
+        data_size = self._get_dataset_size(dataset)
+        if data_size == 0:
+            return dataset, 0
+
+        # Calculate how many points to remove (ensure we keep at least 50% of data)
+        n_to_remove = max(1, int(data_size * fraction_to_remove))
+        n_to_remove = min(n_to_remove, data_size // 2)  # Never remove more than 50%
+
+        # Randomly select indices to remove
+        remove_indices = rng.choice(data_size, n_to_remove, replace=False)
+
+        # Create jackknife dataset
+        jackknife_dataset = self._apply_mask_to_dataset(dataset, remove_indices)
+
+        return jackknife_dataset, n_to_remove
+
+    def _get_dataset_size(self, dataset: Dict[str, Any]) -> int:
+        """Get the size of a dataset."""
+        # Look for common data fields
+        for field in ['data', 'z', 'mu', 'distances']:
+            if field in dataset:
+                value = dataset[field]
+                if isinstance(value, (list, tuple, np.ndarray)):
+                    return len(value)
+
+        # If no standard field found, try to find the largest array
+        max_size = 0
+        for value in dataset.values():
+            if isinstance(value, (list, tuple, np.ndarray)):
+                max_size = max(max_size, len(value))
+
+        return max_size
+
+    def _apply_mask_to_dataset(self, dataset: Dict[str, Any], remove_indices: np.ndarray) -> Dict[str, Any]:
+        """Apply removal mask to dataset."""
+        dataset_size = self._get_dataset_size(dataset)
+        if dataset_size == 0 or len(remove_indices) == 0:
+            return dataset
+
+        # Create boolean mask (True = keep, False = remove)
+        mask = np.ones(dataset_size, dtype=bool)
+        mask[remove_indices] = False
+
+        jackknife_dataset = {}
+        for key, value in dataset.items():
+            if isinstance(value, (list, tuple, np.ndarray)) and len(value) == dataset_size:
+                # Apply mask to array-like data
+                if isinstance(value, np.ndarray):
+                    jackknife_dataset[key] = value[mask]
+                else:
+                    jackknife_dataset[key] = [value[i] for i, keep in enumerate(mask) if keep]
+            else:
+                # Keep non-array data unchanged
+                jackknife_dataset[key] = value
+
+        return jackknife_dataset
+
+    def _validate_result(self, result: Dict[str, Any]) -> bool:
+        """Validate that a jackknife result is reasonable."""
+        if not result:
+            return False
+
+        # Check for required fields
+        required_fields = ['parameters', 'chi_squared']
+        if not all(field in result for field in required_fields):
+            return False
+
+        # Check that parameters are finite and reasonable
+        params = result.get('parameters', {})
+        if not params:
+            return False
+
+        # Check chi-squared is finite and positive
+        chi2 = result.get('chi_squared', float('inf'))
+        if not (0 < chi2 < 1e10):  # Reasonable bounds for chi-squared
+            return False
+
+        # Check parameters are finite
+        for param_value in params.values():
+            if not np.isfinite(param_value):
+                return False
+
+        return True
+
+
+def analyze_jackknife_results(draws: List[JackknifeDraw], config: JackknifeConfig) -> Dict[str, Any]:
+    """Analyze jackknife results and compute stability metrics with confidence intervals."""
+    if not draws:
+        return {"error": "No jackknife draws to analyze"}
+
+    successful_draws = [d for d in draws if d.success]
+    n_successful = len(successful_draws)
+    n_total = len(draws)
+
+    print(f"[jackknife] Analysis: {n_successful}/{n_total} draws successful")
+
+    if n_successful == 0:
+        return {
+            "success_rate": 0.0,
+            "error": "No successful jackknife draws",
+            "stability_metrics": {},
+            "parameter_shifts": {},
+            "chi2_changes": {},
+            "model_comparison": {}
+        }
+
+    # Analyze parameter stability for each model
+    model_analyses = {}
+    for model_name in set().union(*[set(d.jackknife_models.keys()) for d in successful_draws]):
+        model_analysis = _analyze_model_stability(successful_draws, model_name, config.confidence_level)
+        model_analyses[model_name] = model_analysis
+
+    # Analyze model comparison stability
+    model_comparison = _analyze_model_comparison_stability(successful_draws)
+
+    # Compute overall stability metrics
+    stability_metrics = {
+        "success_rate": n_successful / n_total,
+        "n_draws_total": n_total,
+        "n_draws_successful": n_successful,
+        "confidence_level": config.confidence_level,
+        "model_comparison": model_comparison
+    }
+
+    # Add dataset impact analysis if weights are provided
+    if config.dataset_weights:
+        dataset_analysis = _analyze_dataset_impact(successful_draws, config.dataset_weights)
+        stability_metrics["dataset_impact"] = dataset_analysis
+
+    return {
+        "success_rate": n_successful / n_total,
+        "stability_metrics": stability_metrics,
+        "model_analyses": model_analyses,
+        "model_comparison": model_comparison,
+        "draws": [d.to_dict() for d in draws]
+    }
+
+
+def _analyze_parameter_stability(draws: List[JackknifeDraw], confidence_level: float = 0.95) -> Dict[str, Any]:
+    """Analyze parameter stability across jackknife draws."""
+    if not draws:
+        return {}
+
+    # Collect all parameter names
+    all_params = set()
+    for draw in draws:
+        params = draw.jackknife_result.get("parameters", {})
+        all_params.update(params.keys())
+
+    if not all_params:
+        return {"error": "No parameters found in jackknife results"}
+
+    parameter_stats = {}
+
+    for param in all_params:
+        values = []
+        for draw in draws:
+            params = draw.jackknife_result.get("parameters", {})
+            if param in params:
+                value = params[param]
+                if np.isfinite(value):
+                    values.append(value)
+
+        if len(values) >= 3:  # Need at least 3 points for meaningful statistics
+            values_array = np.array(values)
+            mean_val = np.mean(values_array)
+            std_val = np.std(values_array, ddof=1)  # Use ddof=1 for sample standard deviation
+            n = len(values_array)
+
+            # Calculate confidence interval using t-distribution
+            if n > 1:
+                # For small samples, use t-distribution
+                from scipy import stats
+                t_value = stats.t.ppf((1 + confidence_level) / 2, n - 1)
+                margin_of_error = t_value * std_val / np.sqrt(n)
+                ci_lower = mean_val - margin_of_error
+                ci_upper = mean_val + margin_of_error
+            else:
+                ci_lower = ci_upper = mean_val
+
+            param_stats = {
+                "mean": float(mean_val),
+                "std": float(std_val),
+                "min": float(np.min(values_array)),
+                "max": float(np.max(values_array)),
+                "n_values": n,
+                "coefficient_of_variation": float(std_val / abs(mean_val)) if mean_val != 0 else float('inf'),
+                "confidence_interval": {
+                    "level": confidence_level,
+                    "lower": float(ci_lower),
+                    "upper": float(ci_upper)
+                }
+            }
+            parameter_stats[param] = param_stats
+
+    # Overall stability score (lower is more stable)
+    if parameter_stats:
+        cv_values = [stats["coefficient_of_variation"] for stats in parameter_stats.values()
+                    if stats["coefficient_of_variation"] < 10]  # Filter out extreme values
+        if cv_values:
+            avg_cv = np.mean(cv_values)
+            # Convert to stability score (1.0 = perfectly stable, 0.0 = very unstable)
+            stability_score = 1.0 / (1.0 + avg_cv)
+        else:
+            stability_score = 0.0
+    else:
+        stability_score = 0.0
+
+    return {
+        "parameter_stats": parameter_stats,
+        "stability_score": stability_score,
+        "n_parameters_analyzed": len(parameter_stats)
+    }
+
+
+def _analyze_model_stability(draws: List[JackknifeDraw], model_name: str, confidence_level: float) -> Dict[str, Any]:
+    """Analyze stability for a specific model across jackknife draws."""
+    model_draws = [d for d in draws if model_name in d.jackknife_models and d.jackknife_models[model_name].chi_squared < float('inf')]
+
+    if not model_draws:
+        return {"error": f"No valid draws for model {model_name}"}
+
+    # Analyze parameter stability
+    parameter_analysis = _analyze_parameter_stability_for_model(model_draws, model_name, confidence_level)
+
+    # Analyze chi-squared stability
+    chi2_analysis = _analyze_chi2_stability_for_model(model_draws, model_name, confidence_level)
+
+    return {
+        "model_name": model_name,
+        "n_draws": len(model_draws),
+        "parameter_stability": parameter_analysis,
+        "chi2_stability": chi2_analysis,
+        "overall_stability_score": (parameter_analysis.get("stability_score", 0.0) +
+                                   chi2_analysis.get("stability_score", 0.0)) / 2
+    }
+
+
+def _analyze_model_comparison_stability(draws: List[JackknifeDraw]) -> Dict[str, Any]:
+    """Analyze stability of model comparison (which model is best) across jackknife draws."""
+    successful_draws = [d for d in draws if d.success]
+
+    if not successful_draws:
+        return {"error": "No successful draws for model comparison"}
+
+    # Count how often each model is best
+    model_wins = {}
+    model_preference_changes = 0
+
+    for draw in successful_draws:
+        best_model = draw.best_model_jackknife
+        if best_model not in model_wins:
+            model_wins[best_model] = 0
+        model_wins[best_model] += 1
+
+        # Check if best model changed compared to full dataset
+        if draw.best_model_full != draw.best_model_jackknife:
+            model_preference_changes += 1
+
+    total_draws = len(successful_draws)
+    preference_stability = 1.0 - (model_preference_changes / total_draws)
+
+    # Calculate model ranking consistency
+    models = list(model_wins.keys())
+    if len(models) > 1:
+        # Most frequent winner
+        most_common_winner = max(model_wins.items(), key=lambda x: x[1])
+        winner_frequency = most_common_winner[1] / total_draws
+    else:
+        winner_frequency = 1.0
+
+    return {
+        "model_wins": model_wins,
+        "total_draws": total_draws,
+        "preference_changes": model_preference_changes,
+        "preference_stability": preference_stability,
+        "dominant_model": max(model_wins.items(), key=lambda x: x[1])[0] if model_wins else None,
+        "dominant_model_frequency": winner_frequency,
+        "model_consistency_score": winner_frequency  # How consistently one model wins
+    }
+
+
+def _analyze_dataset_impact(draws: List[JackknifeDraw], dataset_weights: Dict[str, float]) -> Dict[str, Any]:
+    """Analyze the impact of different datasets on jackknife results."""
+    if not dataset_weights or not draws:
+        return {}
+
+    dataset_impact = {}
+
+    for dataset_name, weight in dataset_weights.items():
+        # Count how many draws removed data from this dataset
+        draws_affecting_dataset = 0
+        total_removed = 0
+
+        for draw in draws:
+            # Check if any removal affected this dataset
+            for removal_key, removal_info in draw.removed_datasets.items():
+                if isinstance(removal_info, dict) and removal_info.get("n_removed", 0) > 0:
+                    if dataset_name in removal_key:
+                        draws_affecting_dataset += 1
+                        total_removed += removal_info["n_removed"]
+                        break
+                elif isinstance(removal_info, (int, float)) and removal_info > 0:
+                    # Legacy format
+                    if dataset_name in removal_key:
+                        draws_affecting_dataset += 1
+                        total_removed += removal_info
+                        break
+
+        if draws_affecting_dataset > 0:
+            dataset_impact[dataset_name] = {
+                "weight": weight,
+                "draws_affected": draws_affecting_dataset,
+                "total_points_removed": total_removed,
+                "avg_points_removed": total_removed / draws_affecting_dataset,
+                "impact_frequency": draws_affecting_dataset / len(draws)
+            }
+
+    return dataset_impact
+
+
+def _analyze_parameter_stability_for_model(draws: List[JackknifeDraw], model_name: str, confidence_level: float) -> Dict[str, Any]:
+    """Analyze parameter stability for a specific model."""
+    # Collect parameter values for this model
+    all_params = set()
+    param_values = {}
+
+    for draw in draws:
+        if model_name in draw.jackknife_models:
+            model_result = draw.jackknife_models[model_name]
+            for param, value in model_result.parameters.items():
+                if param not in param_values:
+                    param_values[param] = []
+                    all_params.add(param)
+                param_values[param].append(value)
+
+    if not param_values:
+        return {"error": f"No parameter data for model {model_name}"}
+
+    # Analyze each parameter
+    parameter_stats = {}
+    stability_scores = []
+
+    for param in all_params:
+        values = param_values[param]
+        if len(values) >= 3:
+            values_array = np.array(values)
+            mean_val = np.mean(values_array)
+            std_val = np.std(values_array, ddof=1)
+            n = len(values_array)
+
+            # Calculate confidence interval
+            if n > 1:
+                from scipy import stats
+                t_value = stats.t.ppf((1 + confidence_level) / 2, n - 1)
+                margin_of_error = t_value * std_val / np.sqrt(n)
+                ci_lower = mean_val - margin_of_error
+                ci_upper = mean_val + margin_of_error
+            else:
+                ci_lower = ci_upper = mean_val
+
+            # Calculate stability score
+            cv = std_val / abs(mean_val) if mean_val != 0 else float('inf')
+            stability_score = 1.0 / (1.0 + cv) if cv < 10 else 0.0
+            stability_scores.append(stability_score)
+
+            parameter_stats[param] = {
+                "mean": float(mean_val),
+                "std": float(std_val),
+                "min": float(np.min(values_array)),
+                "max": float(np.max(values_array)),
+                "n_values": n,
+                "coefficient_of_variation": float(cv),
+                "confidence_interval": {
+                    "level": confidence_level,
+                    "lower": float(ci_lower),
+                    "upper": float(ci_upper)
+                }
+            }
+
+    return {
+        "parameter_stats": parameter_stats,
+        "stability_score": np.mean(stability_scores) if stability_scores else 0.0,
+        "n_parameters_analyzed": len(parameter_stats)
+    }
+
+
+def _analyze_chi2_stability_for_model(draws: List[JackknifeDraw], model_name: str, confidence_level: float) -> Dict[str, Any]:
+    """Analyze chi-squared stability for a specific model."""
+    chi2_values = []
+
+    for draw in draws:
+        if model_name in draw.jackknife_models:
+            model_result = draw.jackknife_models[model_name]
+            if model_result.chi_squared < float('inf'):
+                chi2_values.append(model_result.chi_squared)
+
+    if len(chi2_values) < 3:
+        return {"error": f"Insufficient chi-squared data for model {model_name}"}
+
+    chi2_array = np.array(chi2_values)
+    mean_val = np.mean(chi2_array)
+    std_val = np.std(chi2_array, ddof=1)
+    n = len(chi2_values)
+
+    # Calculate confidence interval
+    if n > 1:
+        from scipy import stats
+        t_value = stats.t.ppf((1 + confidence_level) / 2, n - 1)
+        margin_of_error = t_value * std_val / np.sqrt(n)
+        ci_lower = mean_val - margin_of_error
+        ci_upper = mean_val + margin_of_error
+    else:
+        ci_lower = ci_upper = mean_val
+
+    relative_std = std_val / mean_val
+    stability_score = 1.0 / (1.0 + relative_std)
+
+    return {
+        "mean": float(mean_val),
+        "std": float(std_val),
+        "min": float(np.min(chi2_array)),
+        "max": float(np.max(chi2_array)),
+        "n_values": n,
+        "relative_std": float(relative_std),
+        "confidence_interval": {
+            "level": confidence_level,
+            "lower": float(ci_lower),
+            "upper": float(ci_upper)
+        },
+        "stability_score": stability_score
+    }
+
+
+def _analyze_chi2_stability(draws: List[JackknifeDraw], confidence_level: float = 0.95) -> Dict[str, Any]:
+    """Analyze chi-squared stability across jackknife draws."""
+    if not draws:
+        return {}
+
+    chi2_values = []
+    for draw in draws:
+        chi2 = draw.jackknife_result.get("chi_squared", float('inf'))
+        if np.isfinite(chi2) and chi2 > 0:
+            chi2_values.append(chi2)
+
+    if len(chi2_values) < 3:
+        return {"error": "Insufficient chi-squared values for analysis"}
+
+    chi2_array = np.array(chi2_values)
+    mean_val = np.mean(chi2_array)
+    std_val = np.std(chi2_array, ddof=1)  # Use ddof=1 for sample standard deviation
+    n = len(chi2_values)
+
+    # Calculate confidence interval using t-distribution
+    if n > 1:
+        from scipy import stats
+        t_value = stats.t.ppf((1 + confidence_level) / 2, n - 1)
+        margin_of_error = t_value * std_val / np.sqrt(n)
+        ci_lower = mean_val - margin_of_error
+        ci_upper = mean_val + margin_of_error
+    else:
+        ci_lower = ci_upper = mean_val
+
+    chi2_stats = {
+        "mean": float(mean_val),
+        "std": float(std_val),
+        "min": float(np.min(chi2_array)),
+        "max": float(np.max(chi2_array)),
+        "n_values": n,
+        "relative_std": float(std_val / mean_val),
+        "confidence_interval": {
+            "level": confidence_level,
+            "lower": float(ci_lower),
+            "upper": float(ci_upper)
+        }
+    }
+
+    # Stability score based on relative standard deviation
+    relative_std = chi2_stats["relative_std"]
+    stability_score = 1.0 / (1.0 + relative_std)
+
+    return {
+        "chi2_stats": chi2_stats,
+        "stability_score": stability_score
+    }

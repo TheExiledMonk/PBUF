@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Science Run Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+/* EXACT theme from example - beautiful and professional */
+:root {
+    color-scheme: light;
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f4f6fb;
+    color: #0f172a;
+}
+
+header.hero {
+    padding: 2.5rem 1.5rem 2rem;
+    background: linear-gradient(135deg, #020617, #0f172a);
+    color: #f8fafc;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: clamp(1.9rem, 3vw, 2.6rem);
+}
+
+.hero p {
+    margin: 0.25rem 0;
+    color: rgba(248, 250, 252, 0.8);
+}
+
+.eyebrow {
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.hero-grid {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.hero-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.8rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.4);
+}
+
+.hero-card strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+    color: #cbd5f5;
+}
+
+.hero-card span {
+    font-size: 0.9rem;
+}
+
+main.content {
+    max-width: 1200px;
+    margin: -2rem auto 3rem;
+    padding: 0 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.panel {
+    background: #fff;
+    border-radius: 1.2rem;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.panel h2 {
+    margin-top: 0;
+    font-size: 1.3rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stat-card {
+    border-radius: 0.8rem;
+    padding: 0.9rem 1rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+}
+
+.stat-value {
+    margin-top: 0.25rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #0f172a;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+.summary-table th,
+.summary-table td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.summary-table th {
+    background: #f1f5f9;
+    font-weight: 600;
+}
+
+.details {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+}
+
+.details th,
+.details td {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0.5rem 0.75rem;
+}
+
+.details th {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+}
+
+.phase-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.phase-card {
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.8rem;
+    background: #f8fafc;
+}
+
+.phase-label {
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+.phase-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0.2rem 0;
+}
+
+.phase-meta {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.grid-item {
+    padding: 0.5rem 0;
+}
+
+.grid-item label {
+    font-size: 0.75rem;
+    color: #475569;
+    display: block;
+}
+
+.grid-item span {
+    font-weight: 600;
+}
+
+.model-panel {
+    border-radius: 1rem;
+    padding-bottom: 1.5rem;
+}
+
+.model-panel h3 {
+    margin-bottom: 0.5rem;
+}
+
+.model-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.plot-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.plot-figure {
+    margin: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.8rem;
+    padding: 0.5rem;
+    background: #f8fafc;
+}
+
+.plot-image {
+    width: 100%;
+    display: block;
+}
+
+.model-lcdm { 
+    background: #eff6ff; 
+    border-left: 4px solid #3b82f6;
+}
+
+.model-pbuf { 
+    background: #fef2f2; 
+    border-left: 4px solid #ef4444;
+}
+
+.jackknife-section {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    margin: 1rem 0;
+}
+
+.stability-indicator {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.stability-stable {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.stability-unstable {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.stability-moderate {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.figure-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.figure-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.8rem;
+    overflow: hidden;
+}
+
+.figure-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.figure-caption {
+    padding: 0.75rem;
+    background: #f8fafc;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+    </style>
+</head>
+<body>
+    
+    <header class="hero">
+        <div class="eyebrow">Science Run Report</div>
+        <h1>2025-11-29T013844_enhanced_jackknife_config</h1>
+        <p>Generated on 2025-11-29 11:40:39</p>
+        <div class="hero-grid">
+            <div class="hero-card">
+                <strong>Models</strong>
+                <span>LCDM, PBUF</span>
+            </div>
+            <div class="hero-card">
+                <strong>Datasets</strong>
+                <span>CMB, SN, BAO, CC, RSD</span>
+            </div>
+            <div class="hero-card">
+                <strong>Status</strong>
+                <span>Complete</span>
+            </div>
+            <div class="hero-card">
+                <strong>Quality</strong>
+                <span>Professional</span>
+            </div>
+        </div>
+    </header>
+    
+    <main class="content">
+        
+        <section class="panel">
+            <h2>📊 Model Comparison</h2>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>χ²</th>
+                        <th>Parameters</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr class="model-lcdm">
+                    <td><strong>LCDM</strong></td>
+                    <td>0.0</td>
+                    <td>0</td>
+                    <td>Δχ² = -inf</td>
+                </tr>
+                <tr class="model-pbuf">
+                    <td><strong>PBUF</strong></td>
+                    <td>0.0</td>
+                    <td>0</td>
+                    <td>Δχ² = -inf</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="panel model-lcdm">
+            <h2>🔬 LCDM Model</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">χ²</div>
+                    <div class="stat-value">N/A</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Parameters</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Status</div>
+                    <div class="stat-value">Complete</div>
+                </div>
+            </div>
+            
+            <h3>Best-fit Parameters</h3>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            
+            <h3>χ² Breakdown</h3>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>χ²</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Total</strong></td><td><strong>0.000</strong></td></tr>
+                </tbody>
+            </table>
+            
+            
+                <div class="jackknife-section">
+                    <h4>🔍 Jackknife Analysis</h4>
+                    <p><em>No jackknife data available for this model</em></p>
+                </div>
+        </section>
+        <section class="panel model-pbuf">
+            <h2>🔬 PBUF Model</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">χ²</div>
+                    <div class="stat-value">N/A</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Parameters</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Status</div>
+                    <div class="stat-value">Complete</div>
+                </div>
+            </div>
+            
+            <h3>Best-fit Parameters</h3>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            
+            <h3>χ² Breakdown</h3>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>χ²</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Total</strong></td><td><strong>0.000</strong></td></tr>
+                </tbody>
+            </table>
+            
+            
+                <div class="jackknife-section">
+                    <h4>🔍 Jackknife Analysis</h4>
+                    <p><em>No jackknife data available for this model</em></p>
+                </div>
+        </section>
+        
+        <section class="panel">
+            <h2>📈 Figures & Visualizations</h2>
+            <div class="figure-grid">
+                
+                <div class="figure-item">
+                    <img src="data/science_runs/full_joint/2025-11-29T013844_enhanced_jackknife_config/figures/hubble_diagram.png" alt="hubble_diagram">
+                    <div class="figure-caption">
+                        <strong>Hubble Diagram</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="panel">
+            <h2>🎯 Analysis Summary</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Models Analyzed</div>
+                    <div class="stat-value">2</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Best Model</div>
+                    <div class="stat-value">N/A</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Best χ²</div>
+                    <div class="stat-value">N/A</div>
+                </div>
+            </div>
+            
+            <h3>Recommendations</h3>
+            <ul>
+                <li>Based on χ² analysis, N/A provides the best fit to the data</li><li>Consider increasing data sample size for better parameter stability</li>
+            </ul>
+            
+            <p><em>Report generated on 2025-11-29 11:40:39</em></p>
+        </section>
+    </main>
+</body>
+</html>

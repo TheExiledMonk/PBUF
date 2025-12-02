@@ -1,0 +1,18 @@
+# Core dependencies for HPC communication module
+aiohttp>=3.8.0
+pydantic>=2.0.0
+cryptography>=3.4.0
+structlog>=22.0.0
+
+# Optional dependencies for enhanced features
+pyjwt>=2.4.0  # For JWT token support
+redis>=4.0.0   # For message queue transport
+prometheus-client>=0.14.0  # For metrics collection
+
+# Development and testing dependencies
+pytest>=7.0.0
+pytest-asyncio>=0.20.0
+pytest-cov>=4.0.0
+black>=22.0.0
+isort>=5.10.0
+mypy>=1.0.0

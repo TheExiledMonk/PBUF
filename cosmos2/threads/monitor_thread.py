@@ -21,6 +21,64 @@ def _format_progress(current: int, total: int | None) -> str:
     return str(current)
 
 
+def _get_backend_info() -> str:
+    """Get current backend information."""
+    try:
+        # Check if smart GPU backend is available
+        try:
+            from cosmos2.backends.smart_backend import SmartGPUBackend
+            return "gpu+smart"
+        except ImportError:
+            pass
+        
+        # Check if basic GPU backend is available
+        try:
+            from cosmos2.backends.rocm_backend import ROCmBackend
+            backend = ROCmBackend()
+            if hasattr(backend, '_smart_backend') and backend._smart_backend:
+                return "gpu+smart"
+            return "gpu"
+        except Exception:
+            pass
+        
+        # Check for numba
+        try:
+            import numba
+            return "numba"
+        except ImportError:
+            pass
+        
+        # Default to Python
+        return "python"
+        
+    except Exception:
+        return "python"
+
+
+def _get_gpu_load() -> str:
+    """Get GPU load information."""
+    try:
+        # Try reading from DRI for AMD GPUs
+        try:
+            with open('/sys/class/drm/card1/device/gpu_busy_percent', 'r') as f:
+                load = f.read().strip()
+                return f"{load}%"
+        except (FileNotFoundError, PermissionError):
+            pass
+        
+        # Try card0 as fallback
+        try:
+            with open('/sys/class/drm/card0/device/gpu_busy_percent', 'r') as f:
+                load = f.read().strip()
+                return f"{load}%"
+        except (FileNotFoundError, PermissionError):
+            pass
+        
+        return "N/A"
+    except Exception:
+        return "N/A"
+
+
 def _safe_float(value: object) -> float:
     try:
         return float(value)  # type: ignore[arg-type]
@@ -158,23 +216,45 @@ def run_monitor_thread(
             chi2_history = shared_state.get("chi2_history") or []
             latest_batch = shared_state.get("latest_batch") or shared_state.get("last_batch")
         stats = _system_stats()
+        backend_info = _get_backend_info()
+        gpu_load = _get_gpu_load()
 
         _clear_screen()
         cols = shutil.get_terminal_size((100, 20)).columns
         header = "Cosmos2 Engine 2.0"
+        
+        # Add backend info first
+        header += f" | Backend {backend_info}"
+        
+        # Add GPU load
+        header += f" | GPU load {gpu_load}"
+        
+        # Add CPU load
+        if stats["cpu_load"] is not None:
+            header += f" | CPU load {stats['cpu_load']:.2f}/{stats['cpus']}"
+        
+        # Add memory
+        if stats["mem_used"] is not None and stats["mem_total"] is not None:
+            header += f" | Mem {stats['mem_used']:.1f}/{stats['mem_total']:.1f} GB"
+        
+        mode_label = shared_state.get("mode")
+        if mode_label:
+            header += f" | Mode {mode_label}"
+
+        # Add threads
+        header += f" | Threads {stats['threads']}"
+        
+        # Add processes
+        if stats.get("children") is not None:
+            header += f" | Procs {stats['children']}"
+        
+        # Add workers
         max_workers = None
         if models:
             try:
                 max_workers = max(payload.get("workers", 0) or 0 for payload in models.values())
             except Exception:
                 max_workers = None
-        if stats["cpu_load"] is not None:
-            header += f" | CPU load {stats['cpu_load']:.2f}/{stats['cpus']}"
-        if stats["mem_used"] is not None and stats["mem_total"] is not None:
-            header += f" | Mem {stats['mem_used']:.1f}/{stats['mem_total']:.1f} GB"
-        header += f" | Threads {stats['threads']}"
-        if stats.get("children") is not None:
-            header += f" | Procs {stats['children']}"
         if max_workers:
             header += f" | Workers {max_workers}"
         print(header.ljust(cols, " "))

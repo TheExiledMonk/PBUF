@@ -14,32 +14,11 @@ from cosmos2.api.engine import build_lcdm_model_config, build_pbuf_model_config,
 from cosmos2.fits.joint import build_joint_chi2_evaluator
 from cosmos2.models.model_factory import create_model
 from cosmos2.models.pbuf import build_pbuf_joint_chi2
+from cosmos2.parameters import ModelState, get_parameter_snapshot
 from cosmos2.science_runner.config import ScienceRunConfig
+from cosmos2.science_runner.environment import gather_run_environment
 from cosmos2.science_runner.recorder import RunRecorder
 from cosmos2.science_runner.utils import hash_payload, serialize_value
-
-
-def _make_predictions(model) -> Dict[str, Any]:
-    """Assemble lightweight prediction vectors for plotting/reporting."""
-    z = np.linspace(0.0, 2.0, 64, dtype=float)
-    H_z = np.asarray(model.Hubble(z), dtype=float)
-    DM_z = np.asarray(model.DM(z), dtype=float)
-    fs8_z = np.asarray(model.fs8(z), dtype=float)
-    preds = {
-        "H0": float(model.parameters.get("H0", 0.0)),
-        "Omega_m0": float(model.parameters.get("Omega_m0", 0.0)),
-        "Omega_k0": float(model.parameters.get("Omega_k0", 0.0)),
-        "S8": float(model.S8()),
-        "sigma8": float(model.sigma8()),
-        "r_d": float(model.sound_horizon()),
-        "plot_data": {
-            "z": z.tolist(),
-            "H_z": H_z.tolist(),
-            "DM_z": DM_z.tolist(),
-            "fs8_z": fs8_z.tolist(),
-        },
-    }
-    return preds
 
 
 def _compute_profile_likelihood(
@@ -132,7 +111,7 @@ class Cosmos2ScienceRunner:
 
         model_configs = self._build_model_configs(joint_config_path)
         grid_points = self.config.engine_settings.get("grid_points")
-        monitor_flag = bool(self.config.engine_settings.get("monitor", False))
+        monitor_option = self.config.engine_settings.get("monitor")
         resume_flag = bool(self.config.engine_settings.get("resume", False))
         checkpoint_path = run_dir / "checkpoint.json"
 
@@ -155,11 +134,12 @@ class Cosmos2ScienceRunner:
         if result is None:
             result = run_optimisation(
                 model_configs,
-                monitor=monitor_flag,
+                monitor=monitor_option,
                 grid_points=grid_points,
                 workers=self.config.engine_settings.get("workers"),
+                mode_label="legacy joint",
                 progress_callback=progress_callback,
-                checkpoint_path=checkpoint_path,
+                checkpoint_file=checkpoint_path,
             )
 
         history_entries: list[dict[str, Any]] = []
@@ -181,15 +161,19 @@ class Cosmos2ScienceRunner:
                 self.recorder.record_model_failure(model_dir, "non-finite chi2")
                 continue
 
-            predictions, model_obj = self._make_predictions_for_model(model_name, best_params)
+            snapshot, model_obj = self._make_predictions_for_model(model_name, best_params)
             engine_trace = summary.get("results")
             trace_meta = {"iterations": len(engine_trace) if isinstance(engine_trace, Sequence) else 0}
+            predictions = snapshot.to_predictions()
             # Save a flat parameters dump with derived quantities for quick inspection.
-            derived_params = {k: v for k, v in predictions.items() if k != "plot_data"}
+            derived_params = {
+                k: v for k, v in snapshot.derived.items() if k not in {"plot_data", "growth_curve"}
+            }
             parameters_payload = {
                 "base": serialize_value(best_params),
                 "model_parameters": serialize_value(getattr(model_obj, "parameters", {})),
                 "derived": serialize_value(derived_params),
+                "parameter_snapshot": serialize_value(snapshot.to_dict()),
             }
             self.recorder.write_json(model_dir, "parameters.json", parameters_payload)
 
@@ -213,6 +197,7 @@ class Cosmos2ScienceRunner:
                 fit_outputs=serialize_value(fit_results),
                 predictions=predictions,
                 engine_result={"results": engine_trace, "best_chi2": best_chi2},
+                parameter_snapshot=snapshot.to_dict(),
                 profile_likelihood=profile_data,
                 save_space=self.config.output.save_space,
             )
@@ -247,6 +232,8 @@ class Cosmos2ScienceRunner:
                 }
             )
             chi2_history.append({"model": model_name, "best_chi2": best_chi2, "weighted_chi2": weighted_chi2})
+        env_snapshot = gather_run_environment()
+
         run_meta = {
             "run_name": self.config.run_name,
             "timestamp": timestamp,
@@ -271,6 +258,15 @@ class Cosmos2ScienceRunner:
             "success": success and not model_failures,
             "model_failures": model_failures,
         }
+        if env_snapshot:
+            run_meta["environment"] = env_snapshot
+            env_cli = env_snapshot.get("cli_command")
+            if env_cli:
+                run_meta["cli_command"] = env_cli
+            git_info = env_snapshot.get("git")
+            if git_info:
+                run_meta["git_commit"] = git_info.get("commit")
+                run_meta["git_dirty"] = git_info.get("dirty")
         self.recorder.write_meta(run_dir, run_meta)
         if history_entries:
             self.recorder.write_history_entry(run_dir, history_entries)
@@ -321,9 +317,17 @@ class Cosmos2ScienceRunner:
         skip_valid = False
         return build_joint_chi2_evaluator(factory, joint_config_path, skip_valid=skip_valid)
 
-    def _make_predictions_for_model(self, model_name: str, params: dict[str, float]) -> dict[str, Any]:
+    def _make_predictions_for_model(self, model_name: str, params: dict[str, float]):
         model = create_model(model_name, **params)
-        return _make_predictions(model), model
+        snapshot = get_parameter_snapshot(
+            ModelState(
+                model_name=model_name,
+                model=model,
+                fitted_params=params,
+                thermal_table=getattr(model, "_thermal", None),
+            )
+        )
+        return snapshot, model
 
 
 

@@ -1,0 +1,1 @@
+{"events": [{"type": "model_batch", "model": "lcdm", "batch": 0, "total_batches": 2, "current_dataset": "Unknown", "best_chi2": Infinity, "best_so_far": Infinity}], "complete": false, "best_overall": null}

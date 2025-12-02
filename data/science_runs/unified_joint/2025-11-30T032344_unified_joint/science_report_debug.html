@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <title>Science Run Report - 2025-11-30T032344_unified_joint</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <style>
+            :root {
+                color-scheme: light;
+                font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+            }
+            body {
+                margin: 0;
+                background: #f4f6fb;
+                color: #0f172a;
+            }
+            header.hero {
+                padding: 2.5rem 1.5rem 2rem;
+                background: linear-gradient(135deg, #020617, #0f172a);
+                color: #f8fafc;
+            }
+            .hero h1 {
+                margin: 0;
+                font-size: clamp(1.9rem, 3vw, 2.6rem);
+            }
+            .hero p {
+                margin: 0.25rem 0;
+                color: rgba(248, 250, 252, 0.8);
+            }
+            .eyebrow {
+                letter-spacing: 0.4em;
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                color: #94a3b8;
+            }
+            .hero-grid {
+                margin-top: 1.5rem;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 1rem;
+            }
+            .hero-card {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 0.8rem;
+                padding: 0.9rem 1rem;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                box-shadow: 0 10px 25px rgba(15, 23, 42, 0.4);
+            }
+            .hero-card strong {
+                display: block;
+                font-size: 1rem;
+                margin-bottom: 0.2rem;
+                color: #cbd5f5;
+            }
+            .hero-card span {
+                font-size: 0.9rem;
+            }
+            main.content {
+                max-width: 1200px;
+                margin: -2rem auto 3rem;
+                padding: 0 1.5rem 2.5rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .panel {
+                background: #fff;
+                border-radius: 1.2rem;
+                padding: 1.5rem 1.75rem;
+                box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+                border: 1px solid #e2e8f0;
+            }
+            .panel h2 {
+                margin-top: 0;
+                font-size: 1.3rem;
+            }
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            .stat-card {
+                border-radius: 0.8rem;
+                padding: 0.9rem 1rem;
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+            }
+            .stat-label {
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: #64748b;
+            }
+            .stat-value {
+                margin-top: 0.25rem;
+                font-weight: 600;
+                font-size: 1.1rem;
+                color: #0f172a;
+            }
+            .summary-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 0.5rem;
+            }
+            .summary-table th,
+            .summary-table td {
+                padding: 0.5rem 0.75rem;
+                border-bottom: 1px solid #e2e8f0;
+                text-align: left;
+                font-size: 0.95rem;
+            }
+            .summary-table th {
+                background: #f1f5f9;
+                font-weight: 600;
+            }
+            .details {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.95rem;
+                margin-top: 1rem;
+            }
+            .details th,
+            .details td {
+                border-bottom: 1px solid #e2e8f0;
+                padding: 0.5rem 0.75rem;
+            }
+            .details th {
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                letter-spacing: 0.1em;
+            }
+            .phase-row {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            .phase-card {
+                padding: 1rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.8rem;
+                background: #f8fafc;
+            }
+            .phase-label {
+                font-size: 0.85rem;
+                color: #475569;
+            }
+            .phase-value {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin: 0.2rem 0;
+            }
+            .phase-meta {
+                display: flex;
+                gap: 0.6rem;
+                font-size: 0.8rem;
+                color: #64748b;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1rem;
+            }
+            .grid-item {
+                padding: 0.5rem 0;
+            }
+            .grid-item label {
+                display: block;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #374151;
+                margin-bottom: 0.5rem;
+            }
+            .status-chip {
+                display: inline-block;
+                padding: 0.25rem 0.75rem;
+                border-radius: 9999px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-top: 1rem;
+            }
+            .status-chip.success {
+                background: #dcfce7;
+                color: #166534;
+            }
+            .model-meta {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                font-size: 0.9rem;
+                color: #6b7280;
+            }
+            .model-meta span {
+                background: #f3f4f6;
+                padding: 0.25rem 0.5rem;
+                border-radius: 0.25rem;
+                font-weight: 500;
+            }
+            .model-extra {
+                margin-top: 0.5rem;
+            }
+            .model-extra li {
+                margin-bottom: 0.25rem;
+                font-size: 0.9rem;
+                color: #6b7280;
+            }
+            .note {
+                font-size: 0.8rem;
+                color: #9ca3af;
+                font-style: italic;
+            }
+            .stability-indicator {
+                display: inline-block;
+                padding: 0.25rem 0.5rem;
+                border-radius: 0.25rem;
+                font-size: 0.75rem;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+            .stability-indicator.stability-stable {
+                background: #dcfce7;
+                color: #166534;
+            }
+            .stability-indicator.stability-unstable {
+                background: #fef2f2;
+                color: #dc2626;
+            }
+            .jackknife-summary {
+                background: #f8fafc;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                margin: 1rem 0;
+                border: 1px solid #e2e8f0;
+            }
+            }
+            .grid-item label {
+                font-size: 0.75rem;
+                color: #475569;
+                display: block;
+            }
+            .grid-item span {
+                font-weight: 600;
+            }
+            .model-panel {
+                border-radius: 1rem;
+                padding-bottom: 1.5rem;
+            }
+            .model-panel h3 {
+                margin-bottom: 0.5rem;
+            }
+            .model-meta {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+                font-size: 0.9rem;
+                color: #475569;
+            }
+            .plot-column {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            .plot-figure {
+                margin: 0;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.8rem;
+                padding: 0.5rem;
+                background: #f8fafc;
+            }
+            .plot-image {
+                width: 100%;
+                display: block;
+
+    </style>
+</head>
+<body>
+    
+<header class='hero'>
+    <p class='eyebrow'>Science Run Overview</p>
+    <h1>2025-11-30T032344_unified_joint</h1>
+    <p>Comprehensive cosmological analysis report</p>
+    <div class='hero-grid'>
+        <div class='hero-card'>
+            <strong>Timestamp</strong>
+            <span>2025-11-30T032344</span>
+        </div>
+        <div class='hero-card'>
+            <strong>Mode</strong>
+            <span>fit</span>
+        </div>
+        <div class='hero-card'>
+            <strong>Engine</strong>
+            <span>basin</span>
+        </div>
+        <div class='hero-card'>
+            <strong>Fits</strong>
+            <span>5 (cmb, sn, bao_iso, cc, rsd)</span>
+        </div>
+        <div class='hero-card'>
+            <strong>Models</strong>
+            <span>2 (LCDM, PBUF)</span>
+        </div>
+        <div class='hero-card'>
+            <strong>Run status</strong>
+            <span>Success</span>
+        </div>
+    </div>
+    <div class='status-chip success'>Success</div>
+</header>
+
+    <main class='content'>
+        
+<section class='panel'>
+    <h2>Run at a glance</h2>
+    <div class='stats-grid'>
+        <div class='stat-card'>
+            <div class='stat-label'>Duration</div>
+            <div class='stat-value'>1h 57m</div>
+        </div>
+        <div class='stat-card'>
+            <div class='stat-label'>Data points</div>
+            <div class='stat-value'>1756</div>
+        </div>
+        <div class='stat-card'>
+            <div class='stat-label'>Models</div>
+            <div class='stat-value'>2</div>
+        </div>
+        <div class='stat-card'>
+            <div class='stat-label'>Threads</div>
+            <div class='stat-value'>20</div>
+        </div>
+    </div>
+</section>
+        
+<section class='panel'>
+    <h2>Model comparison</h2>
+    <table class='summary-table'>
+        <thead>
+            <tr>
+                <th>Model</th>
+                <th>χ²</th>
+                <th>Δχ²</th>
+                <th>AIC</th>
+                <th>ΔAIC</th>
+                <th>BIC</th>
+                <th>ΔBIC</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+<tr class=''>
+    <td>LCDM</td>
+    <td>1176.2</td>
+    <td>218.4</td>
+    <td>1184.2</td>
+    <td>218.4</td>
+    <td>1206.1</td>
+    <td>218.4</td>
+</tr>
+<tr class='highlight-row'>
+    <td>PBUF</td>
+    <td>957.8</td>
+    <td>0.0</td>
+    <td>965.8</td>
+    <td>0.0</td>
+    <td>987.7</td>
+    <td>0.0</td>
+</tr>
+        </tbody>
+    </table>
+</section>
+        
+<section class='panel'>
+    <h2>Engine & configuration metadata</h2>
+    <table class='details'>
+        <thead>
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Engine name</td><td>basin</td></tr>
+        </tbody>
+    </table>
+
+    <div style='margin-top: 1rem;'>
+        <h3>Engine settings</h3>
+        <table class='details'>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>workers</td><td>20</td></tr><tr><td>n_seeds</td><td>40</td></tr><tr><td>n_refine</td><td>80</td></tr><tr><td>n_scatter</td><td>400</td></tr><tr><td>batch_size</td><td>12</td></tr><tr><td>grid_points</td><td>9</td></tr><tr><td>monitor</td><td>True</td></tr><tr><td>resume</td><td>True</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style='margin-top: 1rem;'>
+        <h3>Science config</h3>
+        <details>
+            <summary>config_used.json</summary>
+            <pre>{
+  "run_name": "unified_joint",
+  "description": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+  "models": [
+    "lcdm",
+    "pbuf"
+  ],
+  "mode": "fit",
+  "auto_mode": null,
+  "fits_config": null,
+  "joint_config": {
+    "fits": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ]
+  },
+  "joint_config_path": null,
+  "fits_list": [
+    "cmb",
+    "sn",
+    "bao_iso",
+    "cc",
+    "rsd"
+  ],
+  "fit_weights": {},
+  "fits_override": [],
+  "engine": "basin",
+  "engine_settings": {
+    "workers": 20,
+    "n_seeds": 40,
+    "n_refine": 80,
+    "n_scatter": 400,
+    "batch_size": 12,
+    "grid_points": 9,
+    "monitor": true,
+    "resume": true
+  },
+  "parameter_bounds_file": null,
+  "parameter_bounds_inline": {
+    "global": {
+      "H0": [
+        65,
+        75
+      ]
+    },
+    "models": {
+      "lcdm": {
+        "Omega_m0": [
+          0.25,
+          0.35
+        ],
+        "Omega_b0": [
+          0.04,
+          0.05
+        ],
+        "Omega_k0": [
+          -0.03,
+          0.03
+        ]
+      },
+      "pbuf": {
+        "Omega_m0": [
+          0.326,
+          0.326
+        ],
+        "Omega_b0": [
+          0.0441,
+          0.0441
+        ],
+        "Rmax": [
+          90000000.0,
+          90000000.0
+        ]
+      }
+    }
+  },
+  "fixed_parameters": {},
+  "initial_parameters": {},
+  "profile_likelihood": null,
+  "jackknife": {
+    "enabled": true,
+    "n_draws": 30,
+    "fraction_removed": 0.15,
+    "random_seed": null,
+    "datasets_to_test": [
+      "sn",
+      "bao_iso"
+    ],
+    "dataset_weights": {
+      "sn": 1.0,
+      "bao_iso": 0.8
+    }
+  },
+  "output": {
+    "base_dir": "/home/fabian/PBUF5-GPU/data/science_runs/unified_joint",
+    "generate_plots": true,
+    "generate_reports": true,
+    "report_formats": [
+      "json",
+      "html",
+      "pdf"
+    ],
+    "save_space": false
+  },
+  "interactive": false
+}</pre>
+        </details>
+    </div>
+</section>
+        
+<section class='panel'>
+    <h2>Dataset coverage</h2>
+    <table class='summary-table'>
+        <thead>
+            <tr>
+                <th>Dataset</th>
+                <th>Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>cmb</td><td>1.0</td></tr><tr><td>sn</td><td>1.0</td></tr><tr><td>bao_iso</td><td>1.0</td></tr><tr><td>cc</td><td>1.0</td></tr><tr><td>rsd</td><td>1.0</td></tr>
+        </tbody>
+    </table>
+</section>
+        
+<section class='panel model-panel'>
+    <h2>LCDM</h2>
+    <div class='model-meta'>
+        <span>χ² 1176.2</span>
+        <span>4 parameters</span>
+        <span>AIC 1184.2</span>
+        <span>BIC 1206.1</span>
+    </div>
+
+    <div class='grid'>
+        <div class='grid-item'>
+            <label>Best-fit parameters</label>
+            <table class='details'>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>H0</td><td>67.500000</td></tr><tr><td>Omega_m0</td><td>0.337500</td></tr><tr><td>Omega_b0</td><td>0.042500</td></tr><tr><td>Omega_k0</td><td>0.000000</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class='grid-item'>
+            <label>χ² breakdown</label>
+            <table class='details'>
+                <thead>
+                    <tr>
+                        <th>Fit</th>
+                        <th>χ²</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>total</td><td>1176.221</td></tr><tr><td><strong>total</strong></td><td><strong>1176.221</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+            </div>
+
+            
+            <h3>🔍 Jackknife Analysis</h3>
+            <div class="jackknife-summary">
+                <p><strong>Stability Score:</strong> 0.981</p>
+                <p><strong>Success Rate:</strong> 100.0% (30 draws)</p>
+            </div>
+
+            <h4>Parameter Stability</h4>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Mean ± Std</th>
+                        <th>CV</th>
+                        <th>Stability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td>H0</td>
+                    <td>67.7083 ± 0.5667</td>
+                    <td>0.0084</td>
+                    <td><span class="stability-indicator stability-stable">stable</span></td>
+                </tr>
+                <tr>
+                    <td>Omega_m0</td>
+                    <td>0.3338 ± 0.0112</td>
+                    <td>0.0337</td>
+                    <td><span class="stability-indicator stability-moderate">moderate</span></td>
+                </tr>
+                <tr>
+                    <td>Omega_b0</td>
+                    <td>0.0422 ± 0.0015</td>
+                    <td>0.0348</td>
+                    <td><span class="stability-indicator stability-moderate">moderate</span></td>
+                </tr>
+                <tr>
+                    <td>Omega_k0</td>
+                    <td>0.0000 ± 0.0000</td>
+                    <td>0.0000</td>
+                    <td><span class="stability-indicator stability-stable">stable</span></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h4>Recommendations</h4>
+            <ul>
+                <li>Multi-model jackknife analysis: 30 draws, 100.0% success rate</li><li>✅ Model lcdm: Excellent stability</li><li>⚠️ Model preference changes in 0/0 draws</li>
+            </ul>
+            
+            <h3>Derived parameters</h3>
+            <table class='details'>
+                <thead>
+                    <tr><th>Parameter</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>H0</td><td>67.500000</td></tr><tr><td>Omega_k0</td><td>0.000000</td></tr><tr><td>Omega_m0</td><td>0.337500</td></tr><tr><td>S8</td><td>0.860195</td></tr><tr><td>r_d</td><td>151.136046</td></tr><tr><td>sigma8</td><td>0.811000</td></tr>
+                </tbody>
+            </table>
+            
+            
+            
+            <h3>Jackknife χ² stability</h3>
+            <table class='details'>
+                <thead>
+                    <tr><th>Label</th><th>Mean</th><th>Std</th><th>Range</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>overall</td><td>0</td><td>0</td><td>0</td></tr>
+                </tbody>
+            </table>
+            
+            
+            <h3>Predictions</h3>
+            
+            <details>
+                <summary>CMB (3 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "Planck 2018",
+    "observable": "distance priors",
+    "parameters": [
+      "R",
+      "la",
+      "theta_star"
+    ],
+    "reference": "Planck Collaboration 2020 (arXiv:1807.06209)",
+    "z": 1089.92,
+    "dataset_type": "CMB",
+    "created_at": "2025-11-16T04:16:15.594653+00:00Z",
+    "note": "Compressed distance priors from Planck 2018 TT,TE,EE+lowE+lensing"
+  },
+  "observed": {
+    "count": 3,
+    "preview": [
+      1.7488,
+      301.76,
+      0.010410999999999998
+    ]
+  },
+  "predictions": {
+    "count": 3,
+    "preview": [
+      1.7618103817262356,
+      301.688400134378,
+      0.010413369066196995
+    ]
+  },
+  "residuals": {
+    "count": 3,
+    "preview": [
+      0.013010381726235698,
+      -0.07159986562197673,
+      2.3690661969961307e-06
+    ]
+  }
+}</pre>
+            </details>
+            <details>
+                <summary>Pantheon+SH0ES (1701 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "Pantheon+SH0ES",
+    "observable": "distance modulus \u03bc",
+    "reference": "Pantheon+ Collaboration",
+    "z_min": 0.00122,
+    "z_max": 2.26137,
+    "z_mean": 0.221229012345679,
+    "dataset_type": "SN",
+    "created_at": "2025-10-27T18:48:14Z"
+  },
+  "observed": {
+    "count": 1701,
+    "preview": [
+      28.9987,
+      29.0559,
+      30.7233,
+      30.7449,
+      30.7757,
+      30.7946,
+      30.4604,
+      30.5528,
+      30.4013,
+      30.5107,
+      31.5011,
+      31.7933,
+      31.4967,
+      31.6969,
+      30.9999,
+      31.3933,
+      31.3779,
+      31.499,
+      31.5611,
+      31.9309,
+      32.033,
+      31.2476,
+      31.1331,
+      31.6525,
+      31.2234,
+      31.34,
+      31.7635,
+      31.4473,
+      31.539,
+      31.6512,
+      "\u2026"
+    ]
+  },
+  "predictions": {
+    "count": 1701,
+    "preview": [
+      28.375808479683627,
+      28.375808479683627,
+      29.988114417668594,
+      29.988114417668594,
+      30.32620215089449,
+      30.4535322417634,
+      30.547676706206126,
+      30.547676706206126,
+      30.547676706206126,
+      30.547676706206126,
+      30.56080256121779,
+      30.663053793877218,
+      30.663053793877218,
+      30.72461599764803,
+      30.87133998489552,
+      30.998154731240724,
+      30.998154731240724,
+      31.12813859328194,
+      31.12813859328194,
+      31.28869909715803,
+      31.28869909715803,
+      31.367037069859247,
+      31.37155856145613,
+      31.37155856145613,
+      31.37155856145613,
+      31.37155856145613,
+      31.37155856145613,
+      31.394030908165156,
+      31.394030908165156,
+      31.606922109701756,
+      "\u2026"
+    ]
+  },
+  "residuals": {
+    "count": 1701,
+    "preview": [
+      -0.6228915203163723,
+      -0.680091520316374,
+      -0.735185582331404,
+      -0.7567855823314069,
+      -0.44949784910551216,
+      -0.34106775823659774,
+      0.08727670620612571,
+      -0.005123293793875661,
+      0.14637670620612653,
+      0.0369767062061257,
+      -0.9402974387822098,
+      -1.1302462061227807,
+      -0.8336462061227827,
+      -0.9722840023519694,
+      -0.12856001510447967,
+      -0.3951452687592756,
+      -0.37974526875927594,
+      -0.3708614067180598,
+      -0.4329614067180607,
+      -0.6422009028419708,
+      -0.7443009028419709,
+      0.11943706985924862,
+      0.23845856145613098,
+      -0.28094143854387,
+      0.14815856145612827,
+      0.03155856145613001,
+      -0.39194143854387065,
+      -0.053269091834842186,
+      -0.1449690918348452,
+      -0.04427789029824325,
+      "\u2026"
+    ]
+  }
+}</pre>
+            </details>
+            <details>
+                <summary>DESI_BAO_iso (3 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "DESI",
+    "observable": "D_V(z)/r_d isotropic",
+    "reference": "DESI Collaboration 2024",
+    "z_min": 0.295,
+    "z_max": 1.491,
+    "z_mean": 0.6936666666666667,
+    "dataset_type": "BAO_ISO",
+    "created_at": "2025-10-27T18:09:12Z"
+  },
+  "observed": {
+    "count": 3,
+    "preview": [
+      7.92512927,
+      7.94167639,
+      26.07217182
+    ]
+  },
+  "predictions": {
+    "count": 3,
+    "preview": [
+      7.487655138789048,
+      7.487655138789048,
+      24.8765175279426
+    ]
+  },
+  "residuals": {
+    "count": 3,
+    "preview": [
+      -0.43747413121095224,
+      -0.4540212512109516,
+      -1.1956542920574016
+    ]
+  }
+}</pre>
+            </details>
+            <details>
+                <summary>CC_compilation (31 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "Various",
+    "observable": "Hubble parameter H(z)",
+    "units": "km/s/Mpc",
+    "reference": "Compilation",
+    "z_min": 0.07,
+    "z_max": 2.34,
+    "z_mean": 0.7828161290322582,
+    "dataset_type": "CC",
+    "created_at": "2025-10-27T17:22:55Z"
+  },
+  "observed": {
+    "count": 31,
+    "preview": [
+      69.0,
+      69.0,
+      68.6,
+      83.0,
+      75.0,
+      75.0,
+      72.9,
+      77.0,
+      88.8,
+      83.0,
+      83.0,
+      77.0,
+      87.1,
+      92.8,
+      80.9,
+      97.0,
+      104.0,
+      92.0,
+      105.0,
+      125.0,
+      90.0,
+      117.0,
+      154.0,
+      168.0,
+      160.0,
+      177.0,
+      140.0,
+      202.0,
+      186.5,
+      224.0,
+      "\u2026"
+    ]
+  },
+  "predictions": {
+    "count": 31,
+    "preview": [
+      70.01738250221486,
+      70.78202464761698,
+      71.9663597935633,
+      74.03870191545099,
+      74.42463831398842,
+      75.29621897123471,
+      75.34030092959361,
+      78.54324467860052,
+      79.0194226173938,
+      82.5815903121593,
+      84.03944112516685,
+      85.10489745934875,
+      86.40969908444734,
+      87.77803356616388,
+      89.37516855727432,
+      89.47115766003478,
+      96.10930701703734,
+      101.55167498408736,
+      108.20950365047422,
+      114.71532793097111,
+      115.06940910330205,
+      116.49364752117758,
+      126.58002942655136,
+      147.4421750483091,
+      152.71032935780016,
+      158.42099513664266,
+      167.14485692612342,
+      187.14066364739537,
+      207.6833054727066,
+      241.51252045491213,
+      "\u2026"
+    ]
+  },
+  "residuals": {
+    "count": 31,
+    "preview": [
+      1.0173825022148577,
+      1.7820246476169785,
+      3.366359793563305,
+      -8.961298084549014,
+      -0.5753616860115756,
+      0.2962189712347083,
+      2.4403009295936045,
+      1.5432446786005158,
+      -9.780577382606197,
+      -0.4184096878406933,
+      1.0394411251668458,
+      8.104897459348749,
+      -0.6903009155526547,
+      -5.021966433836113,
+      8.475168557274316,
+      -7.528842339965223,
+      -7.890692982962662,
+      9.551674984087356,
+      3.2095036504742183,
+      -10.284672069028886,
+      25.06940910330205,
+      -0.5063524788224214,
+      -27.419970573448637,
+      -20.55782495169089,
+      -7.289670642199837,
+      -18.57900486335734,
+      27.144856926123424,
+      -14.859336352604629,
+      21.183305472706593,
+      17.512520454912135,
+      "\u2026"
+    ]
+  }
+}</pre>
+            </details>
+            <details>
+                <summary>RSD_compilation (18 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "Various",
+    "observable": "growth rate f\u03c3\u2088",
+    "reference": "Compilation",
+    "z_min": 0.02,
+    "z_max": 1.4,
+    "z_mean": 0.39999999999999997,
+    "dataset_type": "RSD",
+    "created_at": "2025-10-27T17:25:06Z"
+  },
+  "observed": {
+    "count": 18,
+    "preview": [
+      0.428,
+      0.398,
+      0.314,
+      0.37,
+      0.49,
+      0.51,
+      0.36,
+      0.44,
+      0.3512,
+      0.4602,
+      0.384,
+      0.488,
+      0.413,
+      0.39,
+      0.437,
+      0.55,
+      0.4,
+      0.482
+    ]
+  },
+  "predictions": {
+    "count": 18,
+    "preview": [
+      0.44927928956952357,
+      0.44927928956952357,
+      0.44927928956952357,
+      0.4653001515249248,
+      0.472641214417705,
+      0.47504490343069805,
+      0.4761378222163749,
+      0.4849209732655324,
+      0.481880859798651,
+      0.48498880344458134,
+      0.48461886678392607,
+      0.4749783210116465,
+      0.4836238754671197,
+      0.4741857804762722,
+      0.4621506361912107,
+      0.4741857804762722,
+      0.4478741235278877,
+      0.38305888630571355
+    ]
+  },
+  "residuals": {
+    "count": 18,
+    "preview": [
+      0.021279289569523574,
+      0.051279289569523545,
+      0.13527928956952356,
+      0.09530015152492483,
+      -0.017358785582294978,
+      -0.03495509656930196,
+      0.11613782221637492,
+      0.044920973265532405,
+      0.13068085979865096,
+      0.024788803444581342,
+      0.10061886678392606,
+      -0.013021678988353491,
+      0.07062387546711973,
+      0.08418578047627218,
+      0.025150636191210718,
+      -0.07581421952372785,
+      0.04787412352788767,
+      -0.09894111369428643
+    ]
+  }
+}</pre>
+            </details>
+            
+            
+    <div class='figure-block'>
+        <h4>Residuals</h4>
+        <img src="figures/residuals_lcdm.png" alt="LCDM residuals" style="max-width: 100%; height: auto;">
+    </div>
+        </section>
+<section class='panel model-panel'>
+    <h2>PBUF</h2>
+    <div class='model-meta'>
+        <span>χ² 957.8</span>
+        <span>4 parameters</span>
+        <span>AIC 965.8</span>
+        <span>BIC 987.7</span>
+    </div>
+
+    <div class='grid'>
+        <div class='grid-item'>
+            <label>Best-fit parameters</label>
+            <table class='details'>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>H0</td><td>75.000000</td></tr><tr><td>Omega_m0</td><td>0.326000</td></tr><tr><td>Rmax</td><td>90000000.000000</td></tr><tr><td>Omega_b0</td><td>0.044100</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class='grid-item'>
+            <label>χ² breakdown</label>
+            <table class='details'>
+                <thead>
+                    <tr>
+                        <th>Fit</th>
+                        <th>χ²</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>total</td><td>957.795</td></tr><tr><td><strong>total</strong></td><td><strong>957.795</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+            </div>
+
+            
+            <h3>🔍 Jackknife Analysis</h3>
+            <div class="jackknife-summary">
+                <p><strong>Stability Score:</strong> 1.000</p>
+                <p><strong>Success Rate:</strong> 100.0% (30 draws)</p>
+            </div>
+
+            <h4>Parameter Stability</h4>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Mean ± Std</th>
+                        <th>CV</th>
+                        <th>Stability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td>H0</td>
+                    <td>75.0000 ± 0.0000</td>
+                    <td>0.0000</td>
+                    <td><span class="stability-indicator stability-stable">stable</span></td>
+                </tr>
+                <tr>
+                    <td>Omega_m0</td>
+                    <td>0.3260 ± 0.0000</td>
+                    <td>0.0000</td>
+                    <td><span class="stability-indicator stability-stable">stable</span></td>
+                </tr>
+                <tr>
+                    <td>Rmax</td>
+                    <td>90000000.0000 ± 0.0000</td>
+                    <td>0.0000</td>
+                    <td><span class="stability-indicator stability-stable">stable</span></td>
+                </tr>
+                <tr>
+                    <td>Omega_b0</td>
+                    <td>0.0441 ± 0.0000</td>
+                    <td>0.0000</td>
+                    <td><span class="stability-indicator stability-stable">stable</span></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h4>Recommendations</h4>
+            <ul>
+                <li>Multi-model jackknife analysis: 30 draws, 100.0% success rate</li><li>✅ Model pbuf: Excellent stability</li><li>⚠️ Model preference changes in 0/0 draws</li>
+            </ul>
+            
+            <h3>Derived parameters</h3>
+            <table class='details'>
+                <thead>
+                    <tr><th>Parameter</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>H0</td><td>75.000000</td></tr><tr><td>Omega_k0</td><td>0.000000</td></tr><tr><td>Omega_m0</td><td>0.326000</td></tr><tr><td>S8</td><td>0.845413</td></tr><tr><td>r_d</td><td>138.635345</td></tr><tr><td>sigma8</td><td>0.811000</td></tr>
+                </tbody>
+            </table>
+            
+            
+            
+            <h3>Jackknife χ² stability</h3>
+            <table class='details'>
+                <thead>
+                    <tr><th>Label</th><th>Mean</th><th>Std</th><th>Range</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>overall</td><td>0</td><td>0</td><td>0</td></tr>
+                </tbody>
+            </table>
+            
+            
+            <h3>Predictions</h3>
+            
+            <details>
+                <summary>CMB (3 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "Planck 2018",
+    "observable": "distance priors",
+    "parameters": [
+      "R",
+      "la",
+      "theta_star"
+    ],
+    "reference": "Planck Collaboration 2020 (arXiv:1807.06209)",
+    "z": 1089.92,
+    "dataset_type": "CMB",
+    "created_at": "2025-11-16T04:16:15.594653+00:00Z",
+    "note": "Compressed distance priors from Planck 2018 TT,TE,EE+lowE+lensing"
+  },
+  "observed": {
+    "count": 3,
+    "preview": [
+      1.7488,
+      301.76,
+      0.010410999999999998
+    ]
+  },
+  "predictions": {
+    "count": 3,
+    "preview": [
+      1.786881446417483,
+      301.72786452689456,
+      0.010412007053162857
+    ]
+  },
+  "residuals": {
+    "count": 3,
+    "preview": [
+      0.03808144641748301,
+      -0.03213547310542708,
+      1.0070531628585816e-06
+    ]
+  }
+}</pre>
+            </details>
+            <details>
+                <summary>Pantheon+SH0ES (1701 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "Pantheon+SH0ES",
+    "observable": "distance modulus \u03bc",
+    "reference": "Pantheon+ Collaboration",
+    "z_min": 0.00122,
+    "z_max": 2.26137,
+    "z_mean": 0.221229012345679,
+    "dataset_type": "SN",
+    "created_at": "2025-10-27T18:48:14Z"
+  },
+  "observed": {
+    "count": 1701,
+    "preview": [
+      28.9987,
+      29.0559,
+      30.7233,
+      30.7449,
+      30.7757,
+      30.7946,
+      30.4604,
+      30.5528,
+      30.4013,
+      30.5107,
+      31.5011,
+      31.7933,
+      31.4967,
+      31.6969,
+      30.9999,
+      31.3933,
+      31.3779,
+      31.499,
+      31.5611,
+      31.9309,
+      32.033,
+      31.2476,
+      31.1331,
+      31.6525,
+      31.2234,
+      31.34,
+      31.7635,
+      31.4473,
+      31.539,
+      31.6512,
+      "\u2026"
+    ]
+  },
+  "predictions": {
+    "count": 1701,
+    "preview": [
+      28.447615402545043,
+      28.447615402545043,
+      30.057016075730516,
+      30.057016075730516,
+      30.39417219079352,
+      30.521112560260054,
+      30.61495621804988,
+      30.61495621804988,
+      30.61495621804988,
+      30.61495621804988,
+      30.628037416702977,
+      30.730060738990357,
+      30.730060738990357,
+      30.79179211600907,
+      30.938853394916052,
+      31.06588106770942,
+      31.06588106770942,
+      31.196015213852615,
+      31.196015213852615,
+      31.356655231490883,
+      31.356655231490883,
+      31.434992154184922,
+      31.439513370057323,
+      31.439513370057323,
+      31.439513370057323,
+      31.439513370057323,
+      31.439513370057323,
+      31.461979314132538,
+      31.461979314132538,
+      31.674711470266406,
+      "\u2026"
+    ]
+  },
+  "residuals": {
+    "count": 1701,
+    "preview": [
+      -0.5510845974549561,
+      -0.6082845974549578,
+      -0.6662839242694822,
+      -0.6878839242694852,
+      -0.38152780920648155,
+      -0.27348743973994516,
+      0.15455621804987985,
+      0.062156218049878476,
+      0.21365621804988066,
+      0.10425621804987983,
+      -0.873062583297024,
+      -1.0632392610096417,
+      -0.7666392610096437,
+      -0.9051078839909295,
+      -0.061046605083948435,
+      -0.3274189322905805,
+      -0.31201893229058086,
+      -0.302984786147384,
+      -0.36508478614738493,
+      -0.5742447685091179,
+      -0.676344768509118,
+      0.1873921541849235,
+      0.3064133700573244,
+      -0.2129866299426766,
+      0.21611337005732167,
+      0.09951337005732341,
+      -0.32398662994267724,
+      0.014679314132539645,
+      -0.07702068586746336,
+      0.02351147026640632,
+      "\u2026"
+    ]
+  }
+}</pre>
+            </details>
+            <details>
+                <summary>DESI_BAO_iso (3 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "DESI",
+    "observable": "D_V(z)/r_d isotropic",
+    "reference": "DESI Collaboration 2024",
+    "z_min": 0.295,
+    "z_max": 1.491,
+    "z_mean": 0.6936666666666667,
+    "dataset_type": "BAO_ISO",
+    "created_at": "2025-10-27T18:09:12Z"
+  },
+  "observed": {
+    "count": 3,
+    "preview": [
+      7.92512927,
+      7.94167639,
+      26.07217182
+    ]
+  },
+  "predictions": {
+    "count": 3,
+    "preview": [
+      7.998479993092188,
+      7.998479993092188,
+      25.612804714629263
+    ]
+  },
+  "residuals": {
+    "count": 3,
+    "preview": [
+      0.07335072309218749,
+      0.056803603092188126,
+      -0.4593671053707382
+    ]
+  }
+}</pre>
+            </details>
+            <details>
+                <summary>CC_compilation (31 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "Various",
+    "observable": "Hubble parameter H(z)",
+    "units": "km/s/Mpc",
+    "reference": "Compilation",
+    "z_min": 0.07,
+    "z_max": 2.34,
+    "z_mean": 0.7828161290322582,
+    "dataset_type": "CC",
+    "created_at": "2025-10-27T17:22:55Z"
+  },
+  "observed": {
+    "count": 31,
+    "preview": [
+      69.0,
+      69.0,
+      68.6,
+      83.0,
+      75.0,
+      75.0,
+      72.9,
+      77.0,
+      88.8,
+      83.0,
+      83.0,
+      77.0,
+      87.1,
+      92.8,
+      80.9,
+      97.0,
+      104.0,
+      92.0,
+      105.0,
+      125.0,
+      90.0,
+      117.0,
+      154.0,
+      168.0,
+      160.0,
+      177.0,
+      140.0,
+      202.0,
+      186.5,
+      224.0,
+      "\u2026"
+    ]
+  },
+  "predictions": {
+    "count": 31,
+    "preview": [
+      76.00264566686718,
+      76.40287766960594,
+      77.09409101467772,
+      78.47500783337632,
+      78.75221981076044,
+      79.399633638246,
+      79.43302078284961,
+      82.02499797843782,
+      82.43414393669829,
+      85.64131759273377,
+      87.01703700552467,
+      88.04148534871482,
+      89.31529892775494,
+      90.67137770237359,
+      92.27720199350142,
+      92.37472754143002,
+      99.2632317724428,
+      105.08281701394047,
+      112.33178671607645,
+      119.50286639676011,
+      119.89524587288363,
+      121.4733870105476,
+      132.70342692732245,
+      156.06549701443492,
+      161.9726973683167,
+      168.37570982459263,
+      178.15444765710888,
+      200.53773185885225,
+      223.48420819516195,
+      261.162396507174,
+      "\u2026"
+    ]
+  },
+  "residuals": {
+    "count": 31,
+    "preview": [
+      7.002645666867181,
+      7.402877669605942,
+      8.494091014677721,
+      -4.524992166623676,
+      3.7522198107604368,
+      4.3996336382460015,
+      6.533020782849604,
+      5.024997978437824,
+      -6.365856063301706,
+      2.6413175927337704,
+      4.017037005524671,
+      11.041485348714815,
+      2.2152989277549437,
+      -2.128622297626407,
+      11.377201993501416,
+      -4.625272458569981,
+      -4.7367682275572065,
+      13.08281701394047,
+      7.331786716076451,
+      -5.497133603239888,
+      29.895245872883635,
+      4.473387010547597,
+      -21.296573072677546,
+      -11.934502985565075,
+      1.9726973683166875,
+      -8.624290175407367,
+      38.154447657108875,
+      -1.4622681411477458,
+      36.984208195161955,
+      37.16239650717398,
+      "\u2026"
+    ]
+  }
+}</pre>
+            </details>
+            <details>
+                <summary>RSD_compilation (18 points)</summary>
+                <pre>{
+  "dataset_meta": {
+    "survey": "Various",
+    "observable": "growth rate f\u03c3\u2088",
+    "reference": "Compilation",
+    "z_min": 0.02,
+    "z_max": 1.4,
+    "z_mean": 0.39999999999999997,
+    "dataset_type": "RSD",
+    "created_at": "2025-10-27T17:25:06Z"
+  },
+  "observed": {
+    "count": 18,
+    "preview": [
+      0.428,
+      0.398,
+      0.314,
+      0.37,
+      0.49,
+      0.51,
+      0.36,
+      0.44,
+      0.3512,
+      0.4602,
+      0.384,
+      0.488,
+      0.413,
+      0.39,
+      0.437,
+      0.55,
+      0.4,
+      0.482
+    ]
+  },
+  "predictions": {
+    "count": 18,
+    "preview": [
+      0.44811942275558325,
+      0.44811942275558325,
+      0.44811942275558325,
+      0.4756834291334234,
+      0.4885784960495758,
+      0.4928370680128102,
+      0.4947883541786829,
+      0.5115853941653639,
+      0.5051830639095208,
+      0.5115932254157587,
+      0.5104690838267428,
+      0.4981564497613359,
+      0.5101050030733151,
+      0.4970500659324677,
+      0.48049084626711025,
+      0.4970500659324677,
+      0.4614720767262394,
+      0.38227899474597093
+    ]
+  },
+  "residuals": {
+    "count": 18,
+    "preview": [
+      0.02011942275558326,
+      0.05011942275558323,
+      0.13411942275558325,
+      0.10568342913342338,
+      -0.0014215039504241744,
+      -0.017162931987189822,
+      0.1347883541786829,
+      0.07158539416536386,
+      0.15398306390952082,
+      0.05139322541575869,
+      0.12646908382674282,
+      0.010156449761335895,
+      0.0971050030733151,
+      0.10705006593246769,
+      0.04349084626711025,
+      -0.052949934067532345,
+      0.06147207672623939,
+      -0.09972100525402905
+    ]
+  }
+}</pre>
+            </details>
+            
+            
+    <div class='figure-block'>
+        <h4>Residuals</h4>
+        <img src="figures/residuals_pbuf.png" alt="PBUF residuals" style="max-width: 100%; height: auto;">
+    </div>
+        </section>
+        
+<section class='panel'>
+    <h2>jackknife_chi2</h2>
+    <img src="figures/jackknife_chi2.png" alt="jackknife_chi2" style="max-width: 100%; height: auto;">
+</section>
+<section class='panel'>
+    <h2>dataset_chi2_contributions</h2>
+    <img src="figures/dataset_chi2_contributions.png" alt="dataset_chi2_contributions" style="max-width: 100%; height: auto;">
+</section>
+<section class='panel'>
+    <h2>h0_convergence</h2>
+    <img src="figures/h0_convergence.png" alt="h0_convergence" style="max-width: 100%; height: auto;">
+</section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "n_threads": 20,
+  "workers": 20,
+  "n_scatter": 50,
+  "n_seeds": 10,
+  "n_refine": 20,
+  "batch_size": 16,
+  "seed": 42,
+  "grid_points": 3,
+  "monitor": true
+}

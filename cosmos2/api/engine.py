@@ -18,8 +18,10 @@ from cosmos2.fits.joint import build_joint_chi2_evaluator, resolve_joint_fits
 from cosmos2.models.model_factory import create_model
 from cosmos2.models.pbuf import PBUF_FIT_REGISTRY, build_pbuf_joint_chi2, resolve_pbuf_joint_fits
 from cosmos2.threads.collector_thread import run_collector_thread
+from cosmos2.threads.enhanced_monitoring import start_enhanced_monitoring, stop_enhanced_monitoring, cleanup_enhanced_monitoring
 from cosmos2.threads.model_thread import run_model_thread
 from cosmos2.threads.monitor_thread import run_monitor_thread
+from cosmos2.threads.monitor_types import get_monitor_mode, normalize_monitor_mode
 
 
 def _load_standardized_npz(path: Path) -> Dict[str, Any]:
@@ -28,14 +30,36 @@ def _load_standardized_npz(path: Path) -> Dict[str, Any]:
     return ensure_standard_dataset(data, data.get("type", ""))
 
 
+# Global variable to store masked datasets for jackknife
+_jackknife_masked_datasets = {}
+
+def set_jackknife_masked_datasets(masked_datasets: Dict[str, Any]):
+    """Set masked datasets for jackknife analysis."""
+    global _jackknife_masked_datasets
+    _jackknife_masked_datasets = masked_datasets.copy()
+
+def clear_jackknife_masked_datasets():
+    """Clear masked datasets after jackknife analysis."""
+    global _jackknife_masked_datasets
+    _jackknife_masked_datasets.clear()
+
 def _load_dataset(name: str) -> Dict[str, Any]:
+    # Check if we have jackknife masked data first
+    global _jackknife_masked_datasets
+    if name in _jackknife_masked_datasets:
+        dataset = _jackknife_masked_datasets[name]
+        size = len(dataset.get('z', dataset.get('data', [])))
+        print(f"[jackknife] Using masked dataset for {name} ({size} points)")
+        return dataset
+
+    # Fall back to file loading
     path = Path("data/standardized") / f"{name}.npz"
     if not path.exists():
         raise FileNotFoundError(f"Standardized dataset not found: {path}")
     return _load_standardized_npz(path)
 
 
-def _make_joint_evaluator(model_name: str, joint_config_path: Path, *, lut: Dict[str, np.ndarray] | None = None) -> Any:
+def _make_joint_evaluator(model_name: str, joint_config_path: Path, *, lut: Dict[str, np.ndarray] | None = None, registry: Mapping[str, Callable[[Any], Any]] | None = None) -> Any:
     normalized = model_name.strip().lower()
     config_path = Path(joint_config_path)
     skip_valid = False
@@ -45,12 +69,16 @@ def _make_joint_evaluator(model_name: str, joint_config_path: Path, *, lut: Dict
             lambda params: _create_model(model_name, params, lut=lut),
             config_path,
             skip_valid=skip_valid,
+            registry=registry,
         )
     else:
+        # Use provided registry or default
+        evaluator_registry = registry if registry is not None else FIT_REGISTRY
         joint_fn = build_joint_chi2_evaluator(
             lambda params: _create_model(model_name, params, lut=lut),
             config_path,
             skip_valid=skip_valid,
+            registry=evaluator_registry,
         )
 
     def evaluator(params: Dict[str, float]) -> float:
@@ -120,6 +148,7 @@ def build_pbuf_model_config(
     joint_config: str | Path,
     *,
     grid_points: int | None = None,
+    registry: Mapping[str, Callable[[Any], Any]] | None = None,
 ) -> Dict[str, Any]:
     """Helper to create a model_config dict for PBUF using the per-model fit registry."""
     joint_path = Path(joint_config)
@@ -127,7 +156,7 @@ def build_pbuf_model_config(
     config = {
         "name": "pbuf",
         "bounds": bounds,
-        "evaluator": _make_joint_evaluator("pbuf", Path(joint_config)),
+        "evaluator": _make_joint_evaluator("pbuf", Path(joint_config), registry=registry),
         "joint_config_path": joint_path,
         "fits": fits,
         "fit_weights": fit_weights,
@@ -143,6 +172,7 @@ def build_lcdm_model_config(
     joint_config: str | Path,
     *,
     grid_points: int | None = None,
+    registry: Mapping[str, Callable[[Any], Any]] | None = None,
 ) -> Dict[str, Any]:
     """Helper to create a model_config dict for LCDM."""
     joint_path = Path(joint_config)
@@ -150,7 +180,7 @@ def build_lcdm_model_config(
     config = {
         "name": "lcdm",
         "bounds": bounds,
-        "evaluator": _make_joint_evaluator("lcdm", Path(joint_config)),
+        "evaluator": _make_joint_evaluator("lcdm", Path(joint_config), registry=registry),
         "joint_config_path": joint_path,
         "fits": fits,
         "fit_weights": fit_weights,
@@ -161,30 +191,37 @@ def build_lcdm_model_config(
     return config
 
 
+# Global reference to current monitor state for enhanced monitoring
+_current_monitor_state = None
+
+def _get_current_monitor_state():
+    """Get the current monitor state for enhanced monitoring."""
+    return _current_monitor_state
+
 def run_optimisation(
     model_configs: Iterable[Dict],
     *,
-    monitor: bool = False,
+    monitor: str | bool | None = None,
+    progress_callback: Callable[[Dict[str, Any]], None] | None = None,
+    resume: bool = False,
+    checkpoint_file: Path | None = None,
     grid_points: int | None = None,
     workers: int | None = None,
-    progress_callback: Callable[[Dict[str, Any]], None] | None = None,
-    checkpoint_path: str | Path | None = None,
+    engine: str = "cosmos2_basin",
+    mode_label: str | None = None,
 ) -> Dict:
-    """
-    Run optimisation for the provided model configurations.
+    """Run model optimisation using the specified engine."""
+    
+    global _current_monitor_state
+    
+    monitor_mode = get_monitor_mode(normalize_monitor_mode(monitor))
+    monitor_enabled = monitor_mode is not None
 
-    Each model_config should include:
-      - "name": identifier
-      - "bounds": parameter bounds
-      - "evaluator": callable(params)->chi2
-      - optional "n_batches"/"batch_size"/"grid_points"
+    checkpoint_file = Path(checkpoint_file) if checkpoint_file is not None else None
 
-    Returns a summary dict containing per-model results and the global best.
-    """
-
-    checkpoint_file = Path(checkpoint_path) if checkpoint_path is not None else None
     event_history: list[Dict[str, Any]] = []
     collector_state: Dict[str, Any] = {}
+    model_summaries: list[Dict[str, Any]] = []
 
     def _write_checkpoint(extra: Dict[str, Any] | None = None, *, complete: bool = False) -> None:
         if checkpoint_file is None:
@@ -202,14 +239,15 @@ def run_optimisation(
             pass
 
     def _emit(event: Dict[str, Any]) -> None:
+        """Emit an event to the progress callback and update event history."""
+        event_history.append(event)
         if progress_callback is not None:
             try:
                 progress_callback(event)
             except Exception:
-                # Progress hooks should never break optimisation flow.
                 pass
-        event_history.append(event)
-        if monitor and state_lock is not None:
+        
+        if monitor_enabled and state_lock is not None:
             try:
                 with state_lock:
                     event_type = event.get("type")
@@ -230,20 +268,59 @@ def run_optimisation(
                         monitor_state["chi2_history"] = event_history[-10:]
             except Exception:
                 pass
+            snapshot = {
+                "timestamp": time.time(),
+                "mode": monitor_state.get("mode"),
+                "best_overall": monitor_state.get("best_overall"),
+                "models": {name: dict(payload) for name, payload in monitor_state.get("models", {}).items()},
+                "chi2_history": list(monitor_state.get("chi2_history", []))[-10:],
+                "latest_batch": monitor_state.get("latest_batch") or monitor_state.get("last_batch"),
+            }
+            try:
+                if progress_callback is not None:
+                    progress_callback({"type": "monitor_snapshot", "snapshot": snapshot})
+            except Exception:
+                pass
         _write_checkpoint({"best_overall": collector_state.get("best_overall") if collector_state else None})
 
-    model_summaries = []
-    monitor_state: Dict[str, Any] = {"models": {}}
+    # Setup monitor state if requested
+    monitor_state: Dict[str, Any] = {}
     state_lock: Lock | None = None
-    monitor_stop: Event | None = None
-    monitor_thread: Thread | None = None
+    monitor_stop = None
+    monitor_thread = None
+    enhanced_callback: Callable[[Dict[str, Any]], None] | None = None
+    
     try:
         state_lock = Lock()
+        monitor_state["meta"] = {"started_at": time.time()}
+        monitor_state["mode"] = mode_label or "joint"
+        _current_monitor_state = {"state": monitor_state, "lock": state_lock}  # Set global reference
     except Exception:
         state_lock = None
 
     try:
-        if monitor and state_lock is not None:
+        # Clean up any existing enhanced monitoring
+        cleanup_enhanced_monitoring()
+        
+        if monitor_mode and monitor_mode.category in {"plugin", "textual"} and state_lock is not None:
+            refresh_rate = 0.2 if monitor_mode.category == "textual" else 1.0
+            enhanced_callback = start_enhanced_monitoring(refresh_rate=refresh_rate, mode=monitor_mode.name)
+            if progress_callback is None:
+                progress_callback = enhanced_callback
+            else:
+                original_callback = progress_callback
+                def chained_callback(event: Dict[str, Any]) -> None:
+                    try:
+                        original_callback(event)
+                    except Exception:
+                        pass
+                    try:
+                        enhanced_callback(event)
+                    except Exception:
+                        pass
+                progress_callback = chained_callback
+        elif monitor_mode and monitor_mode.category == "ansi" and state_lock is not None:
+            # Use original ANSI monitor
             monitor_state["meta"] = {"started_at": time.time()}
             monitor_stop = Event()
             monitor_thread = Thread(
@@ -253,7 +330,20 @@ def run_optimisation(
                 daemon=True,
             )
             monitor_thread.start()
-        for config in model_configs:
+        for i, config in enumerate(model_configs):
+            config_name = config.get("name", f"model_{i+1}")
+            
+            # Emit start event
+            _emit({
+                "type": "model_batch",
+                "model": config_name,
+                "batch": i,
+                "total_batches": len(model_configs),
+                "current_dataset": config.get("dataset", "Unknown"),
+                "best_chi2": float('inf'),
+                "best_so_far": float('inf')
+            })
+            
             config_with_defaults = dict(config)
             if grid_points is not None and "grid_points" not in config_with_defaults:
                 config_with_defaults["grid_points"] = int(grid_points)
@@ -268,7 +358,7 @@ def run_optimisation(
             summary = run_model_thread(
                 config_with_defaults,
                 queue=None,
-                shared_state=monitor_state if monitor and state_lock is not None else None,
+                shared_state=monitor_state if monitor_enabled and state_lock is not None else None,
                 lock=state_lock,
             )
             summary["name"] = config.get("name")
@@ -330,7 +420,12 @@ def run_optimisation(
     if collector_state.get("best_overall") is not None:
         _emit({"type": "collector_update", "best_overall": collector_state.get("best_overall")})
 
-    if monitor:
+    if monitor_mode and monitor_mode.category in {"plugin", "textual"}:
+        try:
+            stop_enhanced_monitoring()
+        except Exception:
+            pass
+    elif monitor_mode and monitor_mode.category == "ansi":
         if state_lock is not None:
             with state_lock:
                 monitor_state["best_overall"] = collector_state.get("best_overall")

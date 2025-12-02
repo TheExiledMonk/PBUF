@@ -10,6 +10,7 @@ Supported datasets are configured under config/downloader/datasets.yaml.
 import json
 from pathlib import Path
 from datetime import datetime
+import shutil
 import urllib.request
 import yaml
 
@@ -68,32 +69,58 @@ def download_dataset(name: str) -> dict:
 
     source_info = DATASET_SOURCES[name]
 
-    # Create output directory
+    # Create output directory (where metadata lives)
     output_dir = Path(f"data/raw/{name}")
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    raw_hint = source_info.get("raw_dir")
+    raw_path = _resolve_raw_path(raw_hint) if raw_hint else output_dir
+    raw_ready = raw_path.exists()
+
     print(f"📥 Downloading {name}...")
     print(f"   Source: {source_info['url']}")
+    print(f"   Raw data expected at: {raw_path}")
 
-    # Download file
-    local_file = output_dir / source_info["filename"]
-    try:
-        urllib.request.urlretrieve(source_info["url"], local_file)
-        print(f"✅ Downloaded to {local_file}")
-    except Exception as e:
-        print(f"⚠️ Download failed: {e}")
-        print(f"   Creating placeholder for manual download...")
-        _create_download_placeholder(output_dir, source_info)
-        local_file = None
+    url = source_info["url"]
+    placeholder = url.lower().startswith("placeholder://")
+    local_file = None
+    status = "downloaded"
 
-    # Create metadata file
+    if placeholder:
+        print("ℹ️ Placeholder source detected – no automatic download.")
+        if raw_ready:
+            print("   Raw data already present.")
+        else:
+            print("   Raw data not found; create the bundle at the location above.")
+        _write_manual_planck_hint(output_dir, raw_path, name, source_info)
+        status = "manual-ready" if raw_ready else "manual"
+    else:
+        # Download file
+        local_file = output_dir / source_info["filename"]
+        try:
+            urllib.request.urlretrieve(source_info["url"], local_file)
+            print(f"✅ Downloaded to {local_file}")
+        except Exception as e:
+            print(f"⚠️ Download failed: {e}")
+            print(f"   Creating placeholder for manual download...")
+            _create_download_placeholder(output_dir, source_info)
+            local_file = None
+            status = "placeholder"
+        if local_file and source_info.get("extract"):
+            extracted = _maybe_extract_archive(local_file, output_dir, raw_path)
+            raw_ready = raw_path.exists()
+            if extracted:
+                print("   Raw data extracted and ready.")
+
     metadata = {
         "dataset": name,
         "downloaded_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "source_url": source_info["url"],
         "notes": source_info["notes"],
+        "raw_path": str(raw_path),
+        "raw_ready": raw_ready,
         "local_path": str(local_file) if local_file else None,
-        "status": "downloaded" if local_file else "placeholder"
+        "status": status
     }
 
     metadata_file = output_dir / "source.json"
@@ -189,6 +216,65 @@ Created: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
     readme_file = output_dir / "README_download_failed.txt"
     with open(readme_file, "w") as f:
         f.write(readme_content)
+
+
+def _maybe_extract_archive(archive_path: Path, download_dir: Path, raw_path: Path) -> bool:
+    """Extract downloaded archives if requested by the dataset configuration."""
+    if archive_path is None or not archive_path.exists():
+        print("   ⚠️ Archive missing; skipping extraction.")
+        return False
+    extract_root = raw_path.parent
+    extract_root.mkdir(parents=True, exist_ok=True)
+    try:
+        print(f"   Extracting archive contents to {extract_root}...")
+        shutil.unpack_archive(str(archive_path), str(extract_root))
+        if raw_path.exists():
+            return True
+        print("   ⚠️ Expected raw directory still missing after extraction.")
+        return False
+    except shutil.ReadError as exc:
+        print(f"   ⚠️ Failed to unpack archive: {exc}")
+    except Exception as exc:
+        print(f"   ⚠️ Extraction error: {exc}")
+    return False
+
+
+def _resolve_raw_path(raw_hint: str) -> Path:
+    """Resolve the raw data directory, allowing relative hints."""
+    candidate = Path(raw_hint)
+    if candidate.is_absolute():
+        return candidate.resolve()
+    return (REPO_ROOT / "data/raw" / candidate).resolve()
+
+
+def _write_manual_planck_hint(output_dir: Path, raw_path: Path, dataset_name: str, source_info: dict):
+    """Write context-specific instructions for manually provided Planck data."""
+    hint_file = output_dir / "README_planck_manual.md"
+    expected_files = source_info.get("expected_files") or []
+    expected_section = "\n".join(f"- {entry}" for entry in expected_files) if expected_files else "- (none specified)"
+
+    content = f"""# Manual placeholder for {dataset_name}
+
+Automatic download is disabled for Planck 2018 raw products.
+
+Place the extracted Planck bundle so that the top-level directory matches:
+{raw_path}
+
+Expected files within the archive:
+{expected_section}
+
+Notes:
+{source_info['notes']}
+
+After the files are in place, rerun:
+```
+python -m toolbox.cli data-sync --datasets {dataset_name}
+```
+
+The final download URL will be provided later; update the configuration once it is available.
+"""
+
+    hint_file.write_text(content)
 
 
 def list_available_datasets():

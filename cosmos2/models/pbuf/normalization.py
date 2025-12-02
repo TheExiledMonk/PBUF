@@ -10,6 +10,15 @@ from .elastic import omega_sigma_of_a, omega_sigma_raw_of_a
 from .params import PBUFParams
 from .thermal_table import ThermalTable
 
+BARYON_FRACTION = 0.135
+
+
+def _derive_density_from_alpha(alpha: float) -> tuple[float, float]:
+    baryons = 2.0 * alpha
+    if BARYON_FRACTION <= 0.0:
+        raise ValueError("The baryon fraction must be positive to derive Omega_m0.")
+    return baryons, baryons / BARYON_FRACTION
+
 
 def resolve_alpha(params: PBUFParams, table: ThermalTable, metadata: Mapping[str, Any] | None = None) -> float:
     """
@@ -79,8 +88,20 @@ def normalize_parameters(
     """
 
     alpha = resolve_alpha(raw_params, table, metadata)
-    normalized, norm_meta = apply_omega_normalization(raw_params, table, alpha)
-    finalized = replace(normalized, alpha=alpha)
+    derived_ob, derived_om0 = _derive_density_from_alpha(alpha)
+    derived_params = replace(
+        raw_params,
+        alpha=alpha,
+        Omega_b0=derived_ob,
+        Omega_m0=derived_om0,
+    )
+    normalized, norm_meta = apply_omega_normalization(derived_params, table, alpha)
+    finalized = replace(
+        normalized,
+        alpha=alpha,
+        Omega_b0=derived_ob,
+        Omega_m0=derived_om0,
+    )
     return finalized, norm_meta, alpha
 
 

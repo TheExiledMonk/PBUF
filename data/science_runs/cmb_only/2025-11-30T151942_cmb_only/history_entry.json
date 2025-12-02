@@ -1,0 +1,14 @@
+[
+  {
+    "run_name": "cmb_only",
+    "timestamp": "2025-11-30T151942",
+    "model": "pbuf",
+    "best_chi2": 36.06389100520436,
+    "fits_used": [
+      "cmb"
+    ],
+    "engine": "basin",
+    "comment": "Single-fit run for CMB distance priors only (LCDM + PBUF).",
+    "success": true
+  }
+]

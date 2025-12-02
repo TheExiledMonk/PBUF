@@ -1,0 +1,167 @@
+{
+  "run_id": "full_joint",
+  "description": "Full joint fit over CMB, SN, BAO anisotropic, CC, and RSD for LCDM + PBUF.",
+  "joint_config": {
+    "fits": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ]
+  },
+  "parameter_bounds": {
+    "lcdm": {
+      "H0": [
+        65,
+        75
+      ],
+      "Omega_m0": [
+        0.25,
+        0.35
+      ],
+      "Omega_b0": [
+        0.02,
+        0.05
+      ],
+      "Omega_k0": [
+        -0.03,
+        0.03
+      ]
+    },
+    "pbuf": {
+      "H0": [
+        65,
+        75
+      ],
+      "Omega_m0": [
+        0.326,
+        0.326
+      ],
+      "Rmax": [
+        90000000.0,
+        90000000.0
+      ]
+    }
+  },
+  "models": [
+    "lcdm",
+    "pbuf"
+  ],
+  "scenarios": [
+    {
+      "id": "joint_full",
+      "mode": "fit",
+      "datasets": [
+        "cmb",
+        "sn",
+        "bao_iso",
+        "cc",
+        "rsd"
+      ],
+      "notes": "Full multi-probe joint optimisation."
+    }
+  ],
+  "engine_settings": {
+    "n_threads": 20,
+    "workers": 20,
+    "n_scatter": 50,
+    "n_seeds": 10,
+    "n_refine": 20,
+    "batch_size": 16,
+    "seed": 42,
+    "grid_points": 3
+  },
+  "priors": {
+    "lcdm": {},
+    "pbuf": {}
+  },
+  "reporting": {
+    "record_dof": true,
+    "write_optimizer_trace": true
+  },
+  "output": {
+    "base_dir": "../../data/science_runs/full_joint",
+    "generate_plots": true,
+    "generate_reports": true,
+    "report_formats": [
+      "json",
+      "html"
+    ],
+    "save_space": false
+  },
+  "env_meta": {
+    "notes": "Full joint run across five anchors with enhanced dual-level jackknifing."
+  },
+  "jackknife": {
+    "enabled": true,
+    "n_draws": 1,
+    "fraction_removed": 0.1,
+    "random_seed": 42,
+    "datasets_to_test": [
+      "sn",
+      "bao",
+      "cmb",
+      "cc",
+      "rsd"
+    ],
+    "dataset_weights": {
+      "cmb": 1.0,
+      "sn": 1.0,
+      "bao": 1.0,
+      "cc": 0.8,
+      "rsd": 0.8
+    },
+    "confidence_level": 0.95,
+    "parallel_execution": true,
+    "max_workers": 4,
+    "removal_configs": [
+      {
+        "strategy": "random_percentage",
+        "dataset_type": "sn",
+        "fraction": 0.1,
+        "description": "Remove 10% of Type Ia Supernovae randomly"
+      },
+      {
+        "strategy": "redshift_bands",
+        "dataset_type": "sn",
+        "fraction": 0.15,
+        "redshift_ranges": [
+          [
+            0.0,
+            0.3
+          ],
+          [
+            0.8,
+            1.2
+          ]
+        ],
+        "description": "Remove low and high redshift SN bands"
+      },
+      {
+        "strategy": "random_percentage",
+        "dataset_type": "bao",
+        "fraction": 0.1,
+        "description": "Remove 10% of BAO points randomly"
+      },
+      {
+        "strategy": "random_percentage",
+        "dataset_type": "cc",
+        "fraction": 0.15,
+        "description": "Remove 15% of Cosmic Chronometers"
+      },
+      {
+        "strategy": "random_percentage",
+        "dataset_type": "rsd",
+        "fraction": 0.2,
+        "description": "Remove 20% of RSD data points"
+      },
+      {
+        "strategy": "random_percentage",
+        "dataset_type": "cmb",
+        "fraction": 0.05,
+        "description": "Remove 5% of CMB data points"
+      }
+    ]
+  }
+}

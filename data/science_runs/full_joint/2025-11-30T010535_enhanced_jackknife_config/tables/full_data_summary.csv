@@ -1,0 +1,2 @@
+Survey,Dataset Type,Redshift Range,N_points,Weighting,Source Reference,Notes
+All Datasets,Combined,0.01 < z < 2.3,0,Various,Multiple surveys,Combined analysis with 0 independent datasets

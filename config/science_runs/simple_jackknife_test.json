@@ -1,0 +1,55 @@
+{
+  "run_id": "simple_jackknife_test",
+  "description": "Simple jackknife test with minimal configuration",
+  "joint_config": {
+    "fits": ["cmb", "sn"]
+  },
+  "parameter_bounds": {
+    "lcdm": {
+      "H0": [65, 75],
+      "Omega_m0": [0.25, 0.35],
+      "Omega_b0": [0.02, 0.05],
+      "Omega_k0": [-0.03, 0.03]
+    }
+  },
+  "models": ["lcdm"],
+  "scenarios": [
+    {
+      "id": "joint_test",
+      "mode": "fit",
+      "datasets": ["cmb", "sn"],
+      "notes": "Simple test with CMB and SN only"
+    }
+  ],
+  "engine_settings": {
+    "n_threads": 4,
+    "workers": 4,
+    "n_scatter": 10,
+    "n_seeds": 3,
+    "n_refine": 5,
+    "batch_size": 8,
+    "seed": 42,
+    "grid_points": 2
+  },
+  "priors": {
+    "lcdm": {}
+  },
+  "reporting": {
+    "record_dof": true,
+    "write_optimizer_trace": true
+  },
+  "output": {
+    "base_dir": "../../data/science_runs/simple_test",
+    "generate_plots": false,
+    "generate_reports": true,
+    "report_formats": ["json"],
+    "save_space": true
+  },
+  "jackknife": {
+    "enabled": true,
+    "n_draws": 3,
+    "fraction_removed": 0.1,
+    "random_seed": 42,
+    "datasets_to_test": ["sn"]
+  }
+}
