@@ -19,6 +19,7 @@ from .panel_builders import (
     generate_metadata_panel,
     generate_model_panel,
     generate_figures_panels,
+    generate_prediction_comparison_section,
     _to_relative_path,
 )
 from cosmos2.branding import COSMOS2_GENERATED_FOOTER
@@ -62,9 +63,16 @@ class ReportGenerator:
         
         run_metadata = self.data_loader.load_run_metadata()
         figures = self.data_loader.get_figures()
+        predictions_details = self.data_loader.load_predictions_details()
         
         # Generate report content
-        html_content = self._generate_html(models, model_data, run_metadata, figures)
+        html_content = self._generate_html(
+            models,
+            model_data,
+            run_metadata,
+            figures,
+            predictions_details,
+        )
         
         # Write report
         with open(output_path, 'w') as f:
@@ -73,8 +81,14 @@ class ReportGenerator:
         self.logger.info(f"Report generated: {output_path}")
         return str(output_path)
     
-    def _generate_html(self, models: List[str], model_data: Dict[str, Any],
-                      run_metadata: Dict[str, Any], figures: List[Dict[str, Any]]) -> str:
+    def _generate_html(
+        self,
+        models: List[str],
+        model_data: Dict[str, Any],
+        run_metadata: Dict[str, Any],
+        figures: List[Dict[str, Any]],
+        predictions_details: Dict[str, Any] | None,
+    ) -> str:
         """Generate HTML report content."""
 
         css_content = self._load_css()
@@ -86,6 +100,7 @@ class ReportGenerator:
         model_figures_map, general_figures = self._partition_figures(figures, models)
         jackknife_comparison_html = self._build_jackknife_comparison_section(general_figures)
         metadata_html = generate_metadata_panel(run_metadata)
+        predictions_html = generate_prediction_comparison_section(predictions_details, self.run_dir)
 
         best_model = None
         best_chi2 = float("inf")
@@ -118,6 +133,7 @@ class ReportGenerator:
             "hero_section": hero_html,
             "overview_section": overview_html,
             "comparison_section": comparison_html,
+            "predictions_section": predictions_html,
             "jackknife_comparison_section": jackknife_comparison_html,
             "metadata_section": metadata_html,
             "model_sections": model_sections_html,

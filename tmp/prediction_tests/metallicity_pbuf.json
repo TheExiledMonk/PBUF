@@ -1,0 +1,29 @@
+{
+  "name": "metallicity",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "points": 200,
+    "mode": "simple",
+    "compare_lcdm": false,
+    "timestamp": "2025-12-04T13:54:34.217360+00:00",
+    "summary": "Predicted metallicity evolution Z(z) from elastic-enhanced enrichment",
+    "explanation": "The metallicity prediction shows that early-universe metallicity should be higher in PBUF due to accelerated star formation efficiency and delayed collapse times. This predicts more enriched galaxies at high redshift than \u039bCDM allows. JWST measurements of early metallicity can directly confirm or falsify this."
+  },
+  "results": {
+    "zmin": 2.0,
+    "zmax": 20.0,
+    "Z_over_Z0_at_z2": 0.3275530251144018,
+    "Z_over_Z0_at_z6": 0.11635106447656463,
+    "Z_over_Z0_at_z10": 0.05456076748172646,
+    "boost_vs_lcdm_at_z6": null,
+    "boost_vs_lcdm_at_z10": null,
+    "z range": "2 -> 20",
+    "Z(z=2) / Z(0)": 0.3275530251144018,
+    "Z(z=6) / Z(0)": 0.11635106447656463,
+    "Z(z=10) / Z(0)": 0.05456076748172646
+  },
+  "tables": [],
+  "plots": []
+}

@@ -228,7 +228,6 @@
                 margin: 1rem 0;
                 border: 1px solid #e2e8f0;
             }
-            }
             .grid-item label {
                 font-size: 0.75rem;
                 color: #475569;
@@ -325,5 +324,190 @@
             .model-figure figcaption {
                 margin-top: 0.35rem;
                 font-size: 0.9rem;
+                color: #475569;
+            }
+            .prediction-details-panel h2 {
+                margin-top: 0;
+                margin-bottom: 1.25rem;
+            }
+            .prediction-module-block h3 {
+                margin-bottom: 0.5rem;
+                text-transform: capitalize;
+                color: #0f172a;
+            }
+            .prediction-model-card {
+                border: 1px solid #e2e8f0;
+                border-radius: 0.9rem;
+                padding: 1rem 1.25rem;
+                margin-bottom: 1rem;
+                background: #f8fafc;
+            }
+            .prediction-model-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1rem;
+            }
+            .prediction-model-header strong {
+                font-size: 0.95rem;
+                letter-spacing: 0.1em;
+                color: #0f172a;
+            }
+            .prediction-status {
+                border-radius: 999px;
+                padding: 0.2rem 0.75rem;
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+            .prediction-status-success {
+                background: #dcfce7;
+                color: #166534;
+            }
+            .prediction-status-warning {
+                background: #fef3c7;
+                color: #92400e;
+            }
+            .prediction-status-error {
+                background: #fee2e2;
+                color: #991b1b;
+            }
+            .prediction-status-pending {
+                background: #e0f2fe;
+                color: #0c4a6e;
+            }
+            .prediction-meta {
+                margin: 0.35rem 0;
+                font-size: 0.85rem;
+                color: #475569;
+            }
+            .prediction-summary {
+                margin-top: 0.25rem;
+                font-weight: 500;
+                color: #0f172a;
+            }
+            .prediction-details-subsection {
+                margin-top: 1rem;
+            }
+            .prediction-details-subsection h4 {
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+            }
+            .prediction-table-group {
+                margin-top: 1rem;
+            }
+            .prediction-table {
+                margin-top: 0.75rem;
+            }
+            .prediction-table h5 {
+                margin: 0;
+                font-size: 0.95rem;
+            }
+            .prediction-table-wrapper {
+                overflow-x: auto;
+                margin-top: 0.5rem;
+            }
+            .prediction-table-grid th,
+            .prediction-table-grid td {
+                padding: 0.4rem 0.65rem;
+                font-size: 0.82rem;
+            }
+            .prediction-table-extra td {
+                font-style: italic;
+                color: #475569;
+            }
+            .prediction-table-meta {
+                font-size: 0.75rem;
+                color: #475569;
+                margin-top: 0.35rem;
+            }
+            .prediction-plot-block {
+                margin-top: 1rem;
+            }
+            .prediction-plot-gallery {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1rem;
+                margin-top: 0.75rem;
+            }
+            .prediction-plot-card {
+                border: 1px solid #e2e8f0;
+                border-radius: 0.9rem;
+                padding: 0.65rem;
+                background: white;
+            }
+            .prediction-plot-card img {
+                width: 100%;
+                height: auto;
+                border-radius: 0.6rem;
+                display: block;
+            }
+            .prediction-plot-card figcaption {
+                margin-top: 0.35rem;
+                font-size: 0.85rem;
+                color: #475569;
+            }
+            .prediction-plot-description {
+                margin: 0.35rem 0;
+                font-size: 0.8rem;
+                color: #64748b;
+            }
+            .prediction-plot-meta {
+                font-size: 0.75rem;
+                color: #94a3b8;
+            }
+            .predictions-panel h2 {
+                margin-top: 0;
+                margin-bottom: 1rem;
+            }
+            .prediction-module-card {
+                border: 1px solid #e2e8f0;
+                border-radius: 1rem;
+                padding: 1.25rem;
+                margin-bottom: 1rem;
+                background: #f8fafc;
+            }
+            .prediction-module-card header {
+                margin-bottom: 0.75rem;
+            }
+            .prediction-module-card h3 {
+                margin: 0;
+                font-size: 1.1rem;
+                color: #0f172a;
+            }
+            .prediction-module-meta {
+                margin: 0.25rem 0;
+                color: #475569;
+                font-size: 0.85rem;
+            }
+            .prediction-results-table-wrapper {
+                overflow-x: auto;
+                margin-bottom: 0.75rem;
+            }
+            .prediction-results-grid {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .prediction-results-grid th,
+            .prediction-results-grid td {
+                padding: 0.4rem 0.65rem;
+                border-bottom: 1px solid #e2e8f0;
+                text-align: left;
+                font-size: 0.85rem;
+            }
+            .prediction-module-plot {
+                margin-top: 1rem;
+                text-align: center;
+            }
+            .prediction-module-plot img {
+                width: 100%;
+                height: auto;
+                border-radius: 0.75rem;
+                border: 1px solid #e2e8f0;
+                display: block;
+            }
+            .prediction-module-plot figcaption {
+                margin-top: 0.35rem;
+                font-size: 0.85rem;
                 color: #475569;
             }

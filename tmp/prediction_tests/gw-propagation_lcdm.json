@@ -1,0 +1,27 @@
+{
+  "name": "gw-propagation",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "LCDMModel",
+    "timestamp": "2025-12-04T13:55:08.565224+00:00",
+    "summary": "GW vs EM propagation in PBUF: luminosity-distance ratio and arrival-time difference",
+    "anchor_equal_c0": true,
+    "used_wave_speed": false,
+    "zmax": 5.0,
+    "points": 200,
+    "explanation": "The GW propagation prediction shows that gravitational waves and electromagnetic waves arrive simultaneously in PBUF and share identical luminosity distances. This reflects spacetime's rigid wave medium. Any deviation from unity would challenge PBUF; agreement strengthens the model's wave-medium foundation."
+  },
+  "results": {
+    "zmax": 5.0,
+    "points": 200,
+    "z_keys": [],
+    "RD_at_z": [],
+    "DL_EM_at_z": [],
+    "DL_GW_at_z": [],
+    "Delta_t_GW_EM_at_z": [],
+    "Rc_at_z": []
+  },
+  "tables": [],
+  "plots": []
+}

@@ -1,0 +1,27 @@
+{
+  "name": "bao-shift",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "compare_lcdm": false,
+    "z_input": null,
+    "zmin": 0.1,
+    "zmax": 2.0,
+    "points": 10,
+    "timestamp": "2025-12-04T13:54:18.731252+00:00",
+    "explanation": "The BAO-shift plot shows how the BAO distance scale differs between PBUF and \u039bCDM. PBUF predicts a modest percent-level shift due to elastic-wave propagation delaying early-universe sound travel. This is directly testable by DESI and future BAO surveys. Matching the predicted offset would confirm PBUF's elastic modification of early-universe distances."
+  },
+  "results": {
+    "z_pivot": 0.35,
+    "alpha_iso_pivot": null,
+    "alpha_perp_pivot": null,
+    "alpha_parallel_pivot": null,
+    "DV_over_rd_PBUF_pivot": 11.38975211262769,
+    "DV_over_rd_LCDM_pivot": null,
+    "rd_PBUF": 139.21696533861186,
+    "rd_LCDM": null
+  },
+  "tables": [],
+  "plots": []
+}

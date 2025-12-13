@@ -1,0 +1,22 @@
+{
+  "name": "sound-horizon",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "LCDMModel",
+    "resolution": 2000,
+    "timestamp": "2025-12-04T13:55:25.298881+00:00",
+    "a_drag": 0.0009847135030388214,
+    "z_drag": 1014.5238015057216,
+    "compare_lcdm": false,
+    "explanation": "The sound-horizon prediction r_d shows how the early-universe sound horizon shrinks slightly in PBUF due to modified wave speed in the denser early medium. This shift naturally alleviates the H0 tension. Precision BAO analyses can measure whether r_d matches this predicted reduction."
+  },
+  "results": {
+    "r_d_Mpc": 424.5783544349141,
+    "r_d_km": 1.3101119098663102e+22,
+    "a_drag": 0.0009847135030388214,
+    "z_drag": 1014.5238015057216
+  },
+  "tables": [],
+  "plots": []
+}

@@ -14,6 +14,7 @@ from cosmos2.fits.rsd import run_fit as run_rsd_fit
 from cosmos2.fits.sh0es import run_fit as run_sh0es_prior
 from cosmos2.fits.sn import run_fit as run_sn_pantheon_fit
 from cosmos2.fits.wl import run_fit as run_wl_s8_fit
+from cosmos2.fits.weak_lensing_kids1000 import run_fit as run_wl_kids1000_fit
 
 FIT_REGISTRY: Dict[str, Callable[[Any], Any]] = {
     "cmb": run_cmb_fit,
@@ -30,6 +31,8 @@ FIT_REGISTRY: Dict[str, Callable[[Any], Any]] = {
     "galaxy_pk": run_galaxy_pk_fit,
     "lensing_cross": run_lensing_cross_fit,
     "lensing_x": run_lensing_cross_fit,
+    "weak_lensing_kids1000": run_wl_kids1000_fit,
+    "wl_kids1000": run_wl_kids1000_fit,
 }
 
 

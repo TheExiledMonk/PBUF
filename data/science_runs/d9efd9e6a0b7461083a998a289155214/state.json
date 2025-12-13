@@ -1,0 +1,392 @@
+{
+  "execution_id": "d9efd9e6a0b7461083a998a289155214",
+  "run_id": "unified_joint",
+  "status": "running",
+  "aggregate_progress": 0.5,
+  "created_at": "2025-12-06T09:29:59.865926",
+  "started_at": "2025-12-06T09:30:07.236549",
+  "ended_at": null,
+  "report_written": false,
+  "slices": {
+    "d9efd9e6a0b7461083a998a289155214_slice_001": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_001",
+      "kind": "science",
+      "index": 1,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 1
+      },
+      "parameters": {
+        "chunk_index": 0,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236547",
+      "ended_at": "2025-12-06T09:40:13.741186"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_002": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_002",
+      "kind": "science",
+      "index": 2,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 2
+      },
+      "parameters": {
+        "chunk_index": 1,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236558",
+      "ended_at": "2025-12-06T09:50:26.289291"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_003": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_003",
+      "kind": "science",
+      "index": 3,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 3
+      },
+      "parameters": {
+        "chunk_index": 2,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236563",
+      "ended_at": "2025-12-06T10:00:44.485187"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_004": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_004",
+      "kind": "science",
+      "index": 4,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 4
+      },
+      "parameters": {
+        "chunk_index": 3,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236566",
+      "ended_at": "2025-12-06T10:10:50.851032"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_005": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_005",
+      "kind": "science",
+      "index": 5,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 5
+      },
+      "parameters": {
+        "chunk_index": 4,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236569",
+      "ended_at": "2025-12-06T10:20:58.079438"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_006": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_006",
+      "kind": "science",
+      "index": 6,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 6
+      },
+      "parameters": {
+        "chunk_index": 5,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236572",
+      "ended_at": "2025-12-06T10:31:30.646197"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_007": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_007",
+      "kind": "science",
+      "index": 7,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 7
+      },
+      "parameters": {
+        "chunk_index": 6,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236574",
+      "ended_at": "2025-12-06T10:41:52.270491"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_008": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_008",
+      "kind": "science",
+      "index": 8,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 8
+      },
+      "parameters": {
+        "chunk_index": 7,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236577",
+      "ended_at": "2025-12-06T10:52:04.779427"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_009": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_009",
+      "kind": "science",
+      "index": 9,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 9
+      },
+      "parameters": {
+        "chunk_index": 8,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236579",
+      "ended_at": "2025-12-06T11:02:17.366777"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_010": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_010",
+      "kind": "science",
+      "index": 10,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 10
+      },
+      "parameters": {
+        "chunk_index": 9,
+        "total_chunks": 20
+      },
+      "status": "completed",
+      "assigned_node": "worker",
+      "progress": 1.0,
+      "started_at": "2025-12-06T09:30:07.236582",
+      "ended_at": "2025-12-06T11:12:24.458000"
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_011": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_011",
+      "kind": "science",
+      "index": 11,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 11
+      },
+      "parameters": {
+        "chunk_index": 10,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236584",
+      "ended_at": null
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_012": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_012",
+      "kind": "science",
+      "index": 12,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 12
+      },
+      "parameters": {
+        "chunk_index": 11,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236586",
+      "ended_at": null
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_013": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_013",
+      "kind": "science",
+      "index": 13,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 13
+      },
+      "parameters": {
+        "chunk_index": 12,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236589",
+      "ended_at": null
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_014": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_014",
+      "kind": "science",
+      "index": 14,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 14
+      },
+      "parameters": {
+        "chunk_index": 13,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236591",
+      "ended_at": null
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_015": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_015",
+      "kind": "science",
+      "index": 15,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 15
+      },
+      "parameters": {
+        "chunk_index": 14,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236594",
+      "ended_at": null
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_016": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_016",
+      "kind": "science",
+      "index": 16,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 16
+      },
+      "parameters": {
+        "chunk_index": 15,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236596",
+      "ended_at": null
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_017": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_017",
+      "kind": "science",
+      "index": 17,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 17
+      },
+      "parameters": {
+        "chunk_index": 16,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236598",
+      "ended_at": null
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_018": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_018",
+      "kind": "science",
+      "index": 18,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 18
+      },
+      "parameters": {
+        "chunk_index": 17,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236601",
+      "ended_at": null
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_019": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_019",
+      "kind": "science",
+      "index": 19,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 19
+      },
+      "parameters": {
+        "chunk_index": 18,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236603",
+      "ended_at": null
+    },
+    "d9efd9e6a0b7461083a998a289155214_slice_020": {
+      "slice_id": "d9efd9e6a0b7461083a998a289155214_slice_020",
+      "kind": "science",
+      "index": 20,
+      "total_slices": 20,
+      "dataset_id": null,
+      "range": {
+        "index": 20
+      },
+      "parameters": {
+        "chunk_index": 19,
+        "total_chunks": 20
+      },
+      "status": "assigned",
+      "assigned_node": "worker",
+      "progress": 0.0,
+      "started_at": "2025-12-06T09:30:07.236605",
+      "ended_at": null
+    }
+  }
+}

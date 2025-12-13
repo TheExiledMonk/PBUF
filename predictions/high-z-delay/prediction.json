@@ -1,0 +1,31 @@
+{
+  "name": "high-z-delay",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "timestamp": "2025-12-03T13:52:12.579957+00:00",
+    "zmax": 20.0,
+    "points": 400,
+    "reference": "same-H-constant-c",
+    "zgrid": [
+      1.0,
+      3.0,
+      6.0,
+      10.0,
+      20.0
+    ]
+  },
+  "results": {
+    "zmax": 20.0,
+    "points": 400,
+    "max_delay_Gyr": 18.959410774442805,
+    "delay_at_z1_Gyr": 10.55680108411568,
+    "delay_at_z3_Gyr": 15.820711150725492,
+    "delay_at_z6_Gyr": 17.674480697311097,
+    "delay_at_z10_Gyr": 18.431100627477864,
+    "delay_at_z20_Gyr": 18.959410774442805
+  },
+  "tables": [],
+  "plots": []
+}

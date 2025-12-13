@@ -1,0 +1,22 @@
+{
+  "name": "growth",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "LCDMModel",
+    "zmax": 5.0,
+    "points": 300,
+    "include_s8": false,
+    "zgrid": null,
+    "timestamp": "2025-12-04T13:55:05.375276+00:00",
+    "explanation": "The growth-factor prediction shows how linear structure growth evolves under PBUF. Elastic expansion suppresses growth slightly relative to \u039bCDM, producing a shallower D(z) curve. This behavior is measurable through galaxy clustering and weak lensing and serves as a key test of elastic cosmology."
+  },
+  "results": {
+    "zmax": 5.0,
+    "f_at_z0": 0.5496161647413147,
+    "f_at_z1": 0.886620469682783,
+    "f_at_z2": 0.9619237696598979
+  },
+  "tables": [],
+  "plots": []
+}

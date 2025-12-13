@@ -148,11 +148,15 @@ def _detect_blas_backend() -> str | None:
         import numpy as np
     except ImportError:
         return None
-    infos = [
-        np.__config__.get_info("blas_opt"),
-        np.__config__.get_info("openblas_info"),
-        np.__config__.get_info("mkl_info"),
-    ]
+    infos = []
+    for key in ("blas_opt", "openblas_info", "mkl_info"):
+        config = getattr(np.__config__, "get_info", None)
+        if callable(config):
+            info = config(key) or {}
+        else:
+            fallback = getattr(np.__config__, f"{key}_info", None)
+            info = fallback() if callable(fallback) else {}
+        infos.append(info)
     backend_info = next((info for info in infos if info), {})
     libs = backend_info.get("libraries") or []
     lib_list = ", ".join(sorted(set(libs))) if libs else None

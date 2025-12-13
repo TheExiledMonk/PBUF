@@ -46,6 +46,97 @@ python cosmos_cli.py science --config config/science_runs/minimal.json
 
 This executes the scout/joint stages over `cmb`, `cc`, and `rsd` probes using both LCDM and PBUF models and stores results under `data/science_runs/minimal`. You can swap in any other configuration from `config/science_runs/` to explore alternative priors, dataset subsets, or engine settings. If you ever need to bypass the CLI, run `python scripts/cosmos2_science_runner.py --config <sheet>` to talk to `Cosmos2ScienceRunner` directly.
 
+## Prediction modules
+
+`cosmos_cli.py` now exposes a dedicated `predict` group that runs model-agnostic, configurable prediction modules:
+
+```bash
+python cosmos_cli.py predict sound-horizon --model pbuf
+python cosmos_cli.py predict dust-temperature --model pbuf --zmin 2 --zmax 20 --points 200
+```
+
+Each module is auto-discovered; the initial set includes:
+
+- `sound-horizon`: baryon sound horizon `r_d` plus optional reference comparison.
+- `dust-temperature`: dust temperature evolution as a function of redshift (`--zmin`, `--zmax`, `--points`).
+- `dust-onset`: the normalized dust potential crossing that marks significant dust formation; configure it via `--zmax`, `--points`, `--mode simple`, `--threshold-fraction`, `--output-plot`, and `--output-table`.
+- `acceleration-slowdown`: the future slowdown redshift derived from the deceleration profile (`--amin`, `--amax`, `--points`).
+- `galaxy-size`: predicted galaxy sizes vs redshift built from the elastic stiffness history, with optional ΛCDM comparison (`--mass`, `--compare-lcdm`, `--output-plot`, `--output-table`).
+- `void-size`: predicted cosmic void radii driven by PBUF growth suppression and elastic slack, with optional ΛCDM ratios (`--points`, `--zmax`, `--compare-lcdm`, `--output-plot`, `--output-table`, `--eta-growth`, `--gamma-alpha`, `--beta-z`).
+- `metallicity`: elastic-enhanced metallicity buildup vs redshift with optional ΛCDM reference (`--mode simple`, `--compare-lcdm`, `--output-plot`, `--output-table`).
+- `high-z-delay`: extra travel time (Δt) for photons/GWs/neutrinos from high redshift relative to a constant-c baseline. Configure `--zmax`, `--points`, and `--zgrid` for the redshift sampling and use `--output-plot`/`--output-table` to include the canonical delay and c_eff ratio descriptors. See `documentation/predictions/high_z_delay.md` for the developer contract, configuration examples, and reporting guidance.
+- `lookback`: integrates \(1/((1+z)H(z))\) to deliver the lookback time \(t_L(z)\), cosmic age \(t(z)\), and summary values at \(z=0,1,6\). Control the redshift range with `--zmin`, `--zmax`, and `--points`, and enable `--output-plot`/`--output-table` to include the canonical curves and table. See `documentation/predictions/lookback.md` for the full developer contract.
+- `horizon-evolution`: tracks the physical and comoving Hubble horizons \((c/H,\ c(1+z)/H)\) and a truncated particle horizon from the same grid. The CLI accepts `--zmin`, `--zmax`, `--points`, and `--no-plot` to control sampling/top-off plotting, and the JSON payload records summary scalars at \(z=0/1/6\) plus the validity mask for the reporting stack.
+- `gw-propagation`: compare photon and gravitational-wave propagation on the elastic medium, reporting `D_L` ratios, arrival-time differences, and the `c_GW/c_EM` curve. Configure `--zmax`, `--points`, and `--z-key` to select summary redshifts, toggle `--anchor-equal-c0`/`--no-anchor-equal-c0`, and request `--output-plot`/`--output-table` to emit the `gw_propagation_vs_z` table plus `DL_ratio_vs_z` and `Delta_t_vs_z` plots. Documentation is available at `documentation/predictions/gw-propagation.md`.
+
+The galaxy-size prediction defaults to a 2≤z≤20 grid with 200 points and a 1×10¹⁰ M⊙ halo mass. Run it with:
+
+```bash
+python cosmos_cli.py predict galaxy-size --model pbuf --zmin 2 --zmax 20 --points 200 --mass 1e10 --compare-lcdm --output-plot --output-table
+```
+
+The CLI summary reports the characteristic mass, redshift range, PBUF sizes at z=2/10, and the z=10 size ratio (PBUF/reference), while `--output-table` and `--output-plot` inject the tabular and plot descriptors referenced in the prediction payload.
+
+The void-size prediction reports \(R_{\text{void}}(z)\), the elastic slack correction via \(\alpha\), and (when requested) ratios to a ΛCDM-style reference curve. Kick it off with:
+
+```bash
+python cosmos_cli.py predict void-size --model pbuf --points 150 --zmax 1.0 --compare-lcdm --output-plot --output-table
+```
+
+The CLI summary highlights the present-day void size and ratios at z = 0.5/1.0, along with `alpha`, `eta_growth`, and `gamma_alpha`.
+
+Prediction runs are read-only, expose metadata, numeric results, optional tables, and plot descriptors. Use `--save-json result.json`, `--save-table temperature.csv`, and `--save-plots plots/` to persist the outputs.
+
+Standalone predictions now default to `predictions/<prediction-name>/` under the current working directory so you can rerun them without wiring up additional flags. When predictions are run as part of a science run, the outputs land under `data/science_runs/<run>/predictions/`, including aggregated summary JSON, per-model/module tables, and descriptor dumps for plots.
+
+The new metallicity prediction runs over the elastic stiffness history to produce `Z(z)/Z(0)` curves and unnormalized enrichment efficiencies. Example call:
+
+```bash
+python cosmos_cli.py predict metallicity --model pbuf --zmin 2 --zmax 20 --points 200 --compare-lcdm --output-plot --output-table
+```
+
+The CLI summary highlights the z-range, relative metallicities at z=2/6/10, and the boost relative to the ΛCDM reference while the optional tables/plots share the raw time series that inform reporting.
+
+`dust-onset` now reports the configured `threshold_fraction`, the predicted `z_dust_on`, and `P_norm` at z=6/10/15. Use:
+
+```bash
+python cosmos_cli.py predict dust-onset --model pbuf --zmax 30 --points 300 --threshold-fraction 0.05 --output-plot --output-table
+```
+
+When `--output-table`/`--output-plot` are enabled the payload exposes the full `dust_potential_vs_z` table and `P_norm_vs_z` plot descriptors. See `documentation/predictions/dust_onset.md` for the developer-facing contract and science-run configuration guidance.
+
+### Including predictions in science runs
+
+Add a `[predictions]` section to any science config to automatically run modules after the main fits:
+
+```yaml
+predictions:
+  enabled: true
+  modules:
+    - sound-horizon
+    - dust-temperature
+    - galaxy-size
+    - void-size
+  dust-temperature:
+    zmin: 1
+    zmax: 25
+    points: 250
+  galaxy-size:
+    zmin: 2
+    zmax: 15
+    points: 200
+    mass: 1e10
+    compare_lcdm: true
+  void-size:
+    zmax: 1.0
+    points: 100
+    compare_lcdm: true
+    output_plot: true
+    output_table: true
+```
+
+When enabled, each configured module executes for every model in the run after the fits finish. Results are aggregated into `predictions_summary.json`, and the standalone reporting system renders a dedicated “Predictions” section that embeds numbers, tables, and plots for quick inspection. Handled modules remain extension-friendly—drop a new file under `cosmos2/predictions/modules`, register it, and the CLI/science workflows pick it up automatically.
+
 ## Data provisioning for reproducibility
 
 The repository already stores normalized datasets, but if you need to rebuild or refresh them you can fetch raw releases through the toolbox. `config/downloader/datasets.yaml` is the authority for dataset keys and URLs.

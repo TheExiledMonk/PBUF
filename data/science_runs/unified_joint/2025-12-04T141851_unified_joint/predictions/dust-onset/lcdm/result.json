@@ -1,0 +1,13 @@
+{
+  "name": "dust-onset",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "error": "missing_elastic_stiffness_api",
+    "summary": "Dust-onset prediction not supported for this model.",
+    "explanation": "The dust-onset curve estimates the cumulative optical depth of intergalactic dust as a function of redshift. PBUF predicts earlier dust influence because of altered early-time temperature scaling. Upcoming JWST and ALMA observations can test whether dust buildup matches this predicted trend."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

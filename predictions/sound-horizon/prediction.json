@@ -1,0 +1,23 @@
+{
+  "name": "sound-horizon",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "LCDMModel",
+    "resolution": 2000,
+    "timestamp": "2025-12-03T12:47:05.199564+00:00",
+    "a_drag": 0.0009789723843563517,
+    "z_drag": 1020.4792735522088,
+    "compare_lcdm": true
+  },
+  "results": {
+    "r_d_Mpc": 426.9722396465919,
+    "r_d_km": 1.317498667796648e+22,
+    "a_drag": 0.0009789723843563517,
+    "z_drag": 1020.4792735522088,
+    "delta_vs_lcdm": 0.0,
+    "r_d_lcdm_Mpc": 426.9722396465919
+  },
+  "tables": [],
+  "plots": []
+}

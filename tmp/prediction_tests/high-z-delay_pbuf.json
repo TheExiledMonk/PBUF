@@ -1,0 +1,32 @@
+{
+  "name": "high-z-delay",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "timestamp": "2025-12-04T13:54:29.919312+00:00",
+    "zmax": 20.0,
+    "points": 400,
+    "reference": "same-H-constant-c",
+    "zgrid": [
+      1.0,
+      3.0,
+      6.0,
+      10.0,
+      20.0
+    ],
+    "explanation": "The high-z delay curve shows how elastic-wave speed affects photon travel time from early epochs. PBUF predicts an accumulated delay relative to \u039bCDM because c_eff was lower in the hotter early medium. Detection of systematic timing offsets at high redshift would support the elastic propagation model."
+  },
+  "results": {
+    "zmax": 20.0,
+    "points": 400,
+    "max_delay_Gyr": 18.96225969642691,
+    "delay_at_z1_Gyr": 10.558387394104331,
+    "delay_at_z3_Gyr": 15.82308843830778,
+    "delay_at_z6_Gyr": 17.677136540217568,
+    "delay_at_z10_Gyr": 18.43387016332439,
+    "delay_at_z20_Gyr": 18.96225969642691
+  },
+  "tables": [],
+  "plots": []
+}

@@ -1,0 +1,24 @@
+{
+  "name": "dust-onset",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "points": 300,
+    "threshold_fraction": 0.05,
+    "mode": "simple",
+    "timestamp": "2025-12-04T13:54:21.648436+00:00",
+    "summary": "Elastic-enhanced dust potential crosses 0.050 near z\u224812.77.",
+    "explanation": "The dust-onset curve estimates the cumulative optical depth of intergalactic dust as a function of redshift. PBUF predicts earlier dust influence because of altered early-time temperature scaling. Upcoming JWST and ALMA observations can test whether dust buildup matches this predicted trend."
+  },
+  "results": {
+    "z_dust_on": 12.765011119347664,
+    "a_dust_on": 0.07264796165652432,
+    "threshold_fraction": 0.05,
+    "P_norm_at_z6": 0.13417802425908357,
+    "P_norm_at_z10": 0.07363453428784039,
+    "P_norm_at_z15": 0.038996774379739904
+  },
+  "tables": [],
+  "plots": []
+}

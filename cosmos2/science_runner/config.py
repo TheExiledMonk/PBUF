@@ -25,6 +25,16 @@ class ScienceRunOutputConfig:
     save_space: bool
 
 
+@dataclass(frozen=True)
+class ScienceRunPredictionsConfig:
+    enabled: bool
+    modules: list[str]
+    module_configs: dict[str, dict[str, Any]]
+
+    def get_module_config(self, name: str) -> dict[str, Any]:
+        return self.module_configs.get(name.strip().lower(), {})
+
+
 @dataclass
 class ScienceRunConfig:
     path: Path
@@ -46,6 +56,7 @@ class ScienceRunConfig:
     initial_parameters: dict[str, float]
     profile_likelihood: dict[str, Any] | None
     jackknife: JackknifeConfig | None
+    predictions: ScienceRunPredictionsConfig
     output: ScienceRunOutputConfig
     interactive: bool
 
@@ -110,6 +121,8 @@ class ScienceRunConfig:
         profile_likelihood = payload.get("profile_likelihood")
         jackknife_data = payload.get("jackknife")
         jackknife = JackknifeConfig.from_dict(jackknife_data) if jackknife_data else None
+        predictions_payload = payload.get("predictions") or {}
+        predictions = cls._parse_predictions_config(predictions_payload)
         interactive = bool(payload.get("interactive", False))
 
         output_payload = payload.get("output") or {}
@@ -144,6 +157,7 @@ class ScienceRunConfig:
             initial_parameters=initial_parameters,
             profile_likelihood=profile_likelihood,
             jackknife=jackknife,
+            predictions=predictions,
             auto_mode=auto_mode,
             output=output_config,
             interactive=interactive,
@@ -202,6 +216,29 @@ class ScienceRunConfig:
                 continue
             normalized[key] = value
         return normalized
+
+    @staticmethod
+    def _parse_predictions_config(payload: Any) -> ScienceRunPredictionsConfig:
+        if not isinstance(payload, Mapping):
+            payload = {}
+        enabled = bool(payload.get("enabled", False))
+        modules = list(ScienceRunConfig._normalize_list(payload.get("modules") or []))
+        module_configs: dict[str, dict[str, Any]] = {}
+        for key, value in payload.items():
+            if not isinstance(key, str):
+                continue
+            normalized = key.strip().lower()
+            if normalized in {"enabled", "modules"} or not normalized:
+                continue
+            if isinstance(value, Mapping):
+                module_configs[normalized] = dict(value)
+            else:
+                module_configs[normalized] = {"value": value}
+        return ScienceRunPredictionsConfig(
+            enabled=enabled,
+            modules=modules,
+            module_configs=module_configs,
+        )
 
     @staticmethod
     def _normalize_interval(value: Any) -> tuple[float, float] | None:
@@ -436,6 +473,14 @@ class ScienceRunConfig:
             "initial_parameters": self.initial_parameters,
             "profile_likelihood": self.profile_likelihood,
             "jackknife": self.jackknife.to_dict() if self.jackknife else None,
+            "predictions": {
+                "enabled": self.predictions.enabled,
+                "modules": list(self.predictions.modules),
+                **{
+                    key: dict(value)
+                    for key, value in self.predictions.module_configs.items()
+                },
+            },
             "output": {
                 "base_dir": str(self.output.base_dir),
                 "generate_plots": self.output.generate_plots,
@@ -447,4 +492,4 @@ class ScienceRunConfig:
         }
 
 
-__all__ = ["ScienceRunConfig", "ScienceRunOutputConfig"]
+__all__ = ["ScienceRunConfig", "ScienceRunOutputConfig", "ScienceRunPredictionsConfig"]

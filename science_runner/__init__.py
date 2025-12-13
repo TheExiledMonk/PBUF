@@ -1,0 +1,246 @@
+"""Interactive helpers shared between the legacy CLI and Cosmos2 runner entry points."""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+from typing import Iterable, Sequence
+
+from cosmos2.fits.registry import FIT_REGISTRY
+from cosmos2.science_runner.config import ScienceRunConfig
+
+
+def _collect_paths(config_files: Iterable[str], config_dir: str | None) -> list[Path]:
+    paths: list[Path] = []
+    for raw in config_files:
+        expanded = Path(raw).expanduser().resolve()
+        if expanded.exists():
+            paths.append(expanded)
+    if config_dir:
+        directory = Path(config_dir).expanduser().resolve()
+        if not directory.is_dir():
+            raise FileNotFoundError(f"Config directory '{directory}' does not exist.")
+        for pattern in ("*.json", "*.yaml", "*.yml"):
+            for match in sorted(directory.glob(pattern)):
+                paths.append(match.resolve())
+    seen: set[Path] = set()
+    ordered: list[Path] = []
+    for path in paths:
+        if path not in seen:
+            seen.add(path)
+            ordered.append(path)
+    return ordered
+
+
+def _collect_override_items(raw_values: Sequence[str] | None) -> list[str]:
+    if not raw_values:
+        return []
+    expanded: list[str] = []
+    for entry in raw_values:
+        for segment in entry.split(","):
+            candidate = segment.strip()
+            if candidate:
+                expanded.append(candidate)
+    return ScienceRunConfig._normalize_list(expanded)
+
+
+def _prompt_bool(prompt: str, current: bool) -> bool:
+    default = "Y" if current else "N"
+    response = input(f"{prompt} [{default}/{'n' if current else 'y'}]: ").strip().lower()
+    if not response:
+        return current
+    if response in ("y", "yes"):
+        return True
+    if response in ("n", "no"):
+        return False
+    return current
+
+
+def _print_menu_summary(config: ScienceRunConfig) -> None:
+    separator = "=" * 58
+    print(separator)
+    print(" PBUF Science Runner - Interactive Configuration")
+    print(separator)
+    engine_threads = config.engine_settings.get("threads") or config.engine_settings.get("n_threads") or "default"
+    reports = ", ".join(config.output.report_formats) if config.output.report_formats else "none"
+    print(f"Run: {config.run_name}")
+    print(f"Mode: {config.mode}")
+    print(f"Models: {', '.join(config.models)}")
+    print(f"Fits: {', '.join(config.fits_list)}")
+    print(f"Engine: {config.engine}")
+    print(f"Threads: {engine_threads}")
+    print(f"Reports: {reports}")
+    print(f"Plots: {'Enabled' if config.output.generate_plots else 'Disabled'}")
+    print(f"Save-space: {config.output.save_space}")
+    print(separator)
+    print("Options:")
+    print("  [1] Toggle models")
+    print("  [2] Toggle fits")
+    print("  [3] Engine settings")
+    print("  [4] Plotting/reporting settings")
+    print("  [5] Show full summary")
+    print("  [6] Proceed")
+    print("  [7] Cancel")
+    print(separator)
+
+
+def _toggle_models(config: ScienceRunConfig) -> None:
+    print(f"Current models: {', '.join(config.models)}")
+    selection = input("Enter models (comma separated, blank to keep): ").strip()
+    if not selection:
+        return
+    items = _collect_override_items([selection])
+    if not items:
+        print("No valid model names provided.")
+        return
+    try:
+        config.set_models(items)
+    except ValueError as exc:
+        print(f"Could not update models: {exc}")
+
+
+def _toggle_fits(config: ScienceRunConfig) -> None:
+    available = sorted(FIT_REGISTRY.keys())
+    enabled = set(config.fits_list)
+    for index, fit_name in enumerate(available, start=1):
+        status = "on" if fit_name in enabled else "off"
+        print(f"  [{index}] {fit_name} ({status})")
+    selection = input("Toggle which indexes (comma separated, blank to skip): ").strip()
+    if not selection:
+        return
+    toggled = set(enabled)
+    for part in selection.split(","):
+        candidate = part.strip()
+        if not candidate:
+            continue
+        try:
+            idx = int(candidate) - 1
+        except ValueError:
+            print(f"Ignoring invalid index '{candidate}'.")
+            continue
+        if 0 <= idx < len(available):
+            fit_name = available[idx]
+            if fit_name in toggled:
+                toggled.remove(fit_name)
+            else:
+                toggled.add(fit_name)
+    if not toggled:
+        print("At least one fit must be selected.")
+        return
+    new_list = [fit for fit in available if fit in toggled]
+    previous = list(config.fits_list)
+    try:
+        config.set_fits(new_list)
+    except ValueError as exc:
+        print(f"Could not update fits: {exc}")
+        config.set_fits(previous)
+
+
+def _engine_settings_menu(config: ScienceRunConfig) -> None:
+    print(f"Current engine: {config.engine}")
+    new_engine = input("Engine name (blank to keep current): ").strip()
+    if new_engine:
+        config.engine = new_engine
+    print("Current engine settings:")
+    print(json.dumps(config.engine_settings or {}, indent=2))
+    settings_input = input("Update settings (key=value, comma separated, blank to keep): ").strip()
+    if not settings_input:
+        return
+    updated = dict(config.engine_settings)
+    for segment in settings_input.split(","):
+        pair = segment.strip()
+        if not pair or "=" not in pair:
+            continue
+        key, value = pair.split("=", 1)
+        updated[key.strip()] = _parse_engine_setting_value(value.strip())
+    config.engine_settings = updated
+
+
+def _reporting_menu(config: ScienceRunConfig) -> None:
+    config.output.generate_plots = _prompt_bool("Generate plots", config.output.generate_plots)
+    config.output.generate_reports = _prompt_bool("Generate reports", config.output.generate_reports)
+    available = ["json", "html", "pdf"]
+    current = set(config.output.report_formats)
+    for index, fmt in enumerate(available, start=1):
+        status = "enabled" if fmt in current else "disabled"
+        print(f"  [{index}] {fmt.upper()} ({status})")
+    selection = input("Toggle report formats by index (comma separated, blank to skip): ").strip()
+    if selection:
+        toggled = set(current)
+        for part in selection.split(","):
+            try:
+                idx = int(part.strip()) - 1
+            except ValueError:
+                continue
+            if 0 <= idx < len(available):
+                fmt = available[idx]
+                if fmt in toggled:
+                    toggled.remove(fmt)
+                else:
+                    toggled.add(fmt)
+        config.output.report_formats = [fmt for fmt in available if fmt in toggled]
+    config.output.save_space = _prompt_bool("Save-space mode", config.output.save_space)
+
+
+def _show_full_summary(config: ScienceRunConfig) -> None:
+    print("Configuration summary:")
+    print(json.dumps(config.to_dict(), indent=2))
+    input("Press Enter to continue...")
+
+
+def _interactive_confirm(config: ScienceRunConfig) -> bool:
+    if not sys.stdin.isatty():
+        print("Interactive prompts skipped because stdin is not a TTY.")
+        return True
+    while True:
+        _print_menu_summary(config)
+        try:
+            response = input("Selection: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            return False
+        if not response:
+            continue
+        if response == "1":
+            _toggle_models(config)
+            continue
+        if response == "2":
+            _toggle_fits(config)
+            continue
+        if response == "3":
+            _engine_settings_menu(config)
+            continue
+        if response == "4":
+            _reporting_menu(config)
+            continue
+        if response == "5":
+            _show_full_summary(config)
+            continue
+        if response == "6":
+            return True
+        if response == "7":
+            return False
+        print("Unknown selection.")
+
+
+def _parse_engine_setting_value(raw: str) -> str | float | int | bool:
+    lowered = raw.lower()
+    if lowered in ("true", "false"):
+        return lowered == "true"
+    if lowered == "none":
+        return ""
+    try:
+        return int(raw)
+    except ValueError:
+        try:
+            return float(raw)
+        except ValueError:
+            return raw
+
+
+__all__ = [
+    "_collect_paths",
+    "_collect_override_items",
+    "_interactive_confirm",
+]

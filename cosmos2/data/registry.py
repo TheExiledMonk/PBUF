@@ -2,10 +2,17 @@
 
 from __future__ import annotations
 
+import json
+import os
 import numpy as np
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Callable, Dict
+
+try:
+    import yaml  # type: ignore
+except Exception:  # pragma: no cover - yaml is optional
+    yaml = None
 
 Dataset = Any
 DATA_ROOT = Path("data/standardized")
@@ -76,7 +83,34 @@ def load_rsd() -> Dict[str, Any]:
 
 
 def load_weak_lensing_kids1000() -> Dict[str, Any]:
-    return _load_npz_standardized("weak_lensing_kids1000_raw_v1")
+    try:
+        dataset = _load_npz_standardized("weak_lensing_kids1000_v1", "weak_lensing_kids1000")
+    except FileNotFoundError:
+        dataset = _load_npz_standardized("weak_lensing_kids1000_raw_v1")
+    meta_raw = dataset.get("meta")
+    if isinstance(meta_raw, np.ndarray) and meta_raw.shape == ():
+        meta_raw = meta_raw.item()
+    meta = dict(meta_raw) if isinstance(meta_raw, dict) else {}
+    cfg_env = os.getenv("COSMOS2_WL_KIDS1000_CONFIG") or os.getenv("COSMOS2_WL_CONFIG")
+    if cfg_env:
+        wl_cfg = None
+        path = Path(cfg_env)
+        try:
+            if path.exists():
+                text = path.read_text()
+                try:
+                    wl_cfg = json.loads(text)
+                except Exception:
+                    if yaml is not None:
+                        wl_cfg = yaml.safe_load(text)
+            else:
+                wl_cfg = json.loads(cfg_env)
+        except Exception:
+            wl_cfg = None
+        if isinstance(wl_cfg, dict):
+            meta["wl"] = wl_cfg
+    dataset["meta"] = meta
+    return dataset
 
 
 def load_wl_s8() -> Dict[str, Any]:

@@ -9,6 +9,8 @@ import numpy as np
 from cosmos2.data.registry import get_dataset
 from cosmos2.fits.extras import build_fit_extras
 from cosmos2.fits.joint import build_joint_chi2_evaluator, resolve_joint_fits
+from cosmos2.fits.weak_lensing_kids1000 import run_fit as run_wl_kids1000_fit
+from cosmos2.fits.wl import run_fit as run_wl_s8_fit
 from cosmos2.models.pbuf.utils import C_LIGHT
 
 
@@ -490,6 +492,7 @@ PBUF_FIT_REGISTRY: Dict[str, Callable[[Any], Tuple[float, Dict[str, Any]]]] = {
     "cc": run_cc_fit,
     "rsd": run_rsd_fit,
     "wl_s8": run_wl_s8_fit,
+    "wl_kids1000": run_wl_kids1000_fit,
     "galaxy_pk": run_galaxy_pk_fit,
     "lensing_cross": run_lensing_cross_fit,
     "lensing_x": run_lensing_cross_fit,

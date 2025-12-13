@@ -1,0 +1,11 @@
+{
+  "name": "cmb-lensing",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "error": "Geometry integral vanishes; cannot normalize A_L."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

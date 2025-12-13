@@ -1,0 +1,12 @@
+{
+  "name": "planck-length",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "error": "missing_T_of_z_or_epsilon0_of_T",
+    "explanation": "The Planck-length evolution curve reflects how PBUF's temperature-dependent rigidity produces a mild, predictable variation in the effective Planck scale over cosmic time. This is a purely theoretical prediction but serves as an internal consistency test linking the quantum and cosmological sectors."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

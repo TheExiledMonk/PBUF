@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import logging
+import os
 from pathlib import Path
 from typing import Any, Callable, Dict, Sequence
 import numpy as np
@@ -15,9 +17,17 @@ from cosmos2.parameters import ModelState, get_parameter_snapshot
 
 from cosmos2.science_runner.config import ScienceRunConfig
 from cosmos2.science_runner.context import ModeResult, RunContext
+from cosmos2.science_runner.controller_jobs import (
+    ControllerAPI,
+    ControllerAPIError,
+    ControllerJobFailedError,
+    build_job_packages,
+)
 from cosmos2.science_runner.events import RunEvent, ModelPreparedEvent, MonitorSnapshotEvent
 from cosmos2.science_runner.modes.base import BaseModePlugin, register_mode
 from cosmos2.science_runner.utils import serialize_value
+
+logger = logging.getLogger(__name__)
  
 
 def _compute_profile_likelihood(
@@ -153,6 +163,10 @@ class JointMode(BaseModePlugin):
 
         progress_callback = self._make_progress_callback(context)
 
+        controller_endpoint = self._controller_endpoint()
+        if controller_endpoint:
+            return self._submit_packages_to_controller(context, controller_endpoint)
+
         if result is None:
             result = run_optimisation(
                 model_configs,
@@ -181,6 +195,73 @@ class JointMode(BaseModePlugin):
                 context.event_bus.emit(RunEvent(event_type, event))
 
         return _callback
+
+    def _controller_endpoint(self) -> str | None:
+        endpoint = self.config.engine_settings.get("controller_endpoint")
+        if endpoint:
+            return str(endpoint)
+        return os.environ.get("COSMOS_CONTROLLER_ENDPOINT")
+
+    def _submit_packages_to_controller(self, context: RunContext, controller_endpoint: str) -> ModeResult:
+        package_size = self.config.engine_settings.get("package_size")
+        packages = build_job_packages(self.config, package_size=package_size)
+        if not packages:
+            raise ValueError("No controller job packages were generated.")
+
+        api_timeout = float(self.config.engine_settings.get("controller_timeout", 3600.0))
+        poll_interval = float(self.config.engine_settings.get("controller_poll_interval", 5.0))
+        api = ControllerAPI(controller_endpoint, timeout=api_timeout)
+
+        job_records: list[dict[str, Any]] = []
+        success = True
+        for package in packages:
+            context.event_bus.emit(RunEvent("controller_job.submitted", {"package_id": package.package_id}))
+            try:
+                submission = api.submit_job(package.payload, slice_count=package.slice_count)
+                execution_id = submission.get("execution_id")
+                run_id = submission.get("run_id")
+                if not execution_id:
+                    raise ControllerAPIError("Controller response missing execution_id.")
+                job_info = api.wait_for_completion(
+                    execution_id,
+                    timeout=api_timeout,
+                    poll_interval=poll_interval,
+                )
+                job_records.append(
+                    {
+                        "package_id": package.package_id,
+                        "execution_id": execution_id,
+                        "run_id": run_id,
+                        "status": job_info.get("status"),
+                        "aggregate_progress": job_info.get("aggregate_progress"),
+                        "metadata": package.metadata,
+                    }
+                )
+            except ControllerJobFailedError as exc:
+                logger.error("Controller package %s failed: %s", package.package_id, exc)
+                job_records.append(
+                    {
+                        "package_id": package.package_id,
+                        "status": "failed",
+                        "error": str(exc),
+                        "metadata": package.metadata,
+                    }
+                )
+                success = False
+            except ControllerAPIError as exc:
+                logger.error("Controller API error for %s: %s", package.package_id, exc)
+                job_records.append(
+                    {
+                        "package_id": package.package_id,
+                        "status": "error",
+                        "error": str(exc),
+                        "metadata": package.metadata,
+                    }
+                )
+                success = False
+
+        context.metadata.setdefault("controller", {})["job_packages"] = job_records
+        return ModeResult(success=success, metadata={"controller_jobs": job_records})
 
     def _record_results(
         self,

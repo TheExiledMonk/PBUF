@@ -2,7 +2,10 @@
 Panel builders that render individual sections of the science run report.
 """
 
+import html
 import json
+import math
+import numpy as np
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
@@ -678,3 +681,686 @@ def generate_model_comparison_panel(models: List[str], model_data: Dict[str, Any
         </tbody>
     </table>
 </section>"""
+
+
+def generate_prediction_comparison_section(
+    prediction_details: Dict[str, Any] | None,
+    run_dir: Path,
+) -> str:
+    """Render the aggregated prediction comparison panel."""
+
+    if not prediction_details:
+        return ""
+
+    modules = prediction_details.get("modules") or []
+    cards = []
+    statefinder_card = _build_statefinder_card(modules, run_dir)
+    horizon_card = _build_horizon_evolution_card(modules, run_dir)
+    g_effective_card = _build_g_effective_card(modules, run_dir)
+    pk_card = _build_pk_spectrum_card(modules, run_dir)
+    filtered_modules = [
+        module
+        for module in modules
+        if (module.get("name") or "").lower()
+        not in {"statefinder", "horizon-evolution", "pk-spectrum", "g-effective", "elastic-fraction"}
+    ]
+    if statefinder_card:
+        cards.append(statefinder_card)
+    if horizon_card:
+        cards.append(horizon_card)
+    if g_effective_card:
+        cards.append(g_effective_card)
+    if pk_card:
+        cards.append(pk_card)
+    elastic_card = _build_elastic_fraction_card(modules, run_dir)
+    if elastic_card:
+        cards.append(elastic_card)
+    for module in filtered_modules:
+        module_label = _format_label(module.get("name")) or module.get("name") or "module"
+        model_entries = module.get("models") or []
+        if not model_entries:
+            continue
+
+        table_html = _render_prediction_results_table(model_entries)
+        models_line = ", ".join(html.escape(model.get("model", "").upper()) for model in model_entries)
+        description_html = ""
+        for entry in model_entries:
+            explanation = (entry.get("metadata") or {}).get("explanation")
+            if explanation:
+                description_html = (
+                    f"<p class='prediction-module-description'>{html.escape(explanation)}</p>"
+                )
+                break
+        plot_html = ""
+        plot_path = module.get("combined_plot")
+        if plot_path:
+            path = Path(plot_path)
+            if path.exists():
+                rel_path = _to_relative_path(run_dir, path)
+                caption = html.escape(module.get("combined_plot_name") or module_label)
+                plot_html = f"""
+        <div class='prediction-module-plot'>
+            <img src="{rel_path.as_posix()}" alt="{caption}" loading="lazy">
+            <figcaption>{caption}</figcaption>
+        </div>"""
+
+        cards.append(
+            f"""
+    <article class='prediction-module-card'>
+        <header>
+            <h3>{module_label}</h3>
+            <p class='prediction-module-meta'>Models: {models_line}</p>
+        </header>
+        {description_html}
+        {table_html}
+        {plot_html}
+    </article>"""
+        )
+
+    if not cards:
+        return ""
+
+    return f"""
+<section class='panel predictions-panel'>
+    <h2>Predictions</h2>
+    {''.join(cards)}
+</section>"""
+
+
+def _render_prediction_results_table(models: List[Dict[str, Any]]) -> str:
+    """Render a table showing each key result per model."""
+    if not models:
+        return ""
+
+    result_keys = sorted(
+        {
+            key
+            for model in models
+            for key in (model.get("results", {}) or {}).keys()
+            if key
+        }
+    )[:8]
+
+    if not result_keys:
+        return ""
+
+    header_cells = "".join(
+        f"<th>{html.escape(model.get('model', '').upper() or 'model')}</th>" for model in models
+    )
+
+    rows = []
+    for key in result_keys:
+        cells = "".join(
+            f"<td>{_safe_text(model.get('results', {}).get(key))}</td>"
+            for model in models
+        )
+        rows.append(
+            f"<tr><td>{html.escape(_format_label(key))}</td>{cells}</tr>"
+        )
+
+    return f"""
+        <div class='prediction-results-table-wrapper'>
+            <table class='details prediction-results-grid'>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        {header_cells}
+                    </tr>
+                </thead>
+                <tbody>
+                    {''.join(rows)}
+                </tbody>
+            </table>
+        </div>"""
+
+
+def _build_horizon_evolution_card(modules: List[Dict[str, Any]], run_dir: Path) -> str:
+    """Render a dedicated card summarizing horizon-evolution predictions."""
+
+    module = next(
+        (entry for entry in modules if (entry.get("name") or "").lower() == "horizon-evolution"),
+        None,
+    )
+    if not module:
+        return ""
+    entries = module.get("models") or []
+    if not entries:
+        return ""
+
+    rows = []
+    any_valid = False
+    for entry in entries:
+        results = entry.get("results") or {}
+        mask_valid = np.asarray(results.get("mask_valid") or [], dtype=bool)
+        valid_points = int(np.count_nonzero(mask_valid))
+        if valid_points > 0:
+            any_valid = True
+        summary = results.get("summary") or {}
+        rows.append(
+            "<tr>"
+            f"<td>{html.escape(entry.get('model', '').upper() or 'model')}</td>"
+            f"<td>{_format_horizon_value(summary.get('R_H0_phys'))}</td>"
+            f"<td>{_format_horizon_value(summary.get('R_H0_comoving'))}</td>"
+            f"<td>{_format_horizon_value(summary.get('R_H_z1_comoving'))}</td>"
+            f"<td>{_format_horizon_value(summary.get('R_H_z6_comoving'))}</td>"
+            f"<td>{valid_points}</td>"
+            "</tr>"
+        )
+
+    if not rows:
+        return ""
+
+    metadata = (entries[0].get("metadata") or {}) if entries else {}
+    description_text = metadata.get("description")
+    description_html = (
+        f"<p class='prediction-module-description'>{html.escape(description_text)}</p>"
+        if description_text
+        else ""
+    )
+
+    warning_html = ""
+    if not any_valid:
+        warning_html = (
+            "<p class='prediction-status-warning'>"
+            "horizon-evolution produced no valid Hubble samples; plot omitted."
+            "</p>"
+        )
+
+    plot_html = ""
+    plot_path = module.get("combined_plot")
+    if any_valid and plot_path:
+        path_obj = Path(plot_path)
+        if path_obj.exists():
+            rel_path = _to_relative_path(run_dir, path_obj)
+            caption = html.escape(
+                module.get("combined_plot_name")
+                or _format_label(module.get("name"))
+                or "Horizon evolution"
+            )
+            plot_html = f"""
+        <div class='prediction-module-plot'>
+            <img src="{rel_path.as_posix()}" alt="{caption}" loading="lazy">
+            <figcaption>{caption}</figcaption>
+        </div>"""
+
+    table_html = f"""
+        <div class='prediction-results-table-wrapper'>
+            <table class='details prediction-results-grid'>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>R_H0_phys</th>
+                        <th>R_H0_comoving</th>
+                        <th>R_H_z1_comoving</th>
+                        <th>R_H_z6_comoving</th>
+                        <th>Valid samples</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {''.join(rows)}
+                </tbody>
+            </table>
+        </div>"""
+
+    module_label = _format_label(module.get("name")) or module.get("name") or "Horizon evolution"
+    models_line = ", ".join(
+        html.escape(entry.get("model", "").upper() or "model") for entry in entries
+    ) or "N/A"
+
+    return f"""
+    <article class='prediction-module-card'>
+        <header>
+            <h3>{module_label}</h3>
+            <p class='prediction-module-meta'>Models: {models_line}</p>
+        </header>
+        {description_html}
+        {warning_html}
+        {plot_html}
+        {table_html}
+    </article>"""
+
+
+def _build_g_effective_card(modules: List[Dict[str, Any]], run_dir: Path) -> str:
+    module = next(
+        (entry for entry in modules if (entry.get("name") or "").lower() == "g-effective"),
+        None,
+    )
+    if not module:
+        return ""
+    entries = module.get("models") or []
+    if not entries:
+        return ""
+
+    any_valid = False
+    rows: list[str] = []
+    for entry in entries:
+        results = entry.get("results") or {}
+        summary = results.get("summary") or {}
+        mask = np.asarray(results.get("mask_valid") or [], dtype=bool)
+        valid_points = int(np.count_nonzero(mask))
+        if valid_points > 0:
+            any_valid = True
+        rows.append(
+            "<tr>"
+            f"<td>{html.escape(entry.get('model', '').upper() or 'model')}</td>"
+            f"<td>{_format_mu_value(summary.get('mu0'))}</td>"
+            f"<td>{_format_mu_value(summary.get('mu_z0p5'))}</td>"
+            f"<td>{_format_mu_value(summary.get('mu_z1'))}</td>"
+            f"<td>{_format_mu_value(summary.get('mu_mean_0_1'))}</td>"
+            f"<td>{valid_points}</td>"
+            "</tr>"
+        )
+
+    description_text = ""
+    for entry in entries:
+        meta = (entry.get("results") or {}).get("meta") or {}
+        description = meta.get("description")
+        if description:
+            description_text = description
+            break
+    description_html = (
+        f"<p class='prediction-module-description'>{html.escape(description_text)}</p>"
+        if description_text
+        else ""
+    )
+
+    warning_html = ""
+    if not any_valid:
+        warning_html = (
+            "<p class='prediction-status-warning'>"
+            "g-effective produced no valid μ(z) samples; plot omitted."
+            "</p>"
+        )
+
+    plot_html = ""
+    plot_path = module.get("combined_plot")
+    if any_valid and plot_path:
+        path_obj = Path(plot_path)
+        if path_obj.exists():
+            rel_path = _to_relative_path(run_dir, path_obj)
+            caption = html.escape(module.get("combined_plot_name") or "g-effective")
+            plot_html = f"""
+        <div class='prediction-module-plot'>
+            <img src="{rel_path.as_posix()}" alt="{caption}" loading="lazy">
+            <figcaption>{caption}</figcaption>
+        </div>"""
+
+    table_html = f"""
+        <div class='prediction-results-table-wrapper'>
+            <table class='details prediction-results-grid'>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>μ0</th>
+                        <th>μ0.5</th>
+                        <th>μ1</th>
+                        <th>μ_mean_0_1</th>
+                        <th>Valid samples</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {''.join(rows)}
+                </tbody>
+            </table>
+        </div>"""
+
+    module_label = _format_label(module.get("name")) or module.get("name") or "g-effective"
+    models_line = ", ".join(
+        html.escape(entry.get("model", "").upper() or "model") for entry in entries
+    )
+
+    return f"""
+    <article class='prediction-module-card'>
+        <header>
+            <h3>{module_label}</h3>
+            <p class='prediction-module-meta'>Models: {models_line}</p>
+        </header>
+        {description_html}
+        {warning_html}
+        {plot_html}
+        {table_html}
+    </article>"""
+
+
+def _build_elastic_fraction_card(modules: List[Dict[str, Any]], run_dir: Path) -> str:
+    """Dedicated card for elastic-fraction predictions."""
+    module = next(
+        (entry for entry in modules if (entry.get("name") or "").lower() == "elastic-fraction"),
+        None,
+    )
+    if not module:
+        return ""
+    entries = module.get("models") or []
+    if not entries:
+        return ""
+
+    rows: list[str] = []
+    any_valid = False
+    for entry in entries:
+        model_label = html.escape(entry.get("model", "").upper() or "model")
+        results = entry.get("results") or {}
+        mask = np.asarray(results.get("mask_valid") or [], dtype=bool)
+        valid_points = int(np.count_nonzero(mask))
+        if valid_points > 0:
+            any_valid = True
+        summary = results.get("summary") or {}
+        rows.append(
+            "<tr>"
+            f"<td>{model_label}</td>"
+            f"<td>{_format_elastic_value(summary.get('Omega_sigma_0'))}</td>"
+            f"<td>{_format_elastic_value(summary.get('f_sigma_0'))}</td>"
+            f"<td>{_format_elastic_value(summary.get('f_sigma_peak'))}</td>"
+            f"<td>{_format_elastic_value(summary.get('z_peak'))}</td>"
+            f"<td>{_format_elastic_value(summary.get('z_half_peak_lo'))}</td>"
+            f"<td>{_format_elastic_value(summary.get('z_half_peak_hi'))}</td>"
+            f"<td>{valid_points}</td>"
+            "</tr>"
+        )
+
+    if not rows:
+        return ""
+
+    metadata = (module.get("metadata") or {})
+    description_text = metadata.get("description") or ""
+    description_html = (
+        f"<p class='prediction-module-description'>{html.escape(description_text)}</p>"
+        if description_text
+        else ""
+    )
+
+    warning_html = ""
+    if not any_valid:
+        warning_html = (
+            "<p class='prediction-status-warning'>"
+            "elastic-fraction produced no valid fσ samples; plot omitted."
+            "</p>"
+        )
+
+    plot_html = ""
+    plot_path = module.get("elastic_plot")
+    if any_valid and plot_path:
+        path_obj = Path(plot_path)
+        if path_obj.exists():
+            rel_path = _to_relative_path(run_dir, path_obj)
+            caption = html.escape(module.get("elastic_plot_name") or "Elastic energy fraction")
+            plot_html = f"""
+        <div class='prediction-module-plot'>
+            <img src="{rel_path.as_posix()}" alt="{caption}" loading="lazy">
+            <figcaption>{caption}</figcaption>
+        </div>"""
+
+    table_html = f"""
+        <div class='prediction-results-table-wrapper'>
+            <table class='details prediction-results-grid'>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Ωσ₀</th>
+                        <th>fσ₀</th>
+                        <th>fσ_peak</th>
+                        <th>z_peak</th>
+                        <th>z_half_peak_lo</th>
+                        <th>z_half_peak_hi</th>
+                        <th>Valid samples</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {''.join(rows)}
+                </tbody>
+            </table>
+        </div>"""
+
+    module_label = _format_label(module.get("name")) or module.get("name") or "elastic-fraction"
+    models_line = ", ".join(
+        html.escape(entry.get("model", "").upper() or "model") for entry in entries
+    )
+
+    return f"""
+    <article class='prediction-module-card'>
+        <header>
+            <h3>{module_label}</h3>
+            <p class='prediction-module-meta'>Models: {models_line}</p>
+        </header>
+        {description_html}
+        {warning_html}
+        {plot_html}
+        {table_html}
+    </article>"""
+
+
+def _build_pk_spectrum_card(modules: List[Dict[str, Any]], run_dir: Path) -> str:
+    module = next(
+        (entry for entry in modules if (entry.get("name") or "").lower() == "pk-spectrum"),
+        None,
+    )
+    if not module:
+        return ""
+    entries = module.get("models") or []
+    if not entries:
+        return ""
+
+    metadata = (module.get("metadata") or {}) if module else {}
+    description_text = metadata.get("description")
+    description_html = (
+        f"<p class='prediction-module-description'>{html.escape(description_text)}</p>"
+        if description_text
+        else ""
+    )
+
+    table_html = _render_pk_spectrum_summary_table(entries)
+    plot_html = ""
+    plot_path = module.get("combined_plot")
+    if plot_path:
+        path_obj = Path(plot_path)
+        if path_obj.exists():
+            rel_path = _to_relative_path(run_dir, path_obj)
+            caption = html.escape(
+                module.get("combined_plot_name") or _format_label(module.get("name")) or "Matter power spectrum"
+            )
+            plot_html = f"""
+        <div class='prediction-module-plot'>
+            <img src="{rel_path.as_posix()}" alt="{caption}" loading="lazy">
+            <figcaption>{caption}</figcaption>
+        </div>"""
+
+    warning_html = ""
+    if module.get("pk_has_valid") is False:
+        warning_html = (
+            "<p class='prediction-status-warning'>"
+            "pk-spectrum produced no valid P(k) samples; plot omitted."
+            "</p>"
+        )
+
+    module_label = _format_label(module.get("name")) or module.get("name") or "pk-spectrum"
+    models_line = ", ".join(
+        html.escape(entry.get("model", "").upper() or "model") for entry in entries
+    ) or "N/A"
+
+    return f"""
+    <article class='prediction-module-card'>
+        <header>
+            <h3>{module_label}</h3>
+            <p class='prediction-module-meta'>Models: {models_line}</p>
+        </header>
+        {description_html}
+        {warning_html}
+        {plot_html}
+        {table_html}
+    </article>"""
+
+
+def _render_pk_spectrum_summary_table(models: List[Dict[str, Any]]) -> str:
+    if not models:
+        return ""
+
+    header_cells = "".join(
+        f"<th>{html.escape(model.get('model', '').upper() or 'model')}</th>" for model in models
+    )
+
+    rows = []
+    metrics = [
+        ("P0p1_z0", "P(k=0.1, z=0)"),
+        ("P0p2_z0", "P(k=0.2, z=0)"),
+        ("P0p1_z1", "P(k=0.1, z=1)"),
+        ("sigma8_like", "σ₈-like amplitude"),
+    ]
+    for key, label in metrics:
+        cells = "".join(
+            f"<td>{_format_pk_metric(model.get('results', {}).get('summary', {}).get(key))}</td>"
+            for model in models
+        )
+        rows.append(f"<tr><td>{html.escape(label)}</td>{cells}</tr>")
+
+    return f"""
+        <div class='prediction-results-table-wrapper'>
+            <table class='details prediction-results-grid'>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        {header_cells}
+                    </tr>
+                </thead>
+                <tbody>
+                    {''.join(rows)}
+                </tbody>
+            </table>
+        </div>"""
+
+
+def _format_pk_metric(value: Any) -> str:
+    if isinstance(value, (int, float)) and math.isfinite(value):
+        return format_number(value, ".4g")
+    if value is None:
+        return ""
+    return html.escape(str(value))
+
+
+def _format_elastic_value(value: Any) -> str:
+    if isinstance(value, (int, float)) and math.isfinite(value):
+        return format_number(value, ".4g")
+    if value is None:
+        return ""
+    return html.escape(str(value))
+
+
+def _build_statefinder_card(modules: List[Dict[str, Any]], run_dir: Path) -> str:
+    """Build the dedicated statefinder panel with r-s trajectory and summary table."""
+    module = next(
+        (entry for entry in modules if (entry.get("name") or "").lower() == "statefinder"),
+        None,
+    )
+    if not module:
+        return ""
+    entries = module.get("models") or []
+    if not entries:
+        return ""
+
+    rows = []
+    any_valid = False
+    for entry in entries:
+        model_name = html.escape(entry.get("model", "").upper() or "model")
+        results = entry.get("results") or {}
+        mask = results.get("mask_valid") or []
+        valid_points = sum(1 for flag in mask if bool(flag))
+        if valid_points > 0:
+            any_valid = True
+        summary = results.get("summary") or {}
+        r0 = summary.get("r0")
+        s0 = summary.get("s0")
+        rows.append(
+            f"<tr><td>{model_name}</td>"
+            f"<td>{_format_statefinder_value(r0)}</td>"
+            f"<td>{_format_statefinder_value(s0)}</td>"
+            f"<td>{valid_points}</td></tr>"
+        )
+
+    if not rows:
+        return ""
+
+    models_line = ", ".join(
+        html.escape(entry.get("model", "").upper() or "model") for entry in entries
+    ) or "N/A"
+    description = ""
+    metadata = (entries[0].get("metadata") or {}) if entries else {}
+    description_text = metadata.get("description")
+    if description_text:
+        description = f"<p class='prediction-module-description'>{html.escape(description_text)}</p>"
+
+    plot_html = ""
+    plot_path = module.get("statefinder_plot")
+    plot_caption = module.get("statefinder_plot_name") or "Statefinder rs trajectory"
+    if any_valid and plot_path:
+        path_obj = Path(plot_path)
+        if path_obj.exists():
+            rel_path = _to_relative_path(run_dir, path_obj)
+            caption = html.escape(plot_caption)
+            plot_html = f"""
+        <div class='prediction-module-plot'>
+            <img src="{rel_path.as_posix()}" alt="{caption}" loading="lazy">
+            <figcaption>{caption} (LambdaCDM fixed point (1, 0) marked on the axes)</figcaption>
+        </div>"""
+
+    warning_html = ""
+    if not any_valid:
+        warning_html = "<p class='prediction-status-warning'>Statefinder diagnostics produced no valid (r, s) points; plot omitted.</p>"
+
+    table_html = f"""
+        <div class='prediction-results-table-wrapper'>
+            <table class='details prediction-results-grid'>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>r0</th>
+                        <th>s0</th>
+                        <th>Valid samples</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {''.join(rows)}
+                </tbody>
+            </table>
+        </div>"""
+
+    module_label = _format_label(module.get("name")) or module.get("name") or "Statefinder"
+
+    return f"""
+    <article class='prediction-module-card'>
+        <header>
+            <h3>{module_label}</h3>
+            <p class='prediction-module-meta'>Models: {models_line}</p>
+        </header>
+        {description}
+        {warning_html}
+        {plot_html}
+        {table_html}
+    </article>"""
+
+
+def _format_statefinder_value(value: Any) -> str:
+    if isinstance(value, (int, float)) and math.isfinite(value):
+        return format_number(value, ".4f")
+    return ""
+
+
+def _format_horizon_value(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, (int, float)) and math.isfinite(value):
+        return format_number(value, ".2f")
+    return html.escape(str(value))
+
+
+def _format_mu_value(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, (int, float)) and math.isfinite(value):
+        return format_number(value, ".4f")
+    return html.escape(str(value))
+
+
+def _safe_text(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, (dict, list)):
+        return html.escape(json.dumps(value))
+    return html.escape(str(value))

@@ -1,0 +1,31 @@
+{
+  "name": "void-size",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "timestamp": "2025-12-04T13:54:40.462301+00:00",
+    "points": 100,
+    "compare_lcdm": false,
+    "R_ref_Mpc": 25.0,
+    "eta_growth": 0.5,
+    "gamma_alpha": 1.0,
+    "beta_z": 0.3,
+    "explanation": "The void-size prediction shows that cosmic voids should be slightly larger in PBUF than in \u039bCDM due to altered growth history and curvature. This percent-level difference is measurable with DESI and Euclid void catalogs and provides another geometric test of elastic cosmology."
+  },
+  "results": {
+    "zmax": 1.0,
+    "R_void_z0_Mpc": 25.551048212346682,
+    "R_void_z0p5_Mpc": 26.059158202157015,
+    "R_void_z1_Mpc": 27.152164253879466,
+    "R_ref_z0_Mpc": 25.0,
+    "ratio_PBUF_over_LCDM_z0": null,
+    "ratio_PBUF_over_LCDM_z0p5": null,
+    "ratio_PBUF_over_LCDM_z1": null,
+    "eta_growth": 0.5,
+    "gamma_alpha": 1.0,
+    "alpha": 0.02204192849386733
+  },
+  "tables": [],
+  "plots": []
+}

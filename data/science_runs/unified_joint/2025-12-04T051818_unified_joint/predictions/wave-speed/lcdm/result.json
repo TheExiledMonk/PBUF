@@ -1,0 +1,14 @@
+{
+  "name": "wave-speed",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "model": "LCDMModel",
+    "timestamp": "2025-12-04T08:42:29.206144+00:00",
+    "error": "missing_elastic_stiffness_api",
+    "explanation": "The wave-speed prediction shows how the effective propagation speed c_eff(z)/c evolves in PBUF's elastic medium. Light and gravitational waves traveled slower in the early universe due to lower rigidity. This produces cumulative timing effects and modifies early-universe horizons. Testing this requires precision distance and timing measurements."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

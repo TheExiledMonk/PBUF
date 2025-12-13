@@ -1,0 +1,12 @@
+{
+  "name": "cmb-lensing",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "error": "Geometry integral vanishes; cannot normalize A_L.",
+    "explanation": "The CMB lensing prediction quantifies how elastic expansion modifies the projected matter distribution that lenses the CMB. PBUF predicts slightly reduced lensing amplitude due to growth suppression from elasticity. A lensing amplitude lower than \u039bCDM would match this curve and serve as evidence of PBUF's elastic growth dynamics."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

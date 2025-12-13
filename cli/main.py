@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
+import os
+import shutil
+import signal
+import subprocess
 from pathlib import Path
 import sys
 from typing import Any, Callable, Sequence
@@ -20,6 +23,7 @@ from cosmos2.fits.galaxy_pk import run_galaxy_pk_fit
 from cosmos2.fits.lensing_cross import run_lensing_cross_fit
 from cosmos2.fits.rsd import run_rsd_fit
 from cosmos2.fits.wl import run_wl_s8_fit
+from cosmos2.fits.weak_lensing_kids1000 import run_wl_kids1000_fit
 from cosmos2.fits.cmb import run_fit as run_cmb_fit
 from cosmos2.fits.sh0es import run_sh0es_prior
 from cosmos2.fits.sn import run_sn_pantheon_fit
@@ -27,10 +31,236 @@ from cosmos2.fits.registry import FIT_REGISTRY as COSMOS2_FIT_REGISTRY
 from cosmos2.api.engine import run_optimisation
 from cosmos2.models.model_factory import create_model as create_cosmos2_model
 
+from cosmos2.predictions import (
+    PredictionResult,
+    get_prediction_module,
+    predictions_available,
+    run_prediction_for_model,
+)
+from cosmos2.predictions.io import write_prediction_json, write_prediction_table
 from cosmos2.science_runner.config import ScienceRunConfig
 from cosmos2.science_runner.unified_runner import UnifiedScienceRunner
 from cosmos2.threads.monitor_types import available_monitor_modes, normalize_monitor_mode
 from toolbox import run_toolbox
+
+LOG_DIR = Path("logs")
+CONTROLLER_MODULE = "cosmos_control.controller_daemon"
+WORKER_MODULE = "cosmos_control.worker_daemon"
+CONFIG_RUNS_DIR = Path("config/science_runs")
+CONFIG_RUNS_DIR = Path("config/science_runs")
+
+
+def _ensure_log_dir() -> None:
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _pid_path(name: str) -> Path:
+    return LOG_DIR / f"{name}.pid"
+
+
+def _log_path(name: str) -> Path:
+    return LOG_DIR / f"{name}.log"
+
+
+def _read_pid(name: str) -> int | None:
+    path = _pid_path(name)
+    if not path.exists():
+        return None
+    try:
+        return int(path.read_text().strip())
+    except ValueError:
+        return None
+
+
+def _is_running(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+    except OSError:
+        return False
+    return True
+
+
+def _write_pid(name: str, pid: int) -> None:
+    _pid_path(name).write_text(str(pid))
+
+
+def _remove_pid(name: str) -> None:
+    path = _pid_path(name)
+    try:
+        path.unlink()
+    except FileNotFoundError:
+        pass
+
+
+def _launch_daemon(name: str, module: str, args: list[str]) -> bool:
+    _ensure_log_dir()
+    existing_pid = _read_pid(name)
+    if existing_pid and _is_running(existing_pid):
+        print(f"{name} already running (pid {existing_pid})")
+        return False
+    logfile = _log_path(name)
+    with logfile.open("a", encoding="utf-8") as handle:
+        process = subprocess.Popen(
+            [sys.executable, "-m", module, *args],
+            stdout=handle,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+    _write_pid(name, process.pid)
+    print(f"Started {name} (pid {process.pid}), logs -> {logfile}")
+    return True
+
+
+def _stop_daemon(name: str) -> bool:
+    pid = _read_pid(name)
+    if not pid:
+        print(f"{name} is not running.")
+        return False
+    try:
+        os.kill(pid, signal.SIGTERM)
+    except OSError as exc:
+        print(f"Failed to signal {name} (pid {pid}): {exc}")
+        _remove_pid(name)
+        return False
+    _remove_pid(name)
+    print(f"Stopped {name} (pid {pid}).")
+    return True
+
+
+def _status_daemon(name: str) -> str:
+    pid = _read_pid(name)
+    if not pid:
+        return f"{name}: stopped"
+    status = "running" if _is_running(pid) else "stale pid"
+    return f"{name}: {status} (pid {pid})"
+
+
+def _ensure_config_dir() -> Path:
+    CONFIG_RUNS_DIR.mkdir(parents=True, exist_ok=True)
+    return CONFIG_RUNS_DIR
+
+
+def _config_path(name: str) -> Path:
+    filename = Path(name).name
+    if not filename.endswith(".json"):
+        filename = f"{filename}.json"
+    return CONFIG_RUNS_DIR / filename
+
+
+def _list_config_files() -> list[Path]:
+    _ensure_config_dir()
+    return sorted(CONFIG_RUNS_DIR.glob("*.json"))
+
+
+def _handle_config(args: argparse.Namespace) -> int:
+    _ensure_config_dir()
+    if args.mode == "list":
+        for path in _list_config_files():
+            print(path.name)
+        return 0
+
+    if args.mode == "view":
+        path = _config_path(args.name)
+        if not path.exists():
+            print(f"Config {path.name} does not exist.")
+            return 1
+        print(path.read_text())
+        return 0
+
+    if args.mode == "new":
+        dest = _config_path(args.name)
+        if dest.exists():
+            print(f"Config {dest.name} already exists.")
+            return 1
+        fits = [fit.strip() for fit in (args.fits or "").split(",") if fit.strip()]
+        if args.template:
+            template_path = Path(args.template)
+            if not template_path.is_absolute():
+                template_path = CONFIG_RUNS_DIR / template_path
+            if not template_path.exists():
+                print(f"Template {template_path} not found.")
+                return 1
+            shutil.copy(template_path, dest)
+        else:
+            payload = {
+                "run_name": args.name,
+                "description": args.description or "",
+                "engine": args.engine,
+                "engine_settings": {"workers": args.workers},
+                "fits": fits,
+                "predictions": {"enabled": False},
+            }
+            dest.write_text(json.dumps(payload, indent=2))
+        print(f"Created config {dest.name}")
+        return 0
+
+    if args.mode == "edit":
+        path = _config_path(args.name)
+        if not path.exists():
+            print(f"Config {path.name} not found.")
+            return 1
+        editor = os.environ.get("EDITOR", "nano")
+        try:
+            subprocess.run([editor, str(path)])
+        except Exception as exc:
+            print(f"Failed to launch editor: {exc}")
+            return 1
+        return 0
+
+    print("Unknown config action.")
+    return 1
+
+
+def _handle_control(args: argparse.Namespace) -> int:
+    if args.mode == "start-controller":
+        cmd = [
+            "--host",
+            args.host,
+            "--port",
+            str(args.port),
+            "--base-dir",
+            str(args.base_dir),
+            "--log-level",
+            args.log_level,
+        ]
+        return 0 if _launch_daemon("controller", CONTROLLER_MODULE, cmd) else 1
+
+    if args.mode == "stop-controller":
+        return 0 if _stop_daemon("controller") else 1
+
+    if args.mode == "start-worker":
+        cmd: list[str] = [
+            "--endpoint",
+            args.endpoint,
+            "--worker-id",
+            args.worker_id,
+            "--cores",
+            str(args.cores),
+            "--poll-interval",
+            str(args.poll_interval),
+            "--log-level",
+            args.log_level,
+        ]
+        if args.local:
+            cmd.append("--local")
+        if args.dataset_file:
+            cmd.extend(["--dataset-file", str(args.dataset_file)])
+        if args.auth_token:
+            cmd.extend(["--auth-token", args.auth_token])
+        for spec in args.datasets or []:
+            cmd.extend(["--dataset", spec])
+        return 0 if _launch_daemon("worker", WORKER_MODULE, cmd) else 1
+
+    if args.mode == "stop-worker":
+        return 0 if _stop_daemon("worker") else 1
+
+    if args.mode == "status":
+        print(_status_daemon("controller"))
+        print(_status_daemon("worker"))
+        return 0
+
+    print("Unknown control action.")
+    return 1
 
 
 def parse_params(param_list: Sequence[str]) -> dict[str, float | str]:
@@ -222,10 +452,153 @@ def _run_science_runner(args: argparse.Namespace) -> None:
         except ValueError as exc:
             raise SystemExit(str(exc))
 
-        if monitor_mode == "plugin":
-            runner.execute()
+    if monitor_mode == "plugin":
+        runner.execute()
+    else:
+        runner.execute(progress_callback=_make_progress_printer(config.run_name))
+
+
+def _run_prediction_command(args: argparse.Namespace) -> int:
+    module = getattr(args, "prediction_module", None)
+    if module is None:
+        raise SystemExit("No prediction module selected.")
+
+    params = parse_params(args.param)
+    model = _build_model(args.model, params)
+    module_config = _extract_prediction_config(vars(args))
+
+    result = run_prediction_for_model(args.prediction_name, model, module_config)
+    _print_prediction_summary(result, args.model)
+
+    base_dir = _prediction_output_dir(args.prediction_name)
+    json_path = Path(args.save_json) if args.save_json else base_dir / "prediction.json"
+    table_path = Path(args.save_table) if args.save_table else base_dir / "tables"
+    plot_path = Path(args.save_plots) if args.save_plots else base_dir / "plots"
+    _save_prediction_json(result, json_path)
+    _save_prediction_table(result, table_path)
+    _save_prediction_plots(result, plot_path)
+
+    return 0
+
+
+def _prediction_output_dir(module_name: str) -> Path:
+    path = Path("predictions") / module_name
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def _extract_prediction_config(parsed: dict[str, Any]) -> dict[str, Any]:
+    """Return module-specific options after filtering out shared CLI arguments."""
+
+    ignored = {
+        "command",
+        "prediction_name",
+        "model",
+        "param",
+        "save_json",
+        "save_table",
+        "save_plots",
+        "prediction_module",
+    }
+    return {key: value for key, value in parsed.items() if key not in ignored}
+
+
+def _print_prediction_summary(result: "PredictionResult", model_name: str) -> None:
+    print(f"[cosmos_cli] Prediction {result.name} (v{result.version}) for model {model_name.upper()}")
+    if result.results:
+        for key, value in result.results.items():
+            print(f"  {key}: {value}")
+    if result.metadata:
+        meta_entries = ", ".join(f"{k}={v}" for k, v in result.metadata.items())
+        print(f"  metadata: {meta_entries}")
+    if result.tables:
+        print(f"  tables: {', '.join(table.name for table in result.tables)}")
+    if result.plots:
+        print(f"  plots: {', '.join(plot.name for plot in result.plots)}")
+
+
+def _save_prediction_json(result: "PredictionResult", path: Path) -> None:
+    write_prediction_json(result, path)
+    print(f"[cosmos_cli] Saved prediction JSON to {path}")
+
+
+def _save_prediction_table(result: "PredictionResult", target: Path) -> None:
+    tables = result.tables
+    if not tables:
+        print("[cosmos_cli] No tables available to export.")
+        return
+
+    if target.is_dir():
+        target.mkdir(parents=True, exist_ok=True)
+        for table in tables:
+            table_path = target / f"{result.name}_{table.name}.csv"
+            write_prediction_table(table, table_path)
+            print(f"[cosmos_cli] Saved table {table.name} to {table_path}")
+        return
+
+    if len(tables) > 1:
+        if target.suffix:
+            target_dir = target.parent
+            print(
+                "[cosmos_cli] Multiple tables available; saving them alongside the provided file path directory."
+            )
         else:
-            runner.execute(progress_callback=_make_progress_printer(config.run_name))
+            target_dir = target
+            print("[cosmos_cli] Multiple tables available; treating --save-table path as a directory.")
+        target_dir.mkdir(parents=True, exist_ok=True)
+        for table in tables:
+            table_path = target_dir / f"{result.name}_{table.name}.csv"
+            write_prediction_table(table, table_path)
+            print(f"[cosmos_cli] Saved table {table.name} to {table_path}")
+        return
+
+    write_prediction_table(tables[0], target)
+    print(f"[cosmos_cli] Saved table {tables[0].name} to {target}")
+
+
+def _save_prediction_plots(result: "PredictionResult", directory: Path) -> None:
+    if not result.plots:
+        print("[cosmos_cli] No plots to save.")
+        return
+    try:
+        import matplotlib.pyplot as plt
+    except ImportError:
+        print("[cosmos_cli] matplotlib is not installed; cannot save plots.")
+        return
+
+    directory.mkdir(parents=True, exist_ok=True)
+    saved: list[Path] = []
+    for plot in result.plots:
+        data = plot.data or {}
+        keys = list(data.keys())
+        if not keys:
+            continue
+        x_key = "z" if "z" in keys else keys[0]
+        x_vals = list(data.get(x_key, []))
+        y_keys = [key for key in keys if key != x_key]
+        if not y_keys:
+            continue
+
+        fig, ax = plt.subplots()
+        for y_key in y_keys:
+            y_vals = list(data.get(y_key, []))
+            if len(y_vals) != len(x_vals):
+                continue
+            ax.plot(x_vals, y_vals, label=y_key)
+
+        ax.set_xlabel(plot.metadata.get("xlabel") or x_key)
+        ax.set_ylabel(plot.metadata.get("ylabel") or ", ".join(y_keys))
+        ax.set_title(plot.description or plot.name)
+        ax.legend()
+        fig.tight_layout()
+
+        plot_path = directory / f"{result.name}_{plot.name}.png"
+        fig.savefig(plot_path, dpi=150)
+        plt.close(fig)
+        saved.append(plot_path)
+
+    for path in saved:
+        print(f"[cosmos_cli] Saved plot to {path}")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -245,6 +618,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "cc",
             "rsd",
             "wl_s8",
+            "wl_kids1000",
             "lensing_cross",
             "galaxy_pk",
             "joint",
@@ -319,6 +693,25 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     science_parser.add_argument("--resume", action="store_true", help="Resume from checkpoint.json when available")
 
+    prediction_parser = subparsers.add_parser("predict", help="Run a prediction module on a selected model")
+    prediction_common = argparse.ArgumentParser(add_help=False)
+    prediction_common.add_argument("--model", required=True, choices=["pbuf", "lcdm"], help="Model to use for the prediction")
+    prediction_common.add_argument("--param", action="append", default=[], help="Model parameter override (key=value)")
+    prediction_common.add_argument("--save-json", type=Path, help="Write prediction payload to JSON")
+    prediction_common.add_argument("--save-plots", type=Path, help="Directory to dump prediction plot PNGs")
+    prediction_common.add_argument("--save-table", type=Path, help="Path or directory to export prediction tables")
+    prediction_subparsers = prediction_parser.add_subparsers(dest="prediction_name")
+    prediction_subparsers.required = True
+    for module_name in predictions_available():
+        module = get_prediction_module(module_name)
+        module_parser = prediction_subparsers.add_parser(
+            module_name,
+            help=module.describe(),
+            description=module.describe(),
+            parents=[prediction_common],
+        )
+        module.register(module_parser)
+
     quantum_thermal_parser = subparsers.add_parser(
         "quantum-thermal",
         help="Generate a new Quantum-derived thermal table (uses configs/quantum/config.json)",
@@ -357,11 +750,80 @@ def main(argv: Sequence[str] | None = None) -> int:
     toolbox_parser.add_argument("--skip-fermi", action="store_true", help="Skip Fermi downloads (quantum-download)")
     toolbox_parser.add_argument("--debug", action="store_true", help="Enable debug logging (quantum-download)")
 
+    control_parser = subparsers.add_parser("control", help="Manage controller and worker daemons")
+    control_subparsers = control_parser.add_subparsers(dest="mode")
+    control_subparsers.required = True
+
+    controller_start = control_subparsers.add_parser("start-controller", help="Launch the controller daemon")
+    controller_start.add_argument("--host", default="0.0.0.0", help="Controller API bind host")
+    controller_start.add_argument("--port", type=int, default=8080, help="Controller API port")
+    controller_start.add_argument(
+        "--base-dir",
+        type=Path,
+        default=Path("data/science_runs"),
+        help="Storage directory for science runs",
+    )
+    controller_start.add_argument(
+        "--log-level",
+        default="INFO",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        help="Logging verbosity for the controller",
+    )
+
+    control_subparsers.add_parser("stop-controller", help="Stop the daemonized controller")
+
+    worker_start = control_subparsers.add_parser("start-worker", help="Launch a worker daemon")
+    worker_start.add_argument("--endpoint", default="http://localhost:8080", help="Controller HTTP endpoint")
+    worker_start.add_argument("--worker-id", default=os.environ.get("HOSTNAME", "worker"), help="Worker identifier")
+    worker_start.add_argument("--cores", type=int, default=max(1, os.cpu_count() or 4), help="Reported core count")
+    worker_start.add_argument("--local", action="store_true", help="Mark the worker as local (lower slot ratio)")
+    worker_start.add_argument("--dataset", action="append", dest="datasets", default=[], help="dataset_id=hash pair")
+    worker_start.add_argument("--dataset-file", type=Path, help="JSON file mapping dataset_id to hash")
+    worker_start.add_argument(
+        "--poll-interval",
+        type=float,
+        default=10.0,
+        help="Seconds to wait between idle polls for new work",
+    )
+    worker_start.add_argument(
+        "--log-level",
+        default="INFO",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        help="Logging verbosity for the worker",
+    )
+    worker_start.add_argument("--auth-token", help="Bearer token for controller authentication")
+
+    control_subparsers.add_parser("stop-worker", help="Stop the worker daemon")
+    control_subparsers.add_parser("status", help="Show controller/worker daemon state")
+
+    config_parser = subparsers.add_parser("config", help="Manage science-run configs under config/science_runs")
+    config_subparsers = config_parser.add_subparsers(dest="mode")
+    config_subparsers.required = True
+
+    config_subparsers.add_parser("list", help="List available science-run configs")
+
+    view_parser = config_subparsers.add_parser("view", help="Print a config file")
+    view_parser.add_argument("name", help="Config filename (with or without .json)")
+
+    new_parser = config_subparsers.add_parser("new", help="Create a new config")
+    new_parser.add_argument("name", help="Target config name (without extension)")
+    new_parser.add_argument("--description", help="Short description for the config")
+    new_parser.add_argument("--fits", help="Comma-separated fit dataset keys to include (default empty)")
+    new_parser.add_argument("--template", help="Copy an existing template config or JSON file")
+    new_parser.add_argument("--engine", default="cosmos2_basin", help="Engine setting for the run")
+    new_parser.add_argument("--workers", type=int, default=4, help="Default worker count for the config")
+
+    edit_parser = config_subparsers.add_parser("edit", help="Edit an existing config with $EDITOR")
+    edit_parser.add_argument("name", help="Config filename (with or without .json)")
+
     args = parser.parse_args(argv)
 
     if args.command == "science":
         _run_science_runner(args)
         return 0
+
+    if args.command == "predict":
+        return _run_prediction_command(args)
 
     if args.command == "thermal":
         try:
@@ -416,6 +878,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                 toolbox_args.append("--debug")
         run_toolbox(toolbox_args)
         return 0
+
+    if args.command == "config":
+        return _handle_config(args)
+
+    if args.command == "control":
+        return _handle_control(args)
 
     if args.command == "fit":
         params = parse_params(args.param)
@@ -512,6 +980,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             print("-" * 40)
             print(f"chi^2   : {chi2:8.3f}")
             _preview_vector("S₈_model sample", extras.get("predictions"))
+            return 0
+
+        if args.target == "wl_kids1000":
+            dataset = get_dataset("weak_lensing_kids1000")
+            chi2, extras = run_wl_kids1000_fit(model, dataset)
+            print(f"KiDS-1000 ξ± fit ({args.model.upper()})")
+            print("-" * 40)
+            print(f"chi^2   : {chi2:8.3f}")
+            print(f"bins    : {len(dataset['theta_bins'])} θ bins, {len(dataset['tomo_pairs'])} tomo pairs")
+            _preview_vector("xi_model sample", extras.get("predictions"))
             return 0
 
         if args.target == "lensing_cross":

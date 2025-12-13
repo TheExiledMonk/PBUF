@@ -1,0 +1,23 @@
+{
+  "name": "isw-cross",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "compare_lcdm": false,
+    "points": 300,
+    "timestamp": "2025-12-04T13:54:31.964722+00:00",
+    "explanation": "The ISW-cross prediction shows how PBUF modifies the integrated Sachs-Wolfe signal and its cross-correlation with galaxy surveys. Elastic curvature produces a slightly different decay of gravitational potentials, yielding a measurable shift in the ISW kernel. Future CMB-LSS cross-correlation measurements can test this directly."
+  },
+  "results": {
+    "zmin": 0.0,
+    "zmax": 2.0,
+    "z_eff": 0.5,
+    "sigma_z": 0.3,
+    "A_ISW_PBUF": 0.6232618483331539,
+    "A_ISW_LCDM": null,
+    "ratio_PBUF_over_LCDM": null
+  },
+  "tables": [],
+  "plots": []
+}

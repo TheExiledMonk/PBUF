@@ -1,0 +1,10 @@
+{
+  "workers": 20,
+  "n_seeds": 50,
+  "n_refine": 100,
+  "n_scatter": 400,
+  "batch_size": 16,
+  "grid_points": 9,
+  "monitor": true,
+  "resume": true
+}

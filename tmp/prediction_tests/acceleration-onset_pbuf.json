@@ -1,0 +1,25 @@
+{
+  "name": "acceleration-onset",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "zmax": 5.0,
+    "points": 400,
+    "timestamp": "2025-12-04T13:54:15.593978+00:00",
+    "summary": "Deceleration parameter crosses zero near z\u22480.556.",
+    "explanation": "The acceleration-onset curve shows the redshift where cosmic deceleration transitions into acceleration. PBUF predicts this transition occurs earlier than in \u039bCDM because elastic expansion begins contributing before dark-energy-like behavior would normally appear. This shift is a direct signature of spacetime stiffness replacing \u039b. Observational confirmation would validate PBUF's elastic-driven acceleration."
+  },
+  "results": {
+    "zmax": 5.0,
+    "z_accel": 0.5561371136428719,
+    "a_accel": 0.6426168948949679,
+    "q0": -0.8706004306324442,
+    "q_min": -0.8706004306324442,
+    "z_qmin": 0.0,
+    "has_slowdown": false,
+    "z_slowdown": null
+  },
+  "tables": [],
+  "plots": []
+}

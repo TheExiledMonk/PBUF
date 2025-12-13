@@ -1,0 +1,16 @@
+{
+  "name": "starburst-efficiency",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "model": "LCDMModel",
+    "timestamp": "2025-12-04T19:24:23.579712+00:00",
+    "error": "missing_stiffness_or_metallicity_api",
+    "summary": "Starburst efficiency prediction unsupported (missing stiffness or metallicity API).",
+    "details": "Underlying model does not expose an elastic stiffness surface.",
+    "explanation": "The starburst-efficiency curve quantifies how elastic cosmology enhances high-redshift starburst activity. Earlier collapse and modified wave propagation increase the efficiency of star formation compared to \u039bCDM. Observations of extreme star-formers at z > 4 can test this prediction."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

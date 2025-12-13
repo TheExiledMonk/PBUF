@@ -37,6 +37,8 @@ class DataLoader:
         self._science_config: ScienceRunConfig | None = None
         self._joint_config_path: Path | None = None
         self._model_evaluators: Dict[str, Callable[[Dict[str, float]], float]] = {}
+        self._predictions_summary: Dict[str, Any] | None = None
+        self._predictions_details: Dict[str, Any] | None = None
 
     def __del__(self):
         if self._science_config:
@@ -66,6 +68,16 @@ class DataLoader:
         figures_dir.mkdir(exist_ok=True, parents=True)
         filename = f"{self._figure_filename(group, plot_name, model_name)}.png"
         return figures_dir / filename
+
+    def _prediction_plot_path(self, module_name: str, model_name: str, plot_name: str) -> Path:
+        """Store prediction-specific plots outside the general figures directory."""
+        pred_dir = self.run_dir / "predictions" / "figures"
+        pred_dir.mkdir(exist_ok=True, parents=True)
+        module_safe = self._sanitize_filename_component(module_name, "module")
+        model_safe = self._sanitize_filename_component(model_name, "model")
+        plot_safe = self._sanitize_filename_component(plot_name, "plot")
+        filename = f"{module_safe}_{model_safe}_{plot_safe}.png"
+        return pred_dir / filename
     
     def get_available_models(self) -> List[str]:
         """Get list of available models - DYNAMIC from config or scan directory."""
@@ -1613,6 +1625,749 @@ class DataLoader:
         except Exception as exc:
             self.logger.warning("Unable to build chi² evaluator for %s: %s", model_name, exc)
             return None
+
+    def load_predictions_summary(self) -> Dict[str, Any] | None:
+        if self._predictions_summary is not None:
+            return self._predictions_summary
+        summary_paths = [
+            self.run_dir / "predictions" / "predictions_summary.json",
+            self.run_dir / "predictions_summary.json",
+        ]
+        summary_path = None
+        for candidate in summary_paths:
+            if candidate.exists():
+                summary_path = candidate
+                break
+        if summary_path is None:
+            return None
+        try:
+            payload = json.loads(summary_path.read_text(encoding="utf-8"))
+            if isinstance(payload, dict):
+                self._predictions_summary = payload
+                return payload
+        except Exception as exc:
+            self.logger.warning("Failed to load predictions summary: %s", exc)
+        return None
+
+    def load_predictions_details(self) -> Dict[str, Any] | None:
+        """Load structured prediction outputs (tables/plots) for modules."""
+        if self._predictions_details is not None:
+            return self._predictions_details
+
+        predictions_root = self.run_dir / "predictions"
+        if not predictions_root.exists():
+            return None
+
+        modules: List[Dict[str, Any]] = []
+        for module_dir in sorted(predictions_root.iterdir()):
+            if not module_dir.is_dir():
+                continue
+            module_entry = {"name": module_dir.name, "models": []}
+
+            for model_dir in sorted(module_dir.iterdir()):
+                if not model_dir.is_dir():
+                    continue
+                result_file = model_dir / "result.json"
+                if not result_file.exists():
+                    continue
+                try:
+                    payload = json.loads(result_file.read_text(encoding="utf-8"))
+                except Exception as exc:
+                    self.logger.warning(
+                        "Failed to load prediction result for %s/%s: %s",
+                        module_dir.name,
+                        model_dir.name,
+                        exc,
+                    )
+                    continue
+                if not isinstance(payload, dict):
+                    self.logger.warning(
+                        "Invalid prediction payload for %s/%s – expected object",
+                        module_dir.name,
+                        model_dir.name,
+                    )
+                    continue
+
+                module_entry["models"].append(
+                    self._build_prediction_model_entry(module_dir.name, model_dir, payload)
+                )
+
+            if module_entry["models"]:
+                modules.append(module_entry)
+
+        if not modules:
+            return None
+
+        self._attach_module_combined_plots(modules)
+
+        self._predictions_details = {"modules": modules}
+        return self._predictions_details
+
+    def _build_prediction_model_entry(
+        self, module_name: str, model_dir: Path, payload: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Construct a normalized record for a module/model prediction result."""
+        model_name = model_dir.name
+        plots = []
+        raw_plot_entries: List[Dict[str, Any]] = []
+        seen_plot_names: set[str] = set()
+
+        for plot_info in payload.get("plots") or []:
+            name = plot_info.get("name") or plot_info.get("title") or plot_info.get("label") or ""
+            if name:
+                seen_plot_names.add(name)
+            plot_path = self._render_prediction_plot(module_name, model_dir.name, plot_info)
+            plots.append(
+                {
+                    "name": name or plot_info.get("title") or plot_info.get("label") or "plot",
+                    "metadata": plot_info.get("metadata") or {},
+                    "description": plot_info.get("description"),
+                    "file_path": str(plot_path) if plot_path else None,
+                }
+            )
+            raw_plot_entries.append(
+                {
+                    "name": name or plot_info.get("title") or plot_info.get("label") or "plot",
+                    "data": plot_info.get("data") or {},
+                    "metadata": plot_info.get("metadata") or {},
+                    "model": model_name,
+                }
+            )
+
+        plots_dir = model_dir / "plots"
+        if plots_dir.exists():
+            for plot_file in sorted(plots_dir.glob("*.json")):
+                try:
+                    plot_info = json.loads(plot_file.read_text(encoding="utf-8"))
+                except Exception as exc:
+                    self.logger.warning(
+                        "Failed to read standalone prediction plot %s for %s/%s: %s",
+                        plot_file.name,
+                        module_name,
+                        model_dir.name,
+                        exc,
+                    )
+                    continue
+                name = plot_info.get("name") or plot_info.get("title") or plot_file.stem
+                if name in seen_plot_names:
+                    continue
+                seen_plot_names.add(name)
+                plot_path = self._render_prediction_plot(module_name, model_dir.name, plot_info)
+                plots.append(
+                    {
+                        "name": name,
+                        "metadata": plot_info.get("metadata") or {},
+                        "description": plot_info.get("description"),
+                        "file_path": str(plot_path) if plot_path else None,
+                    }
+                )
+                raw_plot_entries.append(
+                    {
+                        "name": name,
+                        "data": plot_info.get("data") or {},
+                        "metadata": plot_info.get("metadata") or {},
+                        "model": model_name,
+                    }
+                )
+
+        return {
+            "model": model_dir.name,
+            "status": payload.get("status"),
+            "version": payload.get("version"),
+            "generated_at": payload.get("generated_at"),
+            "summary": (payload.get("metadata") or {}).get("summary"),
+            "metadata": payload.get("metadata") or {},
+            "results": payload.get("results") or {},
+            "description": payload.get("description"),
+            "tables": payload.get("tables") or [],
+            "plots": plots,
+            "plot_data": raw_plot_entries,
+        }
+
+    def _render_prediction_plot(
+        self, module_name: str, model_name: str, plot_entry: Dict[str, Any]
+    ) -> Path | None:
+        data = plot_entry.get("data") or {}
+        if not isinstance(data, dict):
+            return None
+
+        axis_arr, axis_key = self._prediction_plot_axis(data)
+        data_lengths = [
+            arr.size
+            for arr in (
+                self._to_numeric_array(values) for values in data.values()
+            )
+            if arr is not None
+        ]
+        max_len = max(data_lengths) if data_lengths else 0
+        if axis_arr is None:
+            if max_len <= 0:
+                return None
+            axis_arr = np.arange(max_len)
+
+        title_suffix = plot_entry.get("name") or "prediction"
+        plot_path = self._prediction_plot_path(module_name, model_name, title_suffix)
+        fig = None
+        try:
+            fig, ax = plt.subplots(figsize=(7, 4))
+            plotted = False
+            for series_key, values in data.items():
+                if series_key == axis_key:
+                    continue
+                series_arr = self._to_numeric_array(values)
+                if series_arr is None or series_arr.size == 0:
+                    continue
+                plotted = True
+                if axis_arr.size >= series_arr.size:
+                    x_vals = axis_arr[: series_arr.size]
+                else:
+                    x_vals = np.arange(series_arr.size)
+                ax.plot(
+                    x_vals,
+                    series_arr,
+                    label=self._prediction_series_label(series_key),
+                    linewidth=1.5,
+                )
+
+            if not plotted:
+                return None
+
+            metadata = plot_entry.get("metadata") or {}
+            xlabel = metadata.get("xlabel") or metadata.get("x_label") or axis_key or "index"
+            ylabel = metadata.get("ylabel") or metadata.get("y_label") or ""
+            ax.set_xlabel(xlabel)
+            if ylabel:
+                ax.set_ylabel(ylabel)
+            ax.set_title(
+                f"{module_name.replace('-', ' ').title()} {self._prediction_series_label(title_suffix)}"
+            )
+            ax.grid(True, linestyle=":", alpha=0.7)
+            ax.legend(fontsize="small")
+            fig.tight_layout()
+            fig.savefig(plot_path, dpi=150)
+            return plot_path
+        except Exception as exc:
+            self.logger.warning(
+                "Prediction plot render failed for %s/%s/%s: %s",
+                module_name,
+                model_name,
+                plot_entry.get("name"),
+                exc,
+            )
+            return None
+        finally:
+            if fig is not None:
+                plt.close(fig)
+
+    def _render_pk_spectrum_comparison_plot(
+        self, module_name: str, model_entries: List[Dict[str, Any]]
+    ) -> tuple[Path | None, str | None]:
+        """Render P(k,z) overlays for the pk-spectrum prediction."""
+
+        curves: list[tuple[np.ndarray, np.ndarray, str]] = []
+        k_units = ""
+        P_units = ""
+        for entry in model_entries:
+            results = entry.get("results") or {}
+            mask = np.asarray(results.get("mask_valid") or [], dtype=bool)
+            if mask.size == 0 or not mask.any():
+                continue
+            k_values = np.asarray(results.get("k") or [], dtype=float)
+            if k_values.size != mask.size:
+                continue
+            z_samples = results.get("z_samples") or []
+            P_arrays = results.get("P_k_arrays") or []
+            meta = results.get("meta") or {}
+            if not k_units:
+                k_units = meta.get("k_units") or ""
+            if not P_units:
+                P_units = meta.get("P_units") or ""
+            filtered_k = k_values[mask]
+            for z_idx, z_val in enumerate(z_samples):
+                if z_idx >= len(P_arrays):
+                    break
+                P_values = np.asarray(P_arrays[z_idx] or [], dtype=float)
+                if P_values.size != mask.size:
+                    continue
+                filtered_P = P_values[mask]
+                if filtered_P.size == 0:
+                    continue
+                label = f"{(entry.get('model') or 'model').upper()} z={float(z_val):.2f}"
+                curves.append((filtered_k, filtered_P, label))
+
+        if not curves:
+            return None, None
+
+        plot_path = self._prediction_plot_path(module_name, "combined", "pk-spectrum")
+        fig = None
+        try:
+            fig, ax = plt.subplots(figsize=(8, 5))
+            for k_vals, P_vals, label in curves:
+                ax.plot(k_vals, P_vals, label=label, linewidth=1.5)
+            ax.set_xscale("log")
+            ax.set_yscale("log")
+            xlabel = f"k [{k_units}]" if k_units else "k"
+            ylabel = f"P(k) [{P_units}]" if P_units else "P(k)"
+            ax.set_xlabel(xlabel)
+            ax.set_ylabel(ylabel)
+            ax.set_title("Matter power spectrum P(k,z) (pk-spectrum prediction)")
+            ax.grid(True, linestyle=":", alpha=0.6)
+            ax.legend(fontsize="small", loc="upper right")
+            fig.tight_layout()
+            fig.savefig(plot_path, dpi=150)
+            return plot_path, "Matter power spectrum"
+        except Exception as exc:
+            self.logger.warning(
+                "Failed to render pk-spectrum comparison plot for %s: %s",
+                module_name,
+                exc,
+            )
+            return None, None
+        finally:
+            if fig is not None:
+                plt.close(fig)
+
+    def _attach_module_combined_plots(self, modules: List[Dict[str, Any]]) -> None:
+        """Build a combined prediction plot for each module using every model."""
+        for module in modules:
+            module_name = module.get("name", "") or ""
+            models = module.get("models") or []
+            name_lower = module_name.lower()
+            plot_path: Path | None = None
+            plot_name: str | None = None
+            pk_valid = False
+            if name_lower == "statefinder":
+                plot_path, plot_name = self._render_statefinder_trajectory(module_name, models)
+            elif name_lower == "pk-spectrum":
+                plot_path, plot_name = self._render_pk_spectrum_comparison_plot(module_name, models)
+                pk_valid = bool(plot_path)
+            elif name_lower == "horizon-evolution":
+                plot_path, plot_name = self._render_horizon_evolution_comparison_plot(
+                    module_name, models
+                )
+            elif name_lower == "g-effective":
+                plot_path, plot_name = self._render_g_effective_comparison_plot(module_name, models)
+            elif name_lower == "elastic-fraction":
+                plot_path, plot_name = self._render_elastic_fraction_comparison_plot(module_name, models)
+            else:
+                raw_entries: list[Dict[str, Any]] = []
+                for model in models:
+                    raw_entries.extend(model.get("plot_data") or [])
+                plot_path, plot_name = self._render_module_comparison_plot(module_name, raw_entries)
+            module["combined_plot"] = str(plot_path) if plot_path else None
+            module["combined_plot_name"] = plot_name
+            if name_lower == "statefinder":
+                module["statefinder_plot"] = str(plot_path) if plot_path else None
+                module["statefinder_plot_name"] = plot_name
+            else:
+                module["statefinder_plot"] = None
+                module["statefinder_plot_name"] = None
+            if name_lower == "elastic-fraction":
+                module["elastic_plot"] = str(plot_path) if plot_path else None
+                module["elastic_plot_name"] = plot_name
+            else:
+                module["elastic_plot"] = None
+                module["elastic_plot_name"] = None
+            if name_lower == "pk-spectrum":
+                module["pk_has_valid"] = pk_valid
+
+    def _render_module_comparison_plot(
+        self, module_name: str, plot_entries: List[Dict[str, Any]]
+    ) -> tuple[Path | None, str | None]:
+        """Render a combined overlay plot to compare all models for a module."""
+        if not plot_entries:
+            return None, None
+
+        grouped: Dict[str, List[Dict[str, Any]]] = {}
+        for entry in plot_entries:
+            name = entry.get("name") or "prediction"
+            grouped.setdefault(name, []).append(entry)
+
+        selected_name, entries = max(grouped.items(), key=lambda item: len(item[1]), default=(None, []))
+        if not entries:
+            return None, None
+
+        axis_candidates = []
+        for entry in entries:
+            axis_arr, axis_key = self._prediction_plot_axis(entry.get("data") or {})
+            if axis_arr is not None and axis_arr.size > 0:
+                axis_candidates.append((axis_arr, axis_key))
+
+        axis_arr, axis_key = (max(axis_candidates, key=lambda pair: pair[0].size) if axis_candidates else (None, None))
+
+        plot_path = self._prediction_plot_path(module_name, "combined", "comparison")
+        fig = None
+        try:
+            fig, ax = plt.subplots(figsize=(8, 4))
+            plotted = False
+
+            for entry in entries:
+                data = entry.get("data") or {}
+                y_arr, y_label = self._extract_first_series(data, axis_key)
+                if y_arr is None or y_arr.size == 0:
+                    continue
+                x_axis, _ = self._prediction_plot_axis(data)
+                if x_axis is None or x_axis.size == 0:
+                    x_axis = axis_arr
+                if x_axis is None or x_axis.size == 0:
+                    x_vals = np.arange(y_arr.size)
+                else:
+                    x_vals = x_axis[: y_arr.size] if x_axis.size >= y_arr.size else np.arange(y_arr.size)
+
+                label_parts = [entry.get("model")]
+                if y_label:
+                    label_parts.append(self._prediction_series_label(y_label))
+                label = " ".join(part for part in label_parts if part)
+                ax.plot(x_vals, y_arr, label=label.strip(), linewidth=1.5)
+                plotted = True
+
+            if not plotted:
+                return None, None
+
+            label = selected_name or module_name
+            ax.set_title(f"{module_name.replace('-', ' ').title()} predictions ({label})")
+            ax.grid(True, linestyle=":", alpha=0.7)
+            ax.legend(fontsize="small")
+            ax.set_xlabel("point index" if axis_key is None else axis_key)
+            ax.set_ylabel("value")
+            fig.tight_layout()
+            fig.savefig(plot_path, dpi=150)
+            return plot_path, selected_name
+        except Exception as exc:
+            self.logger.warning(
+                "Failed to render combined plot for module %s: %s", module_name, exc
+            )
+            return None, None
+        finally:
+            if fig is not None:
+                plt.close(fig)
+
+    def _render_horizon_evolution_comparison_plot(
+        self, module_name: str, model_entries: List[Dict[str, Any]]
+    ) -> tuple[Path | None, str | None]:
+        """Render horizon-evolution overlays derived from each model's results."""
+
+        traces: list[Dict[str, Any]] = []
+        for entry in model_entries:
+            label = (entry.get("model") or "model").upper()
+            results = entry.get("results") or {}
+            z_arr = np.asarray(results.get("z") or [], dtype=float)
+            mask = np.asarray(results.get("mask_valid") or [], dtype=bool)
+            if z_arr.size == 0 or mask.size == 0:
+                continue
+            z_valid = z_arr[mask]
+            if z_valid.size == 0:
+                continue
+            R_com = np.asarray(results.get("R_H_comoving") or [], dtype=float)[mask]
+            R_phys = np.asarray(results.get("R_H_phys") or [], dtype=float)[mask]
+            chi = np.asarray(results.get("chi_particle") or [], dtype=float)[mask]
+            traces.append(
+                {
+                    "label": label,
+                    "z": z_valid,
+                    "R_H_comoving": R_com,
+                    "R_H_phys": R_phys,
+                    "chi": chi,
+                }
+            )
+
+        if not traces:
+            return None, None
+
+        plot_path = self._prediction_plot_path(module_name, "combined", "comparison")
+        fig = None
+        try:
+            fig, ax = plt.subplots(figsize=(8, 4))
+            plotted = False
+            for trace in traces:
+                ax.plot(
+                    trace["z"],
+                    trace["R_H_comoving"],
+                    label=f"{trace['label']} comoving",
+                    linewidth=1.5,
+                )
+                phys_vals = trace["R_H_phys"]
+                if np.any(np.isfinite(phys_vals)):
+                    ax.plot(
+                        trace["z"],
+                        phys_vals,
+                        label=f"{trace['label']} physical",
+                        linewidth=1.0,
+                        linestyle=":",
+                    )
+                chi_vals = trace["chi"]
+                if np.any(np.isfinite(chi_vals)):
+                    ax.plot(
+                        trace["z"],
+                        chi_vals,
+                        label=f"{trace['label']} particle",
+                        linewidth=1.0,
+                        linestyle="--",
+                    )
+                plotted = True
+
+            if not plotted:
+                return None, None
+
+            ax.set_title("Horizon evolution: Hubble radii and particle horizon")
+            ax.set_xlabel("redshift z")
+            ax.set_ylabel("distance (same as c/H(z))")
+            ax.grid(True, linestyle=":", alpha=0.7)
+            ax.legend(fontsize="small")
+            fig.tight_layout()
+            fig.savefig(plot_path, dpi=150)
+            return plot_path, "horizon_evolution"
+        except Exception as exc:
+            self.logger.warning(
+                "Failed to render horizon evolution comparison plot for %s: %s",
+                module_name,
+                exc,
+            )
+            return None, None
+        finally:
+            if fig is not None:
+                plt.close(fig)
+
+    def _render_g_effective_comparison_plot(
+        self, module_name: str, model_entries: List[Dict[str, Any]]
+    ) -> tuple[Path | None, str | None]:
+        """Render μ(z)=G_eff/G_N overlays for the g-effective prediction."""
+
+        traces: list[tuple[np.ndarray, np.ndarray, str]] = []
+        for entry in model_entries:
+            label = (entry.get("model") or "model").upper()
+            results = entry.get("results") or {}
+            z_arr = np.asarray(results.get("z") or [], dtype=float)
+            mu_arr = np.asarray(results.get("mu") or [], dtype=float)
+            mask = np.asarray(results.get("mask_valid") or [], dtype=bool)
+            if z_arr.size == 0 or mask.size == 0:
+                continue
+            valid = mask & np.isfinite(mu_arr)
+            if not valid.any():
+                continue
+            z_valid = z_arr[valid]
+            mu_valid = mu_arr[valid]
+            traces.append((z_valid, mu_valid, label))
+
+        if not traces:
+            return None, None
+
+        all_z = np.concatenate([trace[0] for trace in traces])
+        z_min = float(np.min(all_z))
+        z_max = float(np.max(all_z))
+        plot_path = self._prediction_plot_path(module_name, "combined", "g-effective")
+        fig = None
+        try:
+            fig, ax = plt.subplots(figsize=(8, 4))
+            for z_vals, mu_vals, label in traces:
+                ax.plot(z_vals, mu_vals, label=label, linewidth=1.5)
+            ax.axhline(1.0, color="black", linestyle="--", linewidth=1.0, label="GR μ=1")
+            if z_min == z_max:
+                z_max = z_min + 1.0
+            ax.set_xlim(z_min, z_max)
+            ax.set_xlabel("redshift z")
+            ax.set_ylabel("μ(z)")
+            ax.set_title("Effective gravitational strength μ(z) = G_eff/G_N (g-effective prediction)")
+            ax.grid(True, linestyle=":", alpha=0.6)
+            ax.legend(fontsize="small")
+            fig.tight_layout()
+            fig.savefig(plot_path, dpi=150)
+            return plot_path, "Effective gravitational strength"
+        except Exception as exc:
+            self.logger.warning(
+                "Failed to render g-effective comparison plot for %s: %s",
+                module_name,
+                exc,
+            )
+            return None, None
+        finally:
+            if fig is not None:
+                plt.close(fig)
+
+    def _render_elastic_fraction_comparison_plot(
+        self, module_name: str, model_entries: List[Dict[str, Any]]
+    ) -> tuple[Path | None, str | None]:
+        """Render fσ(z)=Ωσ/Ω_tot overlays (with optional Ωσ) for elastic-fraction."""
+
+        traces: list[tuple[np.ndarray, np.ndarray, str]] = []
+        omega_traces: list[tuple[np.ndarray, np.ndarray, str]] = []
+        for entry in model_entries:
+            label = (entry.get("model") or "model").upper()
+            results = entry.get("results") or {}
+            z_arr = np.asarray(results.get("z") or [], dtype=float)
+            f_arr = np.asarray(results.get("f_sigma") or [], dtype=float)
+            mask = np.asarray(results.get("mask_valid") or [], dtype=bool)
+            if z_arr.size == 0 or f_arr.size == 0 or mask.size == 0:
+                continue
+            if not (z_arr.shape == f_arr.shape == mask.shape):
+                continue
+            valid = mask & np.isfinite(f_arr)
+            if not valid.any():
+                continue
+            z_valid = z_arr[valid]
+            f_valid = f_arr[valid]
+            traces.append((z_valid, f_valid, label))
+            omega_arr = np.asarray(results.get("Omega_sigma") or [], dtype=float)
+            if omega_arr.shape == z_arr.shape:
+                omega_valid = omega_arr[valid]
+                if np.any(np.isfinite(omega_valid)):
+                    omega_traces.append((z_valid, omega_valid, label))
+
+        if not traces:
+            return None, None
+
+        all_z = np.concatenate([trace[0] for trace in traces])
+        z_min = float(np.min(all_z))
+        z_max = float(np.max(all_z))
+        plot_path = self._prediction_plot_path(module_name, "combined", "elastic-fraction")
+        fig = None
+        try:
+            fig, ax = plt.subplots(figsize=(8, 5))
+            for z_vals, f_vals, label in traces:
+                ax.plot(z_vals, f_vals, label=f"{label} fσ", linewidth=1.5)
+            handles, labels = ax.get_legend_handles_labels()
+            ax2 = None
+            if omega_traces:
+                ax2 = ax.twinx()
+                for z_vals, omega_vals, label in omega_traces:
+                    ax2.plot(z_vals, omega_vals, label=f"{label} Ωσ", linestyle="--", linewidth=1.0)
+                ax2.set_ylabel("Ωσ(z)")
+                sec_handles, sec_labels = ax2.get_legend_handles_labels()
+                handles.extend(sec_handles)
+                labels.extend(sec_labels)
+            if z_min == z_max:
+                z_max = z_min + 1.0
+            ax.set_xlim(z_min, z_max)
+            ax.set_xlabel("redshift z")
+            ax.set_ylabel("fσ(z)")
+            ax.set_title("Elastic energy fraction fσ(z) = Ωσ/Ω_tot (elastic-fraction prediction)")
+            ax.grid(True, linestyle=":", alpha=0.7)
+            if handles:
+                ax.legend(handles, labels, fontsize="small")
+            fig.tight_layout()
+            fig.savefig(plot_path, dpi=150)
+            return plot_path, "Elastic energy fraction"
+        except Exception as exc:
+            self.logger.warning(
+                "Failed to render elastic-fraction comparison plot for %s: %s",
+                module_name,
+                exc,
+            )
+            return None, None
+        finally:
+            if fig is not None:
+                plt.close(fig)
+
+    def _render_statefinder_trajectory(
+        self, module_name: str, model_entries: List[Dict[str, Any]]
+    ) -> tuple[Path | None, str | None]:
+        """Render the combined statefinder (r, s) trajectory across all models."""
+        traces: list[Dict[str, Any]] = []
+        for entry in model_entries:
+            label = (entry.get("model") or "model").upper()
+            results = entry.get("results") or {}
+            mask = np.asarray(results.get("mask_valid") or [], dtype=bool)
+            if mask.size == 0 or not mask.any():
+                continue
+            r_arr = np.asarray(results.get("r") or [], dtype=float)
+            s_arr = np.asarray(results.get("s") or [], dtype=float)
+            valid_mask = mask & np.isfinite(r_arr) & np.isfinite(s_arr)
+            if not valid_mask.any():
+                continue
+            traces.append(
+                {"label": label, "r": r_arr[valid_mask], "s": s_arr[valid_mask], "summary": results.get("summary") or {}}
+            )
+
+        if not traces:
+            return None, None
+
+        plot_path = self._prediction_plot_path(module_name, "combined", "statefinder_rs")
+        fig = None
+        try:
+            fig, ax = plt.subplots(figsize=(6, 6))
+            for trace in traces:
+                line, = ax.plot(trace["s"], trace["r"], label=trace["label"], linewidth=1.5)
+                color = line.get_color()
+                summary = trace.get("summary") or {}
+                r0 = summary.get("r0")
+                s0 = summary.get("s0")
+                if isinstance(r0, (int, float)) and isinstance(s0, (int, float)):
+                    if np.isfinite(r0) and np.isfinite(s0):
+                        ax.scatter(
+                            float(s0),
+                            float(r0),
+                            marker="o",
+                            edgecolors=color,
+                            facecolors="none",
+                            linewidths=1.2,
+                            s=52,
+                        )
+            ax.scatter(0.0, 1.0, marker="*", color="black", s=110, label="ΛCDM fixed point (1, 0)")
+            ax.set_xlabel("s")
+            ax.set_ylabel("r")
+            ax.set_title("Statefinder diagnostics (r, s)")
+            ax.grid(True, linestyle=":", alpha=0.7)
+            ax.set_aspect("equal", adjustable="box")
+            ax.legend(fontsize="small")
+            fig.tight_layout()
+            fig.savefig(plot_path, dpi=150)
+            return plot_path, "statefinder_rs"
+        except Exception as exc:
+            self.logger.warning(
+                "Failed to render statefinder trajectory plot for %s: %s",
+                module_name,
+                exc,
+            )
+            return None, None
+        finally:
+            if fig is not None:
+                plt.close(fig)
+
+    def _extract_first_series(
+        self, data: Dict[str, Any], axis_key: str | None
+    ) -> tuple[np.ndarray | None, str | None]:
+        """Return the first numeric series that is not the axis."""
+        if not isinstance(data, dict):
+            return None, None
+        for key, values in data.items():
+            if key == axis_key:
+                continue
+            arr = self._to_numeric_array(values)
+            if arr is not None and arr.size > 0:
+                return arr, key
+        return None, None
+
+    def _prediction_plot_axis(self, data: Dict[str, Any]) -> tuple[np.ndarray | None, str | None]:
+        axis_candidates = ["z", "redshift", "z_values", "x", "x_values", "a", "scale_factor"]
+        for key in axis_candidates:
+            arr = self._to_numeric_array(data.get(key))
+            if arr is not None and arr.size > 0:
+                return arr, key
+
+        numeric_arrays = [
+            arr
+            for arr in (self._to_numeric_array(value) for value in data.values())
+            if arr is not None and arr.size > 0
+        ]
+        if not numeric_arrays:
+            return None, None
+        longest = max(numeric_arrays, key=lambda arr: arr.size)
+        return longest, None
+
+    def _to_numeric_array(self, value: Any) -> np.ndarray | None:
+        if value is None:
+            return None
+        try:
+            arr = np.asarray(value, dtype=float)
+            return arr
+        except Exception:
+            return None
+
+    def _prediction_series_label(self, value: str | None) -> str:
+        if not value:
+            return ""
+        normalized = " ".join(str(value).replace("_", " ").split())
+        return normalized.title()
 
     def _approximate_gradient_and_hessian(
         self, model_name: str, parameters: Dict[str, Any]

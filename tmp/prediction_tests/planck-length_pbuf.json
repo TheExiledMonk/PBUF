@@ -1,0 +1,26 @@
+{
+  "name": "planck-length",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "summary": "Predicted evolution of the effective Planck length ell_Pl(z) from thermal rigidity epsilon0(T).",
+    "model": "PBUFModel",
+    "mode": "epsilon-only",
+    "points": 300,
+    "zmin": 0.0,
+    "zmax": 30.0,
+    "timestamp": "2025-12-04T13:54:35.573115+00:00",
+    "explanation": "The Planck-length evolution curve reflects how PBUF's temperature-dependent rigidity produces a mild, predictable variation in the effective Planck scale over cosmic time. This is a purely theoretical prediction but serves as an internal consistency test linking the quantum and cosmological sectors."
+  },
+  "results": {
+    "zmin": 0.0,
+    "zmax": 30.0,
+    "max_ell_ratio": 1.1905583208495312,
+    "max_ell_ratio_redshift": 30.0,
+    "ell_ratio_at_z2": 1.0506762393441222,
+    "ell_ratio_at_z6": 1.0957658729073965,
+    "ell_ratio_at_z10": 1.12227281719621
+  },
+  "tables": [],
+  "plots": []
+}

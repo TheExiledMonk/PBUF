@@ -1,0 +1,26 @@
+{
+  "name": "starburst-efficiency",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "timestamp": "2025-12-04T13:54:38.528309+00:00",
+    "zmax": 20.0,
+    "points": 300,
+    "compare_lcdm": false,
+    "gamma_metallicity": 1.0,
+    "beta_lcdm": 1.0,
+    "summary": "Predicted starburst efficiency amplification from elastic-enhanced collapse and metallicity.",
+    "explanation": "The starburst-efficiency curve quantifies how elastic cosmology enhances high-redshift starburst activity. Earlier collapse and modified wave propagation increase the efficiency of star formation compared to \u039bCDM. Observations of extreme star-formers at z > 4 can test this prediction."
+  },
+  "results": {
+    "zmax": 20.0,
+    "S_at_z6": 1.8723684187531693,
+    "S_at_z10": 1.8115131513079819,
+    "S_at_z15": 1.7873455905867908,
+    "peak_S_value": 3.061268917335319,
+    "peak_S_redshift": 0.0
+  },
+  "tables": [],
+  "plots": []
+}

@@ -1,0 +1,11 @@
+{
+  "fits": [
+    "cmb",
+    "sn",
+    "bao_iso",
+    "cc",
+    "rsd",
+    "wl_kids1000"
+  ],
+  "fit_weights": {}
+}

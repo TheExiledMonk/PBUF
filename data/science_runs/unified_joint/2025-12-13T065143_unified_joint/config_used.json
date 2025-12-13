@@ -1,0 +1,368 @@
+{
+  "run_name": "unified_joint",
+  "description": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+  "models": [
+    "lcdm",
+    "pbuf"
+  ],
+  "mode": "fit",
+  "auto_mode": null,
+  "fits_config": null,
+  "joint_config": {
+    "fits": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd",
+      "wl_kids1000"
+    ]
+  },
+  "joint_config_path": null,
+  "fits_list": [
+    "cmb",
+    "sn",
+    "bao_iso",
+    "cc",
+    "rsd",
+    "wl_kids1000"
+  ],
+  "fit_weights": {},
+  "fits_override": [],
+  "engine": "basin",
+  "engine_settings": {
+    "workers": 20,
+    "n_seeds": 50,
+    "n_refine": 100,
+    "n_scatter": 400,
+    "batch_size": 16,
+    "grid_points": 9,
+    "monitor": true,
+    "resume": true
+  },
+  "parameter_bounds_file": null,
+  "parameter_bounds_inline": {
+    "global": {
+      "H0": [
+        65,
+        75
+      ]
+    },
+    "models": {
+      "lcdm": {
+        "Omega_m0": [
+          0.25,
+          0.35
+        ],
+        "Omega_b0": [
+          0.04,
+          0.05
+        ],
+        "Omega_k0": [
+          -0.03,
+          0.03
+        ]
+      },
+      "pbuf": {
+        "Rmax": [
+          90000000.0,
+          90000000.0
+        ]
+      }
+    }
+  },
+  "fixed_parameters": {},
+  "initial_parameters": {},
+  "profile_likelihood": null,
+  "jackknife": {
+    "enabled": true,
+    "n_draws": 30,
+    "fraction_removed": 0.15,
+    "random_seed": null,
+    "datasets_to_test": [
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "dataset_weights": {
+      "sn": 1.0,
+      "bao_iso": 1.0,
+      "cc": 1.0,
+      "rsd": 1.0
+    }
+  },
+  "predictions": {
+    "enabled": true,
+    "modules": [
+      "acceleration-onset",
+      "acceleration-slowdown",
+      "ap-distortion",
+      "bao-shift",
+      "cmb-lensing",
+      "curvature",
+      "curvature-identity",
+      "dust-onset",
+      "dust-temperature",
+      "galaxy-size",
+      "growth",
+      "growth-index",
+      "fsigma8",
+      "elastic-fraction",
+      "g-effective",
+      "q-curve",
+      "gw-propagation",
+      "high-z-delay",
+      "lookback",
+      "horizon-evolution",
+      "age-z",
+      "isw-cross",
+      "jerk",
+      "metallicity",
+      "planck-length",
+      "pk-spectrum",
+      "redshift-drift",
+      "sound-horizon",
+      "starburst-efficiency",
+      "statefinder",
+      "wave-speed",
+      "wl-kernel",
+      "void-size"
+    ],
+    "acceleration-onset": {
+      "zmax": 5.0,
+      "points": 400,
+      "output_plot": true,
+      "output_table": true
+    },
+    "acceleration-slowdown": {
+      "amin": 0.2,
+      "amax": 1.6,
+      "points": 300
+    },
+    "ap-distortion": {
+      "zmax": 3.0,
+      "points": 200
+    },
+    "bao-shift": {
+      "z": 0.57,
+      "zmin": 0.1,
+      "zmax": 2.0,
+      "points": 40,
+      "compare_lcdm": true,
+      "output_plot": true,
+      "output_table": true
+    },
+    "cmb-lensing": {
+      "compare_lcdm": true,
+      "output_plot": true,
+      "output_table": true,
+      "ellmin": 10,
+      "ellmax": 2000
+    },
+    "curvature": {
+      "output_plot": true,
+      "output_table": true,
+      "diagnostics": true
+    },
+    "curvature-identity": {
+      "output_plot": true,
+      "output_table": true
+    },
+    "dust-onset": {
+      "zmax": 30.0,
+      "points": 300,
+      "mode": "simple",
+      "threshold_fraction": 0.05,
+      "output_plot": true,
+      "output_table": true
+    },
+    "dust-temperature": {
+      "zmin": 2.0,
+      "zmax": 20.0,
+      "points": 150
+    },
+    "galaxy-size": {
+      "zmin": 2.0,
+      "zmax": 20.0,
+      "points": 200,
+      "mass": "1e11",
+      "compare_lcdm": true,
+      "output_plot": true,
+      "output_table": true
+    },
+    "growth": {
+      "zmax": 5.0,
+      "points": 300,
+      "include_s8": true,
+      "output_plot": true,
+      "output_table": true
+    },
+    "growth-index": {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "points": 300,
+      "compare_lcdm": true,
+      "output_plot": true,
+      "output_table": true
+    },
+    "fsigma8": {
+      "zmin": 0.0,
+      "zmax": 2.0,
+      "points": 200
+    },
+    "elastic-fraction": {
+      "z_min": 0.0,
+      "z_max": 5.0,
+      "points": 300
+    },
+    "g-effective": {
+      "zmin": 0.0,
+      "zmax": 2.0,
+      "points": 200
+    },
+    "q-curve": {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "points": 200
+    },
+    "gw-propagation": {
+      "zmax": 5.0,
+      "points": 200,
+      "z_key": "0.1,1.0,2.0",
+      "output_plot": true,
+      "output_table": true,
+      "anchor_equal_c0": true
+    },
+    "high-z-delay": {
+      "zmax": 20.0,
+      "points": 400,
+      "reference": "same-H-constant-c",
+      "zgrid": "1.0,3.0,6.0,10.0,20.0",
+      "output_plot": true,
+      "output_table": true
+    },
+    "lookback": {
+      "zmin": 0.0,
+      "zmax": 10.0,
+      "points": 300,
+      "output_plot": true,
+      "output_table": true
+    },
+    "horizon-evolution": {
+      "zmin": 0.0,
+      "zmax": 10.0,
+      "points": 300
+    },
+    "age-z": {
+      "zmin": 0.0,
+      "zmax": 10.0,
+      "points": 300,
+      "output_plot": true
+    },
+    "isw-cross": {
+      "zmin": 0.0,
+      "zmax": 2.0,
+      "points": 300,
+      "z_eff": 0.5,
+      "sigma_z": 0.3,
+      "compare_lcdm": true,
+      "output_plot": true,
+      "output_table": true
+    },
+    "jerk": {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "points": 200
+    },
+    "metallicity": {
+      "zmin": 2.0,
+      "zmax": 20.0,
+      "points": 200,
+      "mode": "simple",
+      "compare_lcdm": true,
+      "output_plot": true,
+      "output_table": true
+    },
+    "planck-length": {
+      "zmin": 0.0,
+      "zmax": 30.0,
+      "points": 300,
+      "mode": "epsilon-only",
+      "output_plot": true,
+      "output_table": true
+    },
+    "redshift-drift": {
+      "zmin": 0.0,
+      "zmax": 6.0,
+      "points": 300,
+      "dt10": true,
+      "dt20": true,
+      "compare_lcdm": true,
+      "output_plot": true,
+      "output_table": true
+    },
+    "sound-horizon": {
+      "resolution": 2000,
+      "compare_lcdm": true,
+      "output_plot": true,
+      "output_table": true
+    },
+    "pk-spectrum": {
+      "k_min": 0.0001,
+      "k_max": 1.0,
+      "n_k": 200
+    },
+    "statefinder": {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "points": 200
+    },
+    "starburst-efficiency": {
+      "zmax": 20.0,
+      "points": 300,
+      "gamma_metallicity": 1.0,
+      "beta_lcdm": 1.0,
+      "compare_lcdm": true,
+      "output_plot": true,
+      "output_table": true
+    },
+    "wl-kernel": {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "points": 300,
+      "source-type": "lsst_like"
+    },
+    "wave-speed": {
+      "zmin": 0.0,
+      "zmax": 25.0,
+      "points": 300,
+      "output_plot": true,
+      "output_table": true,
+      "include_delay": true
+    },
+    "void-size": {
+      "zmax": 1.0,
+      "points": 100,
+      "compare_lcdm": true,
+      "R_ref_Mpc": 25.0,
+      "eta_growth": 0.5,
+      "gamma_alpha": 1.0,
+      "beta_z": 0.3,
+      "output_plot": true,
+      "output_table": true
+    }
+  },
+  "output": {
+    "base_dir": "/home/fabian/PBUF5-GPU/data/science_runs/unified_joint",
+    "generate_plots": true,
+    "generate_reports": true,
+    "report_formats": [
+      "json",
+      "html",
+      "pdf"
+    ],
+    "save_space": false
+  },
+  "interactive": false
+}

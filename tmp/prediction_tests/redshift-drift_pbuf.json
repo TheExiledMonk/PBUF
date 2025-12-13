@@ -1,0 +1,35 @@
+{
+  "name": "redshift-drift",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "compare_lcdm": false,
+    "dt10": true,
+    "dt20": true,
+    "points": 300,
+    "zmin": 0.0,
+    "zmax": 6.0,
+    "timestamp": "2025-12-04T13:54:37.150924+00:00",
+    "explanation": "The redshift-drift prediction shows how the change in observed redshift over time differs slightly between PBUF and \u039bCDM. Elasticity modifies H(z) subtly, producing a measurable drift signature for future 20-30 year surveys like ELT. Agreement with this curve would strongly support elastic expansion."
+  },
+  "results": {
+    "zmin": 0.0,
+    "zmax": 6.0,
+    "points": 300,
+    "dzdt0_z2": -8.05283905765029e-20,
+    "dzdt0_z3": -1.5153394397131087e-18,
+    "dzdt0_z4": -3.494159666568378e-18,
+    "dv10_z2": -0.25384907808037666,
+    "dv10_z3": -3.583974729210484,
+    "dv10_z4": -6.611408930574955,
+    "dv20_z2": -0.5076981561607533,
+    "dv20_z3": -7.167949458420968,
+    "dv20_z4": -13.22281786114991,
+    "ratio_dv10_z2": null,
+    "ratio_dv10_z3": null,
+    "ratio_dv10_z4": null
+  },
+  "tables": [],
+  "plots": []
+}

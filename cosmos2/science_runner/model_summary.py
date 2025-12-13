@@ -317,7 +317,8 @@ def create_model_summary(
     if model_name.lower() == "pbuf":
         summary["quantum_metadata"] = get_quantum_metadata(model)
     
-    # Fit outputs
+    fit_details: Dict[str, Any] = {}
+    wl_flags_from_fit: Dict[str, Any] | None = None
     if fit_outputs:
         summary["fit_outputs"] = {
             "convergence_status": "success",
@@ -326,14 +327,24 @@ def create_model_summary(
             "parameter_trace": engine_result.get("results", [])[:10] if engine_result else [],  # First 10 points
             "detailed_outputs": {k: v for k, v in fit_outputs.items() if k != "extras"}
         }
-    
+        for fit_name, payload in fit_outputs.items():
+            extras = payload.get("extras", {}) if isinstance(payload, dict) else {}
+            fit_details[fit_name] = {"extras": extras}
+            if fit_name in {"wl_kids1000", "weak_lensing_kids1000"} and isinstance(extras, dict):
+                wl_flags = extras.get("wl_flags")
+                if wl_flags:
+                    wl_flags_from_fit = wl_flags
+
     # Dataset information
-    summary["datasets"] = {
+    dataset_payload = {
         "used": list(config.get("joint_config", {}).get("fits", [])),
         "weights": dict(config.get("joint_config", {}).get("weights", {})),
         "chi2_contribution": {k: float(v) for k, v in chi2_breakdown.items()},
-        "fit_details": {}  # Would populate from detailed fit outputs
+        "fit_details": fit_details  # Populated from fit outputs when available
     }
+    if wl_flags_from_fit:
+        dataset_payload["wl_flags"] = wl_flags_from_fit
+    summary["datasets"] = dataset_payload
     
     # Model-specific information
     if model_name.lower() == "pbuf":

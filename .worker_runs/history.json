@@ -1,0 +1,450 @@
+[
+  {
+    "run_name": "unified_joint-a9966a02eec24bbf80fba7ca4f613731_slice_001",
+    "timestamp": "2025-12-06T090516",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-a9966a02eec24bbf80fba7ca4f613731_slice_001",
+    "timestamp": "2025-12-06T090516",
+    "model": "pbuf",
+    "best_chi2": 945.1485401021572,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_001",
+    "timestamp": "2025-12-06T093007",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_001",
+    "timestamp": "2025-12-06T093007",
+    "model": "pbuf",
+    "best_chi2": 945.1496199693077,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_002",
+    "timestamp": "2025-12-06T094013",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_002",
+    "timestamp": "2025-12-06T094013",
+    "model": "pbuf",
+    "best_chi2": 945.1484350880814,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_003",
+    "timestamp": "2025-12-06T095026",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_003",
+    "timestamp": "2025-12-06T095026",
+    "model": "pbuf",
+    "best_chi2": 945.1487108326304,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_004",
+    "timestamp": "2025-12-06T100044",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_004",
+    "timestamp": "2025-12-06T100044",
+    "model": "pbuf",
+    "best_chi2": 945.1496570784758,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_005",
+    "timestamp": "2025-12-06T101050",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_005",
+    "timestamp": "2025-12-06T101050",
+    "model": "pbuf",
+    "best_chi2": 945.1485294706744,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_006",
+    "timestamp": "2025-12-06T102058",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_006",
+    "timestamp": "2025-12-06T102058",
+    "model": "pbuf",
+    "best_chi2": 945.1492962292903,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_007",
+    "timestamp": "2025-12-06T103130",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_007",
+    "timestamp": "2025-12-06T103130",
+    "model": "pbuf",
+    "best_chi2": 945.1486383032477,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_008",
+    "timestamp": "2025-12-06T104152",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_008",
+    "timestamp": "2025-12-06T104152",
+    "model": "pbuf",
+    "best_chi2": 945.148453317788,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_009",
+    "timestamp": "2025-12-06T105204",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_009",
+    "timestamp": "2025-12-06T105204",
+    "model": "pbuf",
+    "best_chi2": 945.150342613012,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_010",
+    "timestamp": "2025-12-06T110217",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-d9efd9e6a0b7461083a998a289155214_slice_010",
+    "timestamp": "2025-12-06T110217",
+    "model": "pbuf",
+    "best_chi2": 945.1486392345439,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-28bd10b8ddb14559b8593842ae6c934c_slice_001",
+    "timestamp": "2025-12-06T131714",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-28bd10b8ddb14559b8593842ae6c934c_slice_001",
+    "timestamp": "2025-12-06T131714",
+    "model": "pbuf",
+    "best_chi2": 945.1503724121735,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-28bd10b8ddb14559b8593842ae6c934c_slice_002",
+    "timestamp": "2025-12-06T132740",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-28bd10b8ddb14559b8593842ae6c934c_slice_002",
+    "timestamp": "2025-12-06T132740",
+    "model": "pbuf",
+    "best_chi2": 945.1484772612384,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-28bd10b8ddb14559b8593842ae6c934c_slice_003",
+    "timestamp": "2025-12-06T133817",
+    "model": "lcdm",
+    "best_chi2": 1176.2210131173845,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-28bd10b8ddb14559b8593842ae6c934c_slice_003",
+    "timestamp": "2025-12-06T133817",
+    "model": "pbuf",
+    "best_chi2": 945.1484342546271,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  }
+]

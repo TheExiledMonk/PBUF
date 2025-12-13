@@ -6,7 +6,7 @@ import json
 import uuid
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -172,6 +172,134 @@ class NodeInfo(BaseModel):
         return True
 
 
+class WorkerHello(Message):
+    """Handshake message from worker providing static status."""
+    worker_id: str
+    cores: int
+    datasets: Dict[str, str] = Field(default_factory=dict)
+    local_node: bool = False
+    MESSAGE_TYPE: ClassVar[str] = "WORKER_HELLO"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class RequestWork(Message):
+    """Worker requests slices."""
+    worker_id: str
+    current_load: int = 0
+    MESSAGE_TYPE: ClassVar[str] = "REQUEST_WORK"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class SliceProgress(Message):
+    """Update of slice progress."""
+    execution_id: str
+    slice_id: str
+    progress: float
+    MESSAGE_TYPE: ClassVar[str] = "SLICE_PROGRESS"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class SliceCompletion(Message):
+    """Results from a completed slice."""
+    execution_id: str
+    slice_id: str
+    success: bool
+    logs: str
+    metrics: Dict[str, Any] = Field(default_factory=dict)
+    data: Dict[str, Any] = Field(default_factory=dict)
+    progress: float = 1.0
+    MESSAGE_TYPE: ClassVar[str] = "SLICE_COMPLETION"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class DatasetHashSummary(Message):
+    """Worker reports cached dataset hashes."""
+    worker_id: str
+    datasets: Dict[str, str] = Field(default_factory=dict)
+    MESSAGE_TYPE: ClassVar[str] = "DATASET_HASH_SUMMARY"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class WorkerError(Message):
+    """Worker reports unexpected error."""
+    worker_id: str
+    error: str
+    context: Dict[str, Any] = Field(default_factory=dict)
+    MESSAGE_TYPE: ClassVar[str] = "WORKER_ERROR"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class DatasetUpdate(Message):
+    """Controller pushes updated dataset payload."""
+    dataset_id: str
+    hash: str
+    payload: str
+    MESSAGE_TYPE: ClassVar[str] = "DATASET_UPDATE"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class JobAssignment(Message):
+    """Controller assigns slices to a worker."""
+    assignments: List[Dict[str, Any]] = Field(default_factory=list)
+    MESSAGE_TYPE: ClassVar[str] = "JOB_ASSIGNMENT"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class CancelSlice(Message):
+    """Controller asks worker to cancel a single slice."""
+    execution_id: str
+    slice_id: str
+    MESSAGE_TYPE: ClassVar[str] = "CANCEL_SLICE"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class CancelAll(Message):
+    """Controller asks worker to cancel all slices for a job."""
+    execution_id: str
+    MESSAGE_TYPE: ClassVar[str] = "CANCEL_ALL"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
+class NoWork(Message):
+    """Controller indicates no available work."""
+    reason: str | None = None
+    MESSAGE_TYPE: ClassVar[str] = "NO_WORK"
+
+    def __init__(self, **data: Any):
+        data.setdefault("message_type", self.MESSAGE_TYPE)
+        super().__init__(**data)
+
+
 # Message type registry for serialization/deserialization
 MESSAGE_TYPES = {
     "WORK_REQUEST": WorkRequest,
@@ -181,6 +309,17 @@ MESSAGE_TYPES = {
     "NODE_DEREGISTER": NodeInfo,
     "HEALTH_CHECK": Message,
     "ERROR_REPORT": Message,
+    "WORKER_HELLO": WorkerHello,
+    "REQUEST_WORK": RequestWork,
+    "SLICE_PROGRESS": SliceProgress,
+    "SLICE_COMPLETION": SliceCompletion,
+    "DATASET_HASH_SUMMARY": DatasetHashSummary,
+    "WORKER_ERROR": WorkerError,
+    "DATASET_UPDATE": DatasetUpdate,
+    "JOB_ASSIGNMENT": JobAssignment,
+    "CANCEL_SLICE": CancelSlice,
+    "CANCEL_ALL": CancelAll,
+    "NO_WORK": NoWork,
 }
 
 

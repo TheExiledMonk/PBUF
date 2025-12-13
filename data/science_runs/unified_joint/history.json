@@ -1,7 +1,7 @@
 [
   {
     "run_name": "unified_joint",
-    "timestamp": "2025-11-30T032344",
+    "timestamp": "2025-12-04T051818",
     "model": "lcdm",
     "best_chi2": 1176.2210131173845,
     "fits_used": [
@@ -17,9 +17,9 @@
   },
   {
     "run_name": "unified_joint",
-    "timestamp": "2025-11-30T032344",
+    "timestamp": "2025-12-04T051818",
     "model": "pbuf",
-    "best_chi2": 957.795041647843,
+    "best_chi2": 945.1558367567981,
     "fits_used": [
       "cmb",
       "sn",
@@ -33,7 +33,7 @@
   },
   {
     "run_name": "unified_joint",
-    "timestamp": "2025-11-30T032344",
+    "timestamp": "2025-12-04T051818",
     "model": "jackknife",
     "best_chi2": 0.0,
     "fits_used": [
@@ -49,7 +49,7 @@
   },
   {
     "run_name": "unified_joint",
-    "timestamp": "2025-12-01T062632",
+    "timestamp": "2025-12-04T141851",
     "model": "lcdm",
     "best_chi2": 1176.2210131173845,
     "fits_used": [
@@ -65,9 +65,9 @@
   },
   {
     "run_name": "unified_joint",
-    "timestamp": "2025-12-01T062632",
+    "timestamp": "2025-12-04T141851",
     "model": "pbuf",
-    "best_chi2": 942.5261378663341,
+    "best_chi2": 945.1484794385308,
     "fits_used": [
       "cmb",
       "sn",
@@ -81,55 +81,7 @@
   },
   {
     "run_name": "unified_joint",
-    "timestamp": "2025-12-01T062632",
-    "model": "jackknife",
-    "best_chi2": 0.0,
-    "fits_used": [
-      "cmb",
-      "sn",
-      "bao_iso",
-      "cc",
-      "rsd"
-    ],
-    "engine": "basin",
-    "comment": "Jackknife stability analysis",
-    "success": true
-  },
-  {
-    "run_name": "unified_joint",
-    "timestamp": "2025-12-01T131744",
-    "model": "lcdm",
-    "best_chi2": 1176.2210131173845,
-    "fits_used": [
-      "cmb",
-      "sn",
-      "bao_iso",
-      "cc",
-      "rsd"
-    ],
-    "engine": "basin",
-    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
-    "success": true
-  },
-  {
-    "run_name": "unified_joint",
-    "timestamp": "2025-12-01T131744",
-    "model": "pbuf",
-    "best_chi2": 945.1486086620731,
-    "fits_used": [
-      "cmb",
-      "sn",
-      "bao_iso",
-      "cc",
-      "rsd"
-    ],
-    "engine": "basin",
-    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
-    "success": true
-  },
-  {
-    "run_name": "unified_joint",
-    "timestamp": "2025-12-01T131744",
+    "timestamp": "2025-12-04T141851",
     "model": "jackknife",
     "best_chi2": 0.0,
     "fits_used": [

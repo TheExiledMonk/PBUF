@@ -1,0 +1,30 @@
+{
+  "plugin_id": "system_status",
+  "name": "System Status",
+  "description": "Dashboard for the controller + worker health",
+  "version": "1.0.0",
+  "routes": [
+    {
+      "path": "/system/status",
+      "method": "GET",
+      "type": "http",
+      "description": "Controller system status JSON"
+    },
+    {
+      "path": "/system/status",
+      "method": "GET",
+      "type": "ui",
+      "description": "System status dashboard UI"
+    },
+    {
+      "path": "/dashboard",
+      "method": "GET",
+      "type": "ui",
+      "description": "Operational dashboard shell"
+    }
+  ],
+  "ui": {
+    "path": "/dashboard",
+    "title": "System Status"
+  }
+}

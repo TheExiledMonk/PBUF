@@ -1,0 +1,11 @@
+{
+  "name": "pk-spectrum",
+  "version": "1.0",
+  "status": "error",
+  "metadata": {
+    "error": "Underlying model does not expose matter.power_spectrum()."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}
