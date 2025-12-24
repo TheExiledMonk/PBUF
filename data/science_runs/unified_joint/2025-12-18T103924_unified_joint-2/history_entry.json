@@ -1,0 +1,50 @@
+[
+  {
+    "run_name": "unified_joint-2",
+    "timestamp": "2025-12-18T103924",
+    "model": "lcdm",
+    "best_chi2": 1211.6528381685941,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso_full",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-2",
+    "timestamp": "2025-12-18T103924",
+    "model": "pbuf",
+    "best_chi2": 946.0082380650557,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso_full",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Unified runner manifest showing the full joint configuration plus additional mode plugins.",
+    "success": true
+  },
+  {
+    "run_name": "unified_joint-2",
+    "timestamp": "2025-12-18T103924",
+    "model": "jackknife",
+    "best_chi2": 0.0,
+    "fits_used": [
+      "cmb",
+      "sn",
+      "bao_iso_full",
+      "cc",
+      "rsd"
+    ],
+    "engine": "basin",
+    "comment": "Jackknife stability analysis",
+    "success": true
+  }
+]

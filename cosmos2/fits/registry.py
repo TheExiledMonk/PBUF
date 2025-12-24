@@ -6,6 +6,8 @@ from typing import Any, Callable, Dict
 
 from cosmos2.fits.bao_aniso import run_fit as run_bao_aniso_fit
 from cosmos2.fits.bao_iso import run_fit as run_bao_iso_fit
+from cosmos2.fits.bao_aniso_full import run_fit as run_bao_aniso_full_fit
+from cosmos2.fits.bao_iso_full import run_fit as run_bao_iso_full_fit
 from cosmos2.fits.cc import run_fit as run_cc_fit
 from cosmos2.fits.cmb import run_fit as run_cmb_fit
 from cosmos2.fits.galaxy_pk import run_fit as run_galaxy_pk_fit
@@ -25,6 +27,8 @@ FIT_REGISTRY: Dict[str, Callable[[Any], Any]] = {
     "sh0es": run_sh0es_prior,
     "bao_iso": run_bao_iso_fit,
     "bao_aniso": run_bao_aniso_fit,
+    "bao_iso_full": run_bao_iso_full_fit,
+    "bao_aniso_full": run_bao_aniso_full_fit,
     "cc": run_cc_fit,
     "rsd": run_rsd_fit,
     "wl_s8": run_wl_s8_fit,

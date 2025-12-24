@@ -1,0 +1,19 @@
+name mpkiviat
+category Package
+revision 75712
+shortdesc MetaPost package to draw Kiviat diagrams
+longdesc This MetaPost package allows to draw Kiviat diagrams (or radar
+longdesc chart, web chart, spider chart, etc.).
+containersize 2644
+containerchecksum b7c3fbfebab7e013028f54a1333bfb244fb03859dde92a41f8c6bdc5b6e66bdf82d3f54261a733ea962d17156f6a4bcf42b2ff6279f1bba4ed095388bdbcd49b
+doccontainersize 109416
+doccontainerchecksum c5182c439a22299425a842c013a9b2baca3b4e9b25d7941cb9c56a8a9659e027a06eadcaf688089f77ca744157564a6aadef1b714365af01e6b76385f66f9957
+runfiles size=3
+ texmf-dist/metapost/mpkiviat/mpkiviat.mp
+catalogue-contact-bugs https://gitlab.gutenberg-asso.fr/mchupin/mpkiviat/-/issues
+catalogue-contact-home https://gitlab.gutenberg-asso.fr/mchupin/mpkiviat
+catalogue-contact-repository https://gitlab.gutenberg-asso.fr/mchupin/mpkiviat
+catalogue-ctan /graphics/metapost/contrib/macros/mpkiviat
+catalogue-license lppl1.3c
+catalogue-topics diagram graphics-plot
+catalogue-version 0.1

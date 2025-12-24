@@ -1,0 +1,23 @@
+name footnotehyper
+category Package
+revision 76871
+shortdesc A hyperref aware footnote environment
+longdesc This package provides a footnote environment allowing verbatim
+longdesc material and a savenotes environment which captures footnotes
+longdesc across problematic environments. It is a successor to the
+longdesc footnote package by Mark Wooding which had various
+longdesc compatibility issues with modern packages (hyperref, color,
+longdesc xcolor, babel-french).
+containersize 3776
+containerchecksum a34c161df57b28cafff9c175b66769ae78599bebdc4c6c70e5a2943e95bdae275e58a0b798dfb9786005cb1e534f4b96b541b96560992a8d0cfa33c78e0bdb26
+doccontainersize 83692
+doccontainerchecksum a4b4e9dcdda14ecd15a04da394773e11b97c75d8bda5128de48d44dff47bccadfae87c1c27492fcf9267b6743efd54cd8ac95c8808cfc2830463fab20dddc892
+srccontainersize 16652
+srccontainerchecksum 6583e7f851d84399a52edabef2faaf9588ce1436f6206118f21eceab290c5074ea051d89e073c4a8ebcb86fd9ae3e285853cf596d3d16d3a9981a2c9d4e277a3
+runfiles size=3
+ texmf-dist/tex/latex/footnotehyper/footnotehyper.sty
+catalogue-also footnote
+catalogue-ctan /macros/latex/contrib/footnotehyper
+catalogue-license lppl1.3c
+catalogue-topics footnote macro-supp
+catalogue-version 1.1f

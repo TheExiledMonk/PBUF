@@ -1,0 +1,11 @@
+{
+  "name": "pk-spectrum",
+  "version": "1.0",
+  "status": "error",
+  "metadata": {
+    "error": "missing_matter_power_spectrum_api"
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

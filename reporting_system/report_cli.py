@@ -12,6 +12,7 @@ import logging
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from reporting_system.core.report_generator import ReportGenerator
+from reporting_system.core.aggregated_report_generator import JackknifeAggregatedReportGenerator
 
 def setup_logging(verbose: bool = False):
     """Setup logging configuration."""
@@ -37,6 +38,26 @@ Examples:
     parser.add_argument(
         "run_directory",
         help="Path to the science run directory to analyze"
+    )
+
+    parser.add_argument(
+        "--aggregate-jackknife",
+        action="store_true",
+        help="Enable jackknife aggregation mode: treat multiple runs under run_directory as replicas and pool fold-level jackknife outputs.",
+    )
+
+    parser.add_argument(
+        "--run",
+        dest="runs",
+        action="append",
+        default=[],
+        help="Explicit run directory to include when using --aggregate-jackknife (can be repeated).",
+    )
+
+    parser.add_argument(
+        "--no-latest-per-run-name",
+        action="store_true",
+        help="When aggregating, do not auto-select only the latest directory per run_name.",
     )
     
     parser.add_argument(
@@ -71,15 +92,22 @@ Examples:
         sys.exit(1)
     
     try:
-        # Generate report
-        print(f"🚀 Generating report for: {run_dir.name}")
-        generator = ReportGenerator(run_dir, template_path=Path(args.template) if args.template else None)
-        
-        output_path = None
-        if args.output:
-            output_path = Path(args.output)
-        
-        report_path = generator.generate_report(output_path)
+        output_path = Path(args.output) if args.output else None
+
+        if args.aggregate_jackknife:
+            print(f"🚀 Generating JACKKNIFE-AGGREGATED report for: {run_dir.name}")
+            generator = JackknifeAggregatedReportGenerator(
+                run_dir,
+                run_dirs=[Path(p) for p in args.runs] if args.runs else None,
+                select_latest=not args.no_latest_per_run_name,
+                template_path=Path(args.template) if args.template else None,
+            )
+            report_path = generator.generate_report(output_path)
+        else:
+            # Generate report
+            print(f"🚀 Generating report for: {run_dir.name}")
+            generator = ReportGenerator(run_dir, template_path=Path(args.template) if args.template else None)
+            report_path = generator.generate_report(output_path)
         
         print(f"✅ Report generated successfully!")
         print(f"📁 Report location: {report_path}")

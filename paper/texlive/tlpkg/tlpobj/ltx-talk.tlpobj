@@ -1,0 +1,44 @@
+name ltx-talk
+category Package
+revision 77118
+shortdesc A class for typesetting presentations
+longdesc This class is experimental, and changes may occur to
+longdesc interfaces. Development is focussed on tagging/functionality as
+longdesc the primary driver; as such, support for design aspects is
+longdesc likely to be lower priority. It requires LaTeX 2025-11-01 or
+longdesc later. The ltx-talk class is focused on producing (on-screen)
+longdesc presentations, along with support material such as handouts and
+longdesc speaker notes. Content is created in a frame environment, each
+longdesc of which can be divided up into a number of slides (actual
+longdesc output pages). A simple 'overlay' notation is used to specify
+longdesc which material appears on each slide within a frame. The class
+longdesc supports a range of environments to enable complex slide
+longdesc relationships to be constructed. The appearance of slides is
+longdesc controlled by a template system. Many of the elements of slides
+longdesc can be adjusted by setting simple key-based values in the
+longdesc preamble. More complex changes can be implemented by altering
+longdesc specific, targeted definitions without needing to rewrite
+longdesc entire blocks of code. This allows a variety of visual
+longdesc appearances to be selected for the same content source. The
+longdesc ltx-talk class has syntax similar to the popular beamer class,
+longdesc although there are some (deliberate) differences. However,
+longdesc ltx-talk has been implemented to support creation of tagged
+longdesc (accessible) PDF output as a core aim. As such, it is suited to
+longdesc creating output for reuse in other formats, e.g. HTML
+longdesc conversions, without additional steps.
+containersize 12360
+containerchecksum 580e379e1c1ebf9bf54941af8c702a519700d0284e202eb22d379891bcc7f67f01d5e265fe8bb475e2919de6e6cb1e6654cd99feb21431905c1cdacec347b360
+doccontainersize 678232
+doccontainerchecksum f02bda11cc53aac89e3f027354626a727b49e25df6ef34b1b76fc27710046eff197cab4b689cfd66943d06c2638b995fcc5e02a3cf910d50368a036ab87b4b87
+srccontainersize 23272
+srccontainerchecksum 8e71c5f0bdc185928dc23a13c9167329823cc59fde768cec81b278761aaeeb2c688764830805e0a58ece564f22e873dd6390e613fed90494bdcd82a66ffe3a8e
+runfiles size=16
+ texmf-dist/tex/latex/ltx-talk/ltx-talk.cls
+catalogue-also beamer
+catalogue-contact-bugs https://github.com/josephwright/ltx-talk/issues
+catalogue-contact-home https://www.texdev.net/ltx-talk
+catalogue-contact-repository https://github.com/josephwright/ltx-talk
+catalogue-ctan /macros/latex/contrib/ltx-talk
+catalogue-license lppl1.3c
+catalogue-topics presentation class tagged-pdf
+catalogue-version 0.3.5

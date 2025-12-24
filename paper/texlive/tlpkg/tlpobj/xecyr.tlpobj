@@ -1,0 +1,16 @@
+name xecyr
+category Package
+revision 54308
+shortdesc Using Cyrillic languages in XeTeX
+longdesc Helper tools for using Cyrillic languages with XeLaTeX and
+longdesc babel.
+containersize 3564
+containerchecksum 0429aa515115ef69811069b08567c97ce40a8be68ebe72f26b8e94947abd86394204b21bbf25ae44c616a806878fe9900f5a639bb8707106836103ec06663454
+doccontainersize 654252
+doccontainerchecksum 555ef35f9e50450a796c24b87295eeac319d087a61e4fc7cedafbc398cb9a5c0add8b93318b8afadd82bbd2ca90dac9ade02dfbf286ba825c1d697b58110fe5e
+runfiles size=4
+ texmf-dist/tex/xelatex/xecyr/xecyr.sty
+catalogue-ctan /macros/xetex/latex/xecyr
+catalogue-license lppl1.3
+catalogue-topics cyrillic xetex
+catalogue-version 1.2

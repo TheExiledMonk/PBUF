@@ -1,0 +1,4472 @@
+{
+  "config": {
+    "enabled": true,
+    "n_draws": 30,
+    "fraction_removed": 0.15,
+    "random_seed": 42,
+    "datasets_to_test": [
+      "cmb",
+      "sn",
+      "bao_iso_full",
+      "cc",
+      "rsd"
+    ],
+    "dataset_weights": {
+      "cmb": 1.0,
+      "sn": 1.0,
+      "bao_iso_full": 1.0,
+      "bao_aniso_full": 1.0,
+      "cc": 1.0,
+      "rsd": 1.0
+    }
+  },
+  "baseline_models": {
+    "lcdm": {
+      "model_name": "lcdm",
+      "parameters": {
+        "H0": 67.5,
+        "Omega_m0": 0.33749999999999997,
+        "Omega_b0": 0.0425,
+        "Omega_k0": 0.0
+      },
+      "chi_squared": 1211.6528381685944,
+      "aic": null,
+      "bic": null,
+      "dof": null,
+      "convergence_status": "unknown"
+    },
+    "pbuf": {
+      "model_name": "pbuf",
+      "parameters": {
+        "H0": 74.68605706766171,
+        "Rmax": 90000000.0
+      },
+      "chi_squared": 946.0076569358803,
+      "aic": null,
+      "bic": null,
+      "dof": null,
+      "convergence_status": "unknown"
+    }
+  },
+  "draws": [
+    {
+      "draw_index": 0,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68732841155968,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0075751452054,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 42
+    },
+    {
+      "draw_index": 1,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68768813843884,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0075688590763,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 43
+    },
+    {
+      "draw_index": 2,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68732432843007,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0075757674005,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 44
+    },
+    {
+      "draw_index": 3,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68601866345416,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076644462832,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 45
+    },
+    {
+      "draw_index": 4,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68964166856459,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0077604953253,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 46
+    },
+    {
+      "draw_index": 5,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68619362830096,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076479791155,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 47
+    },
+    {
+      "draw_index": 6,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.69203816352581,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0084336827427,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 48
+    },
+    {
+      "draw_index": 7,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.6891958726898,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076865496269,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 49
+    },
+    {
+      "draw_index": 8,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.67894546342959,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0106703264519,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 50
+    },
+    {
+      "draw_index": 9,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68805726048984,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0075820324597,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 51
+    },
+    {
+      "draw_index": 10,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.67907016255015,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0105814169167,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 52
+    },
+    {
+      "draw_index": 11,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.6805323426466,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0096319798427,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 53
+    },
+    {
+      "draw_index": 12,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68998456135017,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0078315649698,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 54
+    },
+    {
+      "draw_index": 13,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68622796107252,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076418879812,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 55
+    },
+    {
+      "draw_index": 14,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.6908079919669,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0080247435313,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 56
+    },
+    {
+      "draw_index": 15,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68724610884003,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0075739662225,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 57
+    },
+    {
+      "draw_index": 16,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.69229201436664,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0085334948608,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 58
+    },
+    {
+      "draw_index": 17,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68824279468554,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0075947755413,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 59
+    },
+    {
+      "draw_index": 18,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.683821548104,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0081497202069,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 60
+    },
+    {
+      "draw_index": 19,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.69339982801654,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0090324497302,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 61
+    },
+    {
+      "draw_index": 20,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.69080093327608,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.008023334482,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 62
+    },
+    {
+      "draw_index": 21,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68713893714758,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0075773963507,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 63
+    },
+    {
+      "draw_index": 22,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68791848072883,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0075748522775,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 64
+    },
+    {
+      "draw_index": 23,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68508650335977,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0078215649652,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 65
+    },
+    {
+      "draw_index": 24,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.6871809449312,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0075711780349,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 66
+    },
+    {
+      "draw_index": 25,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68668849133458,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076054054407,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 67
+    },
+    {
+      "draw_index": 26,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68704946425244,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.007578645664,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 68
+    },
+    {
+      "draw_index": 27,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68368500763263,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0081927052402,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 69
+    },
+    {
+      "draw_index": 28,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.6890455049412,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076660689675,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 70
+    },
+    {
+      "draw_index": 29,
+      "removed_datasets": {
+        "cmb": 1,
+        "sn": 255,
+        "bao_iso_full": 1,
+        "cc": 4,
+        "rsd": 2
+      },
+      "original_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.68605706766171,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.0076569358803,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "jackknife_models": {
+        "lcdm": {
+          "model_name": "lcdm",
+          "parameters": {
+            "H0": 67.5,
+            "Omega_m0": 0.33749999999999997,
+            "Omega_b0": 0.0425,
+            "Omega_k0": 0.0
+          },
+          "chi_squared": 1211.6528381685944,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        },
+        "pbuf": {
+          "model_name": "pbuf",
+          "parameters": {
+            "H0": 74.6858634677464,
+            "Rmax": 90000000.0
+          },
+          "chi_squared": 946.007687529563,
+          "aic": null,
+          "bic": null,
+          "dof": null,
+          "convergence_status": "unknown"
+        }
+      },
+      "best_model_full": "pbuf",
+      "best_model_jackknife": "pbuf",
+      "success": true,
+      "error_message": null,
+      "random_seed": 71
+    }
+  ],
+  "analysis": {
+    "success_rate": 1.0,
+    "n_draws_total": 30,
+    "n_draws_successful": 30,
+    "stability_metrics": {
+      "overall_stability_score": 0.999988570825095,
+      "model_comparison": {},
+      "dataset_impact": {},
+      "n_draws_total": 30,
+      "n_draws_successful": 30,
+      "parameter_stability_score": 0.9898905743793197,
+      "chi2_stability_score": 0.87688298533643
+    },
+    "model_analyses": {
+      "pbuf": {
+        "model_name": "pbuf",
+        "n_draws": 30,
+        "parameter_stability": {
+          "parameter_stats": {
+            "H0": {
+              "mean": 74.6871504882611,
+              "std": 0.0034144500243339427,
+              "coefficient_of_variation": 4.571669961984434e-05,
+              "n_values": 30,
+              "min": 74.67894546342959,
+              "max": 74.69339982801654,
+              "stability": "stable"
+            },
+            "Rmax": {
+              "mean": 90000000.0,
+              "std": 0.0,
+              "coefficient_of_variation": 0.0,
+              "n_values": 30,
+              "min": 90000000.0,
+              "max": 90000000.0,
+              "stability": "stable"
+            }
+          },
+          "stability_score": 0.99997714165019
+        },
+        "chi2_stability": {
+          "mean_chi2": 946.0080686654826,
+          "std_chi2": 0.0008296303886696998,
+          "min_chi2": 946.0075688590763,
+          "max_chi2": 946.0106703264519,
+          "n_values": 30
+        },
+        "overall_stability_score": 0.99997714165019
+      },
+      "lcdm": {
+        "model_name": "lcdm",
+        "n_draws": 30,
+        "parameter_stability": {
+          "parameter_stats": {
+            "H0": {
+              "mean": 67.5,
+              "std": 0.0,
+              "coefficient_of_variation": 0.0,
+              "n_values": 30,
+              "min": 67.5,
+              "max": 67.5,
+              "stability": "stable"
+            },
+            "Omega_m0": {
+              "mean": 0.3375000000000001,
+              "std": 1.1102230246251565e-16,
+              "coefficient_of_variation": 3.2895497025930557e-16,
+              "n_values": 30,
+              "min": 0.33749999999999997,
+              "max": 0.33749999999999997,
+              "stability": "stable"
+            },
+            "Omega_b0": {
+              "mean": 0.042499999999999996,
+              "std": 6.938893903907228e-18,
+              "coefficient_of_variation": 1.6326809185664068e-16,
+              "n_values": 30,
+              "min": 0.0425,
+              "max": 0.0425,
+              "stability": "stable"
+            },
+            "Omega_k0": {
+              "mean": 0.0,
+              "std": 0.0,
+              "coefficient_of_variation": 0.0,
+              "n_values": 30,
+              "min": 0.0,
+              "max": 0.0,
+              "stability": "stable"
+            }
+          },
+          "stability_score": 0.9999999999999999
+        },
+        "chi2_stability": {
+          "mean_chi2": 1211.6528381685941,
+          "std_chi2": 2.2737367544323206e-13,
+          "min_chi2": 1211.6528381685944,
+          "max_chi2": 1211.6528381685944,
+          "n_values": 30
+        },
+        "overall_stability_score": 0.9999999999999999
+      }
+    },
+    "draws": [
+      {
+        "draw_index": 0,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68732841155968,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0075751452054,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 42
+      },
+      {
+        "draw_index": 1,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68768813843884,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0075688590763,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 43
+      },
+      {
+        "draw_index": 2,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68732432843007,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0075757674005,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 44
+      },
+      {
+        "draw_index": 3,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68601866345416,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076644462832,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 45
+      },
+      {
+        "draw_index": 4,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68964166856459,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0077604953253,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 46
+      },
+      {
+        "draw_index": 5,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68619362830096,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076479791155,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 47
+      },
+      {
+        "draw_index": 6,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.69203816352581,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0084336827427,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 48
+      },
+      {
+        "draw_index": 7,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.6891958726898,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076865496269,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 49
+      },
+      {
+        "draw_index": 8,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.67894546342959,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0106703264519,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 50
+      },
+      {
+        "draw_index": 9,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68805726048984,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0075820324597,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 51
+      },
+      {
+        "draw_index": 10,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.67907016255015,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0105814169167,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 52
+      },
+      {
+        "draw_index": 11,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.6805323426466,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0096319798427,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 53
+      },
+      {
+        "draw_index": 12,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68998456135017,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0078315649698,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 54
+      },
+      {
+        "draw_index": 13,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68622796107252,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076418879812,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 55
+      },
+      {
+        "draw_index": 14,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.6908079919669,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0080247435313,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 56
+      },
+      {
+        "draw_index": 15,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68724610884003,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0075739662225,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 57
+      },
+      {
+        "draw_index": 16,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.69229201436664,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0085334948608,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 58
+      },
+      {
+        "draw_index": 17,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68824279468554,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0075947755413,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 59
+      },
+      {
+        "draw_index": 18,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.683821548104,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0081497202069,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 60
+      },
+      {
+        "draw_index": 19,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.69339982801654,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0090324497302,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 61
+      },
+      {
+        "draw_index": 20,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.69080093327608,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.008023334482,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 62
+      },
+      {
+        "draw_index": 21,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68713893714758,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0075773963507,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 63
+      },
+      {
+        "draw_index": 22,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68791848072883,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0075748522775,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 64
+      },
+      {
+        "draw_index": 23,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68508650335977,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0078215649652,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 65
+      },
+      {
+        "draw_index": 24,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.6871809449312,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0075711780349,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 66
+      },
+      {
+        "draw_index": 25,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68668849133458,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076054054407,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 67
+      },
+      {
+        "draw_index": 26,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68704946425244,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.007578645664,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 68
+      },
+      {
+        "draw_index": 27,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68368500763263,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0081927052402,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 69
+      },
+      {
+        "draw_index": 28,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.6890455049412,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076660689675,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 70
+      },
+      {
+        "draw_index": 29,
+        "removed_datasets": {
+          "cmb": 1,
+          "sn": 255,
+          "bao_iso_full": 1,
+          "cc": 4,
+          "rsd": 2
+        },
+        "original_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.68605706766171,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.0076569358803,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "jackknife_models": {
+          "lcdm": {
+            "model_name": "lcdm",
+            "parameters": {
+              "H0": 67.5,
+              "Omega_m0": 0.33749999999999997,
+              "Omega_b0": 0.0425,
+              "Omega_k0": 0.0
+            },
+            "chi_squared": 1211.6528381685944,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          },
+          "pbuf": {
+            "model_name": "pbuf",
+            "parameters": {
+              "H0": 74.6858634677464,
+              "Rmax": 90000000.0
+            },
+            "chi_squared": 946.007687529563,
+            "aic": null,
+            "bic": null,
+            "dof": null,
+            "convergence_status": "unknown"
+          }
+        },
+        "best_model_full": "pbuf",
+        "best_model_jackknife": "pbuf",
+        "success": true,
+        "error_message": null,
+        "random_seed": 71
+      }
+    ],
+    "parameter_shifts": {
+      "parameter_stats": {
+        "H0": {
+          "mean": 71.09357524413055,
+          "std": 3.5935760551938287,
+          "min": 67.5,
+          "max": 74.69339982801654,
+          "coefficient_of_variation": 0.05054712810340077
+        },
+        "Rmax": {
+          "mean": 90000000.0,
+          "std": 0.0,
+          "min": 90000000.0,
+          "max": 90000000.0,
+          "coefficient_of_variation": 0.0
+        },
+        "Omega_m0": {
+          "mean": 0.3375000000000001,
+          "std": 1.1102230246251565e-16,
+          "min": 0.33749999999999997,
+          "max": 0.33749999999999997,
+          "coefficient_of_variation": 3.2895497025930557e-16
+        },
+        "Omega_b0": {
+          "mean": 0.042499999999999996,
+          "std": 6.938893903907228e-18,
+          "min": 0.0425,
+          "max": 0.0425,
+          "coefficient_of_variation": 1.6326809185664068e-16
+        },
+        "Omega_k0": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "coefficient_of_variation": 0.0
+        }
+      },
+      "stability_score": 0.9898905743793197,
+      "n_parameters_analyzed": 5
+    },
+    "chi2_changes": {
+      "chi2_stats": {
+        "mean": 1078.8304534170386,
+        "std": 132.8223847528514,
+        "min": 946.0075688590763,
+        "max": 1211.6528381685944,
+        "n_values": 60,
+        "range": 265.6452693095181,
+        "relative_std": 0.12311701466356999
+      },
+      "stability_score": 0.87688298533643
+    }
+  }
+}

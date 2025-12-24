@@ -1,0 +1,21 @@
+name mp3d
+category Package
+revision 29349
+shortdesc 3D animations
+longdesc Create animations of 3-dimensional objects (such as polyhedra)
+longdesc in MetaPost.
+containersize 22956
+containerchecksum e5899aace25cef3a690150cf09e76bddc008f426800588ef7d21361229b0040dff74af7b43d563b05d8c3d16166e34b5a21e8e25ae3e97ca80e5ffe5c4925392
+doccontainersize 728740
+doccontainerchecksum 2b64199f50ae5b0e6528bf041ac2422574f9adf467183f3ee3d58ebd91317ce25937699be29d0a5954565a4fd326719f11bc04a35cb4938489696ae479d5d7f5
+runfiles size=26
+ texmf-dist/metapost/mp3d/3d.mp
+ texmf-dist/metapost/mp3d/3danim.mp
+ texmf-dist/metapost/mp3d/3dgeom.mp
+ texmf-dist/metapost/mp3d/3dpoly.mp
+ texmf-dist/metapost/mp3d/3dutil.mp
+ texmf-dist/metapost/mp3d/animpoly.mp
+catalogue-ctan /graphics/metapost/contrib/macros/mp3d
+catalogue-license lppl
+catalogue-topics mp-use graphics-3d
+catalogue-version 1.34

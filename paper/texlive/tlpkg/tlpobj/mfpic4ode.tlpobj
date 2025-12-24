@@ -1,0 +1,25 @@
+name mfpic4ode
+category Package
+revision 75712
+shortdesc Macros to draw direction fields and solutions of ODEs
+longdesc The package is a small set of macros for drawing direction
+longdesc fields, phase portraits and trajectories of differential
+longdesc equations and two dimensional autonomous systems. The Euler,
+longdesc Runge-Kutta and 4th order Runge-Kutta algorithms are available
+longdesc to solve the ODEs. The picture is translated into mfpic macros
+longdesc and MetaPost is used to create the final drawing. The package
+longdesc is was designed for use with LaTeX, but it can be used in plain
+longdesc TeX as well.
+containersize 2340
+containerchecksum 24a5a7b515a35864b9cebe7ef7d9ac8a503d3b968915230b0443e712fcaa6dcddd0b941a1132a67056ac88e83ec12612a91e012212e444f2c16d493150caa6de
+doccontainersize 629724
+doccontainerchecksum ab195a84a1e107f3a575ece386595306204e0948529cb7a3facea5f0d2c19f85b444f086df106d48351873293753539d58318401a60bfd1036df80eebdaea61f
+srccontainersize 5684
+srccontainerchecksum 82aea2b5ba958217b85915726f228a5a310c0caf28d205eecaf385e86d1d020a01131118bc00d025e2ea04d4475443f16a159f2e2496f1a44e2c1661136d32e2
+runfiles size=3
+ texmf-dist/tex/latex/mfpic4ode/mfpic4ode.sty
+ texmf-dist/tex/latex/mfpic4ode/mfpic4ode.tex
+catalogue-ctan /macros/latex/contrib/mfpic4ode
+catalogue-license lppl
+catalogue-topics graphics-plotfn maths
+catalogue-version 0.4

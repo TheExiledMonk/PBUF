@@ -1,0 +1,13 @@
+{
+  "name": "curvature-identity",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "error": "missing_alpha_or_Omega_b0",
+    "summary": "Curvature-identity prediction not supported (missing alpha or Omega_b0).",
+    "explanation": "The curvature identity plot demonstrates the tight internal relationship between \u03b1, \u03a9_b0, and k_sat. In PBUF these quantities are not independent: they obey a geometric identity that arises from elastic curvature saturation. Observational agreement confirms the internal consistency of the elastic medium."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

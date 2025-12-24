@@ -40,12 +40,19 @@ class JackknifeConfig:
     def from_dict(cls, config: Dict[str, Any] | None) -> "JackknifeConfig":
         if not config:
             return cls(enabled=False)
-        
+
+        random_seed = config.get("random_seed")
+        if random_seed is not None:
+            try:
+                random_seed = int(random_seed)
+            except Exception as exc:  # noqa: BLE001
+                raise ValueError(f"jackknife.random_seed must be an integer or null (got {random_seed!r})") from exc
+
         return cls(
             enabled=bool(config.get("enabled", False)),
             n_draws=int(config.get("n_draws", 100)),
             fraction_removed=float(config.get("fraction_removed", 0.1)),
-            random_seed=config.get("random_seed"),
+            random_seed=random_seed,
             datasets_to_test=list(config.get("datasets_to_test", ["sn", "bao", "cmb", "cc", "rsd"])),
             dataset_weights=dict(config.get("dataset_weights", {})),
         )

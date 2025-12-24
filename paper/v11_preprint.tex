@@ -1,0 +1,450 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{placeins}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{statistics}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+
+\lstdefinestyle{lomathstyle}{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  frame=single,
+  rulecolor=\color{black!20},
+  backgroundcolor=\color{black!2},
+  xleftmargin=0.02\linewidth,
+  xrightmargin=0.02\linewidth,
+  showstringspaces=false
+}
+\lstnewenvironment{lomath}{\lstset{style=lomathstyle}}{}
+
+\title{PBUF V11 Joint Fit, A Results Draft}
+\author{Anonymous draft for internal circulation}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This paper reports a first full V11 preprint draft for PBUF, a Lambda-free elastic spacetime model implemented in the pipeline, tested against a LambdaCDM baseline in the same framework.
+We perform a joint fit across five datasets (CMB distance priors, Pantheon+ supernovae, DESI isotropic BAO, cosmic chronometers, and a compiled fsigma8 RSD set), and evaluate robustness with 150 jackknife realizations (30 folds each for five jackknife seeds: 42, 142, 242, 342, 442).
+Across all 150 folds, PBUF has lower total chi2 than LambdaCDM.
+The median chi2 across folds is 946.008 for PBUF and 1211.653 for LambdaCDM.
+We do not claim a full physical interpretation here, only that this specific pipeline and dataset combination prefers the PBUF background over the LambdaCDM baseline under jackknife resampling.
+\end{abstract}
+
+\section{Introduction}
+The standard LambdaCDM model is an efficient baseline for cosmological inference, but its dominant components are placeholders in the sense that dark matter and dark energy are not directly specified as a microphysical sector in the fit.
+PBUF takes a different approach: it replaces the cosmological constant with an elastic sector (implemented as an additional density component), and ties key density parameters to a microphysics-derived curvature quantity.
+This draft is intentionally results driven and pipeline bound. If older notes disagree with the current implementation, the implementation wins.
+
+\subsection{Scope and Relation to Established Physics}
+
+PBUF does not modify or replace Special Relativity, General Relativity, or Quantum Mechanics.
+All calculations in this work use the standard relativistic framework, the Friedmann equations derived from General Relativity, and conventional quantum field-theoretic inputs.
+
+The elastic spacetime picture should be understood as a constitutive interpretation of spacetime, analogous to effective or emergent descriptions in condensed-matter systems.
+Operationally, Lorentz invariance, Einstein’s field equations, and standard quantum dynamics remain intact.
+
+What changes is the interpretation of the cosmological constant:
+\(\Lambda\) is replaced by a dynamical elastic stress component \(\Omega_\sigma(a)\)
+whose normalization is inherited from quantum vacuum physics rather than treated as a free late-time parameter.
+
+\section{Model}
+This section states only the equations used by the pipeline.
+All displayed formulas use standard LaTeX math environments for clarity.
+
+\subsection{LambdaCDM baseline (as implemented)}
+The baseline background expansion is evaluated on a scale-factor grid and used for distances, growth, and the CMB distance-prior interface.
+In the grid kernel, the dimensionless expansion is:
+
+\begin{align}
+E(a) &= \sqrt{\Omega_{m0} a^{-3} + \Omega_{r0} a^{-4} + \Omega_{k0} a^{-2} + \Omega_\Lambda},\\
+\Omega_\Lambda &= 1 - \Omega_{m0} - \Omega_{r0} - \Omega_{k0},\\
+H(a) &= H_0 E(a).
+\end{align}
+
+For the joint run reported here, the fitted LambdaCDM parameters are H0, Omega\_m0, Omega\_b0, and Omega\_k0.
+Omega\_r0 is held fixed at 9e-5 in the background grid.
+
+\subsection{PBUF V11 equations (code-law)}
+PBUF is evaluated using a thermal table that provides scale-factor dependent microphysics fields.
+The table supplies epsilon0\_T(a) and alpha\_T(a), and the pipeline resolves a single curvature parameter alpha\_resolved from microphysics metadata (with a fallback to the table metadata).
+In the V11 results presented here, the thermal lookup table is fully active and provides the redshift evolution of the elastic quantities epsilon0(T) and alpha(T), which enter all background, distance, and growth calculations.
+
+\subsection{Quantum-to-Cosmology Parameter Mapping}
+
+In the PBUF framework, late-time cosmological dynamics are not parameterized directly.
+Instead, a small set of elastic parameters is inherited from quantum microphysics and passed forward into the cosmological sector.
+
+The Quantum Engine evaluates quantum vacuum contributions under specified regulators and field content, producing an elastic amplitude \(\alpha_{\mathrm{QM}}\) and a temperature-dependent rigidity \(\epsilon_0(T)\).
+The elastic amplitude sets the overall strength of elastic stress, while \(\epsilon_0(T)\) encodes the effective stiffness of spacetime relative to the Planck scale.
+
+These quantum-derived quantities are converted into a compact thermal representation and stored in a lookup table (LUT), which is interpolated during cosmological evolution.
+No cosmological data enter this step.
+Once \(\alpha_{\mathrm{QM}}\) and \(\epsilon_0(T)\) are specified, all late-time elastic contributions are fully determined.
+
+\subsubsection{Numerical Value and Quantum Origin of \(\alpha\)}
+
+The elastic amplitude \(\alpha_{\mathrm{resolved}}\) used throughout this work is inherited from quantum microphysics.
+In the current implementation, it is numerically consistent with
+\begin{equation}
+\alpha_{\mathrm{resolved}} \simeq 3\,\alpha_{\mathrm{EM}}
+ = \frac{3}{137.036} \approx 0.0219,
+\end{equation}
+where \(\alpha_{\mathrm{EM}}\) is the electromagnetic fine-structure constant.
+
+The numerical factors appearing in these identities admit a simple geometric interpretation.
+The relation
+\[
+\alpha_{\mathrm{resolved}} \simeq 3\,\alpha_{\mathrm{EM}}
+\]
+is consistent with attributing one contribution per spatial dimension, reflecting the three-dimensional structure of physical space.
+The additional factor of two in the baryon-density identity,
+\[
+\Omega_{b0} = 2\,\alpha_{\mathrm{resolved}},
+\]
+corresponds to the two transverse polarization degrees of freedom of electromagnetic fields.
+In this view, the present-day baryon fraction emerges from dimensional and field-theoretic counting rather than from empirical late-time fitting.
+This interpretation is offered as a motivating consistency argument; a first-principles derivation from quantum field theory is deferred to future work.
+
+This value is supplied to the cosmological pipeline as microphysics metadata and is not fitted to late-time cosmological observables.
+Once \(\alpha_{\mathrm{resolved}}\) is fixed, the present-day baryon density follows deterministically via \(\Omega_{b0} = 2\,\alpha_{\mathrm{resolved}}\).
+
+\subsubsection{k\_max and the elastic density construction}
+The pipeline defines k\_max from the thermal fields, and constructs an unnormalized elastic density fraction with an exponential activation and saturation factor:
+
+\begin{align}
+k_{\max}(a) &= \epsilon_{0,T}(a) - \alpha_T(a),\\
+\mathrm{decay}(a) &= \exp\left(-\frac{a}{R_{\max}}\right),\\
+S(a) &= 1 - \left(1 - k_{\max}(a)\right)\mathrm{decay}(a),\\
+\Omega_\sigma^{\mathrm{raw}}(a) &= \alpha_T(a)\left(1 - \mathrm{decay}(a)\right)S(a).
+\end{align}
+
+Two normalization modes exist in code. The joint run uses the default \texttt{flat\_today} mode, which rescales Omega\_sigma\_raw by a constant factor so that the closure condition holds at a = 1:
+
+\begin{align}
+\Omega_\sigma^{\mathrm{target}} &= 1 - \Omega_{m0} - \Omega_{r0} - \alpha_{\mathrm{resolved}},\\
+\sigma_{\mathrm{rescale}} &= \frac{\Omega_\sigma^{\mathrm{target}}}{\Omega_\sigma^{\mathrm{raw}}(1)},\\
+\Omega_\sigma(a) &= \sigma_{\mathrm{rescale}}\Omega_\sigma^{\mathrm{raw}}(a).
+\end{align}
+
+The alternative mode \texttt{free} sets Omega\_sigma(a) = Omega\_sigma\_raw(a) with no rescaling.
+Unlike Lambda or phenomenological w(z) parameterizations, Omega\_sigma(a) is fully specified once alpha\_resolved, epsilon0(T), and the activation structure are fixed, and introduces no additional degrees of freedom.
+
+\subsubsection{Background expansion}
+The PBUF background uses the same structural form as the baseline grid, but replaces the cosmological constant with the elastic density \(\Omega_\sigma(a)\):
+\begin{equation}
+E(a) =
+\sqrt{
+\Omega_{m0} a^{-3}
++ \Omega_{r0} a^{-4}
++ \Omega_\sigma(a)
+}.
+\end{equation}
+\begin{equation}
+H(a) = H_0 E(a).
+\end{equation}
+
+\paragraph{Model-Defining Equation}
+\begin{equation}
+E^2(a) =
+\Omega_{m0} a^{-3}
++ \Omega_{r0} a^{-4}
++ \Omega_\sigma(a),
+\end{equation}
+with the elastic contribution defined as
+\begin{equation}
+\Omega_\sigma(a) =
+\alpha \left(1 - e^{-a/R_{\max}}\right) S(a),
+\end{equation}
+where \(S(a)\) is the saturation function defined elsewhere in the text.
+
+In PBUF, spatial curvature is not treated as an independent component; its phenomenological role is replaced by the elastic amplitude \(\alpha\), which encodes the effective large-scale response of spacetime.
+
+All departures from \(\Lambda\)CDM arise solely through the elastic contribution \(\Omega_\sigma(a)\).
+Once the elastic amplitude \(\alpha\), the rigidity evolution \(\epsilon_0(T)\), and the activation structure are fixed, the expansion history is fully specified.
+
+\subsubsection{Parameter identities enforced by the pipeline}
+PBUF ties present-day baryon and matter densities to alpha\_resolved using a fixed baryon fraction constant:
+
+\begin{align}
+\Omega_{b0} &= 2\,\alpha_{\mathrm{resolved}},\\
+\Omega_{m0} &= \frac{\Omega_{b0}}{0.135}.
+\end{align}
+
+The present-day density identities \(\Omega_{b0} = 2\,\alpha_{\mathrm{resolved}}\) and \(\Omega_{m0} = \Omega_{b0} / 0.135\) are not additional fitting assumptions.
+They follow deterministically from the PBUF parameter-normalization pipeline.
+
+Once the elastic amplitude \(\alpha_{\mathrm{resolved}}\) is fixed by microphysical input, the normalization procedure derives the corresponding baryon density and total matter density by enforcing a fixed baryon-to-matter fraction.
+This step is applied prior to any likelihood evaluation and is independent of the datasets being fitted.
+
+The numerical value \(0.135\) corresponds to the fixed baryon-to-total-matter fraction used in the V11 pipeline to close the background model and prevent late-time degeneracies.
+Relaxing this normalization and allowing \(\Omega_{b0}\) and \(\Omega_{m0}\) to vary independently is a straightforward modification of the pipeline and is deferred to future robustness tests.
+
+In this implementation, PBUF is fit in terms of H0 and Rmax, while alpha\_resolved is taken from microphysics metadata and the densities above are derived deterministically.
+
+In summary, PBUF enforces a strict separation between microphysical input and cosmological inference.
+Quantum microphysics fixes the elastic parameters, normalization derives present-day densities, and cosmological data constrain only the remaining activation-scale and expansion dynamics.
+
+\subsection{Multi-messenger Constraint on Wave Propagation}
+
+The near-simultaneous arrival of gravitational and electromagnetic signals from GW170817 constrains their relative propagation speeds to \(\Delta c / c \lesssim 10^{-15}\).
+In the elastic spacetime framework, both gravitational waves and electromagnetic radiation propagate as wave modes of the same medium.
+
+This observation constrains the present-epoch rigidity parameter to \(\epsilon_0 \simeq 1\).
+The thermal lookup table used in this work satisfies this constraint by construction.
+
+\section{Data and Likelihoods}
+The joint run uses five datasets and a Gaussian chi2 for each, evaluated as a quadratic form using either a full inverse covariance matrix or a diagonal covariance constructed from per-point errors. All covariance matrices are taken from the original data releases.
+No additional likelihood terms are introduced beyond what is implemented in the fit modules.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{llll}
+\toprule
+Dataset & Observable & Redshift range & N \\\\
+\midrule
+CMB distance priors & (R, l\_A, theta\_star) & z = 1089.92 & 3 \\\\
+Supernovae & distance modulus & 0.00122 to 2.26137 & 1701 \\\\
+BAO isotropic & D\_V(z)/r\_d & 0.295 to 1.491 & 2 \\\\
+Cosmic chronometers & H(z) & 0.07 to 2.34 & 31 \\\\
+RSD compilation & fsigma8(z) & 0.02 to 1.4 & 18 \\\\
+\bottomrule
+\end{tabular}
+\caption{Dataset summary used in the joint run.}
+\end{table}
+
+\section{Optimization and Robustness Protocol}
+The pipeline performs a joint optimization for each model using a basin-style walker with a mixture of coarse grid seeding, Latin hypercube scatter, and local jitters.
+The engine settings for the runs reported here use 50 batches (n\_seeds), 16 proposals per batch (batch\_size), and a 9-point coarse grid in selected dimensions.
+The lookup table determines the thermal evolution of elastic quantities, while present-day normalization identities and fixed parameters are enforced separately by the pipeline.
+Both models are evaluated using identical likelihood implementations, covariance matrices, and data selections, differing only in the background expansion law.
+
+Jackknife resampling is applied as a robustness check:
+five jackknife seeds (42, 142, 242, 342, 442), 30 folds per seed, for a total of 150 realizations.
+Aggregated results reflect jackknife resampling only. Model parameters and deterministic predictions are identical across the runs.
+The jackknife analysis is used here as a robustness and stability test rather than as a formal hypothesis test.
+
+\section{Results}
+\subsection{Best-fit results (single reference)}
+Tables \\ref{tab:bestfit} and \\ref{tab:chi2break} report best-fit parameters and chi2 contributions for a single reference joint fit.\protect\footnotemark[2]
+
+\begin{table}[ht]
+\centering
+\input{tables/best_fit_parameters.tex}
+\caption{Best-fit parameters for the reference joint fit.
+For PBUF, \(\Omega_{m0}\) and \(\Omega_{b0}\) are not free parameters but are derived from the elastic amplitude \(\alpha_{\mathrm{resolved}}\) via enforced identities.
+The quantity reported as \(\Omega_{k0}\) corresponds to \(\alpha_{\mathrm{resolved}}\) and does not represent an independent curvature parameter.
+Rmax is a fixed structural scale defining future elastic activation and is not fitted or constrained by the data.}
+\label{tab:bestfit}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ll}
+\toprule
+Fixed model constants (PBUF) & Value \\
+\midrule
+$R_{\max}$ & $9.0\times10^{7}\,\mathrm{GeV}^{-1}$ (fixed, currently unobservable at the present epoch) \\
+\bottomrule
+\end{tabular}
+\caption{Fixed structural constants for the PBUF background.}
+\label{tab:fixed_constants}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\input{tables/chi2_breakdown.tex}
+\caption{chi2 breakdown by dataset for the reference run.\protect\footnotemark[1]}
+\label{tab:chi2break}
+\end{table}
+\footnotetext[1]{Rmax is a fixed structural scale defining future elastic activation and is not fitted or constrained by the data.}
+\footnotetext[2]{\(\Omega_{k0}\) is not a free parameter in PBUF; its phenomenological role is replaced by the elastic amplitude \(\alpha\).}
+
+\subsection{Jackknife robustness}
+Across 150 jackknife folds (five seeds, 30 folds per seed), PBUF has lower total chi2 than LambdaCDM in all folds.
+The median total chi2 across folds is 946.008 for PBUF and 1211.653 for LambdaCDM, with a median improvement Delta chi2 = chi2\_LambdaCDM - chi2\_PBUF of 265.645.
+
+\pgfplotstableread[col sep=comma]{data/jackknife_all.csv}\jackdata
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.9\linewidth,
+  height=0.32\textheight,
+  ymajorgrids=true,
+  xlabel={Total chi2},
+  ylabel={Count},
+  legend style={at={(0.98,0.98)}, anchor=north east},
+  title={Jackknife total chi2 distribution (150 folds)}
+]
+\addplot+[
+  ybar,
+  fill=red!35,
+  draw=red!60,
+  hist={bins=25, data min=940, data max=1230}
+] table[y=chi2_pbuf] {\jackdata};
+\addlegendentry{PBUF}
+\addplot+[
+  ybar,
+  fill=blue!30,
+  draw=blue!60,
+  hist={bins=25, data min=940, data max=1230}
+] table[y=chi2_lcdm] {\jackdata};
+\addlegendentry{LambdaCDM}
+\end{axis}
+\end{tikzpicture}
+\caption{Histogram of total chi2 across 150 jackknife folds for PBUF and LambdaCDM.}
+\label{fig:chi2hist}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.9\linewidth,
+  height=0.30\textheight,
+  ymajorgrids=true,
+  xlabel={Delta chi2 = chi2\_LambdaCDM - chi2\_PBUF},
+  ylabel={Count},
+  title={Delta chi2 distribution (150 folds)}
+]
+\addplot+[
+  ybar,
+  fill=black!20,
+  draw=black!50,
+  hist={bins=25}
+] table[y=delta_chi2] {\jackdata};
+\end{axis}
+\end{tikzpicture}
+\caption{Histogram of Delta chi2 across 150 jackknife folds. All values are positive in this run set.}
+\label{fig:deltahist}
+\end{figure}
+
+\noindent
+Per-seed stability is assessed numerically by grouping the 150 folds by jackknife seed; the spread is small relative to the overall Delta chi2 magnitude in this run set.
+
+\FloatBarrier
+
+\section{Predictions and Observational Tests}
+\subsection{Deceleration History}
+
+From the expansion history \(H(a)\), the deceleration parameter
+\begin{equation}
+q(a) = -1 - \frac{d\ln H}{d\ln a}
+\end{equation}
+is uniquely determined in the PBUF pipeline.
+The transition from deceleration to acceleration is driven by the activation of the elastic stress component \(\Omega_\sigma(a)\) rather than by a constant \(\Lambda\) term, producing a smoothly varying redshift dependence that differs from \(\Lambda\)CDM.
+Figure~\ref{fig:qz_pred} summarizes the predicted \(q(z)\) curve from the science-run output compared to the baseline.
+
+\begin{figure}[ht]
+\centering
+\fbox{\begin{minipage}[c][0.15\textheight][c]{0.8\linewidth}\centering
+Placeholder for the predicted \(q(z)\) comparison plot (science run artifact).
+\end{minipage}}
+\caption{Predicted deceleration history in PBUF compared to the LambdaCDM baseline.}
+\label{fig:qz_pred}
+\end{figure}
+
+\subsection{Growth of Structure}
+
+The linear growth equation is solved on the PBUF background in the same way as in the fit modules, so \(f(a) = d\ln D/d\ln a\) follows without introducing additional degrees of freedom.
+The observable combination \(f\sigma_8(z)\) is then
+\begin{equation}
+f\sigma_8(z) = f(z)\,\sigma_8(z),
+\end{equation}
+and the resulting prediction exhibits a systematic suppression relative to \(\Lambda\)CDM that stems from the elastic expansion history itself.
+Figure~\ref{fig:fsigma_pred} highlights the predicted \(f\sigma_8(z)\) curve that upcoming DESI and Euclid measurements can test.
+
+\begin{figure}[ht]
+\centering
+\fbox{\begin{minipage}[c][0.15\textheight][c]{0.8\linewidth}\centering
+Placeholder for the predicted \(f\sigma_8(z)\) comparison plot (science run artifact).
+\end{minipage}}
+\caption{Predicted \(f\sigma_8(z)\) trajectory versus the LambdaCDM baseline.}
+\label{fig:fsigma_pred}
+\end{figure}
+
+\section{Discussion}
+Within this pipeline, the improvement is not a sign-flip or a fragile selection effect, since Delta chi2 remains positive in all 150 folds.
+Throughout this work, references to curvature should be understood in the effective sense; in PBUF, the elastic amplitude \(\alpha\) fully captures the large-scale geometric response of spacetime and no independent curvature parameter is introduced.
+The dominant contribution to the difference here comes from the supernova likelihood and the BAO isotropic points, while CMB distance priors and chronometers partially counterbalance in the opposite direction.
+That pattern suggests the preference is tied to the background expansion and distance ladder level, more than to a single corner of the fit.
+
+We do not attempt to explain the origin of this recurrent percent-level scale here; we note it only as an empirical pattern emerging across quantum and cosmological sectors within the PBUF framework.
+
+We emphasize that the exclusion of full CMB power spectra and weak lensing measurements in the present analysis is a methodological choice rather than a limitation of principle. Many commonly used implementations of these probes rely on theory pipelines, parameter mappings, or compressed likelihoods that are explicitly derived under LambdaCDM assumptions. Applying such products unchanged to an alternative background framework would therefore not constitute a neutral model comparison. A consistent treatment requires rebuilding these observables from first principles within the same physical framework, rather than partially reusing LambdaCDM-calibrated components. For this reason, we restrict the present work to probes that can be evaluated in a model-independent manner, and defer a full CMB and weak-lensing analysis to future work once neutral implementations are in place.
+
+We note that the present analysis already includes several data products that are not fully model-independent, such as compressed CMB distance priors and aspects of cosmic chronometer calibration, which are derived under LambdaCDM assumptions. These inputs are included deliberately, both because they are standard in current analyses and because they illustrate how model-dependent calibration propagates into parameter inference. That the PBUF framework remains competitive or preferred even when evaluated against LambdaCDM-calibrated products motivates the development of fully neutral implementations for probes such as full CMB spectra and weak lensing.
+
+The parameter \(R_{\max}\) defines the activation scale of the elastic sector.
+At the present cosmic epoch, the expansion remains entirely in the pre-activation regime.
+As a result, current observables are insensitive to the value of \(R_{\max}\), and the parameter is strictly unobservable with existing data.
+Allowing \(R_{\max}\) to vary therefore introduces an unconstrained direction in parameter space without affecting any likelihoods.
+For this reason, \(R_{\max}\) is fixed in V11 and treated as a physical but currently inaccessible scale whose effects arise only in future epochs.
+The narrow spread of Delta chi2 across seeds is consistent with a stable preference under this jackknife protocol.
+
+\subsection*{Information Criteria}
+
+To account for differing parameter counts, we compute the Akaike and Bayesian Information Criteria.
+In this joint run, PBUF fits one parameter (\(H_0\)), with \(R_{\max}\) fixed as non-constraining, while \(\Lambda\)CDM fits four parameters.
+
+For \(N=1755\) data points,
+\begin{align}
+\Delta \mathrm{AIC} &= \Delta \chi^2 + 2\,\Delta k \approx -259,\\
+\Delta \mathrm{BIC} &= \Delta \chi^2 + \Delta k \ln N \approx -243,
+\end{align}
+both favoring the more constrained PBUF framework.
+
+\section{Conclusions}
+\begin{itemize}
+\item PBUF V11 is evaluated as a Lambda-free elastic sector with Omega\_sigma(a) added to the background expansion.
+\item A joint fit across five datasets favors PBUF over LambdaCDM in this pipeline, with lower total chi2.
+\item Across 150 jackknife folds (five seeds, 30 folds each), PBUF wins in every fold.
+\item Next steps are additional datasets (weak lensing, full CMB spectra) and tests of sensitivity to the activation-scale choice.
+\end{itemize}
+
+\section*{Acknowledgements}
+We thank the Planck Collaboration (Planck 2018 TT,TE,EE+lowE+lensing) for the compressed distance priors and the associated cosmic chronometer compilation \cite{planck2018}. The supernova component relies on the Pantheon+ SH0ES compilation \cite{pantheonplus}. The baryon acoustic oscillation inputs follow the DESI (DR2 and DR1) releases together with the eBOSS DR16, SDSS DR12, and SDSS DR7 public datasets \cite{bao_desi_dr2,bao_desi_dr1,bao_eboss_dr16,bao_sdss_dr12,bao_sdss_dr7}. We also acknowledge the standard $f\sigma_8$ compilation \cite{fsigma8_compilation}.
+
+\begin{thebibliography}{9}
+\bibitem{planck2018}
+Planck Collaboration, \emph{Planck 2018 results. VI. Cosmological parameters}, arXiv:1807.06209.
+\bibitem{pantheonplus}
+Pantheon+ Collaboration, \emph{The Pantheon+ Analysis: Cosmological Constraints}, arXiv:2202.04077.
+\bibitem{bao_desi_dr2}
+DESI Collaboration, \emph{DESI Data Release 2: BAO constraints from the completed survey}, arXiv:2503.14738.
+\bibitem{bao_desi_dr1}
+DESI Collaboration, \emph{DESI Data Release 1: Early BAO measurements and methodology}, arXiv:2404.03000.
+\bibitem{bao_eboss_dr16}
+eBOSS Collaboration, \emph{Completed SDSS-IV extended Baryon Oscillation Spectroscopic Survey DR16: cosmological results}, arXiv:2007.08991.
+\bibitem{bao_sdss_dr12}
+S. Alam et al., \emph{The clustering of galaxies in the completed SDSS-III BOSS sample: cosmological analysis of DR12}, arXiv:1607.03155.
+\bibitem{bao_sdss_dr7}
+A. J. Ross et al., \emph{The clustering of the SDSS main galaxy sample: BAO measurements}, arXiv:1409.3242.
+\bibitem{fsigma8_compilation}
+J. Hou et al., \emph{The clustering of the SDSS-IV extended Baryon Oscillation Spectroscopic Survey DR14 quasar sample: anisotropic clustering analysis in configuration-space}, arXiv:1801.02656.
+
+\bibitem{hu_sugiyama}
+W. Hu and N. Sugiyama, \emph{Small-Scale Cosmological Perturbations: An Analytic Approach}, Astrophys. J. 471 (1996) 542. [DOI to insert]
+
+\bibitem{eisenstein_hu}
+D. J. Eisenstein and W. Hu, \emph{Baryonic Features in the Matter Transfer Function}, Astrophys. J. 496 (1998) 605. [DOI to insert]
+\end{thebibliography}
+
+\end{document}

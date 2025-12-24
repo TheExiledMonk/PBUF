@@ -115,6 +115,7 @@ class UnifiedScienceRunner:
         )
 
     def finalize_run(self, context: RunContext, result: ModeResult, start_timestamp_iso: str) -> None:
+        controller_endpoint = self._controller_endpoint()
         env_snapshot = gather_run_environment()
         meta = {
             "run_name": self.config.run_name,

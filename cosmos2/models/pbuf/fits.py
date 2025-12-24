@@ -489,6 +489,8 @@ PBUF_FIT_REGISTRY: Dict[str, Callable[[Any], Tuple[float, Dict[str, Any]]]] = {
     "sh0es": run_sh0es_prior,
     "bao_iso": run_bao_iso_fit,
     "bao_aniso": run_bao_aniso_fit,
+    "bao_iso_full": lambda model: run_bao_iso_fit(model, get_dataset("bao_iso_full")),
+    "bao_aniso_full": lambda model: run_bao_aniso_fit(model, get_dataset("bao_aniso_full")),
     "cc": run_cc_fit,
     "rsd": run_rsd_fit,
     "wl_s8": run_wl_s8_fit,

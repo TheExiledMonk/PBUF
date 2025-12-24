@@ -1,0 +1,254 @@
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (INITEX)  21 DEC 2025 09:16
+ restricted system commands enabled.
+**luatex.ini
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+ex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exconfig.tex
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exiniconfig.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/luatex/hyph-utf8/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers,
+\maxdimen=\dimen10
+\hideskip=\skip10
+\centering=\skip11
+\p@=\dimen11
+\z@=\dimen12
+\z@skip=\skip12
+\voidb@x=\box10
+ parameters,
+\smallskipamount=\skip13
+\medskipamount=\skip14
+\bigskipamount=\skip15
+\normalbaselineskip=\skip16
+\normallineskip=\skip17
+\normallineskiplimit=\dimen13
+\jot=\dimen14
+\interdisplaylinepenalty=\count23
+\interfootnotelinepenalty=\count24
+ fonts, more fonts,
+\itfam=\fam4
+\slfam=\fam5
+\bffam=\fam6
+\ttfam=\fam7
+
+macros,
+\strutbox=\box11
+\mscount=\count25
+\tabs=\box12
+\tabsyet=\box13
+\tabsdone=\box14
+ math definitions,
+\rootbox=\box15
+\p@renwd=\dimen15
+ output routines,
+\headline=\toks10
+\footline=\toks11
+\footins=\insert254
+\topins=\insert253
+ hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+\et@xinput=\read0
+\et@xtoks=\toks12
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+\lang@USenglish=\language0
+luatex-hyphen: using data file: /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/
+tex/generic/config/language.dat.lua
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+\lang@german-x-2024-02-28=\language1
+\lang@german-x-latest=\language2
+\lang@ngerman-x-2024-02-28=\language3
+\lang@ngerman-x-latest=\language4
+\lang@afrikaans=\language5
+\lang@albanian=\language6
+\lang@ancientgreek=\language7
+\lang@ibycus=\language8
+\lang@arabic=\language9
+\lang@armenian=\language10
+\lang@basque=\language11
+\lang@belarusian=\language12
+\lang@bulgarian=\language13
+\lang@catalan=\language14
+\lang@pinyin=\language15
+\lang@churchslavonic=\language16
+\lang@coptic=\language17
+\lang@croatian=\language18
+\lang@czech=\language19
+\lang@danish=\language20
+\lang@dutch=\language21
+\lang@ukenglish=\language22
+\lang@british=\language23
+\lang@UKenglish=\language24
+\lang@usenglishmax=\language25
+\lang@esperanto=\language26
+\lang@estonian=\language27
+\lang@ethiopic=\language28
+\lang@amharic=\language29
+\lang@geez=\language30
+\lang@farsi=\language31
+\lang@persian=\language32
+\lang@finnish=\language33
+\lang@schoolfinnish=\language34
+\lang@french=\language35
+\lang@patois=\language36
+\lang@francais=\language37
+\lang@friulan=\language38
+\lang@galician=\language39
+\lang@georgian=\language40
+\lang@german=\language41
+\lang@ngerman=\language42
+\lang@swissgerman=\language43
+\lang@greek=\language44
+\lang@polygreek=\language45
+\lang@monogreek=\language46
+\lang@hebrew=\language47
+\lang@hungarian=\language48
+\lang@icelandic=\language49
+\lang@assamese=\language50
+\lang@bengali=\language51
+\lang@gujarati=\language52
+\lang@hindi=\language53
+\lang@kannada=\language54
+\lang@malayalam=\language55
+\lang@marathi=\language56
+\lang@oriya=\language57
+\lang@pali=\language58
+\lang@panjabi=\language59
+\lang@tamil=\language60
+\lang@telugu=\language61
+\lang@indonesian=\language62
+\lang@interlingua=\language63
+\lang@irish=\language64
+\lang@italian=\language65
+\lang@kurmanji=\language66
+\lang@classiclatin=\language67
+\lang@latin=\language68
+\lang@liturgicallatin=\language69
+\lang@latvian=\language70
+\lang@lithuanian=\language71
+\lang@macedonian=\language72
+\lang@mongolian=\language73
+\lang@mongolianlmc=\language74
+\lang@bokmal=\language75
+\lang@norwegian=\language76
+\lang@norsk=\language77
+\lang@nynorsk=\language78
+\lang@occitan=\language79
+\lang@piedmontese=\language80
+\lang@polish=\language81
+\lang@portuguese=\language82
+\lang@portuges=\language83
+\lang@romanian=\language84
+\lang@romansh=\language85
+\lang@russian=\language86
+\lang@sanskrit=\language87
+\lang@serbian=\language88
+\lang@serbianc=\language89
+\lang@slovak=\language90
+\lang@slovenian=\language91
+\lang@slovene=\language92
+\lang@spanish=\language93
+\lang@espanol=\language94
+\lang@swedish=\language95
+\lang@thai=\language96
+\lang@turkish=\language97
+\lang@turkmen=\language98
+\lang@ukrainian=\language99
+\lang@uppersorbian=\language100
+\lang@vietnamese=\language101
+\lang@welsh=\language102
+) Augmenting the Plain TeX definitions: \tracingall;
+Adding new e-TeX definitions: \eTeX, \loggingall, \tracingnone,
+register allocation;
+\et@xins=\count26
+ extended register allocation; 
+Recycling: \addlanguage, \@nswer (not defined), \@sk, \b@dresponsetrue,
+\b@dresponsefalse, \ch@ckforyn, \mayber@cycle, \et@xabort, \et@xbuf,
+\et@xfmtsrc, \et@xfilehdr, \et@xinf, \et@xpatterns, \l@ngdefnfile, \n@xt,
+\p@rse (not defined), \pr@mpt (not defined), \pr@mptloop (not defined),
+\forcer@cycle, \usef@llback, \usef@llbacktrue, \usef@llbackfalse, 
+Retaining: \et@xerr, \et@xinput, \et@xlibhdr, \et@xmsg, \et@xtoks, \et@xwarn,
+\et@xl@@d, \et@xl@ad, \et@xload, \et@xlang, \et@xhash, \eTeX, \etexhdrchk,
+\etexstatus, \module, \uselanguage, \r@tain, \r@cycle,))
+Beginning to dump on file luahbtex.fmt
+ (format=luahbtex 2025.12.21)
+3703 strings using 14116 bytes
+68809 memory locations dumped; current usage is 149&8517
+2192 multiletter control sequences
+\font\nullfont=nullfont
+\font\tenrm=cmr10
+\font\preloaded=cmr9
+\font\preloaded=cmr8
+\font\sevenrm=cmr7
+\font\preloaded=cmr6
+\font\fiverm=cmr5
+\font\teni=cmmi10
+\font\preloaded=cmmi9
+\font\preloaded=cmmi8
+\font\seveni=cmmi7
+\font\preloaded=cmmi6
+\font\fivei=cmmi5
+\font\tensy=cmsy10
+\font\preloaded=cmsy9
+\font\preloaded=cmsy8
+\font\sevensy=cmsy7
+\font\preloaded=cmsy6
+\font\fivesy=cmsy5
+\font\tenex=cmex10
+\font\preloaded=cmss10
+\font\preloaded=cmssq8
+\font\preloaded=cmssi10
+\font\preloaded=cmssqi8
+\font\tenbf=cmbx10
+\font\preloaded=cmbx9
+\font\preloaded=cmbx8
+\font\sevenbf=cmbx7
+\font\preloaded=cmbx6
+\font\fivebf=cmbx5
+\font\tentt=cmtt10
+\font\preloaded=cmtt9
+\font\preloaded=cmtt8
+\font\preloaded=cmsltt10
+\font\tensl=cmsl10
+\font\preloaded=cmsl9
+\font\preloaded=cmsl8
+\font\tenit=cmti10
+\font\preloaded=cmti9
+\font\preloaded=cmti8
+\font\preloaded=cmti7
+\font\preloaded=cmu10
+\font\preloaded=cmmib10
+\font\preloaded=cmbsy10
+\font\preloaded=cmcsc10
+\font\preloaded=cmssbx10
+\font\preloaded=cmdunh10
+\font\preloaded=cmr7 at 14.51799pt
+\font\preloaded=cmtt10 at 14.4pt
+\font\preloaded=cmssbx10 at 14.4pt
+\font\preloaded=manfnt
+50 preloaded fonts
+warning  (pdf backend): no pages of output.
+
+PDF statistics: 0 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 131072)
+ 1 words of extra memory for PDF output out of 10000 (max. 100000000)
+
+# actual command line used during this run
+# luahbtex -ini   -jobname=luahbtex -progname=luahbtex luatex.ini </dev/null

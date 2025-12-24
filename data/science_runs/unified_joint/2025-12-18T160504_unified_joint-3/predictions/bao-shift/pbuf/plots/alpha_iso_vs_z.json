@@ -1,0 +1,18 @@
+{
+  "name": "alpha_iso_vs_z",
+  "data": {
+    "z": [
+      0.35,
+      0.57
+    ],
+    "alpha_iso": [
+      1.0332199245343185,
+      1.0193781523115075
+    ]
+  },
+  "description": "Isotropic BAO shift \u03b1_iso(z) relative to \u039bCDM.",
+  "metadata": {
+    "xlabel": "redshift z",
+    "ylabel": "\u03b1_iso(z) = D_V/r_d (PBUF)/ref"
+  }
+}

@@ -95,6 +95,11 @@ class JackknifeMode(BaseModePlugin):
     def prepare(self, context: RunContext) -> None:
         if not context.config.jackknife_enabled:
             raise ValueError("Jackknife mode requires 'jackknife.enabled' in the science config.")
+        jackknife_cfg = context.config.jackknife
+        if jackknife_cfg is None or jackknife_cfg.random_seed is None:
+            raise ValueError(
+                "Deterministic jackknife requires 'jackknife.random_seed' to be set in the science config."
+            )
         context.metadata.setdefault("jackknife", {})["prepared"] = True
 
     def execute(self, context: RunContext) -> ModeResult:

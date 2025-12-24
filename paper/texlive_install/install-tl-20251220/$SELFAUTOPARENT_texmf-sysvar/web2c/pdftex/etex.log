@@ -1,0 +1,79 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (INITEX)  21 DEC 2025 09:16
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/cp227.tcx)
+***etex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/config/etex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers,
+\maxdimen=\dimen10
+\hideskip=\skip10
+\centering=\skip11
+\p@=\dimen11
+\z@=\dimen12
+\z@skip=\skip12
+\voidb@x=\box10
+ parameters,
+\smallskipamount=\skip13
+\medskipamount=\skip14
+\bigskipamount=\skip15
+\normalbaselineskip=\skip16
+\normallineskip=\skip17
+\normallineskiplimit=\dimen13
+\jot=\dimen14
+\interdisplaylinepenalty=\count23
+\interfootnotelinepenalty=\count24
+ fonts, more fonts,
+\itfam=\fam4
+\slfam=\fam5
+\bffam=\fam6
+\ttfam=\fam7
+
+macros,
+\strutbox=\box11
+\mscount=\count25
+\tabs=\box12
+\tabsyet=\box13
+\tabsdone=\box14
+ math definitions,
+\rootbox=\box15
+\p@renwd=\dimen15
+ output routines,
+\headline=\toks10
+\footline=\toks11
+\footins=\insert254
+\topins=\insert253
+ hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+\et@xinput=\read0
+\et@xtoks=\toks12
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+\lang@USenglish=\language0
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+\lang@german-x-2024-02-28=\language1
+! I can't find file `dehypht-x-2024-02-28.tex'.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+End of file on the terminal!
+
+No pages of output.
+# actual command line used during this run
+# pdftex -ini   -jobname=etex -progname=etex -translate-file=cp227.tcx *etex.ini </dev/null

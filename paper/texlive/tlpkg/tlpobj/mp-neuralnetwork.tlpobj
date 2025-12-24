@@ -1,0 +1,22 @@
+name mp-neuralnetwork
+category Package
+revision 73627
+shortdesc Drawing artificial neural networks with MetaPost and METAOBJ
+longdesc This MetaPost package allows to draw artificial neural
+longdesc networks. It is based on the METAOBJ package which provides
+longdesc many tools to draw and arrange nodes. This package is in beta
+longdesc version -- do not hesitate to report bugs, as well as requests
+longdesc for improvement.
+containersize 3936
+containerchecksum a05c274e3b23d8b4a4302b9676363aa190f921d0e6f64503f09c8b3183381381ba7fd8e0883442cb2418155aa71f19210a72f99e01187f1d7c8e69d77417d655
+doccontainersize 186564
+doccontainerchecksum d4429f035993678dc00f3b350c95446cb89b85d10c5a16d5018af9bf60b2d958001432c06ab125252f0ea859ebe56dfe54d7a3442709060c9810d6569fa525d8
+runfiles size=4
+ texmf-dist/metapost/mp-neuralnetwork/mp-neuralnetwork-metaobj-patch.mp
+ texmf-dist/metapost/mp-neuralnetwork/mp-neuralnetwork.mp
+catalogue-contact-bugs https://gitlab.gutenberg-asso.fr/mchupin/mp-neuralnetwork/-/issues
+catalogue-contact-repository https://gitlab.gutenberg-asso.fr/mchupin/mp-neuralnetwork
+catalogue-ctan /graphics/metapost/contrib/macros/mp-neuralnetwork
+catalogue-license lppl1.3c
+catalogue-topics diagram graphics-mpost
+catalogue-version 0.1

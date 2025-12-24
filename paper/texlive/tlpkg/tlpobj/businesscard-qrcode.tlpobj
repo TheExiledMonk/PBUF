@@ -1,0 +1,31 @@
+name businesscard-qrcode
+category Package
+revision 76924
+shortdesc Business cards with QR-Code
+longdesc What happens when you give your visiting card to someone?
+longdesc Either they manually type the text into their computer or
+longdesc mobile phone, or it will end up in a box and be forgotten.
+longdesc Nowadays data is required electronically, not on paper. Here is
+longdesc the solution: A visiting card with QR-Code that contains a full
+longdesc vcard so that it can be scanned with an app on the mobile phone
+longdesc and thereby automatically imported into the electronic
+longdesc contacts. This also works well when you are offline and
+longdesc bluetooth transfer fails. So here is the highly configurable
+longdesc business card or visiting card with full vcard as QR-Code,
+longdesc ready to send to online printers. You can specify the exact
+longdesc size of the paper and the content within the paper, including
+longdesc generation of crop marks. The package depends on the following
+longdesc other LaTeX packages: calc, crop, DejaVuSans, etoolbox,
+longdesc fontawesome, fontenc, geometry, kvoptions, marvosym, qrcode,
+longdesc varwidth, and wrapfig. The package needs XeLaTeX for working
+longdesc properly.
+containersize 3724
+containerchecksum 6caffce46534c70e200777e4b4432488418db3da3e1cfafe9fb1f816400bb8eef38c4e796aa5099f98d545807b055b1d756bedc9a6e6b39497877097f105a8d4
+doccontainersize 540992
+doccontainerchecksum e9d3135743db583bc25cad8ea8adb0925620075d189d051e02db3210ced60d0b1e8c61bec08fd5d9e4a577088a60af74e68cdf994a49010d70e31d5624802fe5
+runfiles size=3
+ texmf-dist/tex/xelatex/businesscard-qrcode/businesscard-qrcode.cls
+catalogue-ctan /macros/xetex/latex/businesscard-qrcode
+catalogue-license lgpl
+catalogue-topics class file-card qrcode xetex
+catalogue-version 1.2

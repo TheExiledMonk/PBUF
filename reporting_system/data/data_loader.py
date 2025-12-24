@@ -26,11 +26,17 @@ logger = logging.getLogger(__name__)
 class DataLoader:
     """Data loader for cosmos2 science runs with proper model-specific data handling."""
     
-    def __init__(self, run_directory: Path):
-        """Initialize data loader for a specific run directory."""
+    def __init__(self, run_directory: Path, *, output_directory: Path | None = None):
+        """Initialize data loader for a specific run directory.
+
+        Args:
+            run_directory: Directory containing the science run artifacts (JSON outputs, etc.).
+            output_directory: Optional directory to write derived plots into. Defaults to run_directory.
+        """
         self.run_dir = Path(run_directory)
         if not self.run_dir.exists():
             raise FileNotFoundError(f"Run directory does not exist: {self.run_dir}")
+        self.output_dir = Path(output_directory) if output_directory else self.run_dir
 
         self.logger = logging.getLogger(f"{__name__}.DataLoader")
         self.logger.info(f"Initialized DataLoader for: {self.run_dir}")
@@ -64,14 +70,14 @@ class DataLoader:
 
     def _figure_path(self, group: str, plot_name: str, model_name: str | None = None) -> Path:
         """Get the path for a standardized plot and ensure the directory exists."""
-        figures_dir = self.run_dir / "figures"
+        figures_dir = self.output_dir / "figures"
         figures_dir.mkdir(exist_ok=True, parents=True)
         filename = f"{self._figure_filename(group, plot_name, model_name)}.png"
         return figures_dir / filename
 
     def _prediction_plot_path(self, module_name: str, model_name: str, plot_name: str) -> Path:
         """Store prediction-specific plots outside the general figures directory."""
-        pred_dir = self.run_dir / "predictions" / "figures"
+        pred_dir = self.output_dir / "predictions" / "figures"
         pred_dir.mkdir(exist_ok=True, parents=True)
         module_safe = self._sanitize_filename_component(module_name, "module")
         model_safe = self._sanitize_filename_component(model_name, "model")
@@ -137,7 +143,7 @@ class DataLoader:
         self.logger.warning("No models found - using empty list")
         return []
     
-    def load_model_data(self, model_name: str) -> Dict[str, Any]:
+    def load_model_data(self, model_name: str, *, include_jackknife: bool = True) -> Dict[str, Any]:
         """Load model-specific data including proper jackknife results."""
         # First try to load from model_summaries.json (new format)
         model_summaries_file = self.run_dir / "model_summaries.json"
@@ -170,7 +176,7 @@ class DataLoader:
                         'best_fit': best_fit,
                         'chi2_breakdown': self._extract_chi2_breakdown(best_fit.get('fit_results', {})),
                         'parameters': parameters,
-                        'jackknife_data': self._load_model_jackknife_new_format(model_name),  # Load jackknife from new format
+                        'jackknife_data': self._load_model_jackknife_new_format(model_name) if include_jackknife else {},
                     }
                     model_predictions = self._extract_model_predictions(best_fit)
                     model_data['predictions'] = model_predictions
@@ -208,7 +214,7 @@ class DataLoader:
             'best_fit': best_fit,
             'chi2_breakdown': self._load_chi2_breakdown(model_dir),
             'parameters': self._load_parameters(model_dir),
-            'jackknife_data': self._load_model_jackknife(model_dir),
+            'jackknife_data': self._load_model_jackknife(model_dir) if include_jackknife else {},
             'fits_data': self._load_fits_data(model_dir)
         }
         predictions = self._extract_model_predictions(best_fit)
@@ -821,18 +827,19 @@ class DataLoader:
         
         return metadata
     
-    def get_figures(self) -> List[Dict[str, Any]]:
+    def get_figures(self, *, include_jackknife: bool = True) -> List[Dict[str, Any]]:
         """Get list of available figures."""
         figures = []
-        self._ensure_jackknife_plot()
-        self._ensure_model_jackknife_plots()
-        self._ensure_h0_convergence_plot()
+        if include_jackknife:
+            self._ensure_jackknife_plot()
+            self._ensure_model_jackknife_plots()
+            self._ensure_h0_convergence_plot()
         self._ensure_dataset_chi2_contributions_plot()
         self._ensure_residuals_by_redshift_plot()
         self._ensure_temperature_evolution_plot()
         self._ensure_thermal_fields_plot()
 
-        figures_dir = self.run_dir / "figures"
+        figures_dir = self.output_dir / "figures"
         if figures_dir.exists():
             for fig_file in figures_dir.glob("*.png"):
                 stem = fig_file.stem

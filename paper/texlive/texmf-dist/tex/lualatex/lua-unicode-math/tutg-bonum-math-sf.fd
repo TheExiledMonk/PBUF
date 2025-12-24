@@ -1,0 +1,21 @@
+%% Copyright (C) 2024-2025
+%% The LaTeX Project and any individual authors listed elsewhere
+%% in this file.
+%% 
+%% this file may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3c
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%    https://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2008 or later.
+%% 
+\ProvidesFile{tutg-bonum-math-sf.fd}
+        [2025-12-11 v0.2 NFSS font definitions for TeX Gyre Bonum Math Script]
+\DeclareFontFamily{TU}{tg-bonum-math-sf}{}
+\DeclareFontShape{TU}{tg-bonum-math-sf}{m}{n}%
+  {<-> \UnicodeFontFile{texgyrebonum-math}{mode=base;script=math;language=dflt;ssty=0;}}{}
+\DeclareFontShape{TU}{tg-bonum-math-sf}{b}{n}%
+  {<-> \UnicodeFontFile{texgyrebonum-math}{mode=base;script=math;language=dflt;embolden=3;ssty=0;}}{}
+
+\endinput

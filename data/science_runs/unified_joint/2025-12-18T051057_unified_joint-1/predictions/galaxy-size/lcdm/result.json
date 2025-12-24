@@ -1,0 +1,14 @@
+{
+  "name": "galaxy-size",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "model": "LCDMModel",
+    "timestamp": "2025-12-18T10:39:15.358357+00:00",
+    "error": "missing_elastic_stiffness_api",
+    "explanation": "The galaxy-size curve predicts that galaxies at high redshift should appear larger in PBUF than in \u039bCDM due to modified angular-diameter distance and smoother early collapse. A systematic excess in observed galaxy sizes at z > 4 would strongly support PBUF's distance-redshift relation."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

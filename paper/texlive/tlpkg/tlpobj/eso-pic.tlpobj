@@ -1,0 +1,23 @@
+name eso-pic
+category Package
+revision 77066
+shortdesc Add picture commands (or backgrounds) to every page
+longdesc The package adds one or more user commands to LaTeX's shipout
+longdesc routine, which may be used to place the output at fixed
+longdesc positions. The grid option may be used to find the correct
+longdesc places.
+containersize 3836
+containerchecksum fc9dfa71e0cda6a38e064c2e087b5b44d596b5acccf5e4c369da639ad0066ca8e989a7a78ffee134f01af8d27852f37167327621b0e51c1fc93056ff7c983959
+doccontainersize 288784
+doccontainerchecksum 2a25733b70f03bbb122f12f876f5ad34ed0f99e6336ea55a4b222234a9fbc93ceeb4e2a557f49b434253db0eae4f2dd892e421c8fda4a4c32169bac535dc37ea
+srccontainersize 6520
+srccontainerchecksum 6f8d04b06ab7954165c6a7e96b12f8435d420600a91d18978fb5c7aae70756e303b13f9b09637d57d8dbc9243ec0c62c3084153cfbb40dc6d82ca32d525049b4
+runfiles size=4
+ texmf-dist/tex/latex/eso-pic/eso-pic.sty
+ texmf-dist/tex/latex/eso-pic/showframe.sty
+catalogue-contact-bugs https://github.com/rolfn/eso-pic/issues
+catalogue-contact-repository https://github.com/rolfn/eso-pic
+catalogue-ctan /macros/latex/contrib/eso-pic
+catalogue-license lppl1.2
+catalogue-topics defer-stuff
+catalogue-version 3.0d

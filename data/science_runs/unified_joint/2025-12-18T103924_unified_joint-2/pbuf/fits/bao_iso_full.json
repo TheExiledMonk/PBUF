@@ -1,0 +1,50 @@
+{
+  "chi2": 1.0433745554020082,
+  "extras": {
+    "dataset": {
+      "name": "BAO_ISO_full",
+      "meta": [
+        {
+          "survey": "DESI",
+          "dataset_type": "BAO_ISO",
+          "observable": "D_V(z)/r_d isotropic",
+          "reference": "DESI Collaboration 2024 (DR1) + DESI Collaboration 2025 (DR2)",
+          "release_priority": [
+            "DESI_DR2",
+            "DESI_DR1"
+          ],
+          "components": [
+            {
+              "release": "DESI_DR2",
+              "mean": "data/raw/bao_data/desi_bao_dr2/desi_gaussian_bao_ALL_GCcomb_mean.txt",
+              "cov": "data/raw/bao_data/desi_bao_dr2/desi_gaussian_bao_ALL_GCcomb_cov.txt"
+            },
+            {
+              "release": "DESI_DR1",
+              "mean": "data/raw/bao_data/desi_2024_gaussian_bao_QSO_GCcomb_z0.8-2.1_mean.txt",
+              "cov": "data/raw/bao_data/desi_2024_gaussian_bao_QSO_GCcomb_z0.8-2.1_cov.txt"
+            }
+          ],
+          "created_at": "2025-12-18T05:07:15.182677Z"
+        }
+      ]
+    },
+    "predictions": [
+      7.998091535319601,
+      25.602335785894066
+    ],
+    "observed": [
+      7.94167639,
+      26.07217182
+    ],
+    "residuals": [
+      0.05641514531960112,
+      -0.4698360341059349
+    ],
+    "rd": 139.18485923342288,
+    "DV_over_rd_model": [
+      7.998091535319601,
+      25.602335785894066
+    ]
+  }
+}

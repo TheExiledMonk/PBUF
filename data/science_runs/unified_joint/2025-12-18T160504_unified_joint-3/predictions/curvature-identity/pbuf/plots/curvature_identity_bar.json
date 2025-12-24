@@ -1,0 +1,17 @@
+{
+  "name": "curvature_identity_bar",
+  "data": {
+    "x": [
+      "Omega_b0"
+    ],
+    "y": [
+      0.0
+    ]
+  },
+  "description": "Residuals of the baryon\u2013saturation\u2013rigidity identity.",
+  "metadata": {
+    "type": "bar",
+    "xlabel": "Quantity",
+    "ylabel": "actual - predicted"
+  }
+}

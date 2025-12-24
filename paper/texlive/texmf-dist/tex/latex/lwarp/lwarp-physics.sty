@@ -1,0 +1,51 @@
+%%
+%% This is file `lwarp-physics.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% lwarp.dtx  (with options: `physics')
+%% This is a generated file.
+%% Copyright 2016-2025 Brian Dunn
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+\LWR@ProvidesPackagePass{physics}% No date is provided by the package.
+\begin{warpMathJax}
+\PackageNoteNoLine{lwarp, physics}{The MathJax v3 extension will be used}
+\CustomizeMathJax{\require{physics}}
+\CustomizeMathJax{\newcommand{\LWRphystrig}[2]{\ifblank{#1}{\textrm{#2}}{\textrm{#2}^{#1}}}}
+\CustomizeMathJax{\renewcommand{\sin}[1][]{\LWRphystrig{#1}{sin}}}
+\CustomizeMathJax{\renewcommand{\sinh}[1][]{\LWRphystrig{#1}{sinh}}}
+\CustomizeMathJax{\renewcommand{\arcsin}[1][]{\LWRphystrig{#1}{arcsin}}}
+\CustomizeMathJax{\renewcommand{\asin}[1][]{\LWRphystrig{#1}{asin}}}
+\CustomizeMathJax{\renewcommand{\cos}[1][]{\LWRphystrig{#1}{cos}}}
+\CustomizeMathJax{\renewcommand{\cosh}[1][]{\LWRphystrig{#1}{cosh}}}
+\CustomizeMathJax{\renewcommand{\arccos}[1][]{\LWRphystrig{#1}{arcos}}}
+\CustomizeMathJax{\renewcommand{\acos}[1][]{\LWRphystrig{#1}{acos}}}
+\CustomizeMathJax{\renewcommand{\tan}[1][]{\LWRphystrig{#1}{tan}}}
+\CustomizeMathJax{\renewcommand{\tanh}[1][]{\LWRphystrig{#1}{tanh}}}
+\CustomizeMathJax{\renewcommand{\arctan}[1][]{\LWRphystrig{#1}{arctan}}}
+\CustomizeMathJax{\renewcommand{\atan}[1][]{\LWRphystrig{#1}{atan}}}
+\CustomizeMathJax{\renewcommand{\csc}[1][]{\LWRphystrig{#1}{csc}}}
+\CustomizeMathJax{\renewcommand{\csch}[1][]{\LWRphystrig{#1}{csch}}}
+\CustomizeMathJax{\renewcommand{\arccsc}[1][]{\LWRphystrig{#1}{arccsc}}}
+\CustomizeMathJax{\renewcommand{\acsc}[1][]{\LWRphystrig{#1}{acsc}}}
+\CustomizeMathJax{\renewcommand{\sec}[1][]{\LWRphystrig{#1}{sec}}}
+\CustomizeMathJax{\renewcommand{\sech}[1][]{\LWRphystrig{#1}{sech}}}
+\CustomizeMathJax{\renewcommand{\arcsec}[1][]{\LWRphystrig{#1}{arcsec}}}
+\CustomizeMathJax{\renewcommand{\asec}[1][]{\LWRphystrig{#1}{asec}}}
+\CustomizeMathJax{\renewcommand{\cot}[1][]{\LWRphystrig{#1}{cot}}}
+\CustomizeMathJax{\renewcommand{\coth}[1][]{\LWRphystrig{#1}{coth}}}
+\CustomizeMathJax{\renewcommand{\arccot}[1][]{\LWRphystrig{#1}{arccot}}}
+\CustomizeMathJax{\renewcommand{\acot}[1][]{\LWRphystrig{#1}{acot}}}
+\end{warpMathJax}
+
+\endinput
+%%
+%% End of file `lwarp-physics.sty'.

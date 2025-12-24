@@ -1,0 +1,20 @@
+name hyphen-afrikaans
+category TLCore
+revision 73410
+shortdesc Afrikaans hyphenation patterns.
+longdesc Hyphenation patterns for Afrikaans in T1/EC and UTF-8
+longdesc encodings. OpenOffice includes older patterns created by a
+longdesc different author, but the patterns packaged with TeX are
+longdesc considered superior in quality.
+depend hyph-utf8
+depend hyphen-base
+execute AddHyphen 	name=afrikaans 	lefthyphenmin=1 	righthyphenmin=2 	file=loadhyph-af.tex 	file_patterns=hyph-af.pat.txt 	file_exceptions=hyph-af.hyp.txt
+containersize 37012
+containerchecksum 06316355f2f2fad8f991d74d8c4a5cb02e3698c16db22654590c5591259e4a5dd74bba3978921242866317d735cdf95739c7184155dbc6c74e179709724baa2a
+runfiles size=62
+ texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-af.tex
+ texmf-dist/tex/generic/hyph-utf8/patterns/ptex/hyph-af.ec.tex
+ texmf-dist/tex/generic/hyph-utf8/patterns/quote/hyph-quote-af.tex
+ texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-af.tex
+ texmf-dist/tex/generic/hyph-utf8/patterns/txt/hyph-af.hyp.txt
+ texmf-dist/tex/generic/hyph-utf8/patterns/txt/hyph-af.pat.txt

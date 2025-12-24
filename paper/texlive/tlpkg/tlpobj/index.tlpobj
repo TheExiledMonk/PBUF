@@ -1,0 +1,24 @@
+name index
+category Package
+revision 73880
+shortdesc Extended index for LaTeX including multiple indexes
+longdesc This is a reimplementation of LaTeX's indexing macros to
+longdesc provide better support for indexing. For example, it supports
+longdesc multiple indexes in a single document and provides a more
+longdesc robust \index command. It supplies short hand notations for the
+longdesc \index command (^{word}) and a * variation of \index
+longdesc (abbreviated _{word}) that prints the word being indexed, as
+longdesc well as creating an index entry for it.
+containersize 3392
+containerchecksum 9e40509ab8e3446968dba2d7523b091c206a51d290ec9ce5b9d5d555914373dd0818bebd25549c4306b54705ca076c6680f6e886459233827bdac3b8e58db101
+doccontainersize 292388
+doccontainerchecksum 74d48d40a1e888350f5f5d054f01fcf82d84b503c979dd45a14b960254e5a83b00a639799e632a85d35e28197da74065272f1b0fda67de2db13604d00959e260
+srccontainersize 13356
+srccontainerchecksum 35a7a6c6eb17a1ccfd834b912dfe3a253d4ec63890b772dfe7e8800bac0aa3eb80d4b1a3b39492c312b566676ac09629eccdb84c8253e43f1fc1eb8042d56f58
+runfiles size=3
+ texmf-dist/tex/latex/index/index.sty
+catalogue-also splitindex multind
+catalogue-ctan /macros/latex/contrib/index
+catalogue-license lppl1.3
+catalogue-topics index index-multi
+catalogue-version 4.04

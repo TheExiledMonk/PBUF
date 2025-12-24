@@ -1,0 +1,11 @@
+name metapost.x86_64-linux
+category Package
+revision 74121
+shortdesc x86_64-linux files of metapost
+containersize 951784
+containerchecksum 0a69d1944ca3bd18aeea9287412c49c51b50dd550adf16075a25125a00230224bd57ad3ad545ef40afd4abe1f287e1b1fb864e9e6e141a4ffb96d809e406760e
+binfiles arch=x86_64-linux size=614
+ bin/x86_64-linux/dvitomp
+ bin/x86_64-linux/mfplain
+ bin/x86_64-linux/mpost
+ bin/x86_64-linux/r-mpost

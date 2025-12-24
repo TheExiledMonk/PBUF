@@ -1,0 +1,51 @@
+name metauml
+category Package
+revision 49923
+shortdesc MetaPost library for typesetting UML diagrams
+longdesc MetaUML is a MetaPost library for typesetting UML diagrams,
+longdesc which provides a usable, human-friendly textual notation for
+longdesc UML, offering now support for class, package, activity, state,
+longdesc and use case diagrams.
+containersize 20596
+containerchecksum 96773f0d0e2788d13738930fa1aa727c7ca2edee020f3848326d7be3533c177ac977564aed533c59695b1e6c4c65e191784cbc3e7e70becdd651cd702b462ef5
+doccontainersize 444408
+doccontainerchecksum 6c649c32111a6350d36c69405fc272a917144be429bd84c0f118a74e1232c06744e66fb6647c5a742f58c6c78b46830a1484bbed3a9a962380ece6b16c555169
+runfiles size=49
+ texmf-dist/metapost/metauml/metauml.mp
+ texmf-dist/metapost/metauml/metauml_activity.mp
+ texmf-dist/metapost/metauml/metauml_base.mp
+ texmf-dist/metapost/metauml/metauml_behavioral_common.mp
+ texmf-dist/metapost/metauml/metauml_class.mp
+ texmf-dist/metapost/metauml/metauml_class_assoc.mp
+ texmf-dist/metapost/metauml/metauml_class_relations.mp
+ texmf-dist/metapost/metauml/metauml_component.mp
+ texmf-dist/metapost/metauml/metauml_component_relations.mp
+ texmf-dist/metapost/metauml/metauml_defaults.mp
+ texmf-dist/metapost/metauml/metauml_instance.mp
+ texmf-dist/metapost/metauml/metauml_links.mp
+ texmf-dist/metapost/metauml/metauml_note.mp
+ texmf-dist/metapost/metauml/metauml_package.mp
+ texmf-dist/metapost/metauml/metauml_package_relations.mp
+ texmf-dist/metapost/metauml/metauml_paths.mp
+ texmf-dist/metapost/metauml/metauml_skin_simple.mp
+ texmf-dist/metapost/metauml/metauml_state.mp
+ texmf-dist/metapost/metauml/metauml_stereotype.mp
+ texmf-dist/metapost/metauml/metauml_templates.mp
+ texmf-dist/metapost/metauml/metauml_usecase.mp
+ texmf-dist/metapost/metauml/metauml_usecase_clipart.mp
+ texmf-dist/metapost/metauml/util_commons.mp
+ texmf-dist/metapost/metauml/util_group.mp
+ texmf-dist/metapost/metauml/util_infrastructure.mp
+ texmf-dist/metapost/metauml/util_log.mp
+ texmf-dist/metapost/metauml/util_margins.mp
+ texmf-dist/metapost/metauml/util_object.mp
+ texmf-dist/metapost/metauml/util_picture.mp
+ texmf-dist/metapost/metauml/util_picture_stack.mp
+ texmf-dist/metapost/metauml/util_positioning.mp
+ texmf-dist/metapost/metauml/util_shade.mp
+catalogue-also expressg pst-uml uml
+catalogue-contact-repository https://github.com/ogheorghies/MetaUML
+catalogue-ctan /graphics/metapost/contrib/macros/metauml
+catalogue-license gpl
+catalogue-topics uml mp-use
+catalogue-version 0.2.6

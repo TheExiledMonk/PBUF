@@ -1,0 +1,1969 @@
+TeX Live installer invocation: ./install-tl -profile ../texlive.profile 
+Automated TeX Live installation using profile: ../texlive.profile
+Trying to verify cryptographic signatures!
+Loading https://ctan.joethei.xyz/systems/texlive/tlnet/tlpkg/texlive.tlpdb
+Installing TeX Live 2025 from: https://ctan.joethei.xyz/systems/texlive/tlnet (verified)
+Platform: x86_64-linux => 'GNU/Linux on x86_64'
+Distribution: net  (downloading)
+Using URL: https://ctan.joethei.xyz/systems/texlive/tlnet
+Directory for temporary files: /tmp/A3bntVZtKo
+Installer revision: 75865
+Database revision: 77141
+Settings:
+  TEXDIR: "/home/fabian/PBUF5-GPU/paper/texlive"
+  TEXMFCONFIG: "/home/fabian/PBUF5-GPU/paper/texlive_texmf-config"
+  TEXMFHOME: "/home/fabian/PBUF5-GPU/paper/texlive_texmf-home"
+  TEXMFLOCAL: "/home/fabian/PBUF5-GPU/paper/texlive_texmf-local"
+  TEXMFSYSCONFIG: "/home/fabian/PBUF5-GPU/paper/texlive_texmf-sysconfig"
+  TEXMFSYSVAR: "/home/fabian/PBUF5-GPU/paper/texlive_texmf-sysvar"
+  TEXMFVAR: "/home/fabian/PBUF5-GPU/paper/texlive_texmf-var"
+  binary_aarch64-linux: ""
+  binary_amd64-freebsd: ""
+  binary_amd64-netbsd: ""
+  binary_armhf-linux: ""
+  binary_i386-freebsd: ""
+  binary_i386-linux: ""
+  binary_i386-netbsd: ""
+  binary_i386-solaris: ""
+  binary_universal-darwin: ""
+  binary_windows: ""
+  binary_x86_64-cygwin: ""
+  binary_x86_64-darwinlegacy: ""
+  binary_x86_64-linux: "1"
+  binary_x86_64-linuxmusl: ""
+  binary_x86_64-solaris: ""
+  collection-basic: "1"
+  collection-bibtexextra: ""
+  collection-binextra: ""
+  collection-context: ""
+  collection-fontsextra: ""
+  collection-fontsrecommended: ""
+  collection-fontutils: ""
+  collection-formatsextra: ""
+  collection-games: ""
+  collection-humanities: ""
+  collection-langarabic: ""
+  collection-langchinese: ""
+  collection-langcjk: ""
+  collection-langcyrillic: ""
+  collection-langczechslovak: ""
+  collection-langenglish: ""
+  collection-langeuropean: ""
+  collection-langfrench: ""
+  collection-langgerman: ""
+  collection-langgreek: ""
+  collection-langitalian: ""
+  collection-langjapanese: ""
+  collection-langkorean: ""
+  collection-langother: ""
+  collection-langpolish: ""
+  collection-langportuguese: ""
+  collection-langspanish: ""
+  collection-latex: "1"
+  collection-latexextra: ""
+  collection-latexrecommended: "1"
+  collection-luatex: ""
+  collection-mathscience: ""
+  collection-metapost: "1"
+  collection-music: ""
+  collection-pictures: ""
+  collection-plaingeneric: ""
+  collection-pstricks: ""
+  collection-publishers: ""
+  collection-texworks: ""
+  collection-wintools: ""
+  collection-xetex: "1"
+  doc_splitting_supported: "1"
+  free_size: "1517884"
+  inst_platform: "x86_64-linux"
+  instopt_adjustpath: ""
+  instopt_adjustrepo: "1"
+  instopt_letter: ""
+  instopt_portable: ""
+  instopt_write18_restricted: "1"
+  n_collections_available: "41"
+  n_collections_selected: "40"
+  n_systems_available: "15"
+  n_systems_selected: "1"
+  selected_scheme: "scheme-small"
+  src_splitting_supported: "1"
+  this_platform: "x86_64-linux"
+  tlpdbopt_autobackup: ""
+  tlpdbopt_backupdir: "tlpkg/backups"
+  tlpdbopt_create_formats: "1"
+  tlpdbopt_desktop_integration: ""
+  tlpdbopt_file_assocs: ""
+  tlpdbopt_generate_updmap: ""
+  tlpdbopt_install_docfiles: ""
+  tlpdbopt_install_srcfiles: ""
+  tlpdbopt_location: "https://ctan.joethei.xyz/systems/texlive/tlnet"
+  tlpdbopt_post_code: "1"
+  tlpdbopt_sys_bin: "/usr/local/bin"
+  tlpdbopt_sys_info: "/usr/local/share/info"
+  tlpdbopt_sys_man: "/usr/local/share/man"
+  tlpdbopt_w32_multi_user: "1"
+  total_size: ""
+Installing to: /home/fabian/PBUF5-GPU/paper/texlive
+Installing [1/4, time/total: ??:??/??:??]: hyphen-base [23k]
+Installing [2/4, time/total: 00:01/00:26]: kpathsea [33k]
+Installing [3/4, time/total: 00:03/00:31]: texlive-scripts [113k]
+Installing [4/4, time/total: 00:04/00:13]: texlive.infra [410k]
+Time used for installing the packages: 00:04
+Installing [001/349, time/total: ??:??/??:??]: ae [57k]
+Installing [002/349, time/total: 00:01/14:54]: amscls [32k]
+Installing [003/349, time/total: 00:01/09:32]: amsfonts [3542k]
+Installing [004/349, time/total: 00:03/00:41]: amsmath [31k]
+Installing [005/349, time/total: 00:03/00:41]: anysize [2k]
+Installing [006/349, time/total: 00:03/00:41]: arabxetex [145k]
+Installing [007/349, time/total: 00:04/00:52]: atbegshi [5k]
+Installing [008/349, time/total: 00:04/00:52]: attachfile2 [11k]
+Installing [009/349, time/total: 00:04/00:52]: attachfile2.x86_64-linux [1k]
+Installing [010/349, time/total: 00:04/00:52]: atveryend [2k]
+Installing [011/349, time/total: 00:05/01:05]: automata [6k]
+Installing [012/349, time/total: 00:05/01:05]: auxhook [2k]
+Installing [013/349, time/total: 00:05/01:05]: babel [237k]
+Installing [014/349, time/total: 00:05/01:01]: babel-basque [3k]
+Installing [015/349, time/total: 00:06/01:13]: babel-czech [5k]
+Installing [016/349, time/total: 00:06/01:13]: babel-danish [3k]
+Installing [017/349, time/total: 00:06/01:13]: babel-dutch [3k]
+Installing [018/349, time/total: 00:06/01:13]: babel-english [3k]
+Installing [019/349, time/total: 00:07/01:25]: babel-finnish [3k]
+Installing [020/349, time/total: 00:07/01:25]: babel-french [17k]
+Installing [021/349, time/total: 00:07/01:25]: babel-german [5k]
+Installing [022/349, time/total: 00:07/01:25]: babel-hungarian [54k]
+Installing [023/349, time/total: 00:08/01:36]: babel-italian [4k]
+Installing [024/349, time/total: 00:08/01:36]: babel-norsk [3k]
+Installing [025/349, time/total: 00:08/01:36]: babel-polish [4k]
+Installing [026/349, time/total: 00:08/01:36]: babel-portuges [3k]
+Installing [027/349, time/total: 00:10/02:00]: babel-spanish [9k]
+Installing [028/349, time/total: 00:10/01:59]: babel-swedish [3k]
+Installing [029/349, time/total: 00:11/02:11]: babelbib [27k]
+Installing [030/349, time/total: 00:11/02:10]: bbcard [7k]
+Installing [031/349, time/total: 00:11/02:10]: beamer [165k]
+Installing [032/349, time/total: 00:12/02:17]: bibtex [15k]
+Installing [033/349, time/total: 00:12/02:16]: bibtex.x86_64-linux [77k]
+Installing [034/349, time/total: 00:12/02:14]: bidi-atbegshi [2k]
+Installing [035/349, time/total: 00:12/02:14]: bidicontour [2k]
+Installing [036/349, time/total: 00:13/02:25]: bidipagegrid [4k]
+Installing [037/349, time/total: 00:13/02:25]: bidipresentation [28k]
+Installing [038/349, time/total: 00:13/02:24]: bidishadowtext [2k]
+Installing [039/349, time/total: 00:14/02:35]: bigintcalc [7k]
+Installing [040/349, time/total: 00:14/02:35]: bitset [6k]
+Installing [041/349, time/total: 00:14/02:35]: blockdraw_mp [5k]
+Installing [042/349, time/total: 00:14/02:35]: bookmark [8k]
+Installing [043/349, time/total: 00:15/02:45]: booktabs [3k]
+Installing [044/349, time/total: 00:15/02:45]: bpolynomial [3k]
+Installing [045/349, time/total: 00:15/02:45]: breqn [24k]
+Installing [046/349, time/total: 00:15/02:44]: businesscard-qrcode [4k]
+Installing [047/349, time/total: 00:16/02:55]: caption [61k]
+Installing [048/349, time/total: 00:16/02:53]: carlisle [9k]
+Installing [049/349, time/total: 00:16/02:53]: cite [20k]
+Installing [050/349, time/total: 00:16/02:52]: cm [233k]
+Installing [051/349, time/total: 00:17/02:54]: cmap [6k]
+Installing [052/349, time/total: 00:17/02:54]: cmarrows [10k]
+Installing [053/349, time/total: 00:17/02:53]: collection-basic [1k]
+Installing [054/349, time/total: 00:17/02:53]: collection-latex [1k]
+Installing [055/349, time/total: 00:18/03:04]: collection-latexrecommended [1k]
+Installing [056/349, time/total: 00:18/03:04]: collection-metapost [1k]
+Installing [057/349, time/total: 00:18/03:04]: collection-xetex [1k]
+Installing [058/349, time/total: 00:18/03:03]: colorprofiles [86k]
+Installing [059/349, time/total: 00:19/03:10]: colortbl [4k]
+Installing [060/349, time/total: 00:19/03:10]: cqubeamer [4k]
+Installing [061/349, time/total: 00:19/03:10]: crop [5k]
+Installing [062/349, time/total: 00:20/03:20]: ctable [4k]
+Installing [063/349, time/total: 00:20/03:20]: ctablestack [2k]
+Installing [064/349, time/total: 00:20/03:20]: dehyph [46k]
+Installing [065/349, time/total: 00:20/03:18]: drv [17k]
+Installing [066/349, time/total: 00:21/03:27]: dviincl [2k]
+Installing [067/349, time/total: 00:21/03:27]: dvipdfmx [27k]
+Installing [068/349, time/total: 00:21/03:26]: dvipdfmx.x86_64-linux [440k]
+Installing [069/349, time/total: 00:24/03:37]: dvips [57k]
+Installing [070/349, time/total: 00:25/03:44]: dvips.x86_64-linux [152k]
+Installing [071/349, time/total: 00:27/03:55]: ec [258k]
+Installing [072/349, time/total: 00:28/03:53]: emp [4k]
+Installing [073/349, time/total: 00:28/03:53]: enctex [24k]
+Installing [074/349, time/total: 00:29/04:01]: epsincl [2k]
+Installing [075/349, time/total: 00:29/04:01]: epstopdf [15k]
+Installing [076/349, time/total: 00:29/04:00]: epstopdf-pkg [5k]
+Installing [077/349, time/total: 00:29/04:00]: epstopdf.x86_64-linux [1k]
+Installing [078/349, time/total: 00:30/04:08]: eso-pic [4k]
+Installing [079/349, time/total: 00:30/04:08]: etex [12k]
+Installing [080/349, time/total: 00:30/04:08]: etex-pkg [6k]
+Installing [081/349, time/total: 00:30/04:07]: etexcmds [3k]
+Installing [082/349, time/total: 00:31/04:15]: etoolbox [9k]
+Installing [083/349, time/total: 00:31/04:15]: euenc [4k]
+Installing [084/349, time/total: 00:31/04:15]: euler [4k]
+Installing [085/349, time/total: 00:32/04:23]: eurosym [137k]
+Installing [086/349, time/total: 00:32/04:17]: everysel [3k]
+Installing [087/349, time/total: 00:32/04:17]: everyshi [2k]
+Installing [088/349, time/total: 00:32/04:17]: expressg [19k]
+Installing [089/349, time/total: 00:33/04:24]: exteps [3k]
+Installing [090/349, time/total: 00:33/04:24]: extractbb [6k]
+Installing [091/349, time/total: 00:33/04:24]: extractbb.x86_64-linux [1k]
+Installing [092/349, time/total: 00:33/04:24]: extsizes [12k]
+Installing [093/349, time/total: 00:34/04:31]: fancybox [8k]
+Installing [094/349, time/total: 00:34/04:31]: fancyhdr [9k]
+Installing [095/349, time/total: 00:34/04:31]: fancyref [4k]
+Installing [096/349, time/total: 00:34/04:31]: fancyvrb [12k]
+Installing [097/349, time/total: 00:35/04:38]: featpost [32k]
+Installing [098/349, time/total: 00:35/04:37]: feynmf [20k]
+Installing [099/349, time/total: 00:36/04:44]: feynmp-auto [2k]
+Installing [100/349, time/total: 00:37/04:52]: filehook [5k]
+Installing [101/349, time/total: 00:37/04:51]: firstaid [6k]
+Installing [102/349, time/total: 00:37/04:51]: fix2col [3k]
+Installing [103/349, time/total: 00:37/04:51]: fixlatvian [3k]
+Installing [104/349, time/total: 00:38/04:59]: fiziko [23k]
+Installing [105/349, time/total: 00:38/04:58]: float [3k]
+Installing [106/349, time/total: 00:38/04:58]: font-change-xetex [6k]
+Installing [107/349, time/total: 00:38/04:57]: fontbook [2k]
+Installing [108/349, time/total: 00:39/05:05]: fontspec [27k]
+Installing [109/349, time/total: 00:39/05:04]: fontwrap [13k]
+Installing [110/349, time/total: 00:39/05:03]: footnotehyper [4k]
+Installing [111/349, time/total: 00:40/05:11]: fp [19k]
+Installing [112/349, time/total: 00:40/05:10]: garrigues [9k]
+Installing [113/349, time/total: 00:40/05:10]: geometry [9k]
+Installing [114/349, time/total: 00:40/05:09]: gettitlestring [3k]
+Installing [115/349, time/total: 00:41/05:17]: glyphlist [25k]
+Installing [116/349, time/total: 00:41/05:16]: gmp [4k]
+Installing [117/349, time/total: 00:41/05:15]: graphics [16k]
+Installing [118/349, time/total: 00:41/05:15]: graphics-cfg [2k]
+Installing [119/349, time/total: 00:42/05:22]: graphics-def [11k]
+Installing [120/349, time/total: 00:42/05:22]: grfext [3k]
+Installing [121/349, time/total: 00:42/05:22]: grffile [4k]
+Installing [122/349, time/total: 00:42/05:21]: hatching [2k]
+Installing [123/349, time/total: 00:43/05:29]: hershey-mp [2k]
+Installing [124/349, time/total: 00:43/05:29]: hologo [11k]
+Installing [125/349, time/total: 00:43/05:28]: hopatch [3k]
+Installing [126/349, time/total: 00:43/05:28]: huffman [3k]
+Installing [127/349, time/total: 00:44/05:36]: hycolor [4k]
+Installing [128/349, time/total: 00:44/05:36]: hypcap [2k]
+Installing [129/349, time/total: 00:44/05:36]: hyperref [87k]
+Installing [130/349, time/total: 00:45/05:39]: hyph-utf8 [16k]
+Installing [131/349, time/total: 00:45/05:38]: hyphen-basque [4k]
+Installing [132/349, time/total: 00:45/05:38]: hyphen-czech [16k]
+Installing [133/349, time/total: 00:45/05:37]: hyphen-danish [6k]
+Installing [134/349, time/total: 00:46/05:44]: hyphen-dutch [38k]
+Installing [135/349, time/total: 00:46/05:42]: hyphen-english [41k]
+Installing [136/349, time/total: 00:46/05:40]: hyphen-finnish [5k]
+Installing [137/349, time/total: 00:46/05:40]: hyphen-french [12k]
+Installing [138/349, time/total: 00:47/05:47]: hyphen-german [225k]
+Installing [139/349, time/total: 00:47/05:36]: hyphen-hungarian [279k]
+Installing [140/349, time/total: 00:48/05:30]: hyphen-italian [4k]
+Installing [141/349, time/total: 00:48/05:30]: hyphen-norwegian [94k]
+Installing [142/349, time/total: 00:48/05:25]: hyphen-polish [13k]
+Installing [143/349, time/total: 00:48/05:25]: hyphen-portuguese [4k]
+Installing [144/349, time/total: 00:49/05:31]: hyphen-spanish [17k]
+Installing [145/349, time/total: 00:49/05:31]: hyphen-swedish [18k]
+Installing [146/349, time/total: 00:49/05:30]: hyphenex [9k]
+Installing [147/349, time/total: 00:49/05:30]: ifplatform [2k]
+Installing [148/349, time/total: 00:50/05:36]: iftex [4k]
+Installing [149/349, time/total: 00:50/05:36]: index [4k]
+Installing [150/349, time/total: 00:50/05:36]: infwarerr [3k]
+Installing [151/349, time/total: 00:50/05:36]: intcalc [6k]
+Installing [152/349, time/total: 00:51/05:42]: interchar [6k]
+Installing [153/349, time/total: 00:51/05:42]: jknapltx [9k]
+Installing [154/349, time/total: 00:51/05:42]: knuth-lib [30k]
+Installing [155/349, time/total: 00:51/05:40]: knuth-local [23k]
+Installing [156/349, time/total: 00:52/05:46]: koma-script [6835k]
+Installing [157/349, time/total: 00:54/03:08]: kpathsea.x86_64-linux [41k]
+Installing [158/349, time/total: 00:54/03:07]: kvdefinekeys [3k]
+Installing [159/349, time/total: 00:54/03:07]: kvoptions [8k]
+Installing [160/349, time/total: 00:55/03:11]: kvsetkeys [4k]
+Installing [161/349, time/total: 00:55/03:11]: l3backend [17k]
+Installing [162/349, time/total: 00:55/03:11]: l3backend-dev [17k]
+Installing [163/349, time/total: 00:55/03:10]: l3experimental [17k]
+Installing [164/349, time/total: 00:56/03:14]: l3kernel [185k]
+Installing [165/349, time/total: 00:56/03:11]: l3kernel-dev [185k]
+Installing [166/349, time/total: 00:56/03:09]: l3packages [20k]
+Installing [167/349, time/total: 00:56/03:08]: latex [254k]
+Installing [168/349, time/total: 00:57/03:09]: latex-base-dev [254k]
+Installing [169/349, time/total: 00:57/03:06]: latex-bin [1k]
+Installing [170/349, time/total: 00:57/03:05]: latex-bin.x86_64-linux [1k]
+Installing [171/349, time/total: 00:58/03:09]: latex-firstaid-dev [6k]
+Installing [172/349, time/total: 00:59/03:12]: latex-fonts [18k]
+Installing [173/349, time/total: 00:59/03:12]: latex-lab [56k]
+Installing [174/349, time/total: 00:59/03:11]: latexbug [9k]
+Installing [175/349, time/total: 01:00/03:14]: latexconfig [3k]
+Installing [176/349, time/total: 01:00/03:14]: latexmp [6k]
+Installing [177/349, time/total: 01:00/03:14]: letltxmacro [3k]
+Installing [178/349, time/total: 01:00/03:14]: lineno [62k]
+Installing [179/349, time/total: 01:01/03:17]: listings [149k]
+Installing [180/349, time/total: 01:01/03:15]: lm [11665k]
+Installing [181/349, time/total: 01:05/01:59]: lm-math [369k]
+Installing [182/349, time/total: 01:08/02:03]: ltx-talk [13k]
+Installing [183/349, time/total: 01:09/02:04]: ltxcmds [5k]
+Installing [184/349, time/total: 01:10/02:06]: ltxmisc [16k]
+Installing [185/349, time/total: 01:10/02:06]: lua-alt-getopt [2k]
+Installing [186/349, time/total: 01:10/02:06]: lua-uni-algos [13k]
+Installing [187/349, time/total: 01:11/02:08]: lua-unicode-math [11k]
+Installing [188/349, time/total: 01:11/02:08]: luahbtex [1k]
+Installing [189/349, time/total: 01:11/02:08]: luahbtex.x86_64-linux [2430k]
+Installing [190/349, time/total: 01:13/02:01]: lualibs [131k]
+Installing [191/349, time/total: 01:13/02:00]: luaotfload [609k]
+Installing [192/349, time/total: 01:14/01:59]: luaotfload.x86_64-linux [1k]
+Installing [193/349, time/total: 01:14/01:59]: luatex [10k]
+Installing [194/349, time/total: 01:15/02:01]: luatex.x86_64-linux [1824k]
+Installing [195/349, time/total: 01:16/01:56]: luatexbase [4k]
+Installing [196/349, time/total: 01:17/01:57]: lwarp [222k]
+Installing [197/349, time/total: 01:17/01:56]: lwarp.x86_64-linux [1k]
+Installing [198/349, time/total: 01:17/01:56]: makecmds [2k]
+Installing [199/349, time/total: 01:17/01:56]: makeindex [5k]
+Installing [200/349, time/total: 01:22/02:04]: makeindex.x86_64-linux [50k]
+Installing [201/349, time/total: 01:23/02:05]: mathspec [10k]
+Installing [202/349, time/total: 01:23/02:05]: mathtools [21k]
+Installing [203/349, time/total: 01:23/02:05]: mcf2graph [39k]
+Installing [204/349, time/total: 01:23/02:05]: mdwtools [19k]
+Installing [205/349, time/total: 01:24/02:07]: memoir [68k]
+Installing [206/349, time/total: 01:24/02:06]: metafont [9k]
+Installing [207/349, time/total: 01:24/02:06]: metafont.x86_64-linux [226k]
+Installing [208/349, time/total: 01:25/02:07]: metago [5k]
+Installing [209/349, time/total: 01:25/02:07]: metalogo [3k]
+Installing [210/349, time/total: 01:25/02:07]: metaobj [57k]
+Installing [211/349, time/total: 01:25/02:07]: metaplot [4k]
+Installing [212/349, time/total: 01:26/02:08]: metapost [73k]
+Installing [213/349, time/total: 01:26/02:08]: metapost-colorbrewer [12k]
+Installing [214/349, time/total: 01:26/02:08]: metapost.x86_64-linux [930k]
+Installing [215/349, time/total: 01:27/02:06]: metauml [21k]
+Installing [216/349, time/total: 01:27/02:06]: mflogo [2k]
+Installing [217/349, time/total: 01:28/02:07]: mfnfss [3k]
+Installing [218/349, time/total: 01:28/02:07]: mfpic [46k]
+Installing [219/349, time/total: 01:28/02:07]: mfpic4ode [3k]
+Installing [220/349, time/total: 01:28/02:07]: mfware [4k]
+Installing [221/349, time/total: 01:29/02:08]: mfware.x86_64-linux [123k]
+Installing [222/349, time/total: 01:29/02:08]: microtype [58k]
+Installing [223/349, time/total: 01:29/02:08]: minim-hatching [3k]
+Installing [224/349, time/total: 01:30/02:09]: modes [27k]
+Installing [225/349, time/total: 01:30/02:09]: mp-geom2d [17k]
+Installing [226/349, time/total: 01:30/02:09]: mp-neuralnetwork [4k]
+Installing [227/349, time/total: 01:30/02:09]: mp3d [23k]
+Installing [228/349, time/total: 01:31/02:10]: mparrows [2k]
+Installing [229/349, time/total: 01:31/02:10]: mpattern [3k]
+Installing [230/349, time/total: 01:31/02:10]: mpchess [30k]
+Installing [231/349, time/total: 01:31/02:10]: mpcolornames [7k]
+Installing [232/349, time/total: 01:32/02:12]: mpgraphics [5k]
+Installing [233/349, time/total: 01:33/02:13]: mpkiviat [3k]
+Installing [234/349, time/total: 01:33/02:13]: mptopdf [37k]
+Installing [235/349, time/total: 01:34/02:14]: mptopdf.x86_64-linux [1k]
+Installing [236/349, time/total: 01:34/02:14]: mptrees [12k]
+Installing [237/349, time/total: 01:34/02:14]: na-position [2k]
+Installing [238/349, time/total: 01:34/02:14]: natbib [17k]
+Installing [239/349, time/total: 01:35/02:16]: newfloat [7k]
+Installing [240/349, time/total: 01:35/02:16]: ntgclass [16k]
+Installing [241/349, time/total: 01:35/02:16]: oberdiek [35k]
+Installing [242/349, time/total: 01:35/02:15]: pagesel [3k]
+Installing [243/349, time/total: 01:36/02:17]: parskip [3k]
+Installing [244/349, time/total: 01:36/02:17]: pdfcolfoot [2k]
+Installing [245/349, time/total: 01:36/02:17]: pdfescape [5k]
+Installing [246/349, time/total: 01:36/02:17]: pdflscape [3k]
+Installing [247/349, time/total: 01:37/02:18]: pdfmanagement-testphase [58k]
+Installing [248/349, time/total: 01:37/02:18]: pdfpages [15k]
+Installing [249/349, time/total: 01:37/02:18]: pdftex [39k]
+Installing [250/349, time/total: 01:38/02:19]: pdftex.x86_64-linux [834k]
+Installing [251/349, time/total: 01:40/02:19]: pdftexcmds [7k]
+Installing [252/349, time/total: 01:40/02:19]: pgf [702k]
+Installing [253/349, time/total: 01:42/02:19]: philokalia [75k]
+Installing [254/349, time/total: 01:43/02:20]: piechartmp [8k]
+Installing [255/349, time/total: 01:44/02:21]: plain [29k]
+Installing [256/349, time/total: 01:44/02:21]: polyglossia [123k]
+Installing [257/349, time/total: 01:45/02:22]: psfrag [5k]
+Installing [258/349, time/total: 01:46/02:23]: pslatex [6k]
+Installing [259/349, time/total: 01:46/02:23]: psnfss [12k]
+Installing [260/349, time/total: 01:47/02:25]: pspicture [2k]
+Installing [261/349, time/total: 01:47/02:25]: ptext [22k]
+Installing [262/349, time/total: 01:47/02:25]: ragged2e [3k]
+Installing [263/349, time/total: 01:48/02:26]: rcs [13k]
+Installing [264/349, time/total: 01:48/02:26]: realscripts [2k]
+Installing [265/349, time/total: 01:48/02:26]: refcount [3k]
+Installing [266/349, time/total: 01:48/02:26]: repere [28k]
+Installing [267/349, time/total: 01:49/02:27]: rerunfilecheck [4k]
+Installing [268/349, time/total: 01:49/02:27]: revtex [67k]
+Installing [269/349, time/total: 01:50/02:28]: roex [20k]
+Installing [270/349, time/total: 01:50/02:28]: roundrect [3k]
+Installing [271/349, time/total: 01:50/02:28]: sansmath [4k]
+Installing [272/349, time/total: 01:50/02:28]: section [10k]
+Installing [273/349, time/total: 01:51/02:29]: seminar [30k]
+Installing [274/349, time/total: 01:51/02:29]: sepnum [3k]
+Installing [275/349, time/total: 01:51/02:29]: setspace [8k]
+Installing [276/349, time/total: 01:52/02:31]: shapes [2k]
+Installing [277/349, time/total: 01:52/02:31]: simple-resume-cv [4k]
+Installing [278/349, time/total: 01:52/02:31]: simple-thesis-dissertation [6k]
+Installing [279/349, time/total: 01:52/02:31]: slideshow [9k]
+Installing [280/349, time/total: 01:53/02:32]: splines [3k]
+Installing [281/349, time/total: 01:53/02:32]: stringenc [23k]
+Installing [282/349, time/total: 01:53/02:32]: suanpan [5k]
+Installing [283/349, time/total: 01:53/02:32]: subfig [7k]
+Installing [284/349, time/total: 01:54/02:33]: symbol [36k]
+Installing [285/349, time/total: 01:54/02:33]: synctex [1k]
+Installing [286/349, time/total: 01:54/02:33]: synctex.x86_64-linux [75k]
+Installing [287/349, time/total: 01:55/02:34]: tetragonos [203k]
+Installing [288/349, time/total: 01:55/02:33]: tex [1k]
+Installing [289/349, time/total: 01:55/02:33]: tex-ini-files [5k]
+Installing [290/349, time/total: 01:56/02:34]: tex.x86_64-linux [197k]
+Installing [291/349, time/total: 01:56/02:34]: texlive-common [1k]
+Installing [292/349, time/total: 01:56/02:34]: texlive-en [1k]
+Installing [293/349, time/total: 01:56/02:34]: texlive-msg-translations [150k]
+Installing [294/349, time/total: 01:57/02:34]: texlive-scripts-extra [22k]
+Installing [295/349, time/total: 01:57/02:34]: texlive-scripts-extra.x86_64-linux [1k]
+Installing [296/349, time/total: 01:57/02:34]: texlive-scripts.x86_64-linux [1k]
+Installing [297/349, time/total: 01:58/02:36]: texlive.infra.x86_64-linux [143k]
+Installing [298/349, time/total: 01:58/02:35]: textcase [2k]
+Installing [299/349, time/total: 01:58/02:35]: textpath [5k]
+Installing [300/349, time/total: 01:58/02:35]: threeddice [3k]
+Installing [301/349, time/total: 02:00/02:38]: thumbpdf [19k]
+Installing [302/349, time/total: 02:00/02:38]: thumbpdf.x86_64-linux [1k]
+Installing [303/349, time/total: 02:00/02:38]: times [281k]
+Installing [304/349, time/total: 02:01/02:38]: tipa [2809k]
+Installing [305/349, time/total: 02:03/02:29]: tlshell [33k]
+Installing [306/349, time/total: 02:03/02:29]: tlshell.x86_64-linux [1k]
+Installing [307/349, time/total: 02:04/02:30]: tools [47k]
+Installing [308/349, time/total: 02:04/02:30]: translator [28k]
+Installing [309/349, time/total: 02:04/02:30]: typehtml [7k]
+Installing [310/349, time/total: 02:05/02:31]: ucharcat [2k]
+Installing [311/349, time/total: 02:05/02:31]: ucharclasses [9k]
+Installing [312/349, time/total: 02:05/02:31]: ulem [7k]
+Installing [313/349, time/total: 02:05/02:31]: underscore [5k]
+Installing [314/349, time/total: 02:06/02:32]: unicode-bidi [2k]
+Installing [315/349, time/total: 02:06/02:32]: unicode-data [310k]
+Installing [316/349, time/total: 02:06/02:31]: unicode-math [42k]
+Installing [317/349, time/total: 02:06/02:31]: unimath-plain-xetex [16k]
+Installing [318/349, time/total: 02:07/02:32]: uniquecounter [3k]
+Installing [319/349, time/total: 02:07/02:32]: unisugar [3k]
+Installing [320/349, time/total: 02:07/02:32]: upquote [2k]
+Installing [321/349, time/total: 02:07/02:32]: url [6k]
+Installing [322/349, time/total: 02:08/02:33]: xcolor [18k]
+Installing [323/349, time/total: 02:08/02:33]: xdvi [7k]
+Installing [324/349, time/total: 02:08/02:33]: xdvi.x86_64-linux [545k]
+Installing [325/349, time/total: 02:09/02:33]: xebaposter [10k]
+Installing [326/349, time/total: 02:09/02:33]: xechangebar [7k]
+Installing [327/349, time/total: 02:09/02:33]: xecolor [3k]
+Installing [328/349, time/total: 02:10/02:34]: xecyr [4k]
+Installing [329/349, time/total: 02:10/02:34]: xeindex [2k]
+Installing [330/349, time/total: 02:10/02:34]: xelatex-dev [1k]
+Installing [331/349, time/total: 02:10/02:34]: xelatex-dev.x86_64-linux [1k]
+Installing [332/349, time/total: 02:11/02:35]: xesearch [6k]
+Installing [333/349, time/total: 02:11/02:35]: xespotcolor [3k]
+Installing [334/349, time/total: 02:11/02:35]: xetex [8k]
+Installing [335/349, time/total: 02:12/02:36]: xetex-itrans [25k]
+Installing [336/349, time/total: 02:12/02:36]: xetex-pstricks [1k]
+Installing [337/349, time/total: 02:12/02:36]: xetex-tibetan [7k]
+Installing [338/349, time/total: 02:12/02:36]: xetex.x86_64-linux [7665k]
+Installing [339/349, time/total: 02:17/02:17]: xetexconfig [1k]
+Installing [340/349, time/total: 02:17/02:17]: xetexfontinfo [3k]
+Installing [341/349, time/total: 02:17/02:17]: xetexko [54k]
+Installing [342/349, time/total: 02:18/02:18]: xevlna [2k]
+Installing [343/349, time/total: 02:18/02:18]: xfrac [4k]
+Installing [344/349, time/total: 02:18/02:18]: xkeyval [9k]
+Installing [345/349, time/total: 02:18/02:18]: xltxtra [3k]
+Installing [346/349, time/total: 02:19/02:19]: xpatch [2k]
+Installing [347/349, time/total: 02:19/02:19]: xunicode [26k]
+Installing [348/349, time/total: 02:19/02:19]: zapfding [46k]
+Installing [349/349, time/total: 02:20/02:20]: zbmath-review-template [3k]
+Time used for installing the packages: 02:20
+[09:16:07] running mktexlsr /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist ...
+writing fmtutil.cnf to /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/fmtutil.cnf
+writing updmap.cfg to /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg
+writing language.dat to /home/fabian/PBUF5-GPU/paper/texlive_texmf-sysvar/tex/generic/config/language.dat
+writing language.def to /home/fabian/PBUF5-GPU/paper/texlive_texmf-sysvar/tex/generic/config/language.def
+writing language.dat.lua to /home/fabian/PBUF5-GPU/paper/texlive_texmf-sysvar/tex/generic/config/language.dat.lua
+[09:16:07] running mktexlsr /home/fabian/PBUF5-GPU/paper/texlive_texmf-sysvar /home/fabian/PBUF5-GPU/paper/texlive_texmf-sysconfig /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist ...
+
+[Sun Dec 21 09:16:07 2025] running updmap-sys --nohash
+running updmap-sys --nohash ...done
+updmap will read the following updmap.cfg files (in precedence order):
+  /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg
+updmap may write changes to the following updmap.cfg file:
+  $SELFAUTOPARENT_texmf-sysconfig/web2c/updmap.cfg
+dvips output dir: "$SELFAUTOPARENT_texmf-sysvar/fonts/map/dvips/updmap"
+pdftex output dir: "$SELFAUTOPARENT_texmf-sysvar/fonts/map/pdftex/updmap"
+dvipdfmx output dir: "$SELFAUTOPARENT_texmf-sysvar/fonts/map/dvipdfmx/updmap"
+
+updmap is creating new map files
+using the following configuration:
+  LW35 font names                  : URWkb (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg)
+  prefer outlines                  : true (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg)
+  texhash enabled                  : false
+  download standard fonts (dvips)  : true (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg)
+  download standard fonts (pdftex) : true (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg)
+  jaEmbed replacement string       : haranoaji (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg)
+  jaVariant replacement string     : -04 (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg)
+  scEmbed replacement string       : arphic (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg)
+  tcEmbed replacement string       : arphic (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg)
+  koEmbed replacement string       : baekmuk (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/updmap.cfg)
+  create a mapfile for pxdvi       : false (default)
+
+Scanning for LW35 support files  [  3 files]
+Scanning for MixedMap entries    [  8 files]
+Scanning for KanjiMap entries    [  0 files]
+Scanning for Map entries         [ 12 files]
+
+Generating output for dvipdfmx...
+Generating output for ps2pk...
+Generating output for dvips...
+Generating output for pdftex...
+
+Files generated:
+  $SELFAUTOPARENT_texmf-sysvar/fonts/map/dvips/updmap:
+       15786 2025-12-21 09:16:07 builtin35.map
+       21259 2025-12-21 09:16:07 download35.map
+       72787 2025-12-21 09:16:07 psfonts_pk.map
+       79165 2025-12-21 09:16:07 psfonts_t1.map
+       79160 2025-12-21 09:16:07 ps2pk.map
+       79165 2025-12-21 09:16:07 psfonts.map = psfonts_t1.map
+  $SELFAUTOPARENT_texmf-sysvar/fonts/map/pdftex/updmap:
+       79167 2025-12-21 09:16:07 pdftex_dl14.map
+       77502 2025-12-21 09:16:07 pdftex_ndl14.map
+       79167 2025-12-21 09:16:07 pdftex.map = pdftex_dl14.map
+  $SELFAUTOPARENT_texmf-sysvar/fonts/map/dvipdfmx/updmap:
+         309 2025-12-21 09:16:07 kanjix.map
+
+Transcript written on: $SELFAUTOPARENT_texmf-sysvar/web2c/updmap.log
+
+[Sun Dec 21 09:16:07 2025] --end of output of updmap-sys --nohash
+[09:16:07] re-running mktexlsr /home/fabian/PBUF5-GPU/paper/texlive_texmf-sysvar /home/fabian/PBUF5-GPU/paper/texlive_texmf-sysconfig ...
+pre-generating all format files, be patient...
+
+[Sun Dec 21 09:16:07 2025] running fmtutil-sys --no-error-if-no-engine=luametatex,luajithbtex,luajittex,mfluajit --no-strict --all
+running fmtutil-sys --no-error-if-no-engine=luametatex,luajithbtex,luajittex,mfluajit --no-strict --all ...done
+fmtutil: fmtutil is using the following fmtutil.cnf files (in precedence order):
+fmtutil:   /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/fmtutil.cnf
+fmtutil: fmtutil is using the following fmtutil.cnf file for writing changes:
+fmtutil:   $SELFAUTOPARENT_texmf-sysconfig/web2c/fmtutil.cnf
+fmtutil [INFO]: writing formats under /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c
+fmtutil [INFO]: --- remaking luahbtex with luahbtex
+fmtutil: running `luahbtex -ini   -jobname=luahbtex -progname=luahbtex luatex.ini' ...
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (INITEX)
+ restricted system commands enabled.
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+ex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exconfig.tex
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exiniconfig.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/luatex/hyph-utf8/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers, parameters, fonts, more fonts,
+macros, math definitions, output routines, hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+) Augmenting the Plain TeX definitions: \tracingall;
+Adding new e-TeX definitions: \eTeX, \loggingall, \tracingnone,
+register allocation; extended register allocation; 
+Recycling: \addlanguage, \@nswer (not defined), \@sk, \b@dresponsetrue,
+\b@dresponsefalse, \ch@ckforyn, \mayber@cycle, \et@xabort, \et@xbuf,
+\et@xfmtsrc, \et@xfilehdr, \et@xinf, \et@xpatterns, \l@ngdefnfile, \n@xt,
+\p@rse (not defined), \pr@mpt (not defined), \pr@mptloop (not defined),
+\forcer@cycle, \usef@llback, \usef@llbacktrue, \usef@llbackfalse, 
+Retaining: \et@xerr, \et@xinput, \et@xlibhdr, \et@xmsg, \et@xtoks, \et@xwarn,
+\et@xl@@d, \et@xl@ad, \et@xload, \et@xlang, \et@xhash, \eTeX, \etexhdrchk,
+\etexstatus, \module, \uselanguage, \r@tain, \r@cycle,))
+Beginning to dump on file luahbtex.fmt
+ (format=luahbtex 2025.12.21)
+3703 strings using 14116 bytes
+68809 memory locations dumped; current usage is 149&8517
+2192 multiletter control sequences
+\font\nullfont=nullfont
+\font\tenrm=cmr10
+\font\preloaded=cmr9
+\font\preloaded=cmr8
+\font\sevenrm=cmr7
+\font\preloaded=cmr6
+\font\fiverm=cmr5
+\font\teni=cmmi10
+\font\preloaded=cmmi9
+\font\preloaded=cmmi8
+\font\seveni=cmmi7
+\font\preloaded=cmmi6
+\font\fivei=cmmi5
+\font\tensy=cmsy10
+\font\preloaded=cmsy9
+\font\preloaded=cmsy8
+\font\sevensy=cmsy7
+\font\preloaded=cmsy6
+\font\fivesy=cmsy5
+\font\tenex=cmex10
+\font\preloaded=cmss10
+\font\preloaded=cmssq8
+\font\preloaded=cmssi10
+\font\preloaded=cmssqi8
+\font\tenbf=cmbx10
+\font\preloaded=cmbx9
+\font\preloaded=cmbx8
+\font\sevenbf=cmbx7
+\font\preloaded=cmbx6
+\font\fivebf=cmbx5
+\font\tentt=cmtt10
+\font\preloaded=cmtt9
+\font\preloaded=cmtt8
+\font\preloaded=cmsltt10
+\font\tensl=cmsl10
+\font\preloaded=cmsl9
+\font\preloaded=cmsl8
+\font\tenit=cmti10
+\font\preloaded=cmti9
+\font\preloaded=cmti8
+\font\preloaded=cmti7
+\font\preloaded=cmu10
+\font\preloaded=cmmib10
+\font\preloaded=cmbsy10
+\font\preloaded=cmcsc10
+\font\preloaded=cmssbx10
+\font\preloaded=cmdunh10
+\font\preloaded=cmr7 at 14.51799pt
+\font\preloaded=cmtt10 at 14.4pt
+\font\preloaded=cmssbx10 at 14.4pt
+\font\preloaded=manfnt
+50 preloaded fonts
+warning  (pdf backend): no pages of output.
+Transcript written on luahbtex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luahbtex/luahbtex.log
+fmtutil [INFO]: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luahbtex/luahbtex.fmt installed.
+fmtutil [INFO]: --- remaking pdftex with pdftex
+fmtutil: running `pdftex -ini   -jobname=pdftex -progname=pdftex -translate-file=cp227.tcx *pdfetex.ini' ...
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (INITEX)
+ restricted \write18 enabled.
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/cp227.tcx)
+entering extended mode
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/config/pdfetex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers, parameters, fonts, more fonts,
+macros, math definitions, output routines, hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+! I can't find file `dehypht-x-2024-02-28.tex'.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+!  ==> Fatal error occurred, no output PDF file produced!
+Transcript written on pdftex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/pdftex/pdftex.log
+fmtutil [INFO]: --- remaking luatex with luatex
+fmtutil: running `luatex -ini   -jobname=luatex -progname=luatex luatex.ini' ...
+This is LuaTeX, Version 1.22.0 (TeX Live 2025)  (INITEX)
+ restricted system commands enabled.
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+ex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exconfig.tex
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exiniconfig.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/luatex/hyph-utf8/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers, parameters, fonts, more fonts,
+macros, math definitions, output routines, hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+) Augmenting the Plain TeX definitions: \tracingall;
+Adding new e-TeX definitions: \eTeX, \loggingall, \tracingnone,
+register allocation; extended register allocation; 
+Recycling: \addlanguage, \@nswer (not defined), \@sk, \b@dresponsetrue,
+\b@dresponsefalse, \ch@ckforyn, \mayber@cycle, \et@xabort, \et@xbuf,
+\et@xfmtsrc, \et@xfilehdr, \et@xinf, \et@xpatterns, \l@ngdefnfile, \n@xt,
+\p@rse (not defined), \pr@mpt (not defined), \pr@mptloop (not defined),
+\forcer@cycle, \usef@llback, \usef@llbacktrue, \usef@llbackfalse, 
+Retaining: \et@xerr, \et@xinput, \et@xlibhdr, \et@xmsg, \et@xtoks, \et@xwarn,
+\et@xl@@d, \et@xl@ad, \et@xload, \et@xlang, \et@xhash, \eTeX, \etexhdrchk,
+\etexstatus, \module, \uselanguage, \r@tain, \r@cycle,))
+Beginning to dump on file luatex.fmt
+ (format=luatex 2025.12.21)
+3703 strings using 14112 bytes
+68809 memory locations dumped; current usage is 149&8517
+2192 multiletter control sequences
+\font\nullfont=nullfont
+\font\tenrm=cmr10
+\font\preloaded=cmr9
+\font\preloaded=cmr8
+\font\sevenrm=cmr7
+\font\preloaded=cmr6
+\font\fiverm=cmr5
+\font\teni=cmmi10
+\font\preloaded=cmmi9
+\font\preloaded=cmmi8
+\font\seveni=cmmi7
+\font\preloaded=cmmi6
+\font\fivei=cmmi5
+\font\tensy=cmsy10
+\font\preloaded=cmsy9
+\font\preloaded=cmsy8
+\font\sevensy=cmsy7
+\font\preloaded=cmsy6
+\font\fivesy=cmsy5
+\font\tenex=cmex10
+\font\preloaded=cmss10
+\font\preloaded=cmssq8
+\font\preloaded=cmssi10
+\font\preloaded=cmssqi8
+\font\tenbf=cmbx10
+\font\preloaded=cmbx9
+\font\preloaded=cmbx8
+\font\sevenbf=cmbx7
+\font\preloaded=cmbx6
+\font\fivebf=cmbx5
+\font\tentt=cmtt10
+\font\preloaded=cmtt9
+\font\preloaded=cmtt8
+\font\preloaded=cmsltt10
+\font\tensl=cmsl10
+\font\preloaded=cmsl9
+\font\preloaded=cmsl8
+\font\tenit=cmti10
+\font\preloaded=cmti9
+\font\preloaded=cmti8
+\font\preloaded=cmti7
+\font\preloaded=cmu10
+\font\preloaded=cmmib10
+\font\preloaded=cmbsy10
+\font\preloaded=cmcsc10
+\font\preloaded=cmssbx10
+\font\preloaded=cmdunh10
+\font\preloaded=cmr7 at 14.51799pt
+\font\preloaded=cmtt10 at 14.4pt
+\font\preloaded=cmssbx10 at 14.4pt
+\font\preloaded=manfnt
+50 preloaded fonts
+warning  (pdf backend): no pages of output.
+Transcript written on luatex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luatex/luatex.log
+fmtutil [INFO]: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luatex/luatex.fmt installed.
+fmtutil [INFO]: --- remaking tex with tex
+fmtutil: running `tex -ini   -jobname=tex -progname=tex tex.ini' ...
+This is TeX, Version 3.141592653 (TeX Live 2025) (INITEX)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/config/tex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers, parameters, fonts, more fonts,
+macros, math definitions, output routines, hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+) )
+Beginning to dump on file tex.fmt
+ (preloaded format=tex 2025.12.21)
+2030 strings of total length 29558
+4991 memory locations dumped; current usage is 110&4878
+926 multiletter control sequences
+\font\nullfont=nullfont
+\font\tenrm=cmr10
+\font\preloaded=cmr9
+\font\preloaded=cmr8
+\font\sevenrm=cmr7
+\font\preloaded=cmr6
+\font\fiverm=cmr5
+\font\teni=cmmi10
+\font\preloaded=cmmi9
+\font\preloaded=cmmi8
+\font\seveni=cmmi7
+\font\preloaded=cmmi6
+\font\fivei=cmmi5
+\font\tensy=cmsy10
+\font\preloaded=cmsy9
+\font\preloaded=cmsy8
+\font\sevensy=cmsy7
+\font\preloaded=cmsy6
+\font\fivesy=cmsy5
+\font\tenex=cmex10
+\font\preloaded=cmss10
+\font\preloaded=cmssq8
+\font\preloaded=cmssi10
+\font\preloaded=cmssqi8
+\font\tenbf=cmbx10
+\font\preloaded=cmbx9
+\font\preloaded=cmbx8
+\font\sevenbf=cmbx7
+\font\preloaded=cmbx6
+\font\fivebf=cmbx5
+\font\tentt=cmtt10
+\font\preloaded=cmtt9
+\font\preloaded=cmtt8
+\font\preloaded=cmsltt10
+\font\tensl=cmsl10
+\font\preloaded=cmsl9
+\font\preloaded=cmsl8
+\font\tenit=cmti10
+\font\preloaded=cmti9
+\font\preloaded=cmti8
+\font\preloaded=cmti7
+\font\preloaded=cmu10
+\font\preloaded=cmmib10
+\font\preloaded=cmbsy10
+\font\preloaded=cmcsc10
+\font\preloaded=cmssbx10
+\font\preloaded=cmdunh10
+\font\preloaded=cmr7 at 14.51799pt
+\font\preloaded=cmtt10 at 14.4pt
+\font\preloaded=cmssbx10 at 14.4pt
+\font\preloaded=manfnt
+14787 words of font info for 50 preloaded fonts
+14 hyphenation exceptions
+Hyphenation trie of length 6075 has 181 ops out of 35111
+  181 for language 0
+No pages of output.
+Transcript written on tex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/tex/tex.log
+fmtutil [INFO]: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/tex/tex.fmt installed.
+fmtutil [INFO]: --- remaking xetex with xetex
+fmtutil: running `xetex -ini   -jobname=xetex -progname=xetex -etex xetex.ini' ...
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (INITEX)
+ restricted \write18 enabled.
+entering extended mode
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/xete
+x.ini
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-xetex-classes.tex 
+load-unicode-xetex-classes.tex v1.19 (2025-09-26)
+Reading Unicode east Asian character class data
+# LineBreak-17.0.0.txt 
+# Date: 2025-07-29, 13:52:18 GMT 
+# EastAsianWidth-17.0.0.txt 
+# Date: 2025-07-24, 00:12:54 GMT 
+) (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers, parameters, fonts, more fonts,
+macros, math definitions, output routines, hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+! I can't find file `dehypht-x-2024-02-28.tex'.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+No pages of output.
+Transcript written on xetex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/xetex/xetex.log
+fmtutil [INFO]: --- remaking xelatex with xetex
+fmtutil: running `xetex -ini   -jobname=xelatex -progname=xelatex -etex xelatex.ini' ...
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (INITEX)
+ restricted \write18 enabled.
+entering extended mode
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/tex-ini-files/xelate
+x.ini (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/latex.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/texsys.cfg)
+./texsys.aux found
+
+
+\@currdir set to: ./.
+
+
+Assuming \openin and \input 
+have the same search path.
+
+
+Defining UNIX/DOS style filename parser.
+
+catcodes, registers, parameters,
+LaTeX2e <2025-11-01>
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.
+tex)) hacks, document commands, templates, control, par, spacing, files,
+font encodings, lengths, NFSS base, NFSS axes, NFSS tracing,
+NFSS declarative interface, NFSS initialization,
+====================================
+
+Local config file fonttext.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omsenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tuenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tulmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tulmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tulmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/lm/ts1lmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd)))
+====================================
+
+Local config file fontmath.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlcmm.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omscmsy.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omxcmex.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ucmr.fd)))
+====================================
+
+Local config file preload.cfg used
+
+=====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.ltx))
+page nos., x-ref, environments, center, verbatim, math definitions, boxes,
+title, sectioning, contents, floats, footnotes, index, bibliography, output,
+ Unicode character data,
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+===========================================
+Local configuration file hyphen.cfg used
+===========================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/hyphen.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/xebabel.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/dumyhyph.te
+x)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/zerohyph.te
+x)
+! I can't find file `dehypht-x-2024-02-28.tex'.
+<to be read again> 
+                   \relax 
+l.191   \repeat
+               
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+<to be read again> 
+                   \relax 
+l.191   \repeat
+               
+No pages of output.
+Transcript written on xelatex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/xetex/xelatex.log
+fmtutil [INFO]: --- remaking latex with pdftex
+fmtutil: running `pdftex -ini   -jobname=latex -progname=latex -translate-file=cp227.tcx *latex.ini' ...
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (INITEX)
+ restricted \write18 enabled.
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/cp227.tcx)
+entering extended mode
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/tex-ini-files/latex.
+ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/latex.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/texsys.cfg)
+./texsys.aux found
+
+
+\@currdir set to: ./.
+
+
+Assuming \openin and \input 
+have the same search path.
+
+
+Defining UNIX/DOS style filename parser.
+
+catcodes, registers, parameters,
+LaTeX2e <2025-11-01>
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.
+tex)) hacks, document commands, templates, control, par, spacing, files,
+font encodings, lengths, NFSS base, NFSS axes, NFSS tracing,
+NFSS declarative interface, NFSS initialization,
+====================================
+
+Local config file fonttext.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omsenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd)))
+====================================
+
+Local config file fontmath.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlcmm.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omscmsy.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omxcmex.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ucmr.fd)))
+====================================
+
+Local config file preload.cfg used
+
+=====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.ltx))
+page nos., x-ref, environments, center, verbatim, math definitions, boxes,
+title, sectioning, contents, floats, footnotes, index, bibliography, output,
+===========================================
+Local configuration file hyphen.cfg used
+===========================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/hyphen.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/dumyhyph.te
+x)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/zerohyph.te
+x)
+! I can't find file `dehypht-x-2024-02-28.tex'.
+<to be read again> 
+                   \relax 
+l.191   \repeat
+               
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+<to be read again> 
+                   \relax 
+l.191   \repeat
+               
+No pages of output.
+Transcript written on latex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/pdftex/latex.log
+fmtutil [INFO]: --- remaking pdflatex with pdftex
+fmtutil: running `pdftex -ini   -jobname=pdflatex -progname=pdflatex -translate-file=cp227.tcx *pdflatex.ini' ...
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (INITEX)
+ restricted \write18 enabled.
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/cp227.tcx)
+entering extended mode
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/tex-ini-files/pdflat
+ex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/latex.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/texsys.cfg)
+./texsys.aux found
+
+
+\@currdir set to: ./.
+
+
+Assuming \openin and \input 
+have the same search path.
+
+
+Defining UNIX/DOS style filename parser.
+
+catcodes, registers, parameters,
+LaTeX2e <2025-11-01>
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.
+tex)) hacks, document commands, templates, control, par, spacing, files,
+font encodings, lengths, NFSS base, NFSS axes, NFSS tracing,
+NFSS declarative interface, NFSS initialization,
+====================================
+
+Local config file fonttext.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omsenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd)))
+====================================
+
+Local config file fontmath.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlcmm.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omscmsy.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omxcmex.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ucmr.fd)))
+====================================
+
+Local config file preload.cfg used
+
+=====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.ltx))
+page nos., x-ref, environments, center, verbatim, math definitions, boxes,
+title, sectioning, contents, floats, footnotes, index, bibliography, output,
+===========================================
+Local configuration file hyphen.cfg used
+===========================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/hyphen.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/dumyhyph.te
+x)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/zerohyph.te
+x)
+! I can't find file `dehypht-x-2024-02-28.tex'.
+<to be read again> 
+                   \relax 
+l.191   \repeat
+               
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+<to be read again> 
+                   \relax 
+l.191   \repeat
+               
+!  ==> Fatal error occurred, no output PDF file produced!
+Transcript written on pdflatex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/pdftex/pdflatex.log
+fmtutil [INFO]: --- remaking mf with mf-nowin
+fmtutil: running `mf-nowin -ini   -jobname=mf -progname=mf -translate-file=cp227.tcx mf.ini' ...
+This is METAFONT, Version 2.71828182 (TeX Live 2025) (INIMF)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/cp227.tcx)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/metafont/config/mf.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/metafont/base/plain.mf
+Preloading the plain base, version 2.71: preliminaries,
+ basic constants and mathematical macros,
+ macros for converting from device-independent units to pixels,
+ macros and tables for various modes of operation,
+ macros for drawing and filling,
+ macros for proof labels and rules,
+ macros for character and font administration,
+and a few last-minute items.)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/fonts/source/public/modes/mode
+s.mf) )
+Beginning to dump on file mf.base
+ (preloaded base=mf 2025.12.21)
+2241 strings of total length 30350
+12001 memory locations dumped; current usage is 3694&7945
+1013 symbolic tokens
+Transcript written on mf.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/metafont/mf.log
+fmtutil [INFO]: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/metafont/mf.base installed.
+fmtutil [INFO]: --- remaking dviluatex with luatex
+fmtutil: running `luatex -ini   -jobname=dviluatex -progname=dviluatex dviluatex.ini' ...
+This is LuaTeX, Version 1.22.0 (TeX Live 2025)  (INITEX)
+ restricted system commands enabled.
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/dvil
+uatex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+ex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exconfig.tex
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exiniconfig.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/luatex/hyph-utf8/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers, parameters, fonts, more fonts,
+macros, math definitions, output routines, hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+) Augmenting the Plain TeX definitions: \tracingall;
+Adding new e-TeX definitions: \eTeX, \loggingall, \tracingnone,
+register allocation; extended register allocation; 
+Recycling: \addlanguage, \@nswer (not defined), \@sk, \b@dresponsetrue,
+\b@dresponsefalse, \ch@ckforyn, \mayber@cycle, \et@xabort, \et@xbuf,
+\et@xfmtsrc, \et@xfilehdr, \et@xinf, \et@xpatterns, \l@ngdefnfile, \n@xt,
+\p@rse (not defined), \pr@mpt (not defined), \pr@mptloop (not defined),
+\forcer@cycle, \usef@llback, \usef@llbacktrue, \usef@llbackfalse, 
+Retaining: \et@xerr, \et@xinput, \et@xlibhdr, \et@xmsg, \et@xtoks, \et@xwarn,
+\et@xl@@d, \et@xl@ad, \et@xload, \et@xlang, \et@xhash, \eTeX, \etexhdrchk,
+\etexstatus, \module, \uselanguage, \r@tain, \r@cycle,)))
+Beginning to dump on file dviluatex.fmt
+ (format=dviluatex 2025.12.21)
+3708 strings using 14131 bytes
+68809 memory locations dumped; current usage is 149&8517
+2192 multiletter control sequences
+\font\nullfont=nullfont
+\font\tenrm=cmr10
+\font\preloaded=cmr9
+\font\preloaded=cmr8
+\font\sevenrm=cmr7
+\font\preloaded=cmr6
+\font\fiverm=cmr5
+\font\teni=cmmi10
+\font\preloaded=cmmi9
+\font\preloaded=cmmi8
+\font\seveni=cmmi7
+\font\preloaded=cmmi6
+\font\fivei=cmmi5
+\font\tensy=cmsy10
+\font\preloaded=cmsy9
+\font\preloaded=cmsy8
+\font\sevensy=cmsy7
+\font\preloaded=cmsy6
+\font\fivesy=cmsy5
+\font\tenex=cmex10
+\font\preloaded=cmss10
+\font\preloaded=cmssq8
+\font\preloaded=cmssi10
+\font\preloaded=cmssqi8
+\font\tenbf=cmbx10
+\font\preloaded=cmbx9
+\font\preloaded=cmbx8
+\font\sevenbf=cmbx7
+\font\preloaded=cmbx6
+\font\fivebf=cmbx5
+\font\tentt=cmtt10
+\font\preloaded=cmtt9
+\font\preloaded=cmtt8
+\font\preloaded=cmsltt10
+\font\tensl=cmsl10
+\font\preloaded=cmsl9
+\font\preloaded=cmsl8
+\font\tenit=cmti10
+\font\preloaded=cmti9
+\font\preloaded=cmti8
+\font\preloaded=cmti7
+\font\preloaded=cmu10
+\font\preloaded=cmmib10
+\font\preloaded=cmbsy10
+\font\preloaded=cmcsc10
+\font\preloaded=cmssbx10
+\font\preloaded=cmdunh10
+\font\preloaded=cmr7 at 14.51799pt
+\font\preloaded=cmtt10 at 14.4pt
+\font\preloaded=cmssbx10 at 14.4pt
+\font\preloaded=manfnt
+50 preloaded fonts
+No pages of output.
+Transcript written on dviluatex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luatex/dviluatex.log
+fmtutil [INFO]: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luatex/dviluatex.fmt installed.
+fmtutil [INFO]: --- remaking pdfetex with pdftex
+fmtutil: running `pdftex -ini   -jobname=pdfetex -progname=pdfetex -translate-file=cp227.tcx *pdfetex.ini' ...
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (INITEX)
+ restricted \write18 enabled.
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/cp227.tcx)
+entering extended mode
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/config/pdfetex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers, parameters, fonts, more fonts,
+macros, math definitions, output routines, hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+! I can't find file `dehypht-x-2024-02-28.tex'.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+!  ==> Fatal error occurred, no output PDF file produced!
+Transcript written on pdfetex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/pdftex/pdfetex.log
+fmtutil [INFO]: --- remaking etex with pdftex
+fmtutil: running `pdftex -ini   -jobname=etex -progname=etex -translate-file=cp227.tcx *etex.ini' ...
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (INITEX)
+ restricted \write18 enabled.
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/cp227.tcx)
+entering extended mode
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/config/etex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers, parameters, fonts, more fonts,
+macros, math definitions, output routines, hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+! I can't find file `dehypht-x-2024-02-28.tex'.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+\addlanguage ...me =#5 \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.32 ...4-02-28}{dehypht-x-2024-02-28.tex}{}{2}{2}
+                                                  
+No pages of output.
+Transcript written on etex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/pdftex/etex.log
+fmtutil [INFO]: --- remaking xelatex-dev with xetex
+fmtutil: running `xetex -ini   -jobname=xelatex-dev -progname=xelatex-dev -etex xelatex.ini' ...
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (INITEX)
+ restricted \write18 enabled.
+entering extended mode
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/tex-ini-files/xelate
+x.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/latex.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/texsys.cfg)
+./texsys.aux found
+
+
+\@currdir set to: ./.
+
+
+Assuming \openin and \input 
+have the same search path.
+
+
+Defining UNIX/DOS style filename parser.
+
+catcodes, registers, parameters,
+LaTeX2e <2026-06-01> pre-release-0 (develop 2025-12-21 branch)
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/l3kernel/expl3.l
+tx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/l3kernel/expl3-c
+ode.tex)) hacks, document commands, templates, control, par, spacing, files,
+font encodings, lengths, NFSS base, NFSS axes, NFSS tracing,
+NFSS declarative interface, NFSS initialization,
+====================================
+
+Local config file fonttext.cfg used
+
+====================================
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/fonttext.cf
+g
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/fonttext.lt
+x
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/omlenc.def)
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/omsenc.def
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/ot1enc.def)
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/t1enc.def)
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/ts1enc.def
+) (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/tuenc.def
+) (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/tulmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/tulmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/tulmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/lm/ts1lmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/t1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/ot1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/ts1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/t1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/t1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/ot1cmss.fd)
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/ot1cmtt.fd
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/ts1cmss.fd)
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/ts1cmtt.fd
+)))
+====================================
+
+Local config file fontmath.cfg used
+
+====================================
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/fontmath.cf
+g
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/fontmath.lt
+x
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/omlcmm.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/omscmsy.fd)
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/omxcmex.fd
+) (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/ucmr.fd))
+)
+====================================
+
+Local config file preload.cfg used
+
+=====================================
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/preload.cfg
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex-dev/base/preload.ltx
+)) page nos., x-ref, environments, center, verbatim, math definitions, boxes,
+title, sectioning, contents, floats, footnotes, index, bibliography, output,
+ Unicode character data,
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+===========================================
+Local configuration file hyphen.cfg used
+===========================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/hyphen.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/xebabel.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/dumyhyph.te
+x)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/zerohyph.te
+x)
+! I can't find file `dehypht-x-2024-02-28.tex'.
+<to be read again> 
+                   \relax 
+l.191   \repeat
+               
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+<to be read again> 
+                   \relax 
+l.191   \repeat
+               
+No pages of output.
+Transcript written on xelatex-dev.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/xetex/xelatex-dev.log
+fmtutil [INFO]: --- remaking mptopdf with pdftex
+fmtutil: running `pdftex -ini   -jobname=mptopdf -progname=context -translate-file=cp227.tcx mptopdf.tex' ...
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (INITEX)
+ restricted \write18 enabled.
+ (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/web2c/cp227.tcx)
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/context/mptopdf/mp
+topdf.tex
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/context/base/mkii/syst-tex
+.mkii (/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers, parameters, fonts,
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+more fonts,
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping \font in plain
+skipping scaled \font in plain
+skipping scaled \font in plain
+skipping scaled \font in plain
+skipping \font in plain
+skipping \skewchar in plain
+skipping \skewchar in plain
+skipping \skewchar in plain
+skipping \skewchar in plain
+skipping \skewchar in plain
+skipping \skewchar in plain
+skipping \textfont in plain
+skipping \scriptfont in plain
+skipping \scriptscriptfont in plain
+skipping \textfont in plain
+skipping \scriptfont in plain
+skipping \scriptscriptfont in plain
+skipping \textfont in plain
+skipping \scriptfont in plain
+skipping \scriptscriptfont in plain
+skipping \textfont in plain
+skipping \scriptfont in plain
+skipping \scriptscriptfont in plain
+skipping \textfont in plain
+skipping \textfont in plain
+skipping \textfont in plain
+skipping \scriptfont in plain
+skipping \scriptscriptfont in plain
+skipping \textfont in plain
+macros, math definitions,
+skipping used \tenex in plain
+output routines, hyphenation
+skipping \input in plain
+skipping \tenrm in plain
+))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/context/base/mkii/supp-mis
+.mkii
+loading : ConTeXt Support Macros / Miscellaneous (2004.10.26)
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/context/base/mkii/supp-pdf
+.mkii
+loading : ConTeXt Support Macros / PDF
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/context/base/mkii/supp-mpe
+.mkii
+loading : ConTeXt Support Macros / MPS extensions
+) )
+Beginning to dump on file mptopdf.fmt
+ (preloaded format=mptopdf 2025.12.21)
+3327 strings of total length 49838
+13894 memory locations dumped; current usage is 116&13747
+1676 multiletter control sequences
+\font\nullfont=nullfont
+0 words of font info for 0 preloaded fonts
+0 hyphenation exceptions
+Hyphenation trie of length 256 has 0 ops out of 35111
+0 words of pdfTeX memory
+0 indirect objects
+No pages of output.
+Transcript written on mptopdf.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/pdftex/mptopdf.log
+fmtutil [INFO]: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/pdftex/mptopdf.fmt installed.
+fmtutil [INFO]: --- remaking lualatex with luahbtex
+fmtutil: running `luahbtex -ini   -jobname=lualatex -progname=lualatex lualatex.ini' ...
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (INITEX)
+ restricted system commands enabled.
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/tex-ini-files/lualat
+ex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exconfig.tex
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/latex.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/texsys.cfg)
+./texsys.aux found
+
+
+\@currdir set to: ./.
+
+
+Assuming \openin and \input 
+have the same search path.
+
+
+Defining UNIX/DOS style filename parser.
+
+catcodes, registers, parameters,
+LaTeX2e <2025-11-01>
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.
+tex)) hacks, document commands, templates, control, par, spacing, files,
+font encodings, lengths, NFSS base, NFSS axes, NFSS tracing,
+NFSS declarative interface, NFSS initialization,
+====================================
+
+Local config file fonttext.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omsenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tuenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tulmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tulmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tulmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/lm/ts1lmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd)))
+====================================
+
+Local config file fontmath.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlcmm.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omscmsy.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omxcmex.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ucmr.fd)))
+====================================
+
+Local config file preload.cfg used
+
+=====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.ltx))
+page nos., x-ref, environments, center, verbatim, math definitions, boxes,
+title, sectioning, contents, floats, footnotes, index, bibliography, output,
+ Unicode character data,
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+===========================================
+Local configuration file hyphen.cfg used
+===========================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/hyphen.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/luababel.def
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/firstaid/latex2e-fir
+st-aid-for-external-files.ltx)
+))
+Beginning to dump on file lualatex.fmt
+ (format=lualatex 2025.12.21)
+23919 strings using 421556 bytes
+820717 memory locations dumped; current usage is 204&384420
+22562 multiletter control sequences
+\font\nullfont=nullfont
+\font\OMX/cmex/m/n/10=cmex10
+\font\tenln=line10
+\font\tenlnw=linew10
+\font\tencirc=lcircle10
+\font\tencircw=lcirclew10
+\font\OT1/cmr/m/n/5=cmr5
+\font\OT1/cmr/m/n/7=cmr7
+\font\OT1/cmr/m/n/10=cmr10
+\font\OML/cmm/m/it/5=cmmi5
+\font\OML/cmm/m/it/7=cmmi7
+\font\OML/cmm/m/it/10=cmmi10
+\font\OMS/cmsy/m/n/5=cmsy5
+\font\OMS/cmsy/m/n/7=cmsy7
+\font\OMS/cmsy/m/n/10=cmsy10
+14 preloaded fonts
+warning  (pdf backend): no pages of output.
+Transcript written on lualatex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luahbtex/lualatex.log
+fmtutil [INFO]: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luahbtex/lualatex.fmt installed.
+fmtutil [INFO]: --- remaking dvilualatex with luatex
+fmtutil: running `luatex -ini   -jobname=dvilualatex -progname=dvilualatex dvilualatex.ini' ...
+This is LuaTeX, Version 1.22.0 (TeX Live 2025)  (INITEX)
+ restricted system commands enabled.
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/tex-ini-files/dvilua
+latex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/tex-ini-files/lualat
+ex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exconfig.tex
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/latex.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/texsys.cfg)
+./texsys.aux found
+
+
+\@currdir set to: ./.
+
+
+Assuming \openin and \input 
+have the same search path.
+
+
+Defining UNIX/DOS style filename parser.
+
+catcodes, registers, parameters,
+LaTeX2e <2025-11-01>
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3.ltx
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.
+tex)) hacks, document commands, templates, control, par, spacing, files,
+font encodings, lengths, NFSS base, NFSS axes, NFSS tracing,
+NFSS declarative interface, NFSS initialization,
+====================================
+
+Local config file fonttext.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fonttext.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omsenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1enc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tuenc.def)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tulmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tulmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/tulmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/lm/ts1lmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/t1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ot1cmtt.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmss.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd)))
+====================================
+
+Local config file fontmath.cfg used
+
+====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/fontmath.ltx
+=== Don't modify this file, use a .cfg file instead ===
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omlcmm.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omscmsy.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/omxcmex.fd)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/ucmr.fd)))
+====================================
+
+Local config file preload.cfg used
+
+=====================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/base/preload.ltx))
+page nos., x-ref, environments, center, verbatim, math definitions, boxes,
+title, sectioning, contents, floats, footnotes, index, bibliography, output,
+ Unicode character data,
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+===========================================
+Local configuration file hyphen.cfg used
+===========================================
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/hyphen.cfg
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/babel/luababel.def
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/latex/firstaid/latex2e-fir
+st-aid-for-external-files.ltx)
+)))
+Beginning to dump on file dvilualatex.fmt
+ (format=dvilualatex 2025.12.21)
+23924 strings using 421580 bytes
+820725 memory locations dumped; current usage is 204&384424
+22562 multiletter control sequences
+\font\nullfont=nullfont
+\font\OMX/cmex/m/n/10=cmex10
+\font\tenln=line10
+\font\tenlnw=linew10
+\font\tencirc=lcircle10
+\font\tencircw=lcirclew10
+\font\OT1/cmr/m/n/5=cmr5
+\font\OT1/cmr/m/n/7=cmr7
+\font\OT1/cmr/m/n/10=cmr10
+\font\OML/cmm/m/it/5=cmmi5
+\font\OML/cmm/m/it/7=cmmi7
+\font\OML/cmm/m/it/10=cmmi10
+\font\OMS/cmsy/m/n/5=cmsy5
+\font\OMS/cmsy/m/n/7=cmsy7
+\font\OMS/cmsy/m/n/10=cmsy10
+14 preloaded fonts
+No pages of output.
+Transcript written on dvilualatex.log.
+fmtutil [INFO]: log file copied to: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luatex/dvilualatex.log
+fmtutil [INFO]: /home/fabian/PBUF5-GPU/paper/texlive_install/install-tl-20251220/$SELFAUTOPARENT_texmf-sysvar/web2c/luatex/dvilualatex.fmt installed.
+fmtutil [ERROR]: running `pdftex -ini   -jobname=pdftex -progname=pdftex -translate-file=cp227.tcx *pdfetex.ini </dev/null' return status: 1
+fmtutil [ERROR]: no (or empty) pdftex.fmt made by: pdftex -ini   -jobname=pdftex -progname=pdftex -translate-file=cp227.tcx *pdfetex.ini </dev/null
+fmtutil [ERROR]: running `xetex -ini   -jobname=xetex -progname=xetex -etex xetex.ini </dev/null' return status: 1
+fmtutil [ERROR]: no (or empty) xetex.fmt made by: xetex -ini   -jobname=xetex -progname=xetex -etex xetex.ini </dev/null
+fmtutil [ERROR]: running `xetex -ini   -jobname=xelatex -progname=xelatex -etex xelatex.ini </dev/null' return status: 1
+fmtutil [ERROR]: no (or empty) xelatex.fmt made by: xetex -ini   -jobname=xelatex -progname=xelatex -etex xelatex.ini </dev/null
+fmtutil [ERROR]: running `pdftex -ini   -jobname=latex -progname=latex -translate-file=cp227.tcx *latex.ini </dev/null' return status: 1
+fmtutil [ERROR]: no (or empty) latex.fmt made by: pdftex -ini   -jobname=latex -progname=latex -translate-file=cp227.tcx *latex.ini </dev/null
+fmtutil [ERROR]: running `pdftex -ini   -jobname=pdflatex -progname=pdflatex -translate-file=cp227.tcx *pdflatex.ini </dev/null' return status: 1
+fmtutil [ERROR]: no (or empty) pdflatex.fmt made by: pdftex -ini   -jobname=pdflatex -progname=pdflatex -translate-file=cp227.tcx *pdflatex.ini </dev/null
+fmtutil [ERROR]: running `pdftex -ini   -jobname=pdfetex -progname=pdfetex -translate-file=cp227.tcx *pdfetex.ini </dev/null' return status: 1
+fmtutil [ERROR]: no (or empty) pdfetex.fmt made by: pdftex -ini   -jobname=pdfetex -progname=pdfetex -translate-file=cp227.tcx *pdfetex.ini </dev/null
+fmtutil [ERROR]: running `pdftex -ini   -jobname=etex -progname=etex -translate-file=cp227.tcx *etex.ini </dev/null' return status: 1
+fmtutil [ERROR]: no (or empty) etex.fmt made by: pdftex -ini   -jobname=etex -progname=etex -translate-file=cp227.tcx *etex.ini </dev/null
+fmtutil [ERROR]: running `xetex -ini   -jobname=xelatex-dev -progname=xelatex-dev -etex xelatex.ini </dev/null' return status: 1
+fmtutil [ERROR]: no (or empty) xelatex-dev.fmt made by: xetex -ini   -jobname=xelatex-dev -progname=xelatex-dev -etex xelatex.ini </dev/null
+fmtutil [INFO]: successfully rebuilt formats: 8
+fmtutil [INFO]: failed to build: 8 (pdftex/pdftex xetex/xetex xetex/xelatex pdftex/latex pdftex/pdflatex pdftex/pdfetex pdftex/etex xetex/xelatex-dev)
+fmtutil [INFO]: total formats: 16
+fmtutil [INFO]: executable location: /home/fabian/PBUF5-GPU/paper/texlive/bin/x86_64-linux/fmtutil
+fmtutil [INFO]: exiting with status 0
+
+[Sun Dec 21 09:16:24 2025] --end of output of fmtutil-sys --no-error-if-no-engine=luametatex,luajithbtex,luajittex,mfluajit --no-strict --all
+[09:16:24] running package-specific postactions
+postaction install script for dvipdfmx: perl /home/fabian/PBUF5-GPU/paper/texlive/tlpkg/tlpostcode/dvipdfmx.pl
+postaction install script for xetex: perl /home/fabian/PBUF5-GPU/paper/texlive/tlpkg/tlpostcode/xetex.pl
+[09:16:24] finished with package-specific postactions
+
+ ----------------------------------------------------------------------
+ The following environment variables contain the string "tex"
+ (case-independent).  If you're doing anything but adding personal
+ directories to the system paths, they may well cause trouble somewhere
+ while running TeX.  If you encounter problems, try unsetting them.
+ 
+ Please ignore spurious matches unrelated to TeX. (To omit this check,
+ set the environment variable TEXLIVE_INSTALL_ENV_NOCHECK.)
+
+    CLUTTER_DISABLE_MIPMAPPED_TEXT=1
+ ----------------------------------------------------------------------
+Welcome to TeX Live!
+See /home/fabian/PBUF5-GPU/paper/texlive/index.html for links to documentation.
+
+The TeX Live web site (https://tug.org/texlive/) provides all updates
+and corrections. TeX Live is a joint project of the TeX user groups
+around the world; please consider supporting it by joining the group
+best for you. The list of groups is available on the web
+at https://tug.org/usergroups.html.
+
+Add /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/doc/man to MANPATH.
+Add /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/doc/info to INFOPATH.
+Most importantly, add /home/fabian/PBUF5-GPU/paper/texlive/bin/x86_64-linux
+to your PATH for current and future sessions.

@@ -1,0 +1,49 @@
+name unimath-plain-xetex
+category Package
+revision 72498
+shortdesc OpenType math support in (plain) XeTeX
+longdesc This package provides OpenType math font support in plain TeX
+longdesc format. It only works with the XeTeX engine.
+containersize 16068
+containerchecksum b6f42922ceda5c95019abb9e647aaf61905dddc38178eb2bc825c293496dea5b665f36169f67368d116846773d248af25bbf83917573d82308937abbd3bee3a0
+doccontainersize 75852
+doccontainerchecksum 0bee46c1dac2faccccacce0423a300a314b0ae7b9b791d41a388c553bc0be6a676f038d2eb4083a8e27157f18691e4ea50f5733474f1b00705c0489c10bf7cd3
+runfiles size=36
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-bb.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-bb.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-bbit.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-bbit.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-bf.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-bf.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-bfit.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-bfit.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-frak.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-frak.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-frakbf.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-frakbf.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-it.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-it.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-scr.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-scr.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-scrbf.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-scrbf.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-sf.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-sf.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-sfbf.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-sfbf.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-sfbfit.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-sfbfit.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-sfit.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-sfit.tec
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-tt.map
+ texmf-dist/fonts/misc/xetex/fontmapping/unimath-plain-xetex/unimath-tt.tec
+ texmf-dist/tex/xetex/unimath-plain-xetex/unimath-plain-xetex.tex
+catalogue-contact-bugs https://github.com/AlphaZTX/unimath-plain-xetex/issues
+catalogue-contact-development https://github.com/AlphaZTX
+catalogue-contact-home https://github.com/AlphaZTX/unimath-plain-xetex
+catalogue-contact-repository https://github.com/AlphaZTX/unimath-plain-xetex
+catalogue-contact-support https://github.com/AlphaZTX/unimath-plain-xetex/issues
+catalogue-ctan /macros/xetex/plain/unimath-plain-xetex
+catalogue-license lppl1.3c
+catalogue-topics maths font-supp-maths plain-ext unicode xetex
+catalogue-version 0.2c

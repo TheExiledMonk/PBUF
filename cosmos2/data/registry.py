@@ -69,9 +69,15 @@ def load_sh0es() -> Dict[str, Any]:
 def load_bao_iso() -> Dict[str, Any]:
     return _load_npz_standardized("bao_iso")
 
+def load_bao_iso_full() -> Dict[str, Any]:
+    return _load_npz_standardized("bao_iso_full")
+
 
 def load_bao_aniso() -> Dict[str, Any]:
     return _load_npz_standardized("bao_aniso")
+
+def load_bao_aniso_full() -> Dict[str, Any]:
+    return _load_npz_standardized("bao_aniso_full")
 
 
 def load_cc() -> Dict[str, Any]:
@@ -148,7 +154,9 @@ _LOADERS: Dict[str, Callable[[], Dataset]] = {
     "sn_pantheon_shoes": load_sn,
     "sh0es": load_sh0es,
     "bao_iso": load_bao_iso,
+    "bao_iso_full": load_bao_iso_full,
     "bao_aniso": load_bao_aniso,
+    "bao_aniso_full": load_bao_aniso_full,
     "cc": load_cc,
     "rsd": load_rsd,
     "wl_s8": load_wl_s8,

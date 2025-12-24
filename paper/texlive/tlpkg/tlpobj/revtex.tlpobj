@@ -1,0 +1,40 @@
+name revtex
+category Package
+revision 67271
+shortdesc Styles for various Physics Journals
+longdesc Includes styles for American Physical Society, American
+longdesc Institute of Physics, and Optical Society of America. The
+longdesc distribution consists of the RevTeX class itself, and several
+longdesc support packages.
+containersize 67824
+containerchecksum 3c0c008929457a405cabd699a6bdbb0c4ad2afde1c7155b163c52e9564f15718bddec782abfb6336e55c77ba1d0d0d88a1da39420ed1116f21efc1e4c93d4751
+doccontainersize 5065364
+doccontainerchecksum de2053c650920b4e83183883b4fb15f25abde4210eb0c0a81adde4838c76db8e755a2afc74c8f3cafc0819d57b762e701380687e589ffc785cf6439d120c1474
+srccontainersize 195432
+srccontainerchecksum 270c74b7f50c5c8ef4eb2f27dd72e5029d6d48083baa9b477506e1559fd6684aa9ff95f371c8a40fc1535455a89e13e625b1cd7c129ff18ff3101457794f34b9
+runfiles size=212
+ texmf-dist/bibtex/bst/revtex/aapmrev4-2.bst
+ texmf-dist/bibtex/bst/revtex/aipauth4-2.bst
+ texmf-dist/bibtex/bst/revtex/aipnum4-2.bst
+ texmf-dist/bibtex/bst/revtex/apsrev4-2.bst
+ texmf-dist/bibtex/bst/revtex/apsrmp4-2.bst
+ texmf-dist/tex/latex/revtex/aapm4-2.rtx
+ texmf-dist/tex/latex/revtex/aip4-2.rtx
+ texmf-dist/tex/latex/revtex/aps10pt4-2.rtx
+ texmf-dist/tex/latex/revtex/aps11pt4-2.rtx
+ texmf-dist/tex/latex/revtex/aps12pt4-2.rtx
+ texmf-dist/tex/latex/revtex/aps4-2.rtx
+ texmf-dist/tex/latex/revtex/apsrmp4-2.rtx
+ texmf-dist/tex/latex/revtex/ltxdocext.sty
+ texmf-dist/tex/latex/revtex/ltxfront.sty
+ texmf-dist/tex/latex/revtex/ltxgrid.sty
+ texmf-dist/tex/latex/revtex/ltxutil.sty
+ texmf-dist/tex/latex/revtex/revsymb4-2.sty
+ texmf-dist/tex/latex/revtex/revtex4-2.cls
+ texmf-dist/tex/latex/revtex/sor4-2.rtx
+catalogue-also revtex4-0 revtex4-1
+catalogue-contact-home https://journals.aps.org/revtex
+catalogue-ctan /macros/latex/contrib/revtex
+catalogue-license lppl1.3c
+catalogue-topics physics journalpub class
+catalogue-version 4.2f

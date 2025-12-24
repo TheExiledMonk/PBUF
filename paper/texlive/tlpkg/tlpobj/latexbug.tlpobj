@@ -1,0 +1,21 @@
+name latexbug
+category Package
+revision 77050
+shortdesc Bug classification for LaTeX related bugs
+longdesc The package is written in order to help identifying the
+longdesc rightful addressee for a bug report. The LaTeX team asks that
+longdesc it will be loaded in any test file that is intended to be sent
+longdesc to the LaTeX bug database as part of a bug report.
+containersize 8300
+containerchecksum 13fe8210da70a44e88149ba591518b53575bd2c08a46bc23df4741ce84d5063a4da364006b2222c7977a508788f75a5efe7ae2a54320cd5a5f3a57e953a83e42
+doccontainersize 219324
+doccontainerchecksum 66b59bae78254290c9269d5b453eb8226ee4969aa811091bc3930a1dfe06f88f41216543aa50d07678d0ed0d9a966d38fb7340c7ed1caaf8e8157aa1f896c82d
+srccontainersize 12968
+srccontainerchecksum 5ae594eeca802e0441b8b51cd8b0d0a1e8440b86c5fc85f895176009cdc653007e7e3d8828582f9e0b67e43ac1191edf0d379a343343bf27f403f24907a7b911
+runfiles size=12
+ texmf-dist/tex/latex/latexbug/latexbug.sty
+catalogue-contact-repository https://github.com/latex3/latexbug
+catalogue-ctan /macros/latex/required/latexbug
+catalogue-license lppl1.3c
+catalogue-topics latex-devel
+catalogue-version 1.0q

@@ -1,0 +1,23 @@
+name fiziko
+category Package
+revision 61944
+shortdesc A MetaPost library for physics textbook illustrations
+longdesc This MetaPost library was initially written to automate some
+longdesc elements of black and white illustrations for a physics
+longdesc textbook. It provides functions to draw things like lines of
+longdesc variable width, shaded spheres, and tubes of different kinds,
+longdesc which can be used to produce images of a variety of objects.
+longdesc The library also contains functions to draw some objects
+longdesc constructed from these primitives.
+containersize 22700
+containerchecksum 4ad67bab5850464deee4a3a29fd7c02d011eca50dbba03dafc5059ee54aa434bfae5c173e6022fef4cb761f2c760b6dd5aff403b33b7ddc8e632961ce4f8dccf
+doccontainersize 4800008
+doccontainerchecksum e719652f76de617201a2562ac5b3a04df1577ace8fbcbf10b874326a85cc0ebe3549b0b427f39cfbeda0f34f7f3fe4ab6458ad1df2613572260fa77cb8601dcc
+runfiles size=26
+ texmf-dist/metapost/fiziko/fiziko.mp
+catalogue-contact-bugs https://github.com/jemmybutton/fiziko/issues
+catalogue-contact-repository https://github.com/jemmybutton/fiziko
+catalogue-ctan /graphics/metapost/contrib/macros/fiziko
+catalogue-license gpl3+ cc-by-sa-4
+catalogue-topics physics graphics graphics-mpost
+catalogue-version 0.2.0

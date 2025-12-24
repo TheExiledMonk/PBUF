@@ -1,0 +1,24 @@
+name ucharclasses
+category Package
+revision 64782
+shortdesc Font actions in XeTeX according to what is being processed
+longdesc The package takes care of switching fonts when you switch from
+longdesc one Unicode block to another in the text of a document. This
+longdesc way, you can write a document with no explicit font selection,
+longdesc but a series of rules of the form "when entering block ...,
+longdesc switch font to use ...".
+containersize 9188
+containerchecksum 41e9f5323b62d529f0b0ddd1ae9c5d613df19190a2a666e1c1b35cadd8bd5411487ecee1419b7dc7f06183181f68ecbb8bf813537c6e711f926fa99fa74f249b
+doccontainersize 143504
+doccontainerchecksum 52fb328befc004024d10d4222eaa7d6d3d179523bfdd48ca8453d6023c118f328a1981b69c805660ee4ddef95df3b5b71e1c85f59f3cae92ac74898f50b52206
+runfiles size=10
+ texmf-dist/tex/xelatex/ucharclasses/ucharclasses.sty
+catalogue-contact-bugs https://github.com/Pomax/ucharclasses/issues
+catalogue-contact-development https://github.com/Pomax/ucharclasses
+catalogue-contact-home https://github.com/Pomax/ucharclasses
+catalogue-contact-repository https://github.com/Pomax/ucharclasses
+catalogue-contact-support https://github.com/Pomax/ucharclasses/issues
+catalogue-ctan /macros/xetex/latex/ucharclasses
+catalogue-license pd
+catalogue-topics xetex font-supp
+catalogue-version 2.6

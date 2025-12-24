@@ -1,0 +1,13 @@
+{
+  "name": "metallicity",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "error": "missing_elastic_stiffness_api",
+    "summary": "Metallicity prediction not supported (missing stiffness/thermal API).",
+    "explanation": "The metallicity prediction shows that early-universe metallicity should be higher in PBUF due to accelerated star formation efficiency and delayed collapse times. This predicts more enriched galaxies at high redshift than \u039bCDM allows. JWST measurements of early metallicity can directly confirm or falsify this."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

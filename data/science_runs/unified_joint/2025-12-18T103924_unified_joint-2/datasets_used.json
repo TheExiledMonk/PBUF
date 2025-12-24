@@ -1,0 +1,10 @@
+{
+  "fits": [
+    "cmb",
+    "sn",
+    "bao_iso_full",
+    "cc",
+    "rsd"
+  ],
+  "fit_weights": {}
+}

@@ -1,0 +1,31 @@
+name mpchess
+category Package
+revision 73149
+shortdesc Drawing chess boards and positions with MetaPost
+longdesc This package allows you to draw chess boards and positions. The
+longdesc appearance of the drawings is modern and largely inspired by
+longdesc what is offered by the excellent web site Lichess.org. Relying
+longdesc on MetaPost probably allows more graphic flexibility than the
+longdesc excellent LaTeX packages. This package is in beta version, do
+longdesc not hesitate to report bugs, as well as requests for
+longdesc improvement
+containersize 30520
+containerchecksum ca2d0551f1bc1d8c8a4e6e93e699742b63e048dc92cabebe24c64efb495a2a8d2a9eed73324d92d8d2e6cc4b807ff99115bf909f4943cd3c575d3b64bc2b3356
+doccontainersize 2427280
+doccontainerchecksum 35fddb3f0336b3cb3d858c78b00bb1e604b79cffe6668a6eb327bee771955618b917d83cb866810c45573068a6a6b8adedaa4d1b8e023372d6e87ef4244bd2e2
+runfiles size=52
+ texmf-dist/fonts/truetype/public/mpchess/mpchessfont.ttf
+ texmf-dist/metapost/mpchess/mpchess-cburnett.mp
+ texmf-dist/metapost/mpchess/mpchess-chessboard.mp
+ texmf-dist/metapost/mpchess/mpchess-fen.mp
+ texmf-dist/metapost/mpchess/mpchess-pgn.mp
+ texmf-dist/metapost/mpchess/mpchess-pieces.mp
+ texmf-dist/metapost/mpchess/mpchess-skak.mp
+ texmf-dist/metapost/mpchess/mpchess.mp
+catalogue-contact-bugs https://gitlab.gutenberg-asso.fr/mchupin/mpchess/-/issues
+catalogue-contact-home https://gitlab.gutenberg-asso.fr/mchupin/mpchess
+catalogue-contact-repository https://gitlab.gutenberg-asso.fr/mchupin/mpchess
+catalogue-ctan /graphics/metapost/contrib/macros/mpchess
+catalogue-license lppl1.3c gpl2+
+catalogue-topics graphics graphics-mpost mp-use games
+catalogue-version 0.9

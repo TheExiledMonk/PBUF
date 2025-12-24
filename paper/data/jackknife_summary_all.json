@@ -1,0 +1,16 @@
+{
+  "all_folds_pbuf_better": true,
+  "max_delta_chi2": 265.6452706778326,
+  "median_chi2_lcdm": 1211.6528381685944,
+  "median_chi2_pbuf": 946.0076870395949,
+  "median_delta_chi2": 265.6451456145346,
+  "min_delta_chi2": 261.5514642079921,
+  "n_total": 150,
+  "seeds": [
+    42,
+    142,
+    242,
+    342,
+    442
+  ]
+}

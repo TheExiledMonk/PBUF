@@ -1,0 +1,35 @@
+name dehyph-exptl
+category Package
+revision 72949
+shortdesc Experimental hyphenation patterns for the German language
+longdesc The package provides experimental hyphenation patterns for the
+longdesc German language, covering both traditional and reformed
+longdesc orthography. The patterns can be used with packages Babel and
+longdesc hyphsubst from the Oberdiek bundle. Dieses Paket enthalt
+longdesc experimentelle Trennmuster fur die deutsche Sprache. Die
+longdesc Trennmuster decken das in Deutschland, Osterreich und der
+longdesc Schweiz gebrauchliche Standarddeutsch in der traditionellen und
+longdesc reformierten Rechtschreibung ab und konnen mit den Paketen
+longdesc Babel und hyphsubst aus dem Oberdiek-Bundel verwendet werden.
+depend hyph-utf8
+depend hyphen-base
+execute AddHyphen  name=german-x-2024-02-28 synonyms=german-x-latest  lefthyphenmin=2 righthyphenmin=2  file=dehypht-x-2024-02-28.tex  file_patterns=hyph-de-1901.pat.txt file_exceptions=
+execute AddHyphen  name=ngerman-x-2024-02-28 synonyms=ngerman-x-latest  lefthyphenmin=2 righthyphenmin=2  file=dehyphn-x-2024-02-28.tex  file_patterns=hyph-de-1996.pat.txt file_exceptions=
+containersize 134304
+containerchecksum 2b1f6bdd423ececfef4519c2bdb9bc000d88ac3589c2135602c52e2217ecca73bb136844a7e950610692b7eeb1c43eced6f9a4812a736eaa31041d1d264d6b42
+doccontainersize 145680
+doccontainerchecksum 6b3ddd4a00f70117ae5b8d56f9ff2a33d6acff9743765fef01d02aa12c87c1e3d3d2684dde1c7292dd3c580a231358b3a27ba1323e3ec91c5bd5f24524101e12
+runfiles size=206
+ texmf-dist/tex/generic/dehyph-exptl/dehyphn-x-2024-02-28.pat
+ texmf-dist/tex/generic/dehyph-exptl/dehyphn-x-2024-02-28.tex
+ texmf-dist/tex/generic/dehyph-exptl/dehypht-x-2024-02-28.pat
+ texmf-dist/tex/generic/dehyph-exptl/dehypht-x-2024-02-28.tex
+ texmf-dist/tex/generic/dehyph-exptl/dehyphts-x-2024-02-28.pat
+ texmf-dist/tex/generic/dehyph-exptl/dehyphts-x-2024-02-28.tex
+catalogue-contact-home https://wiki.dante.de/doku.php?id=trennmuster:trennmuster
+catalogue-contact-repository https://repo.or.cz/w/wortliste.git
+catalogue-contact-support mailto:trennmuster@dante.de
+catalogue-ctan /language/hyphenation/dehyph-exptl
+catalogue-license mit lppl
+catalogue-topics hyphenation german
+catalogue-version 1.0

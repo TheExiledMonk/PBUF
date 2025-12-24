@@ -1,0 +1,22 @@
+name latex-firstaid-dev
+category Package
+revision 76757
+shortdesc Development pre-release of the LaTeX firstaid package
+longdesc This is a pre-release version of the standard LaTeX firstaid
+longdesc package. It accompanies the pre-testing kernel code
+longdesc (latex-base-dev), and is intended for testing by knowledgeable
+longdesc users.
+containersize 5144
+containerchecksum 36fdc40620407dfbad740b16ca4263dea9fd951fec61bf348dec127df86cfeb29de884101006b227f2ee15aa9fea41ed1c0dd3bdcc5e3bcfd373123288f4991d
+doccontainersize 287212
+doccontainerchecksum 6127d3023de444b0de57138b7dc64c6614fbbb25cd9ace0c35ea3f9348fae1ca7f1fa47bd02a6efdc7d119be7b75b31e0bb3f8136c09993d6fc058831b96e257
+srccontainersize 11352
+srccontainerchecksum 7dfccd90d0b86de17e0c296e08e0c87b50dda6c93ce5f14f205005cf2f57472872924725959d79adbb2c9a8afe99b7336e79df92af1a38007d2606db7476961f
+runfiles size=6
+ texmf-dist/tex/latex-dev/firstaid/filehook-ltx.sty
+ texmf-dist/tex/latex-dev/firstaid/latex2e-first-aid-for-external-files.ltx
+ texmf-dist/tex/latex-dev/firstaid/underscore-ltx.sty
+catalogue-ctan /macros/latex-dev/required/firstaid
+catalogue-license lppl1.3c
+catalogue-topics format bugfix latex-devel pre-release
+catalogue-version 2026-06-01a pre-release 0

@@ -188,8 +188,11 @@ def generate_model_panel(
             residuals_list = extras.get("residuals", [])
             meta = extras.get("dataset", {}).get("meta", {})
             meta_rows = ""
-            for mkey, mval in meta.items():
-                meta_rows += f"<tr><td>{mkey}</td><td>{mval}</td></tr>"
+            if isinstance(meta, dict):
+                for mkey, mval in meta.items():
+                    meta_rows += f"<tr><td>{mkey}</td><td>{mval}</td></tr>"
+            elif meta not in (None, ""):
+                meta_rows = f"<tr><td colspan=\"2\"><pre>{html.escape(json.dumps(meta, indent=2, default=str))}</pre></td></tr>"
             prediction_entry = model_data.get("predictions", {}).get(ds_key, {})
             plot_html = ""
             plot_path = prediction_entry.get("prediction_plot")

@@ -1,0 +1,17 @@
+name babel-hungarian
+category Package
+revision 75084
+shortdesc Babel support for Hungarian
+longdesc The package provides a language definition file that enables
+longdesc support of Hungarian with babel.
+containersize 54336
+containerchecksum 797c3a6ed7876ff8ab662929aa21810f2173d880135752af3739d1e30fcd013277986de052d7a7a39b30af0125df80af1abbb73042e68faef9065de284d46bdf
+doccontainersize 604
+doccontainerchecksum 2b473490af8f29703b029720e147f62988c0b8ae457d58d49026b3db74129491d4a63054d99bb6f6cfc8e899677bcb418da111b05b115b8ee0513d8bbfb2eb50
+runfiles size=62
+ texmf-dist/tex/generic/babel-hungarian/magyar.ldf
+catalogue-contact-home https://www.math.bme.hu/latex/
+catalogue-ctan /macros/latex/contrib/babel-contrib/hungarian
+catalogue-license lppl gpl
+catalogue-topics multilingual-addon hungarian
+catalogue-version 1.5d

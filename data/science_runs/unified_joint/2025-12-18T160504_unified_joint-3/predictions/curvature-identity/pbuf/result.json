@@ -1,0 +1,72 @@
+{
+  "name": "curvature-identity",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "has_k_max": false,
+    "timestamp": "2025-12-18T21:13:40.485391+00:00",
+    "summary": "Check of the PBUF baryon\u2013saturation\u2013rigidity identity (\u03a9_b0 \u2248 2\u03b1, k_sat \u2248 1\u2212\u03b1, k_max \u2248 \u03b5\u2080\u2212\u03b1)",
+    "explanation": "The curvature identity plot demonstrates the tight internal relationship between \u03b1, \u03a9_b0, and k_sat. In PBUF these quantities are not independent: they obey a geometric identity that arises from elastic curvature saturation. Observational agreement confirms the internal consistency of the elastic medium."
+  },
+  "results": {
+    "alpha": 0.02204192849386733,
+    "epsilon0_today": 0.4268320551305502,
+    "Omega_b0_actual": 0.04408385698773466,
+    "Omega_b0_pred": 0.04408385698773466,
+    "Delta_Omega_b0": 0.0,
+    "k_sat_actual": null,
+    "k_sat_pred": 0.9779580715061327,
+    "Delta_k_sat": null,
+    "k_max_actual": null,
+    "k_max_pred": 0.4047901266366829,
+    "Delta_k_max": null
+  },
+  "tables": [
+    {
+      "name": "curvature_identity_components",
+      "columns": [
+        "quantity",
+        "actual",
+        "predicted",
+        "delta"
+      ],
+      "rows": [
+        [
+          "Omega_b0",
+          0.04408385698773466,
+          0.04408385698773466,
+          0.0
+        ],
+        [
+          "k_sat",
+          null,
+          0.9779580715061327,
+          null
+        ]
+      ],
+      "metadata": {
+        "generated_by": "curvature-identity"
+      }
+    }
+  ],
+  "plots": [
+    {
+      "name": "curvature_identity_bar",
+      "data": {
+        "x": [
+          "Omega_b0"
+        ],
+        "y": [
+          0.0
+        ]
+      },
+      "description": "Residuals of the baryon\u2013saturation\u2013rigidity identity.",
+      "metadata": {
+        "type": "bar",
+        "xlabel": "Quantity",
+        "ylabel": "actual - predicted"
+      }
+    }
+  ]
+}

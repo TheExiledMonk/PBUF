@@ -1,0 +1,23 @@
+{
+  "name": "curvature_bar_chart",
+  "data": {
+    "x": [
+      "Omega_m0",
+      "Omega_r0",
+      "alpha",
+      "Omega_sigma0"
+    ],
+    "y": [
+      0.3265470887980345,
+      9e-05,
+      0.02204192849386733,
+      0.6513209827080981
+    ]
+  },
+  "description": "Closure components that feed today's curvature bias.",
+  "metadata": {
+    "type": "bar",
+    "xlabel": "Components",
+    "ylabel": "Fraction"
+  }
+}

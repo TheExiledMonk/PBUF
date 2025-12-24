@@ -649,6 +649,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     report_parser.add_argument("--run", required=True, help="Path to the science run directory")
     report_parser.add_argument("--output-dir", help="Directory to place the generated report bundle")
     report_parser.add_argument(
+        "--aggregate-jackknife",
+        action="store_true",
+        help="Enable jackknife aggregation mode: --run is treated as a suite root and jackknife folds are pooled across runs.",
+    )
+    report_parser.add_argument(
+        "--include-run",
+        action="append",
+        default=[],
+        help="Explicit run directory to include when using --aggregate-jackknife (can be repeated).",
+    )
+    report_parser.add_argument(
+        "--no-latest-per-run-name",
+        action="store_true",
+        help="When aggregating, do not auto-select only the latest directory per run_name.",
+    )
+    report_parser.add_argument(
         "--format",
         action="append",
         default=[],
@@ -1138,10 +1154,17 @@ def _handle_report(args: argparse.Namespace) -> int:
 
     # Prepare arguments for the standalone reporting system
     sys.argv = [
-        'report_cli.py',
+        "report_cli.py",
         str(run_dir),
-        '--output', str(output_dir / 'science_report.html')
+        "--output",
+        str(output_dir / "science_report.html"),
     ]
+    if getattr(args, "aggregate_jackknife", False):
+        sys.argv.append("--aggregate-jackknife")
+        if getattr(args, "no_latest_per_run_name", False):
+            sys.argv.append("--no-latest-per-run-name")
+        for extra in getattr(args, "include_run", []) or []:
+            sys.argv.extend(["--run", str(extra)])
 
     print("[cosmos_cli] 📊 Initializing Standalone Report Generator...")
 

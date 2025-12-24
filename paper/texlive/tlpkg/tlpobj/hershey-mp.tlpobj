@@ -1,0 +1,20 @@
+name hershey-mp
+category Package
+revision 70885
+shortdesc MetaPost support for the Hershey font file format
+longdesc This package provides MetaPost support for reading jhf vector
+longdesc font files, used by (mostly? only?) the so-called Hershey Fonts
+longdesc of the late 1960s. The package does not include the actual font
+longdesc files, which you can probably find in the software repository
+longdesc of your operating system.
+containersize 1684
+containerchecksum a660377614522f159698d0577ec2fbb210e639787ed2267530d40e45c12f72f188f1e5000c7bd7865a7d1cb74627b5dcdcb8a44c3b17a1c7ff62b0c9ce0e430f
+doccontainersize 273748
+doccontainerchecksum 89b0baa7ffa7fb3c3b0b7ef000cbb4e2656dff839c846dda575e262f5ce7c4e62b9f737c9dc8c2e7b1c788e439c4b524f2ab7fb4e3685157a4aa8f3044b21413
+runfiles size=1
+ texmf-dist/metapost/hershey-mp/hershey.mp
+catalogue-contact-repository https://gitlab.com/renkema/hershey
+catalogue-ctan /graphics/metapost/contrib/macros/hershey-mp
+catalogue-license eupl
+catalogue-topics mp-supp mp-use
+catalogue-version 2022/1.0

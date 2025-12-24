@@ -1,0 +1,16 @@
+{
+  "name": "high-z-delay",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "model": "LCDMModel",
+    "timestamp": "2025-12-18T16:04:56.018816+00:00",
+    "reference": "same-H-constant-c",
+    "error": "missing_wave_speed_api",
+    "summary": "High-z propagation delay prediction not supported for this model (missing wave-speed or stiffness API).",
+    "explanation": "The high-z delay curve shows how elastic-wave speed affects photon travel time from early epochs. PBUF predicts an accumulated delay relative to \u039bCDM because c_eff was lower in the hotter early medium. Detection of systematic timing offsets at high redshift would support the elastic propagation model."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

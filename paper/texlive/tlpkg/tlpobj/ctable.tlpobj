@@ -1,0 +1,22 @@
+name ctable
+category Package
+revision 76639
+shortdesc Flexible typesetting of table and figure floats using key/value directives
+longdesc Provides commands to typeset centered, left- or right-aligned
+longdesc table and (multiple-)figure floats, with footnotes. Instead of
+longdesc an environment, a command with 4 arguments is used; the first
+longdesc is optional and is used for key,value pairs generating
+longdesc variations on the defaults and offering a route for future
+longdesc extensions.
+containersize 3640
+containerchecksum 9f0f60c05c33b7c7553ab0e4b76b72c663e758fc45b9d5abb7ef65a530c83468d057b54c44f89b841945f9100d89613609e9095a1d1fdf1ef09e7b6a152738bf
+doccontainersize 602600
+doccontainerchecksum 2c752d047579b63849b1feef1526842756a451b60aaddb9e889bc0f9fd57ee7375dc4edcf2cc9e4163e6307ffc18400de1fa51abfc0fd331cbca6868ea12625f
+srccontainersize 55960
+srccontainerchecksum 2d89c4eda10e81983617f85178ce91a3fc200ced5da9bab612a5f6571473bb19ab63a3f43f52d60815e741dc97c2f845f789f98cb875137c14d9e28798833d61
+runfiles size=4
+ texmf-dist/tex/latex/ctable/ctable.sty
+catalogue-ctan /macros/latex/contrib/ctable
+catalogue-license lppl1.3c
+catalogue-topics table float
+catalogue-version 1.33

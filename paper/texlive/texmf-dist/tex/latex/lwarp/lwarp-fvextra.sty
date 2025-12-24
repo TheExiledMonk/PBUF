@@ -1,0 +1,307 @@
+%%
+%% This is file `lwarp-fvextra.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% lwarp.dtx  (with options: `fvextra')
+%% This is a generated file.
+%% Copyright 2016-2025 Brian Dunn
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+\LWR@ProvidesPackagePass{fvextra}[2025/02/09]
+\define@booleankey{FV}{obeytabs}%
+  {\let\FV@ObeyTabsInit\relax}%     lwarp
+  {\let\FV@ObeyTabsInit\relax}
+
+\define@key{FV}{tabcolor}{}%
+
+\define@booleankey{FV}{showtabs}%
+ {\def\FV@TabChar{\FV@TabColor{\FancyVerbTab}}}%
+ {\let\FV@TabChar\relax}
+
+\newbool{LWR@FV@breaklines}
+
+\define@booleankey{FV}{breaklines}%
+  {\boolfalse{FV@breaklines}%
+    \booltrue{LWR@FV@breaklines}%                           lwarp
+    \let\FV@ListProcessLine\FV@ListProcessLine@NoBreak}%   lwarp
+  {\boolfalse{FV@breaklines}%
+    \boolfalse{LWR@FV@breaklines}%                          lwarp
+    \let\FV@ListProcessLine\FV@ListProcessLine@NoBreak}
+
+\define@key{FV}{breakanywheresymbolpre}{\def\FancyVerbBreakAnywhereSymbolPre{}}
+\fvset{breakanywheresymbolpre={}}
+
+\define@key{FV}{breakanywheresymbolpost}{\def\FancyVerbBreakAnywhereSymbolPost{}}
+\fvset{breakanywheresymbolpost={}}
+
+\define@key{FV}{breakbeforesymbolpre}{\def\FancyVerbBreakBeforeSymbolPre{}}
+\fvset{breakbeforesymbolpre={}}
+
+\define@key{FV}{breakbeforesymbolpost}{\def\FancyVerbBreakBeforeSymbolPost{}}
+\fvset{breakbeforesymbolpost={}}
+
+\define@key{FV}{breakaftersymbolpre}{\def\FancyVerbBreakAfterSymbolPre{}}
+\fvset{breakaftersymbolpre={}}
+
+\define@key{FV}{breakaftersymbolpost}{\def\FancyVerbBreakAfterSymbolPost{}}
+\fvset{breakaftersymbolpost={}}
+
+\define@key{FV}{breaksymbolleft}{\def\FancyVerbBreakSymbolLeft{}}
+
+\define@key{FV}{breaksymbol}{\fvset{breaksymbolleft={}}}
+
+\fvset{breaksymbolleft={}}
+
+\define@key{FV}{breaksymbolright}{\def\FancyVerbBreakSymbolRight{}}
+\fvset{breaksymbolright={}}
+
+\def\FV@DefFVSpace{%
+  \ifbool{FV@showspaces}%
+     {%
+        \def\FV@Space{%
+            \FV@SpaceColor{\FancyVerbSpace}%
+            \allowbreak%
+        }%
+     }%
+    {\def\FV@Space{\nobreakspace\allowbreak}}%
+}
+
+\ifxetexorluatex
+\def\FancyVerbSpace{\textvisiblespace}
+\else
+\@ifundefined{verbvisiblespace}%
+  {%
+    \@ifundefined{textvisiblespace}%
+    {\begingroup\catcode`\ =12 \gdef\FancyVerbSpace{\tt }\endgroup}
+    {\def\FancyVerbSpace{\textvisiblespace}}
+  }%
+  {\def\FancyVerbSpace{\verbvisiblespace}}
+\fi
+
+
+\renewcommand*{\LWR@find@currentFVbackstyle}{%
+    \ifundef{\FancyVerbBackgroundColor}%
+    {%
+        \renewcommand*{\LWR@currentFVbackstyle}{}%
+    }%
+    {%
+        \protect\colorlet{LWR@current@color}{\FancyVerbBackgroundColor}%
+        \protect\convertcolorspec%
+            {named}{LWR@current@color}{HTML}%
+            \LWR@currentFVbackcolor\relax%
+        \renewcommand*{\LWR@currentFVbackstyle}{%
+            background:\LWR@origpound\LWR@currentFVbackcolor ; %
+        }%
+    }%
+}%
+
+\def\FV@BGColor@List#1{%
+  \ifx\FancyVerbBackgroundColor\relax
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+   {#1}%
+   {%
+        #1%     lwarp
+}}
+
+\VerifyCommand[lwarp][fvextra]{\FV@ListProcessLine@NoBreak}
+    {1BD7CF18A442D2F988127C6BE726517B}
+
+\def\FV@ListProcessLine@NoBreak#1{%
+      \FV@LeftListNumber%
+      \FV@LeftListFrame%
+      \FV@BGColor@List{%
+      \FancyVerbFormatLine{%
+        \FancyVerbHighlightLine{%
+          \FV@ObeyTabs{\FancyVerbFormatText{#1}}}}}%\hss
+      \FV@RightListFrame%
+      \FV@RightListNumber%
+\null\par%                   lwarp
+\FV@bgcoloroverlap%
+}
+\newcommand*{\LWR@FV@linethensep}{%
+    \ifbool{LWR@FV@breaklines}%
+        {\theFancyVerbLine\kern\FV@NumberSep}%
+        {\hbox to\z@{\hss\theFancyVerbLine\kern\FV@NumberSep}}%
+}
+
+\newcommand*{\LWR@FV@septhenline}{%
+    \ifbool{LWR@FV@breaklines}%
+        {\kern\FV@NumberSep\theFancyVerbLine}%
+        {\hbox to\z@{\kern\FV@NumberSep\theFancyVerbLine\hss}}%
+}
+
+\VerifyCommand[lwarp][fvextra]{\FV@Numbers@left}
+    {57A16473A8AA4214529F6BABEC435311}
+
+\xpatchcmd{\FV@Numbers@left}%
+    {\hbox to\z@{\hss\theFancyVerbLine\kern\FV@NumberSep}}
+    {\LWR@FV@linethensep}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@left A}}
+
+\xpatchcmd{\FV@Numbers@left}%
+    {\hbox to\z@{\hss\theFancyVerbLine\kern\FV@NumberSep}}
+    {\LWR@FV@linethensep}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@left B}}
+
+\xpatchcmd{\FV@Numbers@left}%
+    {\hbox to\z@{\hss\theFancyVerbLine\kern\FV@NumberSep}}
+    {\LWR@FV@linethensep}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@left C}}
+
+\VerifyCommand[lwarp][fvextra]{\FV@Numbers@right}
+    {6D0F98326BCB22695874D94BEC12E32F}
+
+\xpatchcmd{\FV@Numbers@right}%
+    {\hbox to\z@{\kern\FV@NumberSep\theFancyVerbLine\hss}}
+    {\LWR@FV@septhenline}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@right A}}
+
+\xpatchcmd{\FV@Numbers@right}%
+    {\hbox to\z@{\kern\FV@NumberSep\theFancyVerbLine\hss}}
+    {\LWR@FV@septhenline}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@right B}}
+
+\xpatchcmd{\FV@Numbers@right}%
+    {\hbox to\z@{\hss\theFancyVerbLine\kern\FV@NumberSep}}
+    {\LWR@FV@linethensep}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@right C}}
+
+\VerifyCommand[lwarp][fvextra]{\FV@Numbers@both}
+    {C349DC2B800D5DD085FFB7620A6289EA}
+
+\xpatchcmd{\FV@Numbers@both}%
+    {\hbox to\z@{\hss\theFancyVerbLine\kern\FV@NumberSep}}
+    {\LWR@FV@linethensep}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@both A}}
+
+\xpatchcmd{\FV@Numbers@both}%
+    {\hbox to\z@{\hss\theFancyVerbLine\kern\FV@NumberSep}}
+    {\LWR@FV@linethensep}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@both B}}
+
+\xpatchcmd{\FV@Numbers@both}%
+    {\hbox to\z@{\hss\theFancyVerbLine\kern\FV@NumberSep}}
+    {\LWR@FV@linethensep}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@both C}}
+
+\xpatchcmd{\FV@Numbers@both}%
+    {\hbox to\z@{\kern\FV@NumberSep\theFancyVerbLine\hss}}
+    {\LWR@FV@septhenline}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@both D}}
+
+\xpatchcmd{\FV@Numbers@both}%
+    {\hbox to\z@{\kern\FV@NumberSep\theFancyVerbLine\hss}}
+    {\LWR@FV@septhenline}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@both E}}
+
+\xpatchcmd{\FV@Numbers@both}%
+    {\hbox to\z@{\hss\theFancyVerbLine\kern\FV@NumberSep}}
+    {\LWR@FV@linethensep}
+    {}
+    {\LWR@patcherror{fvextra}{FV@Numbers@both F}}
+
+\VerifyCommand[lwarp][fvextra]{\FVC@SaveVerb@Extra@ii}
+    {BCE88217BA577F70BAC8158E110E404C}
+
+\def\FVC@SaveVerb@Extra@ii#1#2#3{%
+  \global\let\FV@AfterSave\FancyVerbAfterSave
+  \endgroup
+   \@namedef{FV@SV@#1}{\LWR@HTMLsanitize@use@tmpb{#3}}%     lwarp
+  \@namedef{FV@SVRaw@#1}{\LWR@HTMLsanitize@use@tmpb{#2}}%   lwarp
+  \FV@AfterSave}%
+
+\VerifyCommand[lwarp][fvextra]{\FVC@Verb@Extra@ii}
+    {C81AC0F7DFE7FBB55CF8B5B7F24FA56A}
+
+\def\FVC@Verb@Extra@ii#1{%
+    \def\tmpb{#1}%                                                  lwarp
+    \ifbool{LWR@verbtags}%              lwarp
+        {\LWR@htmltag{span class=\textquotedbl{}fancyvrb\textquotedbl}}%  lwarp
+        {}%                             lwarp
+   \LWR@HTMLsanitize@tmpb%                             lwarp
+  \ifx\FancyVerbBackgroundColor\relax
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+   {\ifbool{FV@breaklines}%
+    {\FV@InsertBreaks{\FancyVerbFormatInline}{\tmpb}}%  lwarp
+    {\mbox{\FancyVerbFormatInline{\tmpb}}}}%    lwarp
+   {\setlength{\FV@TmpLength}{\fboxsep}%
+    \ifx\FancyVerbBackgroundColorPadding\relax
+      \setlength{\fboxsep}{0pt}%
+    \else
+      \setlength{\fboxsep}{\FancyVerbBackgroundColorPadding}%
+    \fi
+    \colorbox{\FancyVerbBackgroundColor}{%
+      \setlength{\fboxsep}{\FV@TmpLength}%
+      \FancyVerbBackgroundColorVPhantom\FancyVerbFormatInline{\tmpb}}}% lwarp
+    \ifbool{LWR@verbtags}%              lwarp
+        {\LWR@htmltag{/span}}%          lwarp
+        {}%                             lwarp
+  \endgroup}
+
+\VerifyCommand[lwarp][fvextra]{\FV@UseVerb@Extra}
+    {C81AC0F7DFE7FBB55CF8B5B7F24FA56A}
+
+\let\FV@UseVerb@Extra\FVC@Verb@Extra@ii%
+
+\VerifyCommand[lwarp][fvextra]{\FVC@EscVerb@ii}
+    {C81AC0F7DFE7FBB55CF8B5B7F24FA56A}
+
+\let\FVC@EscVerb@ii\FVC@Verb@Extra@ii%
+
+\VerifyCommand[lwarp][fvextra]{\FVB@VerbatimWrite}
+    {B092E8AB57DB2ABBA815BC39DB5256DC}
+
+\xpatchcmd{\FVB@VerbatimWrite}
+    {\FV@Scan}
+    {\boolfalse{LWR@HTMLsanitize@tmpb@enable}\FV@Scan}
+    {}
+    {\LWR@patcherror{fvextra}{FVB@VerbatimWrite}}
+
+\VerifyCommand[lwarp][fvextra]{\FVB@VerbatimBuffer}
+    {C93C8D3CFD5AD692F8A1A202F07FD771}
+
+\xpatchcmd{\FVB@VerbatimBuffer}
+    {\FV@Scan}
+    {\boolfalse{LWR@HTMLsanitize@tmpb@enable}\FV@Scan}
+    {}
+    {\LWR@patcherror{fvextra}{FVB@VerbatimBuffer}}
+
+\VerifyCommand[lwarp][fvextra]{\VerbatimInsertBuffer@def@FV@Line}
+    {5C6EACB0FB4432BEA081C784456845CD}
+
+\def\VerbatimInsertBuffer@def@FV@Line#1{%
+    \FVExtraRetokenizeVArg{\def\FV@Line}{}{#1}%
+    \LetLtxMacro\tmpb\FV@Line%      lwarp
+    \LWR@HTMLsanitize@tmpb%         lwarp
+    \LetLtxMacro\FV@Line\tmpb%      lwarp
+}%
+
+
+\endinput
+%%
+%% End of file `lwarp-fvextra.sty'.

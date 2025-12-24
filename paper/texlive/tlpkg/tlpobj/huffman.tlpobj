@@ -1,0 +1,20 @@
+name huffman
+category Package
+revision 67071
+shortdesc Drawing binary Huffman trees with MetaPost and METAOBJ
+longdesc This MetaPost package allows to draw binary Huffman trees from
+longdesc two arrays : an array of strings, and an array of weights
+longdesc (numeric). It is based on the METAOBJ package which provides
+longdesc many tools for building trees in general.
+containersize 3036
+containerchecksum 0d78c3874045ce45d703f443817d9b20b5baca0e3b713bc5f09e18a64102af3d349ebb5b7051a5152eaf06c8d9cd01c3a00b5a3c0f5b4db12f566b5f5356c991
+doccontainersize 126832
+doccontainerchecksum 3c1651e5cb8b527e1c55aaf682003c1639c91efd9bcaa4fa51779fac572550195979c0baf2bb4738f8b5e2628b6deb4af6109938ce70e4238696ca35f7e4ea34
+runfiles size=3
+ texmf-dist/metapost/huffman/huffman.mp
+catalogue-contact-home https://plmlab.math.cnrs.fr/mchupin/huffman
+catalogue-contact-repository https://github.com/chupinmaxime/huffman/
+catalogue-ctan /graphics/metapost/contrib/macros/huffman
+catalogue-license lppl1.3c
+catalogue-topics graphics-mpost tree
+catalogue-version 0.1

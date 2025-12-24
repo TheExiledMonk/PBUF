@@ -1,0 +1,31 @@
+name mp-geom2d
+category Package
+revision 77019
+shortdesc Flat geometry with MetaPost
+longdesc This package was written with the aim of providing MetaPost
+longdesc macros for creating a geometry figure that closely matches an
+longdesc imperative description: Let A be the point with coordinates
+longdesc (2,3). Let B be the point with coordinates (4,5). Draw the line
+longdesc (A, B). ...
+containersize 17308
+containerchecksum ec4b54162452503472089ec2ccfeb75df4ecd9cc40b93146deeebe49fbdfe39af878d606f90fa792cf7912cd30a2a772fa67db1c7a9f8c59027c6c147ff0a648
+doccontainersize 2315764
+doccontainerchecksum ed7ad7706d3cd6b4b393c9dc6c46e78ae90cd88fd558bf3582f8297d650c325900e199f889573cb4700fbcd1df623337975f71d75e9f036b12aba1ba5e3ff875
+runfiles size=23
+ texmf-dist/metapost/mp-geom2d/geom2d-arc.mp
+ texmf-dist/metapost/mp-geom2d/geom2d-c2d.mp
+ texmf-dist/metapost/mp-geom2d/geom2d-fct.mp
+ texmf-dist/metapost/mp-geom2d/geom2d-lbl.mp
+ texmf-dist/metapost/mp-geom2d/geom2d-main.mp
+ texmf-dist/metapost/mp-geom2d/geom2d-plt.mp
+ texmf-dist/metapost/mp-geom2d/geom2d-rep.mp
+ texmf-dist/metapost/mp-geom2d/geom2d-svgnames.mp
+ texmf-dist/metapost/mp-geom2d/geom2d-tra.mp
+ texmf-dist/metapost/mp-geom2d/geom2d.mp
+catalogue-contact-bugs https://gitlab.gutenberg-asso.fr/mchupin/mp-geom2d/-/issues
+catalogue-contact-home https://gitlab.gutenberg-asso.fr/mchupin/mp-geom2d
+catalogue-contact-repository https://gitlab.gutenberg-asso.fr/mchupin/mp-geom2d
+catalogue-ctan /graphics/metapost/contrib/macros/mp-geom2d
+catalogue-license lppl1.3c
+catalogue-topics graphics graphics-mpost maths
+catalogue-version 1.4

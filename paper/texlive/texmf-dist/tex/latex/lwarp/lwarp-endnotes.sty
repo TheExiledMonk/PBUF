@@ -1,0 +1,79 @@
+%%
+%% This is file `lwarp-endnotes.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% lwarp.dtx  (with options: `endnotes')
+%% This is a generated file.
+%% Copyright 2016-2025 Brian Dunn
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+
+\LWR@ProvidesPackagePass{endnotes}[2020-01-02]
+\def\enoteformat{%
+\leavevmode
+\makeenmark
+}
+\def\LWR@HTML@@makeenmark{\hbox{\LWR@htmlspan{sup}{\normalfont\theenmark}}}
+\LWR@formatted{@makeenmark}
+
+\def\makeenmark{\@makeenmark}
+\apptocmd{\LWR@nullifyfootnotes}{%
+    \renewcommand{\endnote}[2][]{}%
+    \renewcommand{\endnotemark}[1]{}%
+}{}{}
+\def\theendnotes{\immediate\closeout\@enotes \global\@enotesopenfalse
+  \begingroup
+    \makeatletter
+    %
+    % The machinery with \@ResetGT and > here ensures that
+    % \@doanenote works properly even if > is an active character
+    % at the point where \theendnotes is invoked. > needs to have
+    % catcode 12 when the arguments of \@doanenote are scanned, so
+    % that the > in the string "macro:->" is matched.  The actual
+    % footnote text is not an argument to \@doanenote, but just
+    % follows it in the .ent file; so \@ResetGT can reset the
+    % category code for > that should be used when processing
+    % that text.  That resetting takes place within a
+    % \begingroup-\endgroup block set up by \@doanenote and
+    % \@endanenote, so the catcode for > is back to 12 for the
+    % next note.
+    %
+    \edef\@tempa{`\string >}%
+    \ifnum\catcode\@tempa=12%
+      \let\@ResetGT\relax
+    \else
+      \edef\@ResetGT{\noexpand\catcode\@tempa=\the\catcode\@tempa}%
+      \@makeother\>%
+    \fi
+    \def\@doanenote##1##2>{\def\@theenmark{##1}\par\begingroup
+        \@ResetGT
+        \def\@currentcounter{endnote}%
+        \edef\@currentlabel{\csname p@endnote\endcsname\@theenmark}%
+        \enoteformat}
+    \def\@endanenote{\par\endgroup}%
+    \enoteheading
+    \enotesize
+    \InputIfFileExists{\jobname.ent}{}{%
+       \PackageWarning{endnotes}{No endnotes found (file \jobname.ent does not exist)\MessageBreak}
+    }%
+  \endgroup}
+\begin{warpMathJax}
+\def\endnotename{endnote}
+\appto\LWR@syncnotenumbers{\LWR@synconenotenumber{LWRendnote}{\theendnote}}
+\appto\LWR@syncnotenames{\LWR@synconenotename{LWRendnote}{\endnotename}}
+\CustomizeMathJax{\def\LWRendnote{1}}
+\CustomizeMathJax{\newcommand{\endnote}[2][\LWRendnote]{{}^{\mathrm{#1}}}}
+\CustomizeMathJax{\newcommand{\endnotemark}[1][\LWRendnote]{{}^{\mathrm{#1}}}}
+\end{warpMathJax}
+
+\endinput
+%%
+%% End of file `lwarp-endnotes.sty'.

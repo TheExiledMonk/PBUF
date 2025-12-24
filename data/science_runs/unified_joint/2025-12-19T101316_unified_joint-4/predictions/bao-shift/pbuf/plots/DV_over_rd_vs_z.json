@@ -1,0 +1,18 @@
+{
+  "name": "DV_over_rd_vs_z",
+  "data": {
+    "z": [
+      0.35,
+      0.57
+    ],
+    "DV_over_rd": [
+      11.389858378688844,
+      18.935601681877923
+    ]
+  },
+  "description": "Volume-averaged BAO distance D_V(z) divided by r_d (PBUF).",
+  "metadata": {
+    "xlabel": "redshift z",
+    "ylabel": "D_V(z)/r_d (PBUF)"
+  }
+}

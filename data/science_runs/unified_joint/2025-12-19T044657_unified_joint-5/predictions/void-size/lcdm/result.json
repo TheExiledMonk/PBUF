@@ -1,0 +1,12 @@
+{
+  "name": "void-size",
+  "version": "v1",
+  "status": "error",
+  "metadata": {
+    "error": "missing_alpha",
+    "explanation": "The void-size prediction shows that cosmic voids should be slightly larger in PBUF than in \u039bCDM due to altered growth history and curvature. This percent-level difference is measurable with DESI and Euclid void catalogs and provides another geometric test of elastic cosmology."
+  },
+  "results": {},
+  "tables": [],
+  "plots": []
+}

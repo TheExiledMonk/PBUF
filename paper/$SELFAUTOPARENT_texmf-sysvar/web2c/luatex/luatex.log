@@ -1,0 +1,367 @@
+This is LuaTeX, Version 1.22.0 (TeX Live 2025)  (INITEX)  24 DEC 2025 08:55
+ restricted system commands enabled.
+**luatex.ini
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+ex.ini
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exconfig.tex
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/pdft
+exconfig.tex))
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/tex-ini-files/luat
+exiniconfig.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/unicode-data/load-
+unicode-data.tex 
+load-unicode-data.tex v1.19 (2025-09-26)
+Reading Unicode data
+# UnicodeData-17.0.0.txt
+# Modified 2025-09-26 07:00 GMT [JAW]
+)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/luatex/hyph-utf8/etex.src
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers,
+\maxdimen=\dimen10
+\hideskip=\skip10
+\centering=\skip11
+\p@=\dimen11
+\z@=\dimen12
+\z@skip=\skip12
+\voidb@x=\box10
+ parameters,
+\smallskipamount=\skip13
+\medskipamount=\skip14
+\bigskipamount=\skip15
+\normalbaselineskip=\skip16
+\normallineskip=\skip17
+\normallineskiplimit=\dimen13
+\jot=\dimen14
+\interdisplaylinepenalty=\count23
+\interfootnotelinepenalty=\count24
+ fonts, more fonts,
+\itfam=\fam4
+\slfam=\fam5
+\bffam=\fam6
+\ttfam=\fam7
+
+macros,
+\strutbox=\box11
+\mscount=\count25
+\tabs=\box12
+\tabsyet=\box13
+\tabsdone=\box14
+ math definitions,
+\rootbox=\box15
+\p@renwd=\dimen15
+ output routines,
+\headline=\toks10
+\footline=\toks11
+\footins=\insert254
+\topins=\insert253
+ hyphenation
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
+\et@xinput=\read0
+\et@xtoks=\toks12
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
+Skipping module "nodetypes"; Skipping module "iftypes";)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/config/language.de
+f
+\lang@USenglish=\language0
+luatex-hyphen: using data file: /home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/
+tex/generic/config/language.dat.lua
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+\lang@german-x-2024-02-28=\language1
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/dehyph-exptl/dehyp
+ht-x-2024-02-28.tex
+dehyph-exptl: using a TeX engine with native UTF-8 support.
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/dehyph-exptl/dehyp
+ht-x-2024-02-28.pat
+German Hyphenation Patterns (Traditional Orthography) `dehypht-x' 2024-02-28 (W
+L)))
+\lang@german-x-latest=\language2
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/dehyph-exptl/dehyp
+ht-x-2024-02-28.tex
+dehyph-exptl: using a TeX engine with native UTF-8 support.
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/dehyph-exptl/dehyp
+ht-x-2024-02-28.pat
+German Hyphenation Patterns (Traditional Orthography) `dehypht-x' 2024-02-28 (W
+L)))
+\lang@ngerman-x-2024-02-28=\language3
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/dehyph-exptl/dehyp
+hn-x-2024-02-28.tex
+dehyph-exptl: using a TeX engine with native UTF-8 support.
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/dehyph-exptl/dehyp
+hn-x-2024-02-28.pat
+German Hyphenation Patterns (Reformed Orthography, 2006) `dehyphn-x' 2024-02-28
+ (WL)))
+\lang@ngerman-x-latest=\language4
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/dehyph-exptl/dehyp
+hn-x-2024-02-28.tex
+dehyph-exptl: using a TeX engine with native UTF-8 support.
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/dehyph-exptl/dehyp
+hn-x-2024-02-28.pat
+German Hyphenation Patterns (Reformed Orthography, 2006) `dehyphn-x' 2024-02-28
+ (WL)))
+\lang@afrikaans=\language5
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-af.tex UTF-8 Afrikaans hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-af.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/quote/hyph-quote-af.tex))
+\lang@albanian=\language6
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-sq
+.tex)
+\lang@ancientgreek=\language7
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-gr
+c.tex)
+\lang@ibycus=\language8
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/ibyhyph.tex
+)
+\lang@arabic=\language9
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyph-ar.tex
+)
+\lang@armenian=\language10
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-hy
+.tex)
+\lang@basque=\language11
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-eu.tex UTF-8 Basque hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-eu.tex))
+\lang@belarusian=\language12
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-be
+.tex)
+\lang@bulgarian=\language13
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-bg
+.tex)
+\lang@catalan=\language14
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-ca
+.tex)
+\lang@pinyin=\language15
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-zh
+-latn-pinyin.tex)
+\lang@churchslavonic=\language16
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-cu
+.tex)
+\lang@coptic=\language17
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-co
+p.tex)
+\lang@croatian=\language18
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-hr
+.tex)
+\lang@czech=\language19
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-cs.tex UTF-8 Czech hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-cs.tex))
+\lang@danish=\language20
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-da.tex UTF-8 Danish hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-da.tex))
+\lang@dutch=\language21
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-nl.tex UTF-8 Dutch hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-nl.tex))
+\lang@ukenglish=\language22
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-en-gb.tex ASCII Hyphenation patterns for British English
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-en-gb.tex))
+\lang@british=\language23
+\lang@UKenglish=\language24
+\lang@usenglishmax=\language25
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-en-us.tex ASCII Hyphenation patterns for American English
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-en-us.tex))
+\lang@esperanto=\language26
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-eo
+.tex)
+\lang@estonian=\language27
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-et
+.tex)
+\lang@ethiopic=\language28
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-mu
+l-ethi.tex)
+\lang@amharic=\language29
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-mu
+l-ethi.tex)
+\lang@geez=\language30
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-mu
+l-ethi.tex)
+\lang@farsi=\language31
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyph-fa.tex
+)
+\lang@persian=\language32
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyph-fa.tex
+)
+\lang@finnish=\language33
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-fi.tex UTF-8 Finnish hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-fi.tex))
+\lang@schoolfinnish=\language34
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-fi-x-school.tex UTF-8 Finnish hyphenation patterns for school
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-fi-x-school.tex))
+\lang@french=\language35
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-fr.tex UTF-8 French hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-fr.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/quote/hyph-quote-fr.tex))
+\lang@patois=\language36
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-fr.tex UTF-8 French hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-fr.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/quote/hyph-quote-fr.tex))
+\lang@francais=\language37
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-fr.tex UTF-8 French hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-fr.tex)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/quote/hyph-quote-fr.tex))
+\lang@friulan=\language38
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-fu
+r.tex)
+\lang@galician=\language39
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-gl
+.tex)
+\lang@georgian=\language40
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-ka
+.tex)
+\lang@german=\language41
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-de-1901.tex
+UTF-8 German hyphenation patterns (traditional orthography)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-de-1901.tex
+German Hyphenation Patterns (Traditional Orthography) `dehypht-x' 2024-02-28 (W
+L)))
+\lang@ngerman=\language42
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-de-1996.tex UTF-8 German hyphenation patterns (reformed orthography)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-de-1996.tex
+German Hyphenation Patterns (Reformed Orthography, 2006) `dehyphn-x' 2024-02-28
+ (WL)))
+\lang@swissgerman=\language43
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-de-ch-1901.tex
+UTF-8 Swiss-German hyphenation patterns (traditional orthography)
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-de-ch-1901.tex
+Swiss-German Hyphenation Patterns (Traditional Orthography) `dehyphts-x' 2024-0
+2-28 (WL)))
+\lang@greek=\language44
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-el
+-polyton.tex)
+\lang@polygreek=\language45
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-el
+-polyton.tex)
+\lang@monogreek=\language46
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-el
+-monoton.tex)
+\lang@hebrew=\language47
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/hyph-he.tex
+)
+\lang@hungarian=\language48
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/loadhyph
+/loadhyph-hu.tex UTF-8 Hungarian hyphenation patterns
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyph-utf8/patterns
+/tex/hyph-hu.tex))
+\lang@icelandic=\language49
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-is
+.tex)
+\lang@assamese=\language50
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-as
+.tex)
+\lang@bengali=\language51
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-bn
+.tex)
+\lang@gujarati=\language52
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-gu
+.tex)
+\lang@hindi=\language53
+
+(/home/fabian/PBUF5-GPU/paper/texlive/texmf-dist/tex/generic/hyphen/loadhyph-hi
+.tex)
+\lang@kannada=\language54
+
+! I can't find file `loadhyph-kn.tex'.
+\addlanguage ... \else \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.117 ...anguage{kannada}{loadhyph-kn.tex}{}{1}{1}
+                                                  
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+! Emergency stop.
+\addlanguage ... \else \uselanguage {#1}\input #2 
+                                                  \if *#3*\else \input #3 \f...
+l.117 ...anguage{kannada}{loadhyph-kn.tex}{}{1}{1}
+                                                  
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!
+# actual command line used during this run
+# luatex -ini   -jobname=luatex -progname=luatex luatex.ini </dev/null

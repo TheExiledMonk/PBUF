@@ -1,0 +1,22 @@
+name xfrac
+category Package
+revision 71430
+shortdesc Split-level fractions
+longdesc This package uses the interface defined by LaTeX templates to
+longdesc provide flexible split-level fractions via the \sfrac macro.
+longdesc This is both a demonstration of the power of the template
+longdesc concept and also a useful addition to the available
+longdesc functionality in LaTeX2e.
+containersize 3180
+containerchecksum bf1baf5132f29bc139f00cfe15ee7035894d57baa3fbc30978165ad2d1527d44262ffcdb3536cf3066cdd9fa1c02412f8948158cb6d603e8222e2385e5b19ce8
+doccontainersize 640220
+doccontainerchecksum c8b84ff6483ef64914d50ddf67b014f3e8fc7cff34896e665a4f7a694ae273179a02af725508bf57d2084cb1f1d91ba9412e9955ac136470effcf549230dfe29
+srccontainersize 9772
+srccontainerchecksum 8e2e5a0c5186e67f68d1ff900fedf7cec0219d767d44cfa35adf944ded2f2934b30e7e4b1906c96475ac07a28b5dbc60a42fb46dd4a52280aa95219d564f3723
+runfiles size=4
+ texmf-dist/tex/latex/xfrac/xfrac.sty
+catalogue-contact-bugs https://github.com/latex3/xfrac/issues
+catalogue-contact-repository https://github.com/latex3/xfrac
+catalogue-ctan /macros/latex/contrib/xfrac
+catalogue-license lppl1.3c
+catalogue-topics maths latex3

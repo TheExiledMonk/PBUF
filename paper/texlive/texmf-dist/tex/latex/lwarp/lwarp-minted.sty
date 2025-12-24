@@ -1,0 +1,165 @@
+%%
+%% This is file `lwarp-minted.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% lwarp.dtx  (with options: `minted')
+%% This is a generated file.
+%% Copyright 2016-2025 Brian Dunn
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+\LWR@ProvidesPackagePass{minted}[2025/02/12]
+\newcommand*{\LWR@minted@forcekeys}{%
+    \pgfkeys{/minted/cmd/.cd,mathescape=false}%
+    \pgfkeys{/minted/cmd/.cd,texcomments=false}%
+    \pgfkeys{/minted/cmd/.cd,highlightlines=false}%
+    \pgfkeys{/minted/cmd/.cd,breaklines}%
+    \boolfalse{LWR@HTMLsanitize@tmpb@enable}% lwarp
+}
+\VerifyCommand[lwarp][minted]{\minted@highlight@i}
+    {B3E47D0B3B8933CCB16FAB0735F408A8}
+
+\xpretocmd{\minted@highlight@i}
+    {\fvset{breaklines}}
+    {}
+    {\LWR@patcherror{minted}{minted@highlight@i}}
+\VerifyCommand[lwarp][minted]{\RobustMintInlineProcess@verbatim}
+    {0786EFAEDB22E40E59ECEBB9DC532FB7}
+
+\xpatchcmd{\RobustMintInlineProcess@verbatim}
+    {\edef\minted@lexer{#2}}
+    {%
+        \LWR@minted@forcekeys%    lwarp
+        \edef\minted@lexer{#2}%
+    }
+    {}
+    {\LWR@patcherror{minted}{RobustMintInlineProcess@verbatim}}
+
+\VerifyCommand[lwarp][minted]{\RobustMintInlineProcess@highlight}
+    {02CC068F5FC0031015293B2CE0425ACB}
+
+\xpatchcmd{\RobustMintInlineProcess@highlight}
+    {\edef\minted@lexer{#2}}
+    {%
+        \LWR@minted@forcekeys%    lwarp
+        \edef\minted@lexer{#2}%
+    }
+    {}
+    {\LWR@patcherror{minted}{RobustMintInlineProcess@highlight}}
+
+\VerifyCommand[lwarp][minted]{\RobustMintProcess@verbatim}
+    {C1C8E870B5E8E3E8E572CA50ADF69953}
+
+\xpatchcmd{\RobustMintProcess@verbatim}
+    {\edef\minted@lexer{#2}}
+    {%
+        \LWR@minted@forcekeys%    lwarp
+        \edef\minted@lexer{#2}%
+    }
+    {}
+    {\LWR@patcherror{minted}{RobustMintProcess@verbatim}}
+
+\VerifyCommand[lwarp][minted]{\RobustMintProcess@highlight}
+    {D426304D27561EE1139B30E897A7C2CA}
+
+\xpatchcmd{\RobustMintProcess@highlight}
+    {\edef\minted@lexer{#2}}
+    {%
+        \LWR@minted@forcekeys%    lwarp
+        \edef\minted@lexer{#2}%
+    }
+    {}
+    {\LWR@patcherror{minted}{RobustMintProcess@highlight}}
+
+\VerifyCommand[lwarp][minted]{\MintedBegin@verbatim}
+    {B16E0A3A51DBF9F39609F2135572D7C2}
+
+\xpatchcmd{\MintedBegin@verbatim}
+    {\edef\minted@lexer{#2}}
+    {%
+        \LWR@minted@forcekeys%    lwarp
+        \edef\minted@lexer{#2}%
+    }
+    {}
+    {\LWR@patcherror{minted}{MintedBegin@verbatim}}
+
+\VerifyCommand[lwarp][minted]{\MintedBegin@highlight}
+    {A8C3A60BE3C6AF3A401071A9C5FE8B39}
+
+\xpatchcmd{\MintedBegin@highlight}
+    {\edef\minted@lexer{#2}}
+    {%
+        \LWR@minted@forcekeys%    lwarp
+        \edef\minted@lexer{#2}%
+    }
+    {}
+    {\LWR@patcherror{minted}{MintedBegin@highlight}}
+
+\ifbool{minted@placeholder}%
+ {\let\MintedBegin\MintedBegin@placeholder
+  \let\MintedEnd\MintedEnd@placeholder}%
+ {\ifbool{minted@verbatim}%
+   {\let\MintedBegin\MintedBegin@verbatim
+    \let\MintedEnd\MintedEnd@verbatim}%
+   {\let\MintedBegin\MintedBegin@highlight
+    \let\MintedEnd\MintedEnd@highlight}}
+
+\VerifyCommand[lwarp][minted]{\RobustInputMintedProcess@verbatim}
+    {C129B2C6AD588C19065A00A64CE6AF0E}
+
+\xpatchcmd{\RobustInputMintedProcess@verbatim}
+    {\edef\minted@lexer{#2}}
+    {%
+        \LWR@minted@forcekeys%    lwarp
+        \edef\minted@lexer{#2}%
+    }
+    {}
+    {\LWR@patcherror{minted}{RobustInputMintedProcess@verbatim}}
+
+\VerifyCommand[lwarp][minted]{\RobustInputMintedProcess@highlight}
+    {AD7408E3B5BEE16A5F1573BBCAE46554}
+
+\xpatchcmd{\RobustInputMintedProcess@highlight}
+    {\edef\minted@lexer{#2}}
+    {%
+        \LWR@minted@forcekeys%    lwarp
+        \edef\minted@lexer{#2}%
+    }
+    {}
+    {\LWR@patcherror{minted}{RobustInputMintedProcess@highlight}}
+
+\xpatchcmd{\minted@highlight@i}
+    {\input{\minted@highlightfilepath}}
+    {%
+        \LWR@minted@overrides%  lwarp
+        \input{\minted@highlightfilepath}%
+    }
+    {}
+    {\LWR@patcherror{minted}{minted@highlight@i}}
+
+\xpatchcmd{\minted@highlight@create}
+    {\input{\minted@highlightfilepath}}
+    {%
+        \LWR@minted@overrides%  lwarp
+        \input{\minted@highlightfilepath}%
+    }
+    {}
+    {\LWR@patcherror{minted}{minted@highlight@create}}
+
+\newcommand*{\LWR@minted@overrides}{
+\def\PYGZam{\char`\&amp;}
+\def\PYGZlt{\char`\&lt;}
+\def\PYGZgt{\char`\&gt;}
+\def\PYGZsq{\char`\&apos;}
+}
+
+\endinput
+%%
+%% End of file `lwarp-minted.sty'.

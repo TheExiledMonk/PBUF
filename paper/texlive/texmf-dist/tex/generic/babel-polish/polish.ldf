@@ -1,0 +1,135 @@
+%%
+%% This is file `polish.ldf',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% polish.dtx  (with options: `code')
+%% This is a generated file.
+%% 
+%% Copyright 2022 Marcin Woliński and any individual authors
+%% listed elsewhere in this file.  All rights reserved.
+%% 
+%% This file is intended to be used with the Babel system.
+%% ------------------------------------------------------
+%% 
+%% It may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2003/12/01 or later.
+%% 
+%% This work has the LPPL maintenance status "maintained".
+%% 
+%% The Current Maintainer of this work is Marcin Woliński.
+%% 
+%% The list of derived (unpacked) files belonging to the distribution
+%% and covered by LPPL is defined by the unpacking scripts (with
+%% extension .ins) which are part of the distribution.
+\ProvidesLanguage{polish}
+        [2022/03/12 1.3 Babel support for Polish]
+\LdfInit{polish}\captionspolish
+\@ifpackagelater{babel}{2021/08/30}{%
+}{\PackageError{polish.ldf}{Babel too old, at least version 2021/08/30
+    required}{}%
+  \providecommand\babel@texpdf[4]{#1}%
+}
+\ifx\l@polish\@undefined
+  \@nopatterns{Polish}
+  \adddialect\l@polish\l@unhyphenated\fi
+\StartBabelCommands*{polish}{captions}
+  [unicode, charset=utf8, fontenc=TU EU1 EU2]
+  \SetString{\prefacename}{Przedmowa}
+  \SetString{\refname}{Literatura}
+  \SetString{\abstractname}{Streszczenie}
+  \SetString{\bibname}{Bibliografia}
+  \SetString{\chaptername}{Rozdział}
+  \SetString{\appendixname}{Dodatek}
+  \SetString{\contentsname}{Spis treści}
+  \SetString{\listfigurename}{Spis rysunków}
+  \SetString{\listtablename}{Spis tabel}
+  \SetString{\indexname}{Skorowidz}
+  \SetString{\figurename}{Rysunek}
+  \SetString{\tablename}{Tabela}
+  \SetString{\partname}{Część}
+  \SetString{\enclname}{Załączniki}
+  \SetString{\ccname}{Do wiadomości}
+  \SetString{\headtoname}{Do}
+  \SetString{\pagename}{Strona}
+  \SetString{\seename}{zob.}
+  \SetString{\alsoname}{zob. także}
+  \SetString{\proofname}{Dowód}
+  \SetString{\glossaryname}{Słowniczek}
+
+\StartBabelCommands*{polish}{date}
+  [unicode, charset=utf8, fontenc=TU EU1 EU2]
+  \SetStringLoop{month#1name}{%
+    stycznia,lutego,marca,kwietnia,maja,czerwca,%
+    lipca,sierpnia,września,października,listopada,grudnia}
+\StartBabelCommands*{polish}{captions}
+  \SetString{\prefacename}{Przedmowa}
+  \SetString{\refname}{Literatura}
+  \SetString{\abstractname}{Streszczenie}
+  \SetString{\bibname}{Bibliografia}
+  \SetString{\chaptername}{Rozdzia\l}
+  \SetString{\appendixname}{Dodatek}
+  \SetString{\contentsname}{Spis tre\'sci}
+  \SetString{\listfigurename}{Spis rysunk\'ow}
+  \SetString{\listtablename}{Spis tabel}
+  \SetString{\indexname}{Skorowidz}
+  \SetString{\figurename}{Rysunek}
+  \SetString{\tablename}{Tabela}
+  \SetString{\partname}{Cz\k{e}\'s\'c}
+  \SetString{\enclname}{Za\l\k{a}czniki}
+  \SetString{\ccname}{Do wiadomo\'sci}
+  \SetString{\headtoname}{Do}
+  \SetString{\pagename}{Strona}
+  \SetString{\seename}{zob.}
+  \SetString{\alsoname}{zob. tak\.ze}
+  \SetString{\proofname}{Dow\'od}
+  \SetString{\glossaryname}{S\l owniczek}
+
+\StartBabelCommands*{polish}{date}
+  \SetStringLoop{month#1name}{%
+    stycznia,lutego,marca,kwietnia,maja,czerwca,%
+    lipca,sierpnia,wrze\'snia,pa\'zdziernika,listopada,grudnia}
+  \SetString\today{%
+    {\number\day}~\@nameuse{month\romannumeral\month name} {\number\year}}
+\EndBabelCommands
+\initiate@active@char{"}
+\declare@shorthand{polish}{"-}{\bbl@hy@soft}
+\declare@shorthand{polish}{"=}{\babel@texpdf{\bbl@hy@repeat}{-}{-}{\textminus}}
+\declare@shorthand{polish}{"|}{\babel@texpdf{\discretionary{-}{}{\kern.03em}}{}{}{}}
+\declare@shorthand{polish}{"`}{\quotedblbase}
+\declare@shorthand{polish}{"'}{\textquotedblright}
+\declare@shorthand{polish}{"<}{\guillemotleft}
+\declare@shorthand{polish}{">}{\guillemotright}
+\addto\extraspolish{%
+  \bbl@frenchspacing
+  \languageshorthands{polish}%
+  \bbl@activate{"}}
+\addto\noextraspolish{%
+  \bbl@nonfrenchspacing
+  \bbl@deactivate{"}}
+\ldf@finish{polish}
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+\endinput
+%%
+%% End of file `polish.ldf'.

@@ -1,0 +1,20 @@
+name xebaposter
+category Package
+revision 75290
+shortdesc Create beautiful scientific Persian/Latin posters using TikZ
+longdesc This package is designed for making beautiful scientific
+longdesc Persian/Latin posters. It is a fork of baposter by Brian Amberg
+longdesc and Reinhold Kainhofer available at LaTeX Poster Template.
+longdesc baposter's users should be able to compile their poster using
+longdesc xebaposter (instead of baposter) without any problem.
+containersize 10032
+containerchecksum 524956f4eefa999e17f7e8465782d420ac18a18e58a25de73fd571c6ea03b05882bf08cb47935fb243f601b7faa0733e5ad57a2faa6108ff2de3275bed4a4d41
+doccontainersize 507260
+doccontainerchecksum 3028332ca2adda228cb791bdc9c44e45cbc4b7b59cf93f12158fbf2cb297ff3431d6a6ef40f524e474ee5565699e8aa7f04142a985ed69affdefd468283b753e
+runfiles size=12
+ texmf-dist/tex/latex/xebaposter/xebaposter.cls
+catalogue-contact-bugs https://github.com/javadr/xebaposter/issues
+catalogue-ctan /graphics/pgf/contrib/xebaposter
+catalogue-license lppl1.3
+catalogue-topics poster class pgf-tikz
+catalogue-version 2.54

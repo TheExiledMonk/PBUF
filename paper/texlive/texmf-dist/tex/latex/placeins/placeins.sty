@@ -1,0 +1,5 @@
+% Minimal placeholder to satisfy the document's use of \FloatBarrier
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{placeins}[2025/12/24 Minimal stub defining \string\FloatBarrier]
+% The real package prevents floats from crossing arbitrary barriers; here we simply flush floats.
+\newcommand{\FloatBarrier}{\par\clearpage}

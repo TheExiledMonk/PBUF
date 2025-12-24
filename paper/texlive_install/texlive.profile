@@ -1,0 +1,17 @@
+selected_scheme scheme-small
+TEXDIR /home/fabian/PBUF5-GPU/paper/texlive
+TEXMFLOCAL /home/fabian/PBUF5-GPU/paper/texlive_texmf-local
+TEXMFSYSCONFIG /home/fabian/PBUF5-GPU/paper/texlive_texmf-sysconfig
+TEXMFSYSVAR /home/fabian/PBUF5-GPU/paper/texlive_texmf-sysvar
+TEXMFCONFIG /home/fabian/PBUF5-GPU/paper/texlive_texmf-config
+TEXMFVAR /home/fabian/PBUF5-GPU/paper/texlive_texmf-var
+TEXMFHOME /home/fabian/PBUF5-GPU/paper/texlive_texmf-home
+option_doc 0
+option_src 0
+option_autobackup 0
+option_desktop_integration 0
+option_path 0
+option_symlinks 0
+option_file_assocs 0
+option_adjustrepo 1
+option_letter 0

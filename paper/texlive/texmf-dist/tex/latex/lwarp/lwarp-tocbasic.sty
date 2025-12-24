@@ -1,0 +1,131 @@
+%%
+%% This is file `lwarp-tocbasic.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% lwarp.dtx  (with options: `tocbasic')
+%% This is a generated file.
+%% Copyright 2016-2025 Brian Dunn
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+
+
+\LWR@ProvidesPackageDrop{tocbasic}[2025/09/09]
+
+\DeclareDocumentCommand\addtotoclist{om}{}
+\DeclareDocumentCommand\AtAddToTocList{o}{}
+\DeclareDocumentCommand\removefromtoclist{om}{}
+\DeclareDocumentCommand\doforeachtocfile{o+m}{}
+\DeclareDocumentCommand\addtoeachtocfile{o+m}{}
+\DeclareDocumentCommand\addcontentslinetoeachtocfile{omm}{}
+
+\DeclareDocumentCommand\addxcontentsline{mmO{}m}{%
+    \ifblank{#3}%
+        {\addcontentsline{#1}{#2}{\protect\nonumberline#4}}%
+        {\addcontentsline{#1}{#2}{\protect\numberline{#3}#4}}%
+}
+
+\DeclareDocumentCommand\addxcontentslinetoeachtocfile{omom}{}
+\DeclareDocumentCommand\listofeachtoc{o}{}
+
+\DeclareDocumentCommand \captionabove { s O{#3} m }{\caption[#2]{#3}}
+\DeclareDocumentCommand \captionbelow { s O{#3} m }{\caption[#2]{#3}}
+\DeclareDocumentCommand \captionaboveof { s m O{#4} m }{\captionof{#2}[#3]{#4}}
+\DeclareDocumentCommand \captionbelowof { s m O{#4} m }{\captionof{#2}[#3]{#4}}
+
+\DeclareDocumentCommand\TOCEntryStyleInitCode{sm+m}{}
+\DeclareDocumentCommand\TOCEntryStyleStartInitCode{sm+m}{}
+\DeclareDocumentCommand{\DeclareTOCStyleEntry}{+omm}{}
+\DeclareDocumentCommand{\DeclareTOCStyleEntries}{+omm}{}
+\DeclareDocumentCommand{\DeclareTOCEntryStyle}{m+O{}+m}{}
+
+\let\Ifattoclist\relax
+\let\owneroftoc\relax
+\let\categoryoftoc\relax
+\let\nonumberline\relax
+\let\BeforeStartingTOC\relax
+\let\AfterStartingTOC\relax
+\newcommand{\Ifattoclist}[1]{\@firstoftwo}% takes 3 args
+\newcommand*{\owneroftoc}[2][\@firstofone]{}
+\newcommand*{\categoryoftoc}{\owneroftoc}
+\newcommand*{\nonumberline}{}
+\newcommand{\BeforeStartingTOC}[2][]{}
+\newcommand{\AfterStartingTOC}[2][]{}
+
+\let\listofname\relax
+\newcommand*{\listofname}{List of}
+
+\newcommand*{\LWR@tocbasic@starttoc}[1]{%
+    \begingroup
+    \edef\@currext{#1}%
+    \@starttoc{#1}%
+    \endgroup%
+}
+
+\DeclareDocumentCommand{\listoftoc}{som}
+    {%
+        \IfBooleanTF{#1}% star?
+            {\LWR@listof{#3}{}}% star
+            {% no star
+                \IfValueTF{#2}% title given?
+                    {%
+                        \LWR@listof{#3}{#2}%
+                    }% title given
+                    {% no title given
+                        \ifcsdef{listof#3name}%
+                            {\LWR@listof{#3}{\csuse{listof#3name}}}%
+                            {\LWR@listof{#3}{\listofname~#3}}%
+                    }%
+            }%
+    }
+
+\let\BeforeTOCHead\relax
+\let\AfterTOCHead\relax
+\let\deftocheading\relax
+\let\setuptoc\relax
+\let\unsettoc\relax
+\let\Iftocfeature\relax
+\let\tocbasicautomode\relax
+\let\DeclareNewTOC\relax
+\let\usetocbasicnumberline\relax
+\let\CloneTOCEntryStyle\relax
+\let\LastTOCLevelWasHigher\relax
+\let\LastTOCLevelWasSame\relax
+\let\LastTOCLevelWasLower\relax
+\let\TOCLineLeaderFill\relax
+\newcommand{\BeforeTOCHead}[2][]{}
+\newcommand{\AfterTOCHead}[2][]{}
+\newcommand*{\deftocheading}[2]{}% takes two args
+\newcommand*{\setuptoc}[2]{}
+\newcommand*{\unsettoc}[2]{}
+\newcommand*{\Iftocfeature}[2]{\@secondoftwo}% takes 4 args
+\newcommand*{\tocbasicautomode}{}
+\newcommand*{\DeclareNewTOC}[2][]{}
+\newcommand*{\usetocbasicnumberline}[1][]{}% opt arg
+\newcommand*{\CloneTOCEntryStyle}[2]{}
+\newcommand*{\LastTOCLevelWasHigher}{}
+\newcommand*{\LastTOCLevelWasSame}{}
+\newcommand*{\LastTOCLevelWasLower}{}
+\newcommand*{\TOCLineLeaderFill}[1][.]{}
+
+\DeclareDocumentCommand{\DefineTOCEntryBooleanOption}{mommm}{}
+\DeclareDocumentCommand{\DefineTOCEntryCommandOption}{mommm}{}%
+\DeclareDocumentCommand{\DefineTOCEntryIfOption}{mommm}{}%
+\DeclareDocumentCommand{\DefineTOCEntryLengthOption}{mommm}{}%
+\DeclareDocumentCommand{\DefineTOCEntryListOption}{mommm}{}%
+\DeclareDocumentCommand{\DefineTOCEntryNumberOption}{mommm}{}%
+\DeclareDocumentCommand{\DefineTOCEntryOption}{mom}{}%
+\DeclareDocumentCommand{\AddToDeclareTOCEntryStylePreCheckNeeds}{}{}
+\DeclareDocumentCommand{\PreToDeclareTOCEntryStylePreCheckNeeds}{}{}
+\DeclareDocumentCommand{\TOCEntryStyleNeedsCommandByOption}{}{}
+
+\endinput
+%%
+%% End of file `lwarp-tocbasic.sty'.

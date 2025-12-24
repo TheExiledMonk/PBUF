@@ -1,0 +1,115 @@
+{
+  "name": "bao-shift",
+  "version": "v1",
+  "status": "success",
+  "metadata": {
+    "model": "PBUFModel",
+    "compare_lcdm": true,
+    "z_input": 0.57,
+    "zmin": 0.1,
+    "zmax": 2.0,
+    "points": 40,
+    "timestamp": "2025-12-18T16:04:56.305890+00:00",
+    "explanation": "The BAO-shift plot shows how the BAO distance scale differs between PBUF and \u039bCDM. PBUF predicts a modest percent-level shift due to elastic-wave propagation delaying early-universe sound travel. This is directly testable by DESI and future BAO surveys. Matching the predicted offset would confirm PBUF's elastic modification of early-universe distances."
+  },
+  "results": {
+    "z_pivot": 0.57,
+    "alpha_iso_pivot": 1.0193580517157226,
+    "alpha_perp_pivot": 1.0175229353001536,
+    "alpha_parallel_pivot": 1.0230382194879137,
+    "DV_over_rd_PBUF_pivot": 18.935638444142388,
+    "DV_over_rd_LCDM_pivot": 18.576042453651148,
+    "rd_PBUF": 139.18485923342288,
+    "rd_LCDM": 133.4569365054585
+  },
+  "tables": [
+    {
+      "name": "bao_shift_vs_z",
+      "columns": [
+        "z",
+        "DV_PBUF",
+        "DV_LCDM",
+        "DV_over_rd_PBUF",
+        "DV_over_rd_LCDM",
+        "DM_PBUF",
+        "DM_LCDM",
+        "H_PBUF",
+        "H_LCDM",
+        "alpha_iso",
+        "alpha_perp",
+        "alpha_parallel"
+      ],
+      "rows": [
+        [
+          0.35,
+          1585.2989128773136,
+          1471.2148839700724,
+          11.38988049137338,
+          11.023892219419398,
+          1332.5197758530396,
+          1229.485274549153,
+          85.22561130757012,
+          90.77674742504381,
+          1.0331995509997156,
+          1.0392008382361857,
+          1.0213007469970095
+        ],
+        [
+          0.57,
+          2635.554171342949,
+          2479.1017182596224,
+          18.935638444142388,
+          18.576042453651148,
+          2057.9811899118527,
+          1939.3060427701182,
+          97.44550797108252,
+          103.96915773680574,
+          1.0193580517157226,
+          1.0175229353001536,
+          1.0230382194879137
+        ]
+      ],
+      "metadata": {
+        "points": 2
+      }
+    }
+  ],
+  "plots": [
+    {
+      "name": "DV_over_rd_vs_z",
+      "data": {
+        "z": [
+          0.35,
+          0.57
+        ],
+        "DV_over_rd": [
+          11.38988049137338,
+          18.935638444142388
+        ]
+      },
+      "description": "Volume-averaged BAO distance D_V(z) divided by r_d (PBUF).",
+      "metadata": {
+        "xlabel": "redshift z",
+        "ylabel": "D_V(z)/r_d (PBUF)"
+      }
+    },
+    {
+      "name": "alpha_iso_vs_z",
+      "data": {
+        "z": [
+          0.35,
+          0.57
+        ],
+        "alpha_iso": [
+          1.0331995509997156,
+          1.0193580517157226
+        ]
+      },
+      "description": "Isotropic BAO shift \u03b1_iso(z) relative to \u039bCDM.",
+      "metadata": {
+        "xlabel": "redshift z",
+        "ylabel": "\u03b1_iso(z) = D_V/r_d (PBUF)/ref"
+      }
+    }
+  ]
+}
