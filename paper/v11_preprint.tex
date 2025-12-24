@@ -31,15 +31,15 @@
 }
 \lstnewenvironment{lomath}{\lstset{style=lomathstyle}}{}
 
-\title{PBUF V11 Joint Fit, A Results Draft}
-\author{Anonymous draft for internal circulation}
-\date{\today}
+\title{PBUF V11 Joint Fit Results}
+\author{Preprint V11\\Fabian Olesen\\December 2025\\DOI: 10.5281/zenodo.18041373\\\href{https://github.com/TheExiledMonk/PBUF}{github.com/TheExiledMonk/PBUF}}
+\date{}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This paper reports a first full V11 preprint draft for PBUF, a Lambda-free elastic spacetime model implemented in the pipeline, tested against a LambdaCDM baseline in the same framework.
+This paper reports the V11 preprint for PBUF, a Lambda-free elastic spacetime model implemented in the pipeline, tested against a LambdaCDM baseline in the same framework.
 We perform a joint fit across five datasets (CMB distance priors, Pantheon+ supernovae, DESI isotropic BAO, cosmic chronometers, and a compiled fsigma8 RSD set), and evaluate robustness with 150 jackknife realizations (30 folds each for five jackknife seeds: 42, 142, 242, 342, 442).
 Across all 150 folds, PBUF has lower total chi2 than LambdaCDM.
 The median chi2 across folds is 946.008 for PBUF and 1211.653 for LambdaCDM.
@@ -49,7 +49,6 @@ We do not claim a full physical interpretation here, only that this specific pip
 \section{Introduction}
 The standard LambdaCDM model is an efficient baseline for cosmological inference, but its dominant components are placeholders in the sense that dark matter and dark energy are not directly specified as a microphysical sector in the fit.
 PBUF takes a different approach: it replaces the cosmological constant with an elastic sector (implemented as an additional density component), and ties key density parameters to a microphysics-derived curvature quantity.
-This draft is intentionally results driven and pipeline bound. If older notes disagree with the current implementation, the implementation wins.
 
 \subsection{Scope and Relation to Established Physics}
 
@@ -96,6 +95,13 @@ The elastic amplitude sets the overall strength of elastic stress, while \(\epsi
 These quantum-derived quantities are converted into a compact thermal representation and stored in a lookup table (LUT), which is interpolated during cosmological evolution.
 No cosmological data enter this step.
 Once \(\alpha_{\mathrm{QM}}\) and \(\epsilon_0(T)\) are specified, all late-time elastic contributions are fully determined.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/pbuf_temperature_evolution.png}
+\caption{Thermal lookup-table trajectory produced by the LUT referenced in this section; the same curve seeds the expansion and growth predictions introduced later.}
+\label{fig:temperature_evolution}
+\end{figure}
 
 \subsubsection{Numerical Value and Quantum Origin of \(\alpha\)}
 
@@ -239,9 +245,10 @@ five jackknife seeds (42, 142, 242, 342, 442), 30 folds per seed, for a total of
 Aggregated results reflect jackknife resampling only. Model parameters and deterministic predictions are identical across the runs.
 The jackknife analysis is used here as a robustness and stability test rather than as a formal hypothesis test.
 
+\clearpage
 \section{Results}
 \subsection{Best-fit results (single reference)}
-Tables \\ref{tab:bestfit} and \\ref{tab:chi2break} report best-fit parameters and chi2 contributions for a single reference joint fit.\protect\footnotemark[2]
+Tables \ref{tab:bestfit} and \ref{tab:chi2break} report best-fit parameters and chi2 contributions for a single reference joint fit.\protect\footnotemark[2]
 
 \begin{table}[ht]
 \centering
@@ -274,6 +281,8 @@ $R_{\max}$ & $9.0\times10^{7}\,\mathrm{GeV}^{-1}$ (fixed, currently unobservable
 \end{table}
 \footnotetext[1]{Rmax is a fixed structural scale defining future elastic activation and is not fitted or constrained by the data.}
 \footnotetext[2]{\(\Omega_{k0}\) is not a free parameter in PBUF; its phenomenological role is replaced by the elastic amplitude \(\alpha\).}
+
+\clearpage
 
 \subsection{Jackknife robustness}
 Across 150 jackknife folds (five seeds, 30 folds per seed), PBUF has lower total chi2 than LambdaCDM in all folds.
@@ -339,7 +348,7 @@ The median total chi2 across folds is 946.008 for PBUF and 1211.653 for LambdaCD
 \noindent
 Per-seed stability is assessed numerically by grouping the 150 folds by jackknife seed; the spread is small relative to the overall Delta chi2 magnitude in this run set.
 
-\FloatBarrier
+    \FloatBarrier
 
 \section{Predictions and Observational Tests}
 \subsection{Deceleration History}
@@ -354,13 +363,33 @@ Figure~\ref{fig:qz_pred} summarizes the predicted \(q(z)\) curve from the scienc
 
 \begin{figure}[ht]
 \centering
-\fbox{\begin{minipage}[c][0.15\textheight][c]{0.8\linewidth}\centering
-Placeholder for the predicted \(q(z)\) comparison plot (science run artifact).
-\end{minipage}}
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.9\linewidth,
+  height=0.32\textheight,
+  xlabel={$z$},
+  ylabel={$q(z)$},
+  xmin=0,
+  xmax=3,
+  ymin=-2,
+  ymax=1.5,
+  grid=major,
+  legend pos=south west,
+  legend columns=1,
+  cycle list name=color list,
+]
+\addplot+[thick] table[x=z,y=pbuf,col sep=comma] {tables/q_curve_prediction.csv};
+\addlegendentry{PBUF}
+\addplot+[dashed, thick] table[x=z,y=lcdm,col sep=comma] {tables/q_curve_prediction.csv};
+\addlegendentry{LambdaCDM}
+\addplot+[black, dashed, no markers, forget plot] coordinates {(0,0) (3,0)};
+\end{axis}
+\end{tikzpicture}
 \caption{Predicted deceleration history in PBUF compared to the LambdaCDM baseline.}
 \label{fig:qz_pred}
 \end{figure}
 
+\clearpage
 \subsection{Growth of Structure}
 
 The linear growth equation is solved on the PBUF background in the same way as in the fit modules, so \(f(a) = d\ln D/d\ln a\) follows without introducing additional degrees of freedom.
@@ -373,12 +402,32 @@ Figure~\ref{fig:fsigma_pred} highlights the predicted \(f\sigma_8(z)\) curve tha
 
 \begin{figure}[ht]
 \centering
-\fbox{\begin{minipage}[c][0.15\textheight][c]{0.8\linewidth}\centering
-Placeholder for the predicted \(f\sigma_8(z)\) comparison plot (science run artifact).
-\end{minipage}}
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.9\linewidth,
+  height=0.32\textheight,
+  xlabel={$z$},
+  ylabel={$f\sigma_8(z)$},
+  xmin=0,
+  xmax=2,
+  ymin=0.25,
+  ymax=0.55,
+  grid=major,
+  legend pos=south west,
+  legend columns=1,
+  cycle list name=color list,
+]
+\addplot+[thick] table[x=z,y=pbuf,col sep=comma] {tables/fsigma8_prediction.csv};
+\addlegendentry{PBUF}
+\addplot+[dashed, thick] table[x=z,y=lcdm,col sep=comma] {tables/fsigma8_prediction.csv};
+\addlegendentry{LambdaCDM}
+\end{axis}
+\end{tikzpicture}
 \caption{Predicted \(f\sigma_8(z)\) trajectory versus the LambdaCDM baseline.}
 \label{fig:fsigma_pred}
 \end{figure}
+
+\FloatBarrier
 
 \section{Discussion}
 Within this pipeline, the improvement is not a sign-flip or a fragile selection effect, since Delta chi2 remains positive in all 150 folds.
@@ -441,10 +490,10 @@ A. J. Ross et al., \emph{The clustering of the SDSS main galaxy sample: BAO meas
 J. Hou et al., \emph{The clustering of the SDSS-IV extended Baryon Oscillation Spectroscopic Survey DR14 quasar sample: anisotropic clustering analysis in configuration-space}, arXiv:1801.02656.
 
 \bibitem{hu_sugiyama}
-W. Hu and N. Sugiyama, \emph{Small-Scale Cosmological Perturbations: An Analytic Approach}, Astrophys. J. 471 (1996) 542. [DOI to insert]
+W. Hu and N. Sugiyama, \emph{Small-Scale Cosmological Perturbations: An Analytic Approach}, Astrophys. J. 471 (1996) 542. DOI: 10.1086/177989.
 
 \bibitem{eisenstein_hu}
-D. J. Eisenstein and W. Hu, \emph{Baryonic Features in the Matter Transfer Function}, Astrophys. J. 496 (1998) 605. [DOI to insert]
+D. J. Eisenstein and W. Hu, \emph{Baryonic Features in the Matter Transfer Function}, Astrophys. J. 496 (1998) 605. DOI: 10.1086/305424.
 \end{thebibliography}
 
 \end{document}

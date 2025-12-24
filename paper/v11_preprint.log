@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.12.24)  24 DEC 2025 09:02
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.12.24)  24 DEC 2025 09:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -924,36 +924,53 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [1
 
 ]
+File: figures/pbuf_temperature_evolution.png Graphic file (type bmp)
+<figures/pbuf_temperature_evolution.png>
+
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 100.
+(hyperref)                removing `math shift' on input line 106.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\alpha' on input line 100.
+(hyperref)                removing `\alpha' on input line 106.
 
 
-Overfull \hbox (2.81633pt too wide) in paragraph at lines 114--117
+Overfull \hbox (2.81633pt too wide) in paragraph at lines 120--123
 \TU/lmr/m/n/10.95 is consistent with attributing one contribution per spatial d
 imension, reflecting the three-dimensional
  []
 
-[2] [3] [4] (./tables/best_fit_parameters.tex)
-Overfull \hbox (35.11493pt too wide) in paragraph at lines 258--265
+[2] [3] [4] [5] [6] (./tables/best_fit_parameters.tex)
+Overfull \hbox (35.11493pt too wide) in paragraph at lines 265--272
  [][] 
  []
 
-(./tables/chi2_breakdown.tex) [5]
-PGFPlots: reading {data/jackknife_all.csv}
- [6] [7] [8
+(./tables/chi2_breakdown.tex) [7
 
-] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 429--430
+]
+PGFPlots: reading {data/jackknife_all.csv}
+ [8
+
+]
+PGFPlots: reading {tables/q_curve_prediction.csv}
+PGFPlots: reading {tables/q_curve_prediction.csv}
+ [9
+
+]
+PGFPlots: reading {tables/fsigma8_prediction.csv}
+PGFPlots: reading {tables/fsigma8_prediction.csv}
+ [10
+
+] [11
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 478--479
 []\TU/lmr/m/n/10.95 Pantheon+ Collaboration, \TU/lmr/m/it/10.95 The Pantheon+ A
 nalysis: Cosmological Constraints\TU/lmr/m/n/10.95 ,
  []
 
-[10] (./v11_preprint.aux)
+[12] [13] (./v11_preprint.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
@@ -962,12 +979,12 @@ Package rerunfilecheck Info: File `v11_preprint.out' has not changed.
 (rerunfilecheck)             Checksum: FED9585DC75553A5FA0FC1C05699382B;4125.
  ) 
 Here is how much of TeX's memory you used:
- 32909 strings out of 470198
- 784699 string characters out of 5477647
- 1342301 words of memory out of 5000000
- 60976 multiletter control sequences out of 15000+600000
+ 32959 strings out of 470198
+ 786001 string characters out of 5477647
+ 1402796 words of memory out of 5000000
+ 61019 multiletter control sequences out of 15000+600000
  636576 words of font info for 88 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  99i,17n,108p,922b,2308s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on v11_preprint.pdf (10 pages).
+Output written on v11_preprint.pdf (13 pages).
